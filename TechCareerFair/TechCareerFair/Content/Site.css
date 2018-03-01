@@ -1,12 +1,13 @@
 ﻿body {
     padding-top: 50px;
-    padding-bottom: 20px;
+    padding-bottom: 0px;
 }
 
 /* Set padding to keep content from hitting the edges */
 .body-content {
     padding-left: 15px;
     padding-right: 15px;
+    margin-top:200px;
 }
 
 /* Override the default bootstrap behavior where horizontal description lists 
@@ -21,4 +22,132 @@ input,
 select,
 textarea {
     max-width: 280px;
+}
+.social-link {
+    height:25px;
+    width:25px;
+    border-radius:1%;
+}
+
+.container.top-menu-container {
+    padding: 10px;
+}
+ul.top-menu-ul {
+    display: inline-block;
+    list-style: none;
+    margin:0;
+    padding: 0;
+}
+
+.col-xs-6.top-menu-links {
+    text-align: right;
+}
+.nmc-career-fair-banner {
+    height: 100px;
+    width: 100%;
+    background: #008265;
+}
+li.social-link {
+    display: inline-block;
+    text-align: right;
+    color:#fff;
+}
+li.user-login {
+    display: inline-block;
+    text-align: right;
+    position: relative;
+    top: -3px;
+    margin-left: 6px;
+}
+.nmc-logo-img{
+    height:80px;
+    width:auto;
+    margin-top:10px;
+}
+
+.banner-h2 {
+    margin: 0px;
+    color: #fff;
+    font-size: 32px;
+    font-family: 'Roboto', sans-serif;
+}
+a.nmc-home {
+    position:relative;
+    top:5px;
+    color:#fff;
+
+}
+a.nmc-home:hover {
+    color:#eee;
+}
+.navbar-nav {
+    float:none;
+    margin: 0;
+    width: 600px;
+    display: block;
+    margin: auto;
+}
+.main-navigation-links {
+    display:inline-block;
+    width:100px;
+    text-align:center;
+    margin:0 auto;
+}
+.user-login > a {
+    color:#fff;
+}
+
+li.main-navigation-links {
+    background:transparent;
+}
+
+li.main-navigation-links:hover {
+    background:#777;
+}
+.navbar-inverse .navbar-nav > li > a {
+    color: #fff;
+}
+
+li.main-navigation-links > a{
+    background: transparent;
+    color:#fff;
+}
+
+footer.footer {
+    background: #222222;
+    color: #fff;
+    height: 100px;
+    margin-top:40px;
+}
+.copyright {
+    margin:0px;
+    float:right;
+    padding-right: 20px;
+    padding-top:5px;
+}
+
+.footer-menu {
+    padding:10px;
+    margin:0px;
+    padding-right:0px;
+    display:block;
+    margin:0 auto;
+    text-align:center;
+}
+
+ul.footer-socail-links {
+    list-style: none;
+    padding-top: 20px;
+}
+
+.footer-navigation-links {
+    display: inline-block;
+    width: 100px;
+    text-align: center;
+    margin: 0 auto;
+}
+
+li.footer-navigation-links > a {
+    background: transparent;
+    color: #fff;
 }
