@@ -6,37 +6,90 @@
     <title>@ViewBag.Title - My ASP.NET Application</title>
     @Styles.Render("~/Content/css")
     @Scripts.Render("~/bundles/modernizr")
-
+    <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
+    <script defer src="https://use.fontawesome.com/releases/v5.0.7/js/all.js"></script>
 </head>
 <body>
     <div class="navbar navbar-inverse navbar-fixed-top">
-        <div class="container">
+        <div class="container top-menu-container">
+            <div class="row">
+                <div class="col-xs-6 top-menu">
+                    <a class="nmc-home" href="https://www.nmc.edu">nmc.edu</a>
+                </div>
+                <div class="col-xs-6 top-menu-links">
+                    <ul class="top-menu-ul">
+                        <li class="social-link"><i class="fab fa-facebook fa-2x"></i></li>
+                        <li class="social-link"><i class="fab fa-twitter-square fa-2x"></i></li>
+                        <li class="social-link"><i class="fab fa-instagram fa-2x"></i></li>
+                        <li class="social-link"><i class="fab fa-linkedin fa-2x"></i></li>
+                        <li class="user-login">@Html.ActionLink("Log in", "Index", "Home")</li>
+                        <li class="user-login">@Html.ActionLink("Sign up", "About", "Home")</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+
+        <div class="nmc-career-fair-banner">
+            <div class="container ">
+                <div class="row text-center">
+                    <h2 class="col-xs-12 banner-h2">
+                        <img class="nmc-logo-img" src="~/Content/Images/white-nmc-logo.png" alt="nmc-logo" />
+                        <span class="banner-h2-text">Technology Career Fair</span>
+                    </h2>
+                </div>
+            </div>
+        </div>
+
+
+
+        <div class="container ">
             <div class="navbar-header">
                 <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                @Html.ActionLink("Application name", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
+
             </div>
             <div class="navbar-collapse collapse">
-                <ul class="nav navbar-nav">
-                    <li>@Html.ActionLink("Home", "Index", "Home")</li>
-                    <li>@Html.ActionLink("About", "About", "Home")</li>
-                    <li>@Html.ActionLink("Contact", "Contact", "Home")</li>
+                <ul class="top-nav nav navbar-nav text-center">
+                    <li class="main-navigation-links">@Html.ActionLink("Home", "Index", "Home")</li>
+                    <li class="main-navigation-links">@Html.ActionLink("Applicant", "About", "Home")</li>
+                    <li class="main-navigation-links">@Html.ActionLink("Business", "Contact", "Home")</li>
+                    <li class="main-navigation-links">@Html.ActionLink("Gallery", "Contact", "Home")</li>
+                    <li class="main-navigation-links">@Html.ActionLink("FAQ", "Contact", "Home")</li>
+                    <li class="main-navigation-links">@Html.ActionLink("About Us", "Contact", "Home")</li>
                 </ul>
-                @Html.Partial("_LoginPartial")
             </div>
         </div>
     </div>
-    <div class="container body-content">
+    <div class=" container body-content">
         @RenderBody()
         <hr />
-        <footer>
-            <p>&copy; @DateTime.Now.Year - My ASP.NET Application</p>
-        </footer>
-    </div>
-
+        </div>
+    <footer class="footer">
+        <ul class="footer-menu">
+            <li class="footer-navigation-links">@Html.ActionLink("Home", "Index", "Home")</li>
+            <span class="spacer-footer">|</span>
+            <li class="footer-navigation-links">@Html.ActionLink("Applicant", "About", "Home")</li>
+            <span class="spacer-footer">|</span>
+            <li class="footer-navigation-links">@Html.ActionLink("Business", "Contact", "Home")</li>
+            <span class="spacer-footer">|</span>
+            <li class="footer-navigation-links">@Html.ActionLink("Gallery", "Contact", "Home")</li>
+            <span class="spacer-footer">|</span>
+            <li class="footer-navigation-links">@Html.ActionLink("FAQ", "Contact", "Home")</li>
+            <span class="spacer-footer">|</span>
+            <li class="footer-navigation-links">@Html.ActionLink("About Us", "Contact", "Home")</li>
+        </ul>
+        <ul class="footer-socail-links">
+            <li class="social-link"><i class="fab fa-facebook fa-2x"></i></li>
+            <li class="social-link"><i class="fab fa-twitter-square fa-2x"></i></li>
+            <li class="social-link"><i class="fab fa-instagram fa-2x"></i></li>
+            <li class="social-link"><i class="fab fa-linkedin fa-2x"></i></li>
+            <li class="copyright">&copy; @DateTime.Now.Year | NMC 2018</li>
+        </ul>
+    </footer>
     @Scripts.Render("~/bundles/jquery")
     @Scripts.Render("~/bundles/bootstrap")
     @RenderSection("scripts", required: false)
