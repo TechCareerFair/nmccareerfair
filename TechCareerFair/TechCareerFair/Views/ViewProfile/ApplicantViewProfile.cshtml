@@ -1,0 +1,66 @@
+﻿@model TechCareerFair.Models.applicant
+
+@{
+    ViewBag.Title = "ApplicantViewProfile";
+}
+
+<h2>@Html.DisplayFor(model => model.FirstName) @Html.DisplayFor(model => model.LastName)</h2>
+
+<div>
+    @*general applicant info*@
+    <dl class="dl-horizontal col-md-5">
+        <dt>
+            @Html.DisplayNameFor(model => model.Email)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Email)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.SocialMedia)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.SocialMedia)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Profile)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Profile)
+        </dd>
+    </dl>
+    @*education / experience info*@
+    <dl class="dl-horizontal col-md-5">
+        <dt>
+            @Html.DisplayNameFor(model => model.University)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.University)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Alumni)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Alumni)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.YearsExperience)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.YearsExperience)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Internship)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Internship)
+        </dd>
+    </dl>
+    <p>
+        @*@Html.ActionLink("Edit", "Edit", new { id = Model.ApplicantID })*@ <button type="button" value="uploadResume" class="btn">Upload Resume</button> <button type="button" value="edit" class="btn">Edit Profile</button>
+    </p>
+</div>
+

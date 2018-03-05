@@ -32,6 +32,7 @@ namespace TechCareerFair.Models
 
         [Required]
         [StringLength(50)]
+        [Display(Name = "Contact Name")]
         public string FirstName { get; set; }
 
         [Required]
@@ -39,6 +40,7 @@ namespace TechCareerFair.Models
         public string LastName { get; set; }
 
         [StringLength(50)]
+        [Display(Name = "Address")]
         public string Street { get; set; }
 
         [StringLength(50)]
@@ -61,18 +63,22 @@ namespace TechCareerFair.Models
 
         public bool? Display { get; set; }
 
+        [Display(Name = "Display Description")]
         public string DisplayDescription { get; set; }
 
         public byte? Attendees { get; set; }
 
+        [Display(Name = "Business Description")]
         public string BusinessDescription { get; set; }
 
         public string Website { get; set; }
 
+        [Display(Name = "Social Media")]
         public string SocialMedia { get; set; }
 
         public byte[] Photo { get; set; }
 
+        [Display(Name = "Location Preference")]
         public string LocationPreference { get; set; }
 
         public bool? ContactMe { get; set; }

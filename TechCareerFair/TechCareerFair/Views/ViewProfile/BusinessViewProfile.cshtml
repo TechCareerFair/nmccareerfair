@@ -1,0 +1,128 @@
+﻿@model TechCareerFair.Models.business
+
+@{
+    ViewBag.Title = "BusinessViewProfile";
+}
+
+<h2>@Html.DisplayFor(model => model.BusinessName)</h2>
+
+<div>
+    @*general business profile info*@
+    <dl class="dl-horizontal col-md-5">
+        <dd>
+            @Html.DisplayFor(model => model.BusinessName)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Street)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Street)
+        </dd>
+        <dd>
+            @Html.DisplayFor(model => model.City) @Html.DisplayFor(model => model.State), @Html.DisplayFor(model => model.Zip)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Phone)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Phone)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Email)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Email)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.FirstName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.FirstName) @Html.DisplayFor(model => model.LastName)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Alumni)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Alumni)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.NonProfit)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.NonProfit)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.BusinessDescription)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.BusinessDescription)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Website)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Website)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.SocialMedia)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.SocialMedia)
+        </dd>
+    </dl>
+
+    @*tech career fair related info*@
+    <dl class="dl-horizontal col-md-5">
+        <dt>
+            @Html.DisplayNameFor(model => model.Outlet)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Outlet)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Display)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Display)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.DisplayDescription)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.DisplayDescription)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Attendees)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Attendees)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.LocationPreference)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.LocationPreference)
+        </dd>
+    </dl>
+    <p class="col-md-2">
+        @*@Html.ActionLink("Edit Profile", "Edit", new { id = Model.BusinessID })*@ <button type="button" value="edit" class="btn">Edit Profile</button>
+    </p>
+</div>
+

@@ -40,10 +40,12 @@ namespace TechCareerFair.Models
 
         public string Profile { get; set; }
 
+        [Display(Name = "Social Media")]
         public string SocialMedia { get; set; }
 
         public byte[] Resume { get; set; }
 
+        [Display(Name = "Years Experience")]
         public byte? YearsExperience { get; set; }
 
         public bool? Internship { get; set; }
