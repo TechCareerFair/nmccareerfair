@@ -194,6 +194,7 @@
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
+    <Compile Include="Controllers\RegisterController.cs" />
     <Compile Include="Controllers\ViewProfileController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -216,6 +217,9 @@
     <Compile Include="Startup.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Content\Images\ApplicantProgress1-3.PNG" />
+    <Content Include="Content\Images\ApplicantProgress2-3.PNG" />
+    <Content Include="Content\Images\ApplicantProgress3-3.PNG" />
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="favicon.ico" />
@@ -275,6 +279,9 @@
     <Content Include="Views\Shared\_LoginPartial.cshtml" />
     <Content Include="Views\ViewProfile\BusinessViewProfile.cshtml" />
     <Content Include="Views\ViewProfile\ApplicantViewProfile.cshtml" />
+    <Content Include="Views\Register\Applicant.cshtml" />
+    <Content Include="Views\Register\Business.cshtml" />
+    <Content Include="Views\Register\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
