@@ -23,7 +23,7 @@ namespace TechCareerFair.DAL
             {
                 connection.Open();
                 StringBuilder sb = new StringBuilder();
-                sb.Append("SELECT TOP (1000) [ApplicantID],[Email],[FirstName],[LastName],[Active]");
+                sb.Append("SELECT TOP (1000) [ApplicantID],[Password],[Email],[FirstName],[LastName],[University],[Alumni],[Profile],[SocialMedia],[Resume],[YearsExperience],[Internship],[Active]");
                 sb.Append("FROM [careerfair].[applicant]");
                 String sql = sb.ToString();
 
@@ -34,11 +34,19 @@ namespace TechCareerFair.DAL
                         while (reader.Read())
                         {
                             applicant app = new applicant();
-                            app.ApplicantID = reader.GetInt32(0);
-                            app.Email = (reader.GetString(1));
-                            app.FirstName = (reader.GetString(2));
-                            app.LastName = (reader.GetString(3));
-                            app.Active = reader.GetBoolean(4);
+                            app.ApplicantID = (int)CheckNullInt(reader, 0);
+                            app.Password = CheckNullString(reader, 1);
+                            app.Email = CheckNullString(reader, 2);
+                            app.FirstName = CheckNullString(reader, 3);
+                            app.LastName = CheckNullString(reader, 4);
+                            app.University = CheckNullString(reader, 5);
+                            app.Alumni = CheckNullBool(reader, 6);
+                            app.Profile = CheckNullString(reader, 7);
+                            app.SocialMedia = CheckNullString(reader, 8);
+                            app.Resume = CheckNullByteArray(reader, 9);
+                            app.YearsExperience = CheckNullByte(reader, 10);
+                            app.Internship = CheckNullBool(reader,11);
+                            app.Active = CheckNullBool(reader, 12);
 
                             applicants.Add(app);
                         }
@@ -47,6 +55,67 @@ namespace TechCareerFair.DAL
             }
 
             return applicants;
+        }
+
+        private string CheckNullString(SqlDataReader reader, int i)
+        {
+            if (!reader.IsDBNull(i))
+            {
+                return reader.GetString(i);
+            }
+            else
+            {
+                return string.Empty;
+            }
+        }
+
+        private bool? CheckNullBool(SqlDataReader reader, int i)
+        {
+            if (!reader.IsDBNull(i))
+            {
+                return reader.GetBoolean(i);
+            }
+            else
+            {
+                return null;
+            }
+        }
+
+        private byte? CheckNullByte(SqlDataReader reader, int i)
+        {
+            if (!reader.IsDBNull(i))
+            {
+                return reader.GetByte(i);
+            }
+            else
+            {
+                return null;
+            }
+        }
+
+        private int? CheckNullInt(SqlDataReader reader, int i)
+        {
+            if (!reader.IsDBNull(i))
+            {
+                return reader.GetInt32(i);
+            }
+            else
+            {
+                return null;
+            }
+        }
+
+        private byte[] CheckNullByteArray(SqlDataReader reader, int i)
+        {
+            if (reader[i] != DBNull.Value)
+            {
+                return (byte[])reader[i];
+            }
+            else
+            {
+                return null;
+            }
+   
         }
 
         public void Write(List<applicant> applicants)
