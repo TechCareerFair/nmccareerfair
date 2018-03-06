@@ -38,6 +38,7 @@ namespace TechCareerFair.Models
 
         public bool? Alumni { get; set; }
 
+        [Display(Name = "Profile Description")]
         public string Profile { get; set; }
 
         [Display(Name = "Social Media")]
