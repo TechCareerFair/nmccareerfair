@@ -199,9 +199,13 @@
     <Compile Include="Controllers\ViewProfileController.cs" />
     <Compile Include="DAL\ApplicantDatabaseDataService.cs" />
     <Compile Include="DAL\ApplicantRepository.cs" />
+    <Compile Include="DAL\BusinessDatabaseDataService.cs" />
+    <Compile Include="DAL\BusinessRepository.cs" />
     <Compile Include="DAL\DataSettings.cs" />
     <Compile Include="DAL\IApplicantDataService.cs" />
     <Compile Include="DAL\IApplicantRepository.cs" />
+    <Compile Include="DAL\IBusinessDataService.cs" />
+    <Compile Include="DAL\IBusinessRepository.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -287,10 +291,11 @@
     <Content Include="Views\Shared\_LoginPartial.cshtml" />
     <Content Include="Views\ViewProfile\BusinessViewProfile.cshtml" />
     <Content Include="Views\ViewProfile\ApplicantViewProfile.cshtml" />
-    <Content Include="Views\Admin\Index.cshtml" />
+    <Content Include="Views\Admin\ListApplicants.cshtml" />
     <Content Include="Views\Register\Applicant.cshtml" />
     <Content Include="Views\Register\Business.cshtml" />
     <Content Include="Views\Register\Index.cshtml" />
+    <Content Include="Views\Admin\ListBusinesses.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
