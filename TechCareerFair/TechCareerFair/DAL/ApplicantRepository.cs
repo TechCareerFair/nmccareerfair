@@ -7,7 +7,7 @@ using TechCareerFair.Models;
 
 namespace TechCareerFair.DAL
 {
-    public class ApplicantRepository
+    public class ApplicantRepository : IApplicantRepository, IDisposable
     {
         private List<applicant> _applicants;
 

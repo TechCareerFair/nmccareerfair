@@ -36,7 +36,7 @@ namespace TechCareerFair.Models
         [StringLength(50)]
         public string University { get; set; }
 
-        public bool? Alumni { get; set; }
+        public bool Alumni { get; set; }
 
         [Display(Name = "Profile Description")]
         public string Profile { get; set; }
@@ -49,9 +49,9 @@ namespace TechCareerFair.Models
         [Display(Name = "Years Experience")]
         public byte? YearsExperience { get; set; }
 
-        public bool? Internship { get; set; }
+        public bool Internship { get; set; }
 
-        public bool? Active { get; set; }
+        public bool Active { get; set; }
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<applicant2field> applicant2field { get; set; }

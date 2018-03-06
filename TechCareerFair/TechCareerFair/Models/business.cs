@@ -50,18 +50,18 @@ namespace TechCareerFair.Models
         public string State { get; set; }
 
         [StringLength(10)]
-        public string Zip { get; set; }
+        public int? Zip { get; set; }
 
         [StringLength(20)]
         public string Phone { get; set; }
 
-        public bool? Alumni { get; set; }
+        public bool Alumni { get; set; }
 
-        public bool? NonProfit { get; set; }
+        public bool NonProfit { get; set; }
 
-        public bool? Outlet { get; set; }
+        public bool Outlet { get; set; }
 
-        public bool? Display { get; set; }
+        public bool Display { get; set; }
 
         [Display(Name = "Display Description")]
         public string DisplayDescription { get; set; }
@@ -81,11 +81,11 @@ namespace TechCareerFair.Models
         [Display(Name = "Location Preference")]
         public string LocationPreference { get; set; }
 
-        public bool? ContactMe { get; set; }
+        public bool ContactMe { get; set; }
 
-        public bool? Approved { get; set; }
+        public bool Approved { get; set; }
 
-        public bool? Active { get; set; }
+        public bool Active { get; set; }
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<business2field> business2field { get; set; }

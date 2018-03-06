@@ -195,12 +195,17 @@
     <Compile Include="Controllers\AdminController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
+    <Compile Include="Controllers\RegisterController.cs" />
     <Compile Include="Controllers\ViewProfileController.cs" />
     <Compile Include="DAL\ApplicantDatabaseDataService.cs" />
     <Compile Include="DAL\ApplicantRepository.cs" />
+    <Compile Include="DAL\BusinessDatabaseDataService.cs" />
+    <Compile Include="DAL\BusinessRepository.cs" />
     <Compile Include="DAL\DataSettings.cs" />
     <Compile Include="DAL\IApplicantDataService.cs" />
     <Compile Include="DAL\IApplicantRepository.cs" />
+    <Compile Include="DAL\IBusinessDataService.cs" />
+    <Compile Include="DAL\IBusinessRepository.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -224,6 +229,11 @@
   <ItemGroup>
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
+    <Content Include="Content\Images\ApplicantProgress1-3.PNG" />
+    <Content Include="Content\Images\ApplicantProgress2-3.PNG" />
+    <Content Include="Content\Images\ApplicantProgress3-3.PNG" />
+    <Content Include="Content\Images\logo-nmc.png" />
+    <Content Include="Content\Images\white-nmc-logo.png" />
     <Content Include="favicon.ico" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
@@ -281,7 +291,11 @@
     <Content Include="Views\Shared\_LoginPartial.cshtml" />
     <Content Include="Views\ViewProfile\BusinessViewProfile.cshtml" />
     <Content Include="Views\ViewProfile\ApplicantViewProfile.cshtml" />
-    <Content Include="Views\Admin\Index.cshtml" />
+    <Content Include="Views\Admin\ListApplicants.cshtml" />
+    <Content Include="Views\Register\Applicant.cshtml" />
+    <Content Include="Views\Register\Business.cshtml" />
+    <Content Include="Views\Register\Index.cshtml" />
+    <Content Include="Views\Admin\ListBusinesses.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
