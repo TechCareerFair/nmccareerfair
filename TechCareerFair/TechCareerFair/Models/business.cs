@@ -50,7 +50,7 @@ namespace TechCareerFair.Models
         public string State { get; set; }
 
         [StringLength(10)]
-        public string Zip { get; set; }
+        public int? Zip { get; set; }
 
         [StringLength(20)]
         public string Phone { get; set; }

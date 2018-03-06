@@ -23,7 +23,7 @@ namespace TechCareerFair.DAL
             {
                 connection.Open();
                 StringBuilder sb = new StringBuilder();
-                sb.Append("SELECT TOP (1000)[BusinessID],[Password],[Email],[BusinessName],[FirstName],[LastName],[Street],[City],[State],[Zip],[Phone],[Alumni],[NonProfit],[Outlet],[Display],[DisplayDescription],[Attendees],[BusinessDescription],[Website],[SocialMedia],[Photo],[LocationPreference],[ContactMe],[Approved],[Active]");
+                sb.Append("SELECT TOP (1000)[BusinessID],[Password],[Email],[BusinessName],[FirstName],[LastName],[Street],[ZipCodeID],[Phone],[Alumni],[NonProfit],[Outlet],[Display],[DisplayDescription],[Attendees],[BusinessDescription],[Website],[SocialMedia],[Photo],[LocationPreference],[ContactMe],[Approved],[Active]");
                 sb.Append("FROM [careerfair].[business]");
                 String sql = sb.ToString();
 
@@ -42,24 +42,22 @@ namespace TechCareerFair.DAL
                             bus.FirstName = CheckNullString(reader, 4);
                             bus.LastName = CheckNullString(reader, 5);
                             bus.Street = CheckNullString(reader, 6);
-                            bus.City = CheckNullString(reader, 7);
-                            bus.State = CheckNullString(reader, 8);
-                            bus.Zip = CheckNullString(reader, 9);
-                            bus.Phone = CheckNullString(reader, 10);
-                            bus.Alumni = (bool)CheckNullBool(reader, 11);
-                            bus.NonProfit = (bool)CheckNullBool(reader, 12);
-                            bus.Outlet = (bool)CheckNullBool(reader, 13);
-                            bus.Display = (bool)CheckNullBool(reader, 14);
-                            bus.DisplayDescription = CheckNullString(reader, 15);
-                            bus.Attendees = CheckNullByte(reader, 16);
-                            bus.BusinessDescription = CheckNullString(reader, 17);
-                            bus.Website = CheckNullString(reader, 18);
-                            bus.SocialMedia = CheckNullString(reader, 19);
-                            bus.Photo = CheckNullByteArray(reader, 20);
-                            bus.LocationPreference = CheckNullString(reader, 21);
-                            bus.ContactMe = (bool)CheckNullBool(reader, 22);
-                            bus.Approved = (bool)CheckNullBool(reader, 23);
-                            bus.Active = (bool)CheckNullBool(reader, 24);
+                            bus.Zip = CheckNullInt(reader, 7);
+                            bus.Phone = CheckNullString(reader, 8);
+                            bus.Alumni = (bool)CheckNullBool(reader, 9);
+                            bus.NonProfit = (bool)CheckNullBool(reader, 10);
+                            bus.Outlet = (bool)CheckNullBool(reader, 11);
+                            bus.Display = (bool)CheckNullBool(reader, 12);
+                            bus.DisplayDescription = CheckNullString(reader, 13);
+                            bus.Attendees = CheckNullByte(reader, 14);
+                            bus.BusinessDescription = CheckNullString(reader, 15);
+                            bus.Website = CheckNullString(reader, 16);
+                            bus.SocialMedia = CheckNullString(reader, 17);
+                            bus.Photo = CheckNullByteArray(reader, 18);
+                            bus.LocationPreference = CheckNullString(reader, 19);
+                            bus.ContactMe = (bool)CheckNullBool(reader, 20);
+                            bus.Approved = (bool)CheckNullBool(reader, 21);
+                            bus.Active = (bool)CheckNullBool(reader, 22);
 
                             businesses.Add(bus);
                         }
