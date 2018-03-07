@@ -31,7 +31,7 @@ namespace TechCareerFair.Controllers
             {
                 applicant = applicantRepository.SelectOne(id);
             }
-            return View(business);
+            return View(applicant);
         }
     }
 }
