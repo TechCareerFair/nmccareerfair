@@ -3,22 +3,27 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using TechCareerFair.DAL;
+using TechCareerFair.Models;
 
 namespace TechCareerFair.Controllers
 {
     public class ViewProfileController : Controller
     {
-        public ActionResult BusinessViewProfile()
+        public ActionResult BusinessViewProfile(int id)
         {
-<<<<<<< HEAD
-            return View();
+            BusinessRepository businessRepository = new BusinessRepository();
+            business business = new business();
+
+            using (businessRepository)
+            {
+                business = businessRepository.SelectOne(id);
+            }
+            return View(business);
         }
 
-        public ActionResult ApplicantViewProfile()
+        public ActionResult ApplicantViewProfile(int id)
         {
-<<<<<<< HEAD
-            return View();
-=======
             ApplicantRepository applicantRepository = new ApplicantRepository();
             applicant applicant = new applicant();
 
@@ -27,7 +32,6 @@ namespace TechCareerFair.Controllers
                 applicant = applicantRepository.SelectOne(id);
             }
             return View(applicant);
->>>>>>> master
         }
     }
 }
