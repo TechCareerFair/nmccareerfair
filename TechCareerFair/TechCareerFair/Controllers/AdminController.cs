@@ -18,6 +18,18 @@ namespace TechCareerFair.Controllers
             return View(applicantRepository.SelectAll());
         }
 
+        public ActionResult ListApplicants()
+        {
+            ApplicantRepository applicantRepository = new ApplicantRepository();
+            return View(applicantRepository.SelectAll());
+        }
+
+        public ActionResult ListBusinesses()
+        {
+            BusinessRepository businessRepository = new BusinessRepository();
+            return View(businessRepository.SelectAll());
+        }
+
         // GET: Admin/Details/5
         public ActionResult Details(int id)
         {

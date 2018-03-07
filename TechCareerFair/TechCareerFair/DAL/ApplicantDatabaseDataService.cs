@@ -40,13 +40,13 @@ namespace TechCareerFair.DAL
                             app.FirstName = CheckNullString(reader, 3);
                             app.LastName = CheckNullString(reader, 4);
                             app.University = CheckNullString(reader, 5);
-                            app.Alumni = CheckNullBool(reader, 6);
+                            app.Alumni = (bool)CheckNullBool(reader, 6);
                             app.Profile = CheckNullString(reader, 7);
                             app.SocialMedia = CheckNullString(reader, 8);
                             app.Resume = CheckNullByteArray(reader, 9);
                             app.YearsExperience = CheckNullByte(reader, 10);
-                            app.Internship = CheckNullBool(reader,11);
-                            app.Active = CheckNullBool(reader, 12);
+                            app.Internship = (bool)CheckNullBool(reader,11);
+                            app.Active = (bool)CheckNullBool(reader, 12);
 
                             applicants.Add(app);
                         }
