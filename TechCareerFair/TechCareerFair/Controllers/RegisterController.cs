@@ -57,20 +57,11 @@ namespace TechCareerFair.Controllers
 
         // POST: Register/Create
         [HttpPost]
-        public ActionResult Business(business business, string rePass)
+        public ActionResult Business(FormCollection collection)
         {
             try
             {
-                if (!ModelState.IsValid)
-                {
-                    return View();
-                }
-
-                if (business.Password != rePass)
-                {
-                    ViewBag.rePassErr = "Passwords must match.";
-                    return View();
-                }
+                // TODO: Add insert logic here
 
                 return RedirectToAction("Index");
             }
