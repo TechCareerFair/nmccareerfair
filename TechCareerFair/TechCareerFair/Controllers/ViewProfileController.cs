@@ -19,7 +19,7 @@ namespace TechCareerFair.Controllers
             {
                 business = businessRepository.SelectOne(id);
             }
-            return View();
+            return View(business);
         }
 
         public ActionResult ApplicantViewProfile(int id)
@@ -31,7 +31,7 @@ namespace TechCareerFair.Controllers
             {
                 applicant = applicantRepository.SelectOne(id);
             }
-            return View();
+            return View(business);
         }
     }
 }
