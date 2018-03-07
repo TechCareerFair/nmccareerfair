@@ -10,12 +10,24 @@ namespace TechCareerFair.Controllers
     {
         public ActionResult BusinessViewProfile()
         {
+<<<<<<< HEAD
             return View();
         }
 
         public ActionResult ApplicantViewProfile()
         {
+<<<<<<< HEAD
             return View();
+=======
+            ApplicantRepository applicantRepository = new ApplicantRepository();
+            applicant applicant = new applicant();
+
+            using (applicantRepository)
+            {
+                applicant = applicantRepository.SelectOne(id);
+            }
+            return View(applicant);
+>>>>>>> master
         }
     }
 }
