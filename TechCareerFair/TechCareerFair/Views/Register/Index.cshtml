@@ -3,12 +3,14 @@
     ViewBag.Title = "Register Landing";
 }
 
-<div class="col-md-6">
+<!--To Do: Make a css class for the grey box around the register options below-->
+
+<div class="col-md-3 col-md-offset-2" style="height: 200px; background-color: lightgray; border-radius: 5px">
     <h2>Register As Applicant</h2>
     <input type="button" value="Applicant Sign Up" class="btn btn-default" onclick="location.href='@Url.Action("Applicant", "Register")'"/>
 </div>
 
-<div class="col-md-6">
+<div class="col-md-3 col-md-offset-2" style="height: 200px; background-color: lightgray; border-radius: 5px">
     <h2>Register As Business</h2>
     <input type="button" value="Business Sign Up" class="btn btn-default" onclick="location.href='@Url.Action("Business", "Register")'"/>
 </div>

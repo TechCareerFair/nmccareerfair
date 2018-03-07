@@ -32,7 +32,7 @@ namespace TechCareerFair.Models
 
         [Required]
         [StringLength(50)]
-        [Display(Name = "Contact Name")]
+        //[Display(Name = "Contact Name")]
         public string FirstName { get; set; }
 
         [Required]
