@@ -229,9 +229,9 @@
   <ItemGroup>
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
-    <Content Include="Content\Images\ApplicantProgress1-3.PNG" />
-    <Content Include="Content\Images\ApplicantProgress2-3.PNG" />
-    <Content Include="Content\Images\ApplicantProgress3-3.PNG" />
+    <Content Include="Content\Images\ApplicantProgress1-3.png" />
+    <Content Include="Content\Images\ApplicantProgress2-3.png" />
+    <Content Include="Content\Images\ApplicantProgress3-3.png" />
     <Content Include="Content\Images\logo-nmc.png" />
     <Content Include="Content\Images\white-nmc-logo.png" />
     <Content Include="favicon.ico" />
