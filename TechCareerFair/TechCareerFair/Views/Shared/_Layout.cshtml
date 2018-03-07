@@ -8,6 +8,10 @@
     @Scripts.Render("~/bundles/modernizr")
     <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
     <script defer src="https://use.fontawesome.com/releases/v5.0.7/js/all.js"></script>
+   
+    <!--Austin add this link for the social media links-->
+    <link href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css" rel="stylesheet">
+
 </head>
 <body>
     <div class="navbar navbar-inverse navbar-fixed-top">
@@ -17,13 +21,15 @@
                     <a class="nmc-home" href="https://www.nmc.edu">nmc.edu</a>
                 </div>
                 <div class="col-xs-6 top-menu-links">
+                    
+
                     <ul class="top-menu-ul">
-                        <li class="social-link"><i class="fab fa-facebook fa-2x"></i></li>
-                        <li class="social-link"><i class="fab fa-twitter-square fa-2x"></i></li>
-                        <li class="social-link"><i class="fab fa-instagram fa-2x"></i></li>
-                        <li class="social-link"><i class="fab fa-linkedin fa-2x"></i></li>
-                        <li class="user-login">@Html.ActionLink("Log in", "Index", "Home")</li>
-                        <li class="user-login">@Html.ActionLink("Sign up", "Index", "Register")</li>
+                        <li class="social-link"><a href="https://www.facebook.com/NorthwesternMichiganCollege" target="_blank"><i class="fab fa-facebook fa-2x"></i></a></li>
+                        <li class="social-link"><a href="https://twitter.com/nmc_tc?lang=en" target="_blank"><i class="fab fa-twitter-square fa-2x"></i></a></li>
+                        <li class="social-link"><a href="https://www.instagram.com/p/BfgwfNNFX9h" target="_blank"><i class="fab fa-instagram fa-2x"></i></a></li>
+                        <li class="social-link"><a href="https://www.linkedin.com/school/northwestern-michigan-college" target="_blank"><i class="fab fa-linkedin fa-2x"></i></a></li>
+                        <li class="user-login">@Html.ActionLink("Log in", "Index", "Account/Login")</li>
+                        <li class="user-login">@Html.ActionLink("Sign up", "Index", "Account/Register")</li>
                     </ul>
                 </div>
             </div>
@@ -66,7 +72,7 @@
     </div>
     <div class=" container body-content">
         @RenderBody()
-        <hr />
+        
         </div>
     <footer class="footer">
         <ul class="footer-menu">
@@ -82,11 +88,11 @@
             <span class="spacer-footer">|</span>
             <li class="footer-navigation-links">@Html.ActionLink("About Us", "Contact", "Home")</li>
         </ul>
-        <ul class="footer-socail-links">
-            <li class="social-link"><i class="fab fa-facebook fa-2x"></i></li>
-            <li class="social-link"><i class="fab fa-twitter-square fa-2x"></i></li>
-            <li class="social-link"><i class="fab fa-instagram fa-2x"></i></li>
-            <li class="social-link"><i class="fab fa-linkedin fa-2x"></i></li>
+        <ul class="footer-social-links">
+            <li class="social-link"><a href="https://www.facebook.com/NorthwesternMichiganCollege" target="_blank"><i class="fab fa-facebook fa-2x"></i></a></li>
+            <li class="social-link"><a href="https://twitter.com/nmc_tc?lang=en" target="_blank"><i class="fab fa-twitter-square fa-2x"></i></a></li>
+            <li class="social-link"><a href="https://www.instagram.com/p/BfgwfNNFX9h" target="_blank"><i class="fab fa-instagram fa-2x"></i></a></li>
+            <li class="social-link"><a href="https://www.linkedin.com/school/northwestern-michigan-college" target="_blank"><i class="fab fa-linkedin fa-2x"></i></a></li>
             <li class="copyright">&copy; @DateTime.Now.Year | NMC 2018</li>
         </ul>
     </footer>
