@@ -197,15 +197,20 @@
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Controllers\RegisterController.cs" />
     <Compile Include="Controllers\ViewProfileController.cs" />
-    <Compile Include="DAL\ApplicantDatabaseDataService.cs" />
-    <Compile Include="DAL\ApplicantRepository.cs" />
-    <Compile Include="DAL\BusinessDatabaseDataService.cs" />
-    <Compile Include="DAL\BusinessRepository.cs" />
+    <Compile Include="DAL\AdminDAL\AdminDatabaseDataService.cs" />
+    <Compile Include="DAL\AdminDAL\AdminRepository.cs" />
+    <Compile Include="DAL\AdminDAL\IAdminDataService.cs" />
+    <Compile Include="DAL\AdminDAL\IAdminRepository.cs" />
+    <Compile Include="DAL\ApplicantDAL\ApplicantDatabaseDataService.cs" />
+    <Compile Include="DAL\ApplicantDAL\ApplicantRepository.cs" />
+    <Compile Include="DAL\BusinessDAL\BusinessDatabaseDataService.cs" />
+    <Compile Include="DAL\BusinessDAL\BusinessRepository.cs" />
+    <Compile Include="DAL\DatabaseHelper.cs" />
     <Compile Include="DAL\DataSettings.cs" />
-    <Compile Include="DAL\IApplicantDataService.cs" />
-    <Compile Include="DAL\IApplicantRepository.cs" />
-    <Compile Include="DAL\IBusinessDataService.cs" />
-    <Compile Include="DAL\IBusinessRepository.cs" />
+    <Compile Include="DAL\ApplicantDAL\IApplicantDataService.cs" />
+    <Compile Include="DAL\ApplicantDAL\IApplicantRepository.cs" />
+    <Compile Include="DAL\BusinessDAL\IBusinessDataService.cs" />
+    <Compile Include="DAL\BusinessDAL\IBusinessRepository.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>

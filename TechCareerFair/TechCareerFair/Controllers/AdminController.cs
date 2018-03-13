@@ -6,6 +6,7 @@ using System.Web.Mvc;
 using System.Data.SqlClient;
 using TechCareerFair.DAL;
 using TechCareerFair.Models;
+using TechCareerFair.DAL.AdminDAL;
 
 namespace TechCareerFair.Controllers
 {
@@ -14,8 +15,8 @@ namespace TechCareerFair.Controllers
         // GET: Admin
         public ActionResult Index()
         {
-            ApplicantRepository applicantRepository = new ApplicantRepository();
-            return View(applicantRepository.SelectAll());
+            AdminRepository ar = new AdminRepository();
+            return View(ar.SelectAll());
         }
 
         public ActionResult ListApplicants()

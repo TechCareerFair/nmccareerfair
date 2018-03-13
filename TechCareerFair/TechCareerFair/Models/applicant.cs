@@ -9,10 +9,11 @@ namespace TechCareerFair.Models
     [Table("careerfair.applicant")]
     public partial class applicant
     {
+
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public applicant()
         {
-            applicant2field = new HashSet<applicant2field>();
+            Fields = new List<string>();
         }
 
         public int ApplicantID { get; set; }
@@ -52,8 +53,7 @@ namespace TechCareerFair.Models
         public bool Internship { get; set; }
 
         public bool Active { get; set; }
-
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<applicant2field> applicant2field { get; set; }
+        
+        public List<string> Fields { get; set; }
     }
 }

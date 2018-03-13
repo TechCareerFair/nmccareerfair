@@ -9,13 +9,11 @@ namespace TechCareerFair.DAL
     public class BusinessRepository : IBusinessRepository, IDisposable
     {
         private List<business> _businesses;
+        private BusinessDatabaseDataService _ds = new BusinessDatabaseDataService();
 
         public BusinessRepository()
         {
-            using (BusinessDatabaseDataService ds = new BusinessDatabaseDataService())
-            {
-                _businesses = ds.Read();
-            }
+            _businesses = _ds.Read();
         }
 
         public void Delete(int id)
@@ -25,9 +23,8 @@ namespace TechCareerFair.DAL
             if (business != null)
             {
                 _businesses.Remove(business);
+                _ds.Remove(business);
             }
-
-            Save();
         }
 
         public void Insert(business business)
@@ -35,7 +32,7 @@ namespace TechCareerFair.DAL
             business.BusinessID = NextIdValue();
             _businesses.Add(business);
 
-            Save();
+            _ds.Insert(business);
         }
 
         private int NextIdValue()
@@ -64,18 +61,13 @@ namespace TechCareerFair.DAL
             {
                 _businesses.Remove(oldBusiness);
                 _businesses.Add(business);
+                _ds.Update(business);
             }
-
-            Save();
-        }
-
-        public void Save()
-        {
-            //ApplicantDatabaseDataService Write()
         }
 
         public void Dispose()
         {
+            _ds = null;
             _businesses = null;
         }
     }

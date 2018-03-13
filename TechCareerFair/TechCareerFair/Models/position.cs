@@ -9,10 +9,6 @@ namespace TechCareerFair.Models
     [Table("careerfair.position")]
     public partial class position
     {
-        public int PositionID { get; set; }
-
-        public int Business { get; set; }
-
         [Required]
         [StringLength(50)]
         public string Name { get; set; }
@@ -21,8 +17,6 @@ namespace TechCareerFair.Models
 
         public string Website { get; set; }
 
-        public short Internship { get; set; }
-
-        public virtual business business1 { get; set; }
+        public bool Internship { get; set; }
     }
 }
