@@ -261,3 +261,7 @@ __pycache__/
 *.pyc
 *.ide
 TechCareerFair/.vs/TechCareerFair/v15/.suo
+*.user
+TechCareerFair/TechCareerFair/TechCareerFair.csproj
+TechCareerFair/TechCareerFair/TechCareerFair.csproj
+TechCareerFair/TechCareerFair/obj/Debug/TechCareerFair.csproj.CoreCompileInputs.cache
