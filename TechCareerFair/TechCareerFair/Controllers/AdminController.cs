@@ -15,8 +15,7 @@ namespace TechCareerFair.Controllers
         // GET: Admin
         public ActionResult Index()
         {
-            AdminRepository ar = new AdminRepository();
-            return View(ar.SelectAll());
+            return View();
         }
 
         public ActionResult ListApplicants()
