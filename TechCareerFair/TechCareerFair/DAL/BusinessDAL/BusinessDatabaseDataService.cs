@@ -51,7 +51,7 @@ namespace TechCareerFair.DAL
                         bus.FirstName = DatabaseHelper.CheckNullString(reader, 4);
                         bus.LastName = DatabaseHelper.CheckNullString(reader, 5);
                         bus.Street = DatabaseHelper.CheckNullString(reader, 6);
-                        bus.Zip = DatabaseHelper.CheckNullInt(reader, 7);
+                        bus.ZipID = DatabaseHelper.CheckNullInt(reader, 7);
                         bus.Phone = DatabaseHelper.CheckNullString(reader, 8);
                         bus.Alumni = DatabaseHelper.CheckNullBool(reader, 9);
                         bus.NonProfit = DatabaseHelper.CheckNullBool(reader, 10);
@@ -76,6 +76,7 @@ namespace TechCareerFair.DAL
                 {
                     AddFields(b, connection);
                     AddPositions(b, connection);
+                    AddZip(b, connection);
                 }
             }
         }
@@ -97,6 +98,28 @@ namespace TechCareerFair.DAL
                     while (reader.Read())
                     {
                         bus.Fields.Add(DatabaseHelper.CheckNullString(reader, 0));
+                    }
+                }
+            }
+        }
+
+        private void AddZip(business bus, SqlConnection connection)
+        {
+            StringBuilder sb = new StringBuilder();
+            sb.Append("SELECT [ZipCode], [City], [State]");
+            sb.Append("FROM [dbo].[zipcode]");
+            sb.Append("WHERE [dbo].[zipcode].[ZipCodeID] = " + bus.ZipID);
+            String sql = sb.ToString();
+
+            using (SqlCommand command = new SqlCommand(sql, connection))
+            {
+                using (SqlDataReader reader = command.ExecuteReader())
+                {
+                    while (reader.Read())
+                    {
+                        bus.Zip = DatabaseHelper.CheckNullString(reader, 0);
+                        bus.City = DatabaseHelper.CheckNullString(reader, 1);
+                        bus.State = DatabaseHelper.CheckNullString(reader, 2);
                     }
                 }
             }

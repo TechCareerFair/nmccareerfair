@@ -14,7 +14,6 @@ namespace TechCareerFair.Models
         {
             Fields = new List<string>();
             Positions = new List<position>();
-            Zip = 0;
             Attendees = 0;
             Photo = new byte[0];
         }
@@ -53,7 +52,9 @@ namespace TechCareerFair.Models
         public string State { get; set; }
 
         [StringLength(10)]
-        public int Zip { get; set; }
+        public string Zip { get; set; }
+
+        public int ZipID { get; set; }
 
         [StringLength(20)]
         public string Phone { get; set; }
