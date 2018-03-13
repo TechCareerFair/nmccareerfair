@@ -33,27 +33,27 @@ namespace TechCareerFair.Models
                 .Property(e => e.Password)
                 .IsFixedLength();
 
-            modelBuilder.Entity<applicant>()
-                .HasMany(e => e.applicant2field)
-                .WithRequired(e => e.applicant1)
-                .HasForeignKey(e => e.Applicant)
-                .WillCascadeOnDelete(false);
+            //modelBuilder.Entity<applicant>()
+            //    .HasMany(e => e.applicant2field)
+            //    .WithRequired(e => e.applicant1)
+            //    .HasForeignKey(e => e.Applicant)
+            //    .WillCascadeOnDelete(false);
 
             modelBuilder.Entity<business>()
                 .Property(e => e.Password)
                 .IsFixedLength();
 
-            modelBuilder.Entity<business>()
-                .HasMany(e => e.business2field)
-                .WithRequired(e => e.business1)
-                .HasForeignKey(e => e.Business)
-                .WillCascadeOnDelete(false);
+            //modelBuilder.Entity<business>()
+            //    .HasMany(e => e.business2field)
+            //    .WithRequired(e => e.business1)
+            //    .HasForeignKey(e => e.Business)
+            //    .WillCascadeOnDelete(false);
 
-            modelBuilder.Entity<business>()
-                .HasMany(e => e.positions)
-                .WithRequired(e => e.business1)
-                .HasForeignKey(e => e.Business)
-                .WillCascadeOnDelete(false);
+            //modelBuilder.Entity<business>()
+            //    .HasMany(e => e.positions)
+            //    .WithRequired(e => e.business1)
+            //    .HasForeignKey(e => e.Business)
+            //    .WillCascadeOnDelete(false);
 
             modelBuilder.Entity<careerfair>()
                 .Property(e => e.Date)

@@ -201,6 +201,7 @@
     <Compile Include="DAL\ApplicantRepository.cs" />
     <Compile Include="DAL\BusinessDatabaseDataService.cs" />
     <Compile Include="DAL\BusinessRepository.cs" />
+    <Compile Include="DAL\DatabaseHelper.cs" />
     <Compile Include="DAL\DataSettings.cs" />
     <Compile Include="DAL\IApplicantDataService.cs" />
     <Compile Include="DAL\IApplicantRepository.cs" />

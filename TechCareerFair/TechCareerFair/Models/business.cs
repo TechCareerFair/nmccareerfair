@@ -12,8 +12,11 @@ namespace TechCareerFair.Models
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public business()
         {
-            business2field = new HashSet<business2field>();
-            positions = new HashSet<position>();
+            Fields = new List<string>();
+            Positions = new List<position>();
+            Zip = 0;
+            Attendees = 0;
+            Photo = new byte[0];
         }
 
         public int BusinessID { get; set; }
@@ -50,7 +53,7 @@ namespace TechCareerFair.Models
         public string State { get; set; }
 
         [StringLength(10)]
-        public int? Zip { get; set; }
+        public int Zip { get; set; }
 
         [StringLength(20)]
         public string Phone { get; set; }
@@ -66,7 +69,7 @@ namespace TechCareerFair.Models
         [Display(Name = "Display Description")]
         public string DisplayDescription { get; set; }
 
-        public byte? Attendees { get; set; }
+        public byte Attendees { get; set; }
 
         [Display(Name = "Business Description")]
         public string BusinessDescription { get; set; }
@@ -86,11 +89,9 @@ namespace TechCareerFair.Models
         public bool Approved { get; set; }
 
         public bool Active { get; set; }
-
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<business2field> business2field { get; set; }
-
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<position> positions { get; set; }
+        
+        public List<string> Fields { get; set; }
+        
+        public List<position> Positions { get; set; }
     }
 }

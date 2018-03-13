@@ -9,14 +9,12 @@ namespace TechCareerFair.DAL
 {
     public class ApplicantRepository : IApplicantRepository, IDisposable
     {
+        private ApplicantDatabaseDataService _ds = new ApplicantDatabaseDataService();
         private List<applicant> _applicants;
 
         public ApplicantRepository()
         {
-            using (ApplicantDatabaseDataService ds = new ApplicantDatabaseDataService())
-            {
-                _applicants = ds.Read();
-            }
+            _applicants = _ds.Read();
         }
 
         public void Delete(int id)
@@ -26,9 +24,8 @@ namespace TechCareerFair.DAL
             if (applicant != null)
             {
                 _applicants.Remove(applicant);
+                _ds.Remove(applicant);
             }
-
-            Save();
         }
 
         public void Insert(applicant applicant)
@@ -36,7 +33,7 @@ namespace TechCareerFair.DAL
             applicant.ApplicantID = NextIdValue();
             _applicants.Add(applicant);
 
-            Save();
+            _ds.Insert(applicant);
         }
 
         private int NextIdValue()
@@ -65,18 +62,13 @@ namespace TechCareerFair.DAL
             {
                 _applicants.Remove(oldApplicant);
                 _applicants.Add(applicant);
+                _ds.Update(applicant);
             }
-
-            Save();
-        }
-
-        public void Save()
-        {
-            //ApplicantDatabaseDataService Write()
         }
 
         public void Dispose()
         {
+            _ds = null;
             _applicants = null;
         }
     }
