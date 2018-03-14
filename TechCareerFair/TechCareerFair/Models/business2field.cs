@@ -15,9 +15,5 @@ namespace TechCareerFair.Models
         public int Business { get; set; }
 
         public int Field { get; set; }
-
-        public virtual business business1 { get; set; }
-
-        public virtual field field1 { get; set; }
     }
 }
