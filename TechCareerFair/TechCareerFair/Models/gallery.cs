@@ -11,9 +11,7 @@ namespace TechCareerFair.Models
     {
         public int GalleryID { get; set; }
 
-        public byte[] Photo { get; set; }
-
-        public string Video { get; set; }
+        public string Directory { get; set; }
 
         [Required]
         public string Description { get; set; }

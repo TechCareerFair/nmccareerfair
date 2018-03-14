@@ -55,21 +55,21 @@ namespace TechCareerFair.Models
             //    .HasForeignKey(e => e.Business)
             //    .WillCascadeOnDelete(false);
 
-            modelBuilder.Entity<careerfair>()
-                .Property(e => e.Date)
-                .HasPrecision(0);
+            //modelBuilder.Entity<careerfair>()
+            //    .Property(e => e.Date)
+            //    .HasPrecision(0);
 
-            modelBuilder.Entity<field>()
-                .HasMany(e => e.applicant2field)
-                .WithRequired(e => e.field1)
-                .HasForeignKey(e => e.Field)
-                .WillCascadeOnDelete(false);
+            //modelBuilder.Entity<field>()
+            //    .HasMany(e => e.applicant2field)
+            //    .WithRequired(e => e.field1)
+            //    .HasForeignKey(e => e.Field)
+            //    .WillCascadeOnDelete(false);
 
-            modelBuilder.Entity<field>()
-                .HasMany(e => e.business2field)
-                .WithRequired(e => e.field1)
-                .HasForeignKey(e => e.Field)
-                .WillCascadeOnDelete(false);
+            //modelBuilder.Entity<field>()
+            //    .HasMany(e => e.business2field)
+            //    .WithRequired(e => e.field1)
+            //    .HasForeignKey(e => e.Field)
+            //    .WillCascadeOnDelete(false);
         }
     }
 }

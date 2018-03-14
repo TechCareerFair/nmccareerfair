@@ -19,6 +19,6 @@ namespace TechCareerFair.Models
 
         public string Website { get; set; }
 
-        public short ApplicantQ { get; set; }
+        public bool ApplicantQ { get; set; }
     }
 }
