@@ -15,7 +15,6 @@ namespace TechCareerFair.Models
             Fields = new List<string>();
             Positions = new List<position>();
             Attendees = 0;
-            Photo = new byte[0];
         }
 
         public int BusinessID { get; set; }
@@ -54,8 +53,6 @@ namespace TechCareerFair.Models
         [StringLength(10)]
         public string Zip { get; set; }
 
-        public int ZipID { get; set; }
-
         [StringLength(20)]
         public string Phone { get; set; }
 
@@ -80,12 +77,14 @@ namespace TechCareerFair.Models
         [Display(Name = "Social Media")]
         public string SocialMedia { get; set; }
 
-        public byte[] Photo { get; set; }
+        public string Photo { get; set; }
 
         [Display(Name = "Location Preference")]
         public string LocationPreference { get; set; }
 
         public bool ContactMe { get; set; }
+
+        public bool PreferEmail { get; set; }
 
         public bool Approved { get; set; }
 

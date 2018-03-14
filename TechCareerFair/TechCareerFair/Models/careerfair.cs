@@ -15,7 +15,7 @@ namespace TechCareerFair.Models
         public string Phone { get; set; }
 
         [Column(TypeName = "datetime2")]
-        public DateTime? Date { get; set; }
+        public DateTime Date { get; set; }
 
         [StringLength(50)]
         public string Address { get; set; }

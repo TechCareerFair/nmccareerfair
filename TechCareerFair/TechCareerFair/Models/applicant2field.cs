@@ -15,9 +15,5 @@ namespace TechCareerFair.Models
         public int Applicant { get; set; }
 
         public int Field { get; set; }
-
-        public virtual applicant applicant1 { get; set; }
-
-        public virtual field field1 { get; set; }
     }
 }

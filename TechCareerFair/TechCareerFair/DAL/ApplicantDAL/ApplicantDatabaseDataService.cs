@@ -54,7 +54,7 @@ namespace TechCareerFair.DAL
                         app.Alumni = DatabaseHelper.CheckNullBool(reader, 6);
                         app.Profile = DatabaseHelper.CheckNullString(reader, 7);
                         app.SocialMedia = DatabaseHelper.CheckNullString(reader, 8);
-                        app.Resume = DatabaseHelper.CheckNullByteArray(reader, 9);
+                        app.Resume = DatabaseHelper.CheckNullString(reader, 9);
                         app.YearsExperience = DatabaseHelper.CheckNullByte(reader, 10);
                         app.Internship = DatabaseHelper.CheckNullBool(reader, 11);
                         app.Active = DatabaseHelper.CheckNullBool(reader, 12);
@@ -98,13 +98,32 @@ namespace TechCareerFair.DAL
             throw new NotImplementedException();
         }
 
-        private void Insert(List<string> fields)
+        private void Insert(List<string> fields, int applicantID)
         {
+            //insert field ID and applicant ID into new record of mapping table applicant2field
+            using (TechCareerFair.DAL.Applicant2FieldDAL.Applicant2FieldDatabaseDataService ds = new Applicant2FieldDAL.Applicant2FieldDatabaseDataService())
+            {
+                List<applicant2field> a2fs = ds.Read();
 
+                foreach (string name in fields)
+                {
+                    applicant2field a2f = new applicant2field();
+                    int fieldIndex = DatabaseHelper.GetFieldIndex(name);
+
+                    a2f.Applicant = applicantID;
+                    a2f.Field = fieldIndex;
+                    if (a2fs.Where(a => a.Field == fieldIndex).Where(a => a.Applicant == applicantID).Count() == 0)
+                    {
+                        ds.Insert(a2f);
+                    }
+                }
+            }
         }
 
         public void Insert(applicant applicant)
         {
+            Insert(applicant.Fields, applicant.ApplicantID);
+
             using (SqlConnection connection = new SqlConnection(DataSettings.CONNECTION_STRING))
             {
                 connection.Open();
@@ -124,7 +143,7 @@ namespace TechCareerFair.DAL
                     command.Parameters.Add("@param6", SqlDbType.Bit).Value = applicant.Alumni;
                     command.Parameters.Add("@param7", SqlDbType.NVarChar, int.MaxValue).Value = applicant.Profile;
                     command.Parameters.Add("@param8", SqlDbType.NVarChar, int.MaxValue).Value = applicant.SocialMedia;
-                    command.Parameters.Add("@param9", SqlDbType.VarBinary, int.MaxValue).Value = applicant.Resume;
+                    command.Parameters.Add("@param9", SqlDbType.NVarChar, int.MaxValue).Value = applicant.Resume;
                     command.Parameters.Add("@param10", SqlDbType.TinyInt).Value = applicant.YearsExperience;
                     command.Parameters.Add("@param11", SqlDbType.Bit).Value = applicant.Internship;
                     command.Parameters.Add("@param12", SqlDbType.Bit).Value = applicant.Active;
@@ -134,14 +153,95 @@ namespace TechCareerFair.DAL
             }
         }
 
+        private void Remove(List<string> fields, int applicantID)
+        {
+            using (TechCareerFair.DAL.Applicant2FieldDAL.Applicant2FieldDatabaseDataService ds = new Applicant2FieldDAL.Applicant2FieldDatabaseDataService())
+            {
+                List<applicant2field> a2fs = ds.Read();
+
+                foreach (string name in fields)
+                {
+                    applicant2field a2f = new applicant2field();
+                    int fieldIndex = DatabaseHelper.GetFieldIndex(name);
+
+                    a2f.Applicant = applicantID;
+                    a2f.Field = fieldIndex;
+
+                    ds.Remove(a2f);
+                }
+            }
+        }
+
         public void Remove(applicant applicant)
         {
-            throw new NotImplementedException();
+            Remove(applicant.Fields, applicant.ApplicantID);
+
+            using (SqlConnection connection = new SqlConnection(DataSettings.CONNECTION_STRING))
+            {
+                connection.Open();
+                StringBuilder sb = new StringBuilder();
+                sb.Append("DELETE FROM [careerfair].[applicant]");
+                sb.Append("WHERE [ApplicantID] = " + applicant.ApplicantID);
+                String sql = sb.ToString();
+
+                using (SqlCommand command = new SqlCommand(sql, connection))
+                {
+                    command.CommandType = System.Data.CommandType.Text;
+                    command.ExecuteNonQuery();
+                }
+            }
+        }
+
+        private void Update(List<string> fields, int applicantID)
+        {
+            using (TechCareerFair.DAL.Applicant2FieldDAL.Applicant2FieldDatabaseDataService ds = new Applicant2FieldDAL.Applicant2FieldDatabaseDataService())
+            {
+                List<applicant2field> a2fs = ds.Read();
+
+                foreach (string name in fields)
+                {
+                    applicant2field a2f = new applicant2field();
+                    int fieldIndex = DatabaseHelper.GetFieldIndex(name);
+
+                    a2f.Applicant = applicantID;
+                    a2f.Field = fieldIndex;
+
+                    ds.Update(a2f);
+                }
+            }
         }
 
         public void Update(applicant applicant)
         {
-            throw new NotImplementedException();
+            Remove(applicant.Fields, applicant.ApplicantID);
+
+            using (SqlConnection connection = new SqlConnection(DataSettings.CONNECTION_STRING))
+            {
+                connection.Open();
+                StringBuilder sb = new StringBuilder();
+                sb.Append("UPDATE [careerfair].[applicant]");
+                sb.Append("SET [Password] = @param1,[Email] = @param2,[FirstName] = @param3,[LastName] = @param4,[University] = @param5,[Alumni] = @param6,[Profile] = @param7,[SocialMedia] = @param8,[Resume] = @param9,[YearsExperience] = @param10,[Internship] = @param11,[Active] = @param12");
+                sb.Append("WHERE [ApplicantID] = " + applicant.ApplicantID);
+                String sql = sb.ToString();
+
+                using (SqlCommand command = new SqlCommand(sql, connection))
+                {
+                    command.Parameters.Add("@param1", SqlDbType.NChar, 64).Value = applicant.Password;
+                    command.Parameters.Add("@param2", SqlDbType.NVarChar, 320).Value = applicant.Email;
+                    command.Parameters.Add("@param3", SqlDbType.NVarChar, 50).Value = applicant.FirstName;
+                    command.Parameters.Add("@param4", SqlDbType.NVarChar, 50).Value = applicant.LastName;
+                    command.Parameters.Add("@param5", SqlDbType.NVarChar, 50).Value = applicant.University;
+                    command.Parameters.Add("@param6", SqlDbType.Bit).Value = applicant.Alumni;
+                    command.Parameters.Add("@param7", SqlDbType.NVarChar, int.MaxValue).Value = applicant.Profile;
+                    command.Parameters.Add("@param8", SqlDbType.NVarChar, int.MaxValue).Value = applicant.SocialMedia;
+                    command.Parameters.Add("@param9", SqlDbType.NVarChar, int.MaxValue).Value = applicant.Resume;
+                    command.Parameters.Add("@param10", SqlDbType.TinyInt).Value = applicant.YearsExperience;
+                    command.Parameters.Add("@param11", SqlDbType.Bit).Value = applicant.Internship;
+                    command.Parameters.Add("@param12", SqlDbType.Bit).Value = applicant.Active;
+                    command.CommandType = System.Data.CommandType.Text;
+                    command.ExecuteNonQuery();
+                }
+            }
         }
     }
 }
