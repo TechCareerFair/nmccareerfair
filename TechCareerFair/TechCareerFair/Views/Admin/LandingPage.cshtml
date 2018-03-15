@@ -1,0 +1,129 @@
+﻿
+@{
+    ViewBag.Title = "LandingPage";
+}
+
+<h2 class="welcome-admin">Welcome Admin</h2>
+
+<section class="section">
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-6">
+                @* APPLICANT/BUSINESS *@
+                <div class="lp-box">
+                    <p class="admin-lp-title">Please Choose The Following Category To Edit</p>
+                    <div class="selected-to-edit card">Applicants</div>
+                    <div class="selected-to-edit card">Businesses</div>
+                </div>
+            </div>
+            <div class="col-sm-6">
+                <div class="lp-box">
+                    @* ADDRESS *@
+                    <form class="form-group">
+                        <p class="admin-lp-title">Enter Coordinates for Technology Career Fair</p>
+                        <input class="form-control cords" type="text" placeholder="Latitude" />
+                        <input class="form-control cords" type="text" placeholder="Longitude" />
+                    </form>
+                </div>
+            </div>
+            <div class="col-sm-6">
+                <div class="lp-box">
+                    @* FAQ *@
+                    <p class="admin-lp-title">Frequently Asked Questions</p>
+                    <div class="card actionLink">@Html.ActionLink("Edit FAQ's", "FaqPage", "Admin")</div>
+                </div>
+                </div>
+            <div class="col-sm-6">
+                <div class="lp-box">
+                    @* PHONE NUMBER *@
+                    <p class="admin-lp-title">Enter Phone Number For Career Fair Info</p>
+                    <input class="form-control selected-to-edit" type="tel" placeholder="telephone-number"/>
+                </div>
+            </div>
+            <div class="col-sm-6">
+                <div class="lp-box">
+                    @* CALENDAR *@
+                    <p class="admin-lp-title">Change Date Of Career Fair</p>
+                    <input class="form-control selected-to-edit-calendar" id="date" type="date">
+                </div>
+            </div>
+
+        </div>
+    </div>
+</section>
+
+<style>
+    .card {
+        box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
+        transition: all 0.3s cubic-bezier(.25,.8,.25,1);
+    }
+
+    .card:hover {
+        box-shadow: 0 14px 28px rgba(0,0,0,0.25), 0 10px 10px rgba(0,0,0,0.22);
+     }
+
+    .welcome-admin {
+        font-size:20px;
+        color:#fff;
+        padding:24px;
+        text-align:center;
+    }
+
+    .lp-box {
+        text-align: center;
+        margin: 10px 0px;
+        padding:10px;
+        background:#999;
+        color: #fff;
+        min-height:190px;
+    }
+
+    .admin-lp-title {
+        padding: 20px;
+        color: #eee;
+        font-size: 18px;
+    }
+
+    .selected-to-edit {
+        display: inline-block;
+        padding: 10px 30px;
+        color:#eee;
+        margin: 20px;
+        background: #777;
+    }
+
+    .selected-to-edit-calendar {
+        display: inline-block;
+        padding: 10px 2px;
+        color: #eee;
+        margin: 20px;
+        background: #777;
+    }
+
+    .card.actionLink {
+        width: 150px;
+        display: block;
+        margin: auto;
+    }
+
+    .actionLink a {
+        display:block;
+        padding:10px 30px;
+        color:#eee;
+        background:#777;
+        width:150px;
+        text-decoration:none;
+    }
+
+    .cords {
+        display: inline-block;
+        padding: 10px 30px;
+        margin: 20px;
+        color: #eee;
+        background: #777;
+    }
+
+    .form-control {
+        width: 35%;
+    }
+</style>
