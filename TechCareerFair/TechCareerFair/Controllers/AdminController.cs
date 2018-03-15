@@ -7,6 +7,7 @@ using System.Data.SqlClient;
 using TechCareerFair.DAL;
 using TechCareerFair.Models;
 using TechCareerFair.DAL.AdminDAL;
+using TechCareerFair.DAL.FaqDAL;
 
 namespace TechCareerFair.Controllers
 {
@@ -16,6 +17,63 @@ namespace TechCareerFair.Controllers
         public ActionResult Index()
         {
             return View();
+        }
+
+        public ActionResult LandingPage()
+        {
+            return View();
+        }
+
+        public ActionResult FaqPage()
+        {
+            DAL.FaqDAL.FAQRepository FaqRepo = new FAQRepository();
+            return View(FaqRepo.SelectAll());
+        }
+
+        [HttpGet]
+        public ActionResult FaqCreate()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public ActionResult FaqCreate(faq _faq)
+        {
+            try
+            {
+                DAL.FaqDAL.FAQRepository FaqRepo = new FAQRepository();
+                FaqRepo.Insert(_faq);
+
+                return RedirectToAction("FaqPage");
+            }
+            catch
+            {
+                return View();
+            }
+        }
+
+        [HttpGet]
+        public ActionResult FaqEdit(int id)
+        {
+            DAL.FaqDAL.FAQRepository FaqRepo = new FAQRepository();
+
+            return View(FaqRepo.SelectOne(id));
+        }
+
+        [HttpPost]
+        public ActionResult FaqEdit(int id, faq _faq)
+        {
+            try
+            {
+                DAL.FaqDAL.FAQRepository FaqRepo = new FAQRepository();
+                FaqRepo.Update(_faq);
+
+                return RedirectToAction("FaqPage");
+            }
+            catch
+            {
+                return View();
+            }
         }
 
         public ActionResult ListApplicants()
