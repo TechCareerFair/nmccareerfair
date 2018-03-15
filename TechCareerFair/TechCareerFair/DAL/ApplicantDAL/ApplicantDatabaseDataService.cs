@@ -148,6 +148,15 @@ namespace TechCareerFair.DAL
                     command.Parameters.Add("@param11", SqlDbType.Bit).Value = applicant.Internship;
                     command.Parameters.Add("@param12", SqlDbType.Bit).Value = applicant.Active;
                     command.CommandType = System.Data.CommandType.Text;
+
+                    foreach (IDataParameter param in command.Parameters)
+                    {
+                        if (param.Value == null)
+                        {
+                            param.Value = DBNull.Value;
+                        }
+                    }
+
                     command.ExecuteNonQuery();
                 }
             }
@@ -239,6 +248,15 @@ namespace TechCareerFair.DAL
                     command.Parameters.Add("@param11", SqlDbType.Bit).Value = applicant.Internship;
                     command.Parameters.Add("@param12", SqlDbType.Bit).Value = applicant.Active;
                     command.CommandType = System.Data.CommandType.Text;
+
+                    foreach (IDataParameter param in command.Parameters)
+                    {
+                        if (param.Value == null)
+                        {
+                            param.Value = DBNull.Value;
+                        }
+                    }
+
                     command.ExecuteNonQuery();
                 }
             }

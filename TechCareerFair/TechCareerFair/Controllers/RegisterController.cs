@@ -5,6 +5,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
+using TechCareerFair.DAL;
 using TechCareerFair.Models;
 
 namespace TechCareerFair.Controllers
@@ -41,6 +42,25 @@ namespace TechCareerFair.Controllers
                     return View();
                 }
 
+                ApplicantRepository ar = new ApplicantRepository();
+                List<applicant> applicants = new List<applicant>();
+                int x = 0;
+
+                applicants = ar.SelectAll().ToList();
+
+                while (applicants.Count() > x)
+                {
+                    if (applicants[x].Email == applicant.Email)
+                    {
+                        ViewBag.dupAccountErr = "An account with this email already exist. Please use another email or try loging in wwith this one.";
+                        return View();
+                    }
+                    x++;
+                }
+
+                ar.Insert(applicant);
+
+
                 return RedirectToAction("Index");
             }
             catch
@@ -71,6 +91,24 @@ namespace TechCareerFair.Controllers
                     ViewBag.rePassErr = "Passwords must match.";
                     return View();
                 }
+
+                BusinessRepository br = new BusinessRepository();
+                List<business> applicants = new List<business>();
+                int x = 0;
+
+                applicants = br.SelectAll().ToList();
+
+                while (applicants.Count() > x)
+                {
+                    if (applicants[x].Email == business.Email)
+                    {
+                        ViewBag.dupAccountErr = "An account with this email already exist. Please use another email or try loging in wwith this one.";
+                        return View();
+                    }
+                    x++;
+                }
+
+                br.Insert(business);
 
                 return RedirectToAction("Index");
             }

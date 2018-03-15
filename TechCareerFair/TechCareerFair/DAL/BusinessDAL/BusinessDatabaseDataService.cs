@@ -242,6 +242,15 @@ namespace TechCareerFair.DAL
                     command.Parameters.Add("@param20", SqlDbType.Bit).Value = business.Approved;
                     command.Parameters.Add("@param21", SqlDbType.Bit).Value = business.Active;
                     command.CommandType = System.Data.CommandType.Text;
+
+                    foreach (IDataParameter param in command.Parameters)
+                    {
+                        if (param.Value == null)
+                        {
+                            param.Value = DBNull.Value;
+                        }
+                    }
+
                     command.ExecuteNonQuery();
                 }
             }
@@ -396,6 +405,15 @@ namespace TechCareerFair.DAL
                     command.Parameters.Add("@param20", SqlDbType.Bit).Value = business.Approved;
                     command.Parameters.Add("@param21", SqlDbType.Bit).Value = business.Active;
                     command.CommandType = System.Data.CommandType.Text;
+
+                    foreach (IDataParameter param in command.Parameters)
+                    {
+                        if (param.Value == null)
+                        {
+                            param.Value = DBNull.Value;
+                        }
+                    }
+
                     command.ExecuteNonQuery();
                 }
             }
