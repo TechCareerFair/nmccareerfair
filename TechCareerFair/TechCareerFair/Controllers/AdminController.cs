@@ -34,6 +34,7 @@ namespace TechCareerFair.Controllers
                     FormsAuthentication.SetAuthCookie(admin.Username, false);
                     return RedirectToAction("LandingPage", "Admin");
                 }
+                else
                 {
                     ModelState.AddModelError("", "Invalid username and/or password");
                 }
