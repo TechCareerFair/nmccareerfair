@@ -59,14 +59,36 @@ namespace TechCareerFair.Controllers
         }
 
         // GET: Admin/Edit/5
-        public ActionResult Edit(int id)
+        public ActionResult EditApplicant(int id)
         {
             return View();
         }
 
         // POST: Admin/Edit/5
         [HttpPost]
-        public ActionResult Edit(int id, FormCollection collection)
+        public ActionResult EditApplicant(int id, FormCollection collection)
+        {
+            try
+            {
+                // TODO: Add update logic here
+
+                return RedirectToAction("Index");
+            }
+            catch
+            {
+                return View();
+            }
+        }
+
+        // GET: Admin/Edit/5
+        public ActionResult EditBusiness(int id)
+        {
+            return View();
+        }
+
+        // POST: Admin/Edit/5
+        [HttpPost]
+        public ActionResult EditBusiness(int id, FormCollection collection)
         {
             try
             {

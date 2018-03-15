@@ -7,6 +7,13 @@ namespace TechCareerFair.Models
 {
     public class Zipcode
     {
+        public Zipcode()
+        {
+            ZipCode = "";
+            City = "";
+            State = "";
+        }
+
         public int ZipCodeID { get; set; }
 
         public string ZipCode { get; set; }

@@ -41,7 +41,7 @@ namespace TechCareerFair.DAL.FaqDAL
                             faq.Question = DatabaseHelper.CheckNullString(reader, 1);
                             faq.Answer = DatabaseHelper.CheckNullString(reader, 2);
                             faq.Website = DatabaseHelper.CheckNullString(reader, 3);
-                            faq.ApplicantQ = DatabaseHelper.CheckNullBool(reader, 4);
+                            faq.IsApplicantQ = DatabaseHelper.CheckNullBool(reader, 4);
 
                             faqs.Add(faq);
                         }
@@ -72,7 +72,7 @@ namespace TechCareerFair.DAL.FaqDAL
                     command.Parameters.Add("@param1", SqlDbType.NVarChar, int.MaxValue).Value = faq.Question;
                     command.Parameters.Add("@param2", SqlDbType.NVarChar, int.MaxValue).Value = faq.Answer;
                     command.Parameters.Add("@param3", SqlDbType.NVarChar, int.MaxValue).Value = faq.Website;
-                    command.Parameters.Add("@param4", SqlDbType.Bit).Value = faq.ApplicantQ;
+                    command.Parameters.Add("@param4", SqlDbType.Bit).Value = faq.IsApplicantQ;
                     command.CommandType = System.Data.CommandType.Text;
                     command.ExecuteNonQuery();
                 }
@@ -113,7 +113,7 @@ namespace TechCareerFair.DAL.FaqDAL
                     command.Parameters.Add("@param1", SqlDbType.NVarChar, int.MaxValue).Value = faq.Question;
                     command.Parameters.Add("@param2", SqlDbType.NVarChar, int.MaxValue).Value = faq.Answer;
                     command.Parameters.Add("@param3", SqlDbType.NVarChar, int.MaxValue).Value = faq.Website;
-                    command.Parameters.Add("@param4", SqlDbType.Bit).Value = faq.ApplicantQ;
+                    command.Parameters.Add("@param4", SqlDbType.Bit).Value = faq.IsApplicantQ;
                     command.CommandType = System.Data.CommandType.Text;
                     command.ExecuteNonQuery();
                 }

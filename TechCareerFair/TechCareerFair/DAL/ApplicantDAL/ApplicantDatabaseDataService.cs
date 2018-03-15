@@ -24,17 +24,69 @@ namespace TechCareerFair.DAL
             {
                 connection.Open();
                 
-                InitApplicant(applicants, connection);
+                InitApplicant(applicants, connection, -1, 0);
             }
 
             return applicants;
         }
 
-        private void InitApplicant(List<applicant> applicants, SqlConnection connection)
+        public List<applicant> Read(int startRow, int numberOfRows)
+        {
+            List<applicant> applicants = new List<applicant>();
+
+            using (SqlConnection connection = new SqlConnection(DataSettings.CONNECTION_STRING))
+            {
+                connection.Open();
+
+                InitApplicant(applicants, connection, startRow, numberOfRows);
+            }
+
+            return applicants;
+        }
+
+        public List<applicant> ReadAccountInfo()
+        {
+            List<applicant> applicants = new List<applicant>();
+
+            using (SqlConnection connection = new SqlConnection(DataSettings.CONNECTION_STRING))
+            {
+                connection.Open();
+
+                StringBuilder sb = new StringBuilder();
+                sb.Append("SELECT [ApplicantID],[Password],[Email]");
+                sb.Append("FROM [careerfair].[applicant]");
+                String sql = sb.ToString();
+
+                using (SqlCommand command = new SqlCommand(sql, connection))
+                {
+                    using (SqlDataReader reader = command.ExecuteReader())
+                    {
+                        while (reader.Read())
+                        {
+                            applicant app = new applicant();
+
+                            app.ApplicantID = DatabaseHelper.CheckNullInt(reader, 0);
+                            app.Password = DatabaseHelper.CheckNullString(reader, 1);
+                            app.Email = DatabaseHelper.CheckNullString(reader, 2);
+
+                            applicants.Add(app);
+                        }
+                    }
+                }
+            }
+
+            return applicants;
+        }
+
+        private void InitApplicant(List<applicant> applicants, SqlConnection connection, int startRow, int numberOfRows)
         {
             StringBuilder sb = new StringBuilder();
             sb.Append("SELECT [ApplicantID],[Password],[Email],[FirstName],[LastName],[University],[Alumni],[Profile],[SocialMedia],[Resume],[YearsExperience],[Internship],[Active]");
             sb.Append("FROM [careerfair].[applicant]");
+            if (startRow >= 0)
+            {
+                sb.Append("ORDER BY [ApplicantID] ASC OFFSET " + startRow + " ROWS FETCH NEXT " + numberOfRows + " ROWS ONLY;");
+            }
             String sql = sb.ToString();
 
             using (SqlCommand command = new SqlCommand(sql, connection))
