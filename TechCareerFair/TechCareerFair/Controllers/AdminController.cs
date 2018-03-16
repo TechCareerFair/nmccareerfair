@@ -7,15 +7,98 @@ using System.Data.SqlClient;
 using TechCareerFair.DAL;
 using TechCareerFair.Models;
 using TechCareerFair.DAL.AdminDAL;
+using TechCareerFair.DAL.FaqDAL;
+using System.Web.Security;
 
 namespace TechCareerFair.Controllers
 {
     public class AdminController : Controller
     {
         // GET: Admin
+        [HttpGet]
         public ActionResult Index()
         {
             return View();
+        }
+
+        [HttpPost]
+        public ActionResult Index(admin admin)
+        {
+            AdminRepository adminRepository = new AdminRepository();
+            admin selectAdmin = adminRepository.SelectOne(1);
+
+            if (ModelState.IsValid)
+            {
+                if (selectAdmin.Username == admin.Username && selectAdmin.Password.Trim() == admin.Password)
+                {
+                    FormsAuthentication.SetAuthCookie(admin.Username, false);
+                    return RedirectToAction("LandingPage", "Admin");
+                }
+                else
+                {
+                    ModelState.AddModelError("", "Invalid username and/or password");
+                }
+            }
+
+            return View();
+        }
+
+
+        public ActionResult LandingPage()
+        {
+            return View();
+        }
+
+        public ActionResult FaqPage()
+        {
+            DAL.FaqDAL.FAQRepository FaqRepo = new FAQRepository();
+            return View(FaqRepo.SelectAll());
+        }
+
+        [HttpGet]
+        public ActionResult FaqCreate()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public ActionResult FaqCreate(faq _faq)
+        {
+            try
+            {
+                DAL.FaqDAL.FAQRepository FaqRepo = new FAQRepository();
+                FaqRepo.Insert(_faq);
+
+                return RedirectToAction("FaqPage");
+            }
+            catch
+            {
+                return View();
+            }
+        }
+
+        [HttpGet]
+        public ActionResult FaqEdit(int id)
+        {
+            DAL.FaqDAL.FAQRepository FaqRepo = new FAQRepository();
+
+            return View(FaqRepo.SelectOne(id));
+        }
+
+        [HttpPost]
+        public ActionResult FaqEdit(int id, faq _faq)
+        {
+            try
+            {
+                DAL.FaqDAL.FAQRepository FaqRepo = new FAQRepository();
+                FaqRepo.Update(_faq);
+
+                return RedirectToAction("FaqPage");
+            }
+            catch
+            {
+                return View();
+            }
         }
 
         public ActionResult ListApplicants()
@@ -59,14 +142,36 @@ namespace TechCareerFair.Controllers
         }
 
         // GET: Admin/Edit/5
-        public ActionResult Edit(int id)
+        public ActionResult EditApplicant(int id)
         {
             return View();
         }
 
         // POST: Admin/Edit/5
         [HttpPost]
-        public ActionResult Edit(int id, FormCollection collection)
+        public ActionResult EditApplicant(int id, FormCollection collection)
+        {
+            try
+            {
+                // TODO: Add update logic here
+
+                return RedirectToAction("Index");
+            }
+            catch
+            {
+                return View();
+            }
+        }
+
+        // GET: Admin/Edit/5
+        public ActionResult EditBusiness(int id)
+        {
+            return View();
+        }
+
+        // POST: Admin/Edit/5
+        [HttpPost]
+        public ActionResult EditBusiness(int id, FormCollection collection)
         {
             try
             {

@@ -9,6 +9,11 @@ namespace TechCareerFair.Models
     [Table("careerfair.faq")]
     public partial class faq
     {
+        public faq()
+        {
+            Website = "";
+        }
+
         public int FaqID { get; set; }
 
         [Required]
@@ -19,6 +24,6 @@ namespace TechCareerFair.Models
 
         public string Website { get; set; }
 
-        public bool ApplicantQ { get; set; }
+        public bool IsApplicantQ { get; set; }
     }
 }

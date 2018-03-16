@@ -9,6 +9,11 @@ namespace TechCareerFair.Models
     [Table("careerfair.gallery")]
     public partial class gallery
     {
+        public gallery()
+        {
+            Directory = "";
+        }
+
         public int GalleryID { get; set; }
 
         public string Directory { get; set; }

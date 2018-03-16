@@ -9,6 +9,13 @@ namespace TechCareerFair.Models
     [Table("careerfair.careerfair")]
     public partial class careerfair
     {
+        public careerfair()
+        {
+            Phone = "";
+            Address = "";
+            Date = new DateTime();
+        }
+
         public int CareerFairID { get; set; }
 
         [StringLength(20)]

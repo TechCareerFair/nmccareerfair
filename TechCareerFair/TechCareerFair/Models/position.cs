@@ -9,6 +9,12 @@ namespace TechCareerFair.Models
     [Table("careerfair.position")]
     public partial class position
     {
+        public position()
+        {
+            Description = "";
+            Website = "";
+        }
+
         public int PositionID { get; set; }
 
         public int Business { get; set; }
