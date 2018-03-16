@@ -29,5 +29,7 @@ namespace TechCareerFair.Models
         {
             return new ApplicationDbContext();
         }
+
+        public System.Data.Entity.DbSet<TechCareerFair.Models.gallery> galleries { get; set; }
     }
 }
