@@ -1,40 +1,121 @@
 ﻿@model IEnumerable<TechCareerFair.Models.gallery>
 
-@{
-    ViewBag.Title = "Index";
+    @{
+    ViewBag.Title = "Gallery";
     Layout = "~/Views/Shared/_Layout.cshtml";
-}
+    }
+<body>
+    <h2>Video Gallery</h2>
+         <!--youtube link-->
+        <div class="youtube-link">
+            <div id="youtube">
+                <iframe width="560" height="315" src="https://www.youtube.com/embed/FGRWLPkDRfs?autoplay=1"
+                        data-toggle="lightbox" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+            </div>
+        </div>
+   <h3>Photo Gallery</h3>
+        <!--photo gallery-->
+        <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="row">
+                <div class="column">
+                    <a href="h~/Content/Images/IT Career Fair2015.1.jpg" data-toggle="lightbox" data-gallery="multiimages" class="col-sm-4">
+                        <img src="~/Content/Images/IT Career Fair2015.1.jpg" class="img-fluid">
+                    </a>
+                </div>
+                <div class="column">
+                    <a href="~/Content/Images/IT Career Fair2015.2.jpg" data-toggle="lightbox" data-gallery="multiimages" class="col-sm-4">
+                        <img src="~/Content/Images/IT Career Fair2015.2.jpg" class="img-fluid">
+                    </a>
+                </div>
+                <div class="column">
+                    <a href="~/Content/Images/IT Career Fair2015.3.jpg" data-toggle="lightbox" data-gallery="multiimages" class="col-sm-4">
+                        <img src="~/Content/Images/IT Career Fair2015.3.jpg" class="img-fluid">
+                    </a>
+                </div>
+                <div class="column">
+                    <a href="~/Content/Images/IT Career Fair2015.jpg" data-toggle="lightbox" data-gallery="multiimages" class="col-sm-4">
+                        <img src="~/Content/Images/IT Career Fair2015.jpg" class="img-fluid">
+                    </a>
+                </div>
+                </div>
+        </div>
+        </div>
+        <!--- for Admin options
+        <p>@Html.ActionLink("Create New", "Create")
+        </p>
+        <table class="table">
+            <tr>
+            <th>@Html.DisplayNameFor(model => model.Directory)
+            </th>
+            <th> @Html.DisplayNameFor(model => model.Description)
+            </th>
+            <th></th>
+            </tr>@foreach (var item in Model) {
+            <tr> @Html.DisplayFor(modelItem => item.Directory)
+            </td>
+            <td>@Html.DisplayFor(modelItem => item.Description)
+            </td>
+            <td>@Html.ActionLink("Edit", "Edit", new { id=item.GalleryID }) |
+                @Html.ActionLink("Details", "Details", new { id=item.GalleryID }) |
+                @Html.ActionLink("Delete", "Delete", new { id=item.GalleryID })
+             </td>
+            </tr>
+            }
+         </table>-->
+        $(document).on('click', '[data-toggle="lightbox"]', function(event) {
+        event.preventDefault();
+        $(this).ekkoLightbox();
+        });
+</body>
+<style>
+    .youtube-link {
+        position: relative;
+        padding-bottom: 56.25%; /* 16:9 */
+        padding-top: 25px;
+        height: 0;
+    }
 
-<h2>Gallery</h2>
+        .youtube-link object,
+        .youtube-link embed {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+        }
+    *{
+        box-sizing: border-box;
+    }
 
-<p>
-    @Html.ActionLink("Create New", "Create")
-</p>
-<table class="table">
-    <tr>
-        <th>
-            @Html.DisplayNameFor(model => model.Directory)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Description)
-        </th>
-        <th></th>
-    </tr>
-
-@foreach (var item in Model) {
-    <tr>
-        <td>
-            @Html.DisplayFor(modelItem => item.Directory)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Description)
-        </td>
-        <td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.GalleryID }) |
-            @Html.ActionLink("Details", "Details", new { id=item.GalleryID }) |
-            @Html.ActionLink("Delete", "Delete", new { id=item.GalleryID })
-        </td>
-    </tr>
-}
-
-</table>
+    .row {
+        margin: 8px -16px;
+    }
+        .row,
+        .row > .column {
+            padding: 8px;
+        }
+    .column {
+        float: left;
+        width: 25%;
+    }
+    .row:after {
+        content: "";
+        display: table;
+        clear: both;
+    }
+    .content {
+        background-color: white;
+        padding: 10px;
+    }
+    @media screen and (max-width: 900px) {
+        .column {
+            width: 50%;
+        }
+    }
+    @media screen and (max-width: 600px) {
+        .column {
+            width: 100%;
+        }
+    }
+</style>
