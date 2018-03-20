@@ -8,16 +8,41 @@ using TechCareerFair.DAL;
 using TechCareerFair.Models;
 using TechCareerFair.DAL.AdminDAL;
 using TechCareerFair.DAL.FaqDAL;
+using System.Web.Security;
 
 namespace TechCareerFair.Controllers
 {
     public class AdminController : Controller
     {
         // GET: Admin
+        [HttpGet]
         public ActionResult Index()
         {
             return View();
         }
+
+        [HttpPost]
+        public ActionResult Index(admin admin)
+        {
+            AdminRepository adminRepository = new AdminRepository();
+            admin selectAdmin = adminRepository.SelectOne(1);
+
+            if (ModelState.IsValid)
+            {
+                if (selectAdmin.Username == admin.Username && selectAdmin.Password.Trim() == admin.Password)
+                {
+                    FormsAuthentication.SetAuthCookie(admin.Username, false);
+                    return RedirectToAction("LandingPage", "Admin");
+                }
+                else
+                {
+                    ModelState.AddModelError("", "Invalid username and/or password");
+                }
+            }
+
+            return View();
+        }
+
 
         public ActionResult LandingPage()
         {
