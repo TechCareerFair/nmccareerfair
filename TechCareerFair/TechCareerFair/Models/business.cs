@@ -14,17 +14,6 @@ namespace TechCareerFair.Models
         {
             Fields = new List<string>();
             Positions = new List<position>();
-            Street = "";
-            City = "";
-            State = "";
-            Zip = "";
-            Phone = "";
-            DisplayDescription = "";
-            BusinessDescription = "";
-            Website = "";
-            SocialMedia = "";
-            Photo = "";
-            LocationPreference = "";
         }
 
         public int BusinessID { get; set; }

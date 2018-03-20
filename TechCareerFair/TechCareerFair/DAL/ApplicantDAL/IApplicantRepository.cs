@@ -13,6 +13,6 @@ namespace TechCareerFair.DAL
         applicant SelectOne(int id);
         void Insert(applicant applicant);
         void Update(applicant applicant);
-        void Delete(int id);
+        void Delete(applicant applicant);
     }
 }

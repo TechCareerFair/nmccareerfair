@@ -89,9 +89,17 @@ namespace TechCareerFair.Controllers
         }
 
         // GET: Admin/Details/5
-        public ActionResult Details(int id)
+        public ActionResult ApplicantDetails(int id)
         {
-            return View();
+            ApplicantRepository applicantRepository = new ApplicantRepository();
+            return View(applicantRepository.SelectOne(id));
+        }
+
+        // GET: Admin/Details/5
+        public ActionResult BusinessDetails(int id)
+        {
+            BusinessRepository businessRepository = new BusinessRepository();
+            return View(businessRepository.SelectOne(id));
         }
 
         // GET: Admin/Create
@@ -119,18 +127,20 @@ namespace TechCareerFair.Controllers
         // GET: Admin/Edit/5
         public ActionResult EditApplicant(int id)
         {
-            return View();
+            ApplicantRepository applicantRepository = new ApplicantRepository();
+            return View(applicantRepository.SelectOne(id));
         }
 
         // POST: Admin/Edit/5
         [HttpPost]
-        public ActionResult EditApplicant(int id, FormCollection collection)
+        public ActionResult EditApplicant(applicant applicant)
         {
             try
             {
-                // TODO: Add update logic here
+                ApplicantRepository applicantRepository = new ApplicantRepository();
+                applicantRepository.Update(applicant);
 
-                return RedirectToAction("Index");
+                return RedirectToAction("ListApplicants");
             }
             catch
             {
@@ -141,18 +151,20 @@ namespace TechCareerFair.Controllers
         // GET: Admin/Edit/5
         public ActionResult EditBusiness(int id)
         {
-            return View();
+            BusinessRepository businessRepository = new BusinessRepository();
+            return View(businessRepository.SelectOne(id));
         }
 
         // POST: Admin/Edit/5
         [HttpPost]
-        public ActionResult EditBusiness(int id, FormCollection collection)
+        public ActionResult EditBusiness(business business)
         {
             try
             {
-                // TODO: Add update logic here
+                BusinessRepository businessRepository = new BusinessRepository();
+                businessRepository.Update(business);
 
-                return RedirectToAction("Index");
+                return RedirectToAction("ListBusinesses");
             }
             catch
             {
@@ -161,20 +173,46 @@ namespace TechCareerFair.Controllers
         }
 
         // GET: Admin/Delete/5
-        public ActionResult Delete(int id)
+        public ActionResult DeleteApplicant(int id)
         {
-            return View();
+            ApplicantRepository applicantRepository = new ApplicantRepository();
+            return View(applicantRepository.SelectOne(id));
         }
 
         // POST: Admin/Delete/5
         [HttpPost]
-        public ActionResult Delete(int id, FormCollection collection)
+        public ActionResult DeleteApplicant(applicant applicant)
         {
             try
             {
-                // TODO: Add delete logic here
+                ApplicantRepository applicantRepository = new ApplicantRepository();
+                applicantRepository.Delete(applicant);
 
-                return RedirectToAction("Index");
+                return RedirectToAction("ListApplicants");
+            }
+            catch
+            {
+                return View();
+            }
+        }
+
+        // GET: Admin/Delete/5
+        public ActionResult DeleteBusiness(int id)
+        {
+            BusinessRepository businessRepository = new BusinessRepository();
+            return View(businessRepository.SelectOne(id));
+        }
+
+        // POST: Admin/Delete/5
+        [HttpPost]
+        public ActionResult DeleteBusiness(business business)
+        {
+            try
+            {
+                BusinessRepository businessRepository = new BusinessRepository();
+                businessRepository.Delete(business);
+
+                return RedirectToAction("ListBusinesses");
             }
             catch
             {

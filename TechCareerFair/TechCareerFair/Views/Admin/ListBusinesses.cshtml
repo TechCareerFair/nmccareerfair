@@ -53,8 +53,8 @@
             @Html.DisplayFor(modelItem => item.Active)
         </td>
         <td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.BusinessID }) |
-            @Html.ActionLink("Details", "Details", new { id=item.BusinessID }) |
+            @Html.ActionLink("Edit", "EditBusiness", new { id=item.BusinessID }) |
+            @Html.ActionLink("Details", "BusinessDetails", new { id=item.BusinessID }) |
             @Html.ActionLink("Delete", "Delete", new { id=item.BusinessID })
         </td>
     </tr>

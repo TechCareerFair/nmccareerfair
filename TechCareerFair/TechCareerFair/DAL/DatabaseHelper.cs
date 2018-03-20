@@ -103,5 +103,6 @@ namespace TechCareerFair.DAL
 
             return fieldIndex;
         }
+        
     }
 }

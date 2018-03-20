@@ -341,6 +341,12 @@
     <Content Include="Views\Register\Index.cshtml" />
     <Content Include="Views\Admin\EditApplicant.cshtml" />
     <Content Include="Views\Admin\EditBusiness.cshtml" />
+    <Content Include="Views\Admin\FaqCreate.cshtml" />
+    <Content Include="Views\Admin\FaqEdit.cshtml" />
+    <Content Include="Views\Admin\FaqPage.cshtml" />
+    <Content Include="Views\Admin\LandingPage.cshtml" />
+    <Content Include="Views\Admin\ApplicantDetails.cshtml" />
+    <Content Include="Views\Admin\BusinessDetails.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

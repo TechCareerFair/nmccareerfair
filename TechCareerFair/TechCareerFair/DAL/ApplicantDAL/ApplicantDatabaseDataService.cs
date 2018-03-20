@@ -187,18 +187,18 @@ namespace TechCareerFair.DAL
 
                 using (SqlCommand command = new SqlCommand(sql, connection))
                 {
-                    command.Parameters.Add("@param1", SqlDbType.NChar, 64).Value = applicant.Password;
-                    command.Parameters.Add("@param2", SqlDbType.NVarChar, 320).Value = applicant.Email;
-                    command.Parameters.Add("@param3", SqlDbType.NVarChar, 50).Value = applicant.FirstName;
-                    command.Parameters.Add("@param4", SqlDbType.NVarChar, 50).Value = applicant.LastName;
-                    command.Parameters.Add("@param5", SqlDbType.NVarChar, 50).Value = applicant.University;
-                    command.Parameters.Add("@param6", SqlDbType.Bit).Value = applicant.Alumni;
-                    command.Parameters.Add("@param7", SqlDbType.NVarChar, int.MaxValue).Value = applicant.Profile;
-                    command.Parameters.Add("@param8", SqlDbType.NVarChar, int.MaxValue).Value = applicant.SocialMedia;
-                    command.Parameters.Add("@param9", SqlDbType.NVarChar, int.MaxValue).Value = applicant.Resume;
-                    command.Parameters.Add("@param10", SqlDbType.TinyInt).Value = applicant.YearsExperience;
-                    command.Parameters.Add("@param11", SqlDbType.Bit).Value = applicant.Internship;
-                    command.Parameters.Add("@param12", SqlDbType.Bit).Value = applicant.Active;
+                    command.Parameters.Add("@param1", SqlDbType.NChar, 64).Value = (object)applicant.Password ?? DBNull.Value;
+                    command.Parameters.Add("@param2", SqlDbType.NVarChar, 320).Value = (object)applicant.Email ?? DBNull.Value;
+                    command.Parameters.Add("@param3", SqlDbType.NVarChar, 50).Value = (object)applicant.FirstName ?? DBNull.Value;
+                    command.Parameters.Add("@param4", SqlDbType.NVarChar, 50).Value = (object)applicant.LastName ?? DBNull.Value;
+                    command.Parameters.Add("@param5", SqlDbType.NVarChar, 50).Value = (object)applicant.University ?? DBNull.Value;
+                    command.Parameters.Add("@param6", SqlDbType.Bit).Value = (object)applicant.Alumni ?? DBNull.Value;
+                    command.Parameters.Add("@param7", SqlDbType.NVarChar, int.MaxValue).Value = (object)applicant.Profile ?? DBNull.Value;
+                    command.Parameters.Add("@param8", SqlDbType.NVarChar, int.MaxValue).Value = (object)applicant.SocialMedia ?? DBNull.Value;
+                    command.Parameters.Add("@param9", SqlDbType.NVarChar, int.MaxValue).Value = (object)applicant.Resume ?? DBNull.Value;
+                    command.Parameters.Add("@param10", SqlDbType.TinyInt).Value = (object)applicant.YearsExperience ?? DBNull.Value;
+                    command.Parameters.Add("@param11", SqlDbType.Bit).Value = (object)applicant.Internship ?? DBNull.Value;
+                    command.Parameters.Add("@param12", SqlDbType.Bit).Value = (object)applicant.Active ?? DBNull.Value;
                     command.CommandType = System.Data.CommandType.Text;
                     command.ExecuteNonQuery();
                 }
@@ -273,23 +273,23 @@ namespace TechCareerFair.DAL
                 StringBuilder sb = new StringBuilder();
                 sb.Append("UPDATE [careerfair].[applicant]");
                 sb.Append("SET [Password] = @param1,[Email] = @param2,[FirstName] = @param3,[LastName] = @param4,[University] = @param5,[Alumni] = @param6,[Profile] = @param7,[SocialMedia] = @param8,[Resume] = @param9,[YearsExperience] = @param10,[Internship] = @param11,[Active] = @param12");
-                sb.Append("WHERE [ApplicantID] = " + applicant.ApplicantID);
+                sb.Append(" WHERE [ApplicantID] = " + applicant.ApplicantID);
                 String sql = sb.ToString();
 
                 using (SqlCommand command = new SqlCommand(sql, connection))
                 {
-                    command.Parameters.Add("@param1", SqlDbType.NChar, 64).Value = applicant.Password;
-                    command.Parameters.Add("@param2", SqlDbType.NVarChar, 320).Value = applicant.Email;
-                    command.Parameters.Add("@param3", SqlDbType.NVarChar, 50).Value = applicant.FirstName;
-                    command.Parameters.Add("@param4", SqlDbType.NVarChar, 50).Value = applicant.LastName;
-                    command.Parameters.Add("@param5", SqlDbType.NVarChar, 50).Value = applicant.University;
-                    command.Parameters.Add("@param6", SqlDbType.Bit).Value = applicant.Alumni;
-                    command.Parameters.Add("@param7", SqlDbType.NVarChar, int.MaxValue).Value = applicant.Profile;
-                    command.Parameters.Add("@param8", SqlDbType.NVarChar, int.MaxValue).Value = applicant.SocialMedia;
-                    command.Parameters.Add("@param9", SqlDbType.NVarChar, int.MaxValue).Value = applicant.Resume;
-                    command.Parameters.Add("@param10", SqlDbType.TinyInt).Value = applicant.YearsExperience;
-                    command.Parameters.Add("@param11", SqlDbType.Bit).Value = applicant.Internship;
-                    command.Parameters.Add("@param12", SqlDbType.Bit).Value = applicant.Active;
+                    command.Parameters.Add("@param1", SqlDbType.NChar, 64).Value = (object)applicant.Password ?? DBNull.Value;
+                    command.Parameters.Add("@param2", SqlDbType.NVarChar, 320).Value = (object)applicant.Email ?? DBNull.Value;
+                    command.Parameters.Add("@param3", SqlDbType.NVarChar, 50).Value = (object)applicant.FirstName ?? DBNull.Value;
+                    command.Parameters.Add("@param4", SqlDbType.NVarChar, 50).Value = (object)applicant.LastName ?? DBNull.Value;
+                    command.Parameters.Add("@param5", SqlDbType.NVarChar, 50).Value = (object)applicant.University ?? DBNull.Value;
+                    command.Parameters.Add("@param6", SqlDbType.Bit).Value = (object)applicant.Alumni ?? DBNull.Value;
+                    command.Parameters.Add("@param7", SqlDbType.NVarChar, int.MaxValue).Value = (object)applicant.Profile ?? DBNull.Value;
+                    command.Parameters.Add("@param8", SqlDbType.NVarChar, int.MaxValue).Value = (object)applicant.SocialMedia ?? DBNull.Value;
+                    command.Parameters.Add("@param9", SqlDbType.NVarChar, int.MaxValue).Value = (object)applicant.Resume ?? DBNull.Value;
+                    command.Parameters.Add("@param10", SqlDbType.TinyInt).Value = (object)applicant.YearsExperience ?? DBNull.Value;
+                    command.Parameters.Add("@param11", SqlDbType.Bit).Value = (object)applicant.Internship ?? DBNull.Value;
+                    command.Parameters.Add("@param12", SqlDbType.Bit).Value = (object)applicant.Active ?? DBNull.Value;
                     command.CommandType = System.Data.CommandType.Text;
                     command.ExecuteNonQuery();
                 }

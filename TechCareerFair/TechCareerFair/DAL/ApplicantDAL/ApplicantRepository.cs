@@ -17,10 +17,8 @@ namespace TechCareerFair.DAL
             _applicants = _ds.Read();
         }
 
-        public void Delete(int id)
+        public void Delete(applicant applicant)
         {
-            var applicant = _applicants.Where(a => a.ApplicantID == id).FirstOrDefault();
-
             if (applicant != null)
             {
                 _applicants.Remove(applicant);

@@ -16,10 +16,8 @@ namespace TechCareerFair.DAL.FaqDAL
             _faqs = _ds.Read();
         }
 
-        public void Delete(int id)
+        public void Delete(faq faq)
         {
-            var faq = _faqs.Where(f => f.FaqID == id).FirstOrDefault();
-
             if (faq != null)
             {
                 _faqs.Remove(faq);

@@ -14,10 +14,6 @@ namespace TechCareerFair.Models
         public applicant()
         {
             Fields = new List<string>();
-            University = "";
-            Profile = "";
-            SocialMedia = "";
-            Resume = "";
         }
 
         public int ApplicantID { get; set; }

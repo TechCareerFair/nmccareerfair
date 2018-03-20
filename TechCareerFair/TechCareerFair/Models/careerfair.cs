@@ -11,8 +11,6 @@ namespace TechCareerFair.Models
     {
         public careerfair()
         {
-            Phone = "";
-            Address = "";
             Date = new DateTime();
         }
 

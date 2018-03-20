@@ -13,6 +13,6 @@ namespace TechCareerFair.DAL.FaqDAL
         faq SelectOne(int id);
         void Insert(faq faq);
         void Update(faq faq);
-        void Delete(int id);
+        void Delete(faq faq);
     }
 }

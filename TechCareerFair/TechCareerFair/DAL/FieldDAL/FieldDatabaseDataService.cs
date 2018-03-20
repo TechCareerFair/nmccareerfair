@@ -66,7 +66,7 @@ namespace TechCareerFair.DAL.FieldDAL
 
                 using (SqlCommand command = new SqlCommand(sql, connection))
                 {
-                    command.Parameters.Add("@param1", SqlDbType.NVarChar, 50).Value = field.Name;
+                    command.Parameters.Add("@param1", SqlDbType.NVarChar, 50).Value = (object)field.Name ?? DBNull.Value;
                     command.CommandType = System.Data.CommandType.Text;
                     command.ExecuteNonQuery();
                 }
@@ -98,13 +98,13 @@ namespace TechCareerFair.DAL.FieldDAL
                 connection.Open();
                 StringBuilder sb = new StringBuilder();
                 sb.Append("UPDATE [careerfair].[field]");
-                sb.Append("SET [Name] = @param1");
+                sb.Append("SET [Name] = @param1 ");
                 sb.Append("WHERE [FieldID] = " + field.FieldID);
                 String sql = sb.ToString();
 
                 using (SqlCommand command = new SqlCommand(sql, connection))
                 {
-                    command.Parameters.Add("@param1", SqlDbType.NVarChar, 50).Value = field.Name;
+                    command.Parameters.Add("@param1", SqlDbType.NVarChar, 50).Value = (object)field.Name ?? DBNull.Value;
                     command.CommandType = System.Data.CommandType.Text;
                     command.ExecuteNonQuery();
                 }
