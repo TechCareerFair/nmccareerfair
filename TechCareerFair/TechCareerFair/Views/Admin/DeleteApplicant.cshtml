@@ -1,0 +1,114 @@
+﻿@model TechCareerFair.Models.applicant
+
+@{
+    ViewBag.Title = "DeleteApplicant";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>DeleteApplicant</h2>
+
+<h3>Are you sure you want to delete this?</h3>
+<div>
+    <h4>applicant</h4>
+    <hr />
+    <dl class="dl-horizontal">
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Email)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Email)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.FirstName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.FirstName)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.LastName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.LastName)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.University)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.University)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Alumni)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Alumni)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Profile)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Profile)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.SocialMedia)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.SocialMedia)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Resume)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Resume)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.YearsExperience)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.YearsExperience)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Internship)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Internship)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Active)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Active)
+        </dd>
+
+    </dl>
+
+    @using (Html.BeginForm()) {
+        @Html.AntiForgeryToken()
+
+        <div class="form-actions no-color">
+            <input type="submit" value="Delete" class="btn btn-default" /> |
+            @Html.ActionLink("Back to List", "ListApplicants")
+        </div>
+    }
+</div>

@@ -206,12 +206,12 @@ namespace TechCareerFair.Controllers
 
         // POST: Admin/Delete/5
         [HttpPost]
-        public ActionResult DeleteApplicant(applicant applicant)
+        public ActionResult DeleteApplicant(int id, FormCollection collection)
         {
             try
             {
                 ApplicantRepository applicantRepository = new ApplicantRepository();
-                applicantRepository.Delete(applicant);
+                applicantRepository.Delete(id);
 
                 return RedirectToAction("ListApplicants");
             }
@@ -230,12 +230,12 @@ namespace TechCareerFair.Controllers
 
         // POST: Admin/Delete/5
         [HttpPost]
-        public ActionResult DeleteBusiness(business business)
+        public ActionResult DeleteBusiness(int id, FormCollection collection)
         {
             try
             {
                 BusinessRepository businessRepository = new BusinessRepository();
-                businessRepository.Delete(business);
+                businessRepository.Delete(id);
 
                 return RedirectToAction("ListBusinesses");
             }

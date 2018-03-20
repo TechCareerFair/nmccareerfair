@@ -16,8 +16,10 @@ namespace TechCareerFair.DAL
             _businesses = _ds.Read();
         }
 
-        public void Delete(business business)
+        public void Delete(int id)
         {
+            var business = _businesses.Where(g => g.BusinessID == id).FirstOrDefault();
+
             if (business != null)
             {
                 _businesses.Remove(business);

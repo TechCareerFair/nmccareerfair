@@ -193,6 +193,7 @@
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\AdminController.cs" />
+    <Compile Include="Controllers\GalleryController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Controllers\RegisterController.cs" />
@@ -270,6 +271,10 @@
     <Content Include="Content\Images\ApplicantProgress1-3.PNG" />
     <Content Include="Content\Images\ApplicantProgress2-3.PNG" />
     <Content Include="Content\Images\ApplicantProgress3-3.PNG" />
+    <Content Include="Content\Images\IT Caeer Fair2015.1.jpg" />
+    <Content Include="Content\Images\IT Caeer Fair2015.2.jpg" />
+    <Content Include="Content\Images\IT Caeer Fair2015.3.jpg" />
+    <Content Include="Content\Images\IT Caeer Fair2015.jpg" />
     <Content Include="Content\Images\library.jpg" />
     <Content Include="Content\Images\logo-nmc.png" />
     <Content Include="Content\Images\nursing.jpg" />
@@ -347,6 +352,14 @@
     <Content Include="Views\Admin\LandingPage.cshtml" />
     <Content Include="Views\Admin\ApplicantDetails.cshtml" />
     <Content Include="Views\Admin\BusinessDetails.cshtml" />
+    <Content Include="Views\Admin\Index.cshtml" />
+    <Content Include="Views\Gallery\Create.cshtml" />
+    <Content Include="Views\Gallery\Delete.cshtml" />
+    <Content Include="Views\Gallery\Details.cshtml" />
+    <Content Include="Views\Gallery\Edit.cshtml" />
+    <Content Include="Views\Gallery\Index.cshtml" />
+    <Content Include="Views\Admin\DeleteApplicant.cshtml" />
+    <Content Include="Views\Admin\DeleteBusiness.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

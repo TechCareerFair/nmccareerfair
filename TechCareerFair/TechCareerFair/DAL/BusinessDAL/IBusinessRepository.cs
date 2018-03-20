@@ -12,6 +12,6 @@ namespace TechCareerFair.DAL
         business SelectOne(int id);
         void Insert(business business);
         void Update(business business);
-        void Delete(business business);
+        void Delete(int id);
     }
 }

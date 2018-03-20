@@ -26,7 +26,7 @@ namespace TechCareerFair.DAL.ZipDAL
 
                 StringBuilder sb = new StringBuilder();
                 sb.Append("SELECT [ZipCodeID],[ZipCode],[City],[State],[Business]");
-                sb.Append("FROM [careerfair].[zipcode]");
+                sb.Append("FROM [dbo].[zipcode]");
                 String sql = sb.ToString();
 
                 using (SqlCommand command = new SqlCommand(sql, connection))
@@ -62,7 +62,7 @@ namespace TechCareerFair.DAL.ZipDAL
             {
                 connection.Open();
                 StringBuilder sb = new StringBuilder();
-                sb.Append("INSERT INTO [careerfair].[zipcode]([ZipCode],[City],[State],[Business])");
+                sb.Append("INSERT INTO [dbo].[zipcode]([ZipCode],[City],[State],[Business])");
                 string values = "VALUES(@param1, @param2, @param3, @param4)";
                 sb.Append(values);
                 String sql = sb.ToString();
@@ -85,7 +85,7 @@ namespace TechCareerFair.DAL.ZipDAL
             {
                 connection.Open();
                 StringBuilder sb = new StringBuilder();
-                sb.Append("DELETE FROM [careerfair].[zipcode]");
+                sb.Append("DELETE FROM [dbo].[zipcode]");
                 sb.Append("WHERE [ZipCodeID] = " + zipcode.ZipCodeID);
                 String sql = sb.ToString();
 
