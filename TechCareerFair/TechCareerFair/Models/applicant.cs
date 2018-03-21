@@ -47,7 +47,7 @@ namespace TechCareerFair.Models
 
         public string Resume { get; set; }
 
-        [Display(Name = "Years Experience")]
+        [Display(Name = "Years of Experience")]
         public byte? YearsExperience { get; set; }
         
         public bool Internship { get; set; }
