@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
 using TechCareerFair.DAL;
+using TechCareerFair.DAL.FieldDAL;
 using TechCareerFair.Models;
 
 namespace TechCareerFair.Controllers
@@ -22,6 +23,18 @@ namespace TechCareerFair.Controllers
         // GET: Register/Create
         public ActionResult Applicant()
         {
+            //FieldRepository fr = new FieldRepository();
+
+            List<field> fields = new List<field>();
+
+            //Test Data
+            fields.Add(new field { FieldID = 1, Name = "Networking" });
+            fields.Add(new field { FieldID = 2, Name = "Web Design" });
+            fields.Add(new field { FieldID = 3, Name = "System Analyst" });
+
+            ViewBag.Fields = fields;
+
+            //fields = fr.SelectAll() as List<field>;
             return View();
         }
 
@@ -29,6 +42,15 @@ namespace TechCareerFair.Controllers
         [HttpPost]
         public ActionResult Applicant(applicant applicant, string rePass)
         {
+            List<field> fields = new List<field>();
+
+            //Test Data
+            fields.Add(new field { FieldID = 1, Name = "Networking" });
+            fields.Add(new field { FieldID = 2, Name = "Web Design" });
+            fields.Add(new field { FieldID = 3, Name = "System Analyst" });
+
+            ViewBag.Fields = fields;
+
             try
             {
                 if (!ModelState.IsValid)
@@ -58,6 +80,8 @@ namespace TechCareerFair.Controllers
                     x++;
                 }
 
+                
+                applicant.Active = true;
                 ar.Insert(applicant);
 
 
@@ -72,6 +96,18 @@ namespace TechCareerFair.Controllers
         // GET: Register/Create
         public ActionResult Business()
         {
+            //FieldRepository fr = new FieldRepository();
+
+            List<field> fields = new List<field>();
+
+            //Test Data
+            fields.Add(new field { FieldID = 1, Name = "Networking" });
+            fields.Add(new field { FieldID = 2, Name = "Web Design" });
+            fields.Add(new field { FieldID = 3, Name = "System Analyst" });
+
+            ViewBag.Fields = fields;
+
+            //fields = fr.SelectAll() as List<field>;
             return View();
         }
 
@@ -79,6 +115,15 @@ namespace TechCareerFair.Controllers
         [HttpPost]
         public ActionResult Business(business business, string rePass)
         {
+            List<field> fields = new List<field>();
+
+            //Test Data
+            fields.Add(new field { FieldID = 1, Name = "Networking" });
+            fields.Add(new field { FieldID = 2, Name = "Web Design" });
+            fields.Add(new field { FieldID = 3, Name = "System Analyst" });
+
+            ViewBag.Fields = fields;
+
             try
             {
                 if (!ModelState.IsValid)
@@ -108,6 +153,10 @@ namespace TechCareerFair.Controllers
                     x++;
                 }
 
+
+
+                business.Approved = false;
+                business.Active = true;
                 br.Insert(business);
 
                 return RedirectToAction("Index");

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using TechCareerFair.DAL.FaqDAL;
 
 namespace TechCareerFair.Controllers
 {
@@ -26,5 +27,13 @@ namespace TechCareerFair.Controllers
 
             return View();
         }
+
+        public ActionResult FAQ()
+        {
+            DAL.FaqDAL.FAQRepository faqRepo = new FAQRepository();
+                return View(faqRepo.SelectAll());
+        }
+
+       
     }
 }
