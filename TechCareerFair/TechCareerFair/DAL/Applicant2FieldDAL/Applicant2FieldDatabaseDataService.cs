@@ -93,6 +93,24 @@ namespace TechCareerFair.DAL.Applicant2FieldDAL
             }
         }
 
+        public void RemoveAll(int applicantID)
+        {
+            using (SqlConnection connection = new SqlConnection(DataSettings.CONNECTION_STRING))
+            {
+                connection.Open();
+                StringBuilder sb = new StringBuilder();
+                sb.Append("DELETE FROM [careerfair].[applicant2field]");
+                sb.Append("WHERE [Applicant] = " + applicantID);
+                String sql = sb.ToString();
+
+                using (SqlCommand command = new SqlCommand(sql, connection))
+                {
+                    command.CommandType = System.Data.CommandType.Text;
+                    command.ExecuteNonQuery();
+                }
+            }
+        }
+
         public void Update(applicant2field applicant2field)
         {
             using (SqlConnection connection = new SqlConnection(DataSettings.CONNECTION_STRING))

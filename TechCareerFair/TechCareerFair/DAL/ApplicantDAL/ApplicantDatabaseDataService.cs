@@ -6,6 +6,7 @@ using TechCareerFair.Models;
 using System.Data.SqlClient;
 using System.Text;
 using System.Data;
+using System.Threading;
 
 namespace TechCareerFair.DAL
 {
@@ -174,14 +175,14 @@ namespace TechCareerFair.DAL
 
         public void Insert(applicant applicant)
         {
-            Insert(applicant.Fields, applicant.ApplicantID);
+            int id = applicant.ApplicantID;
 
             using (SqlConnection connection = new SqlConnection(DataSettings.CONNECTION_STRING))
             {
                 connection.Open();
                 StringBuilder sb = new StringBuilder();
                 sb.Append("INSERT INTO [careerfair].[applicant]([Password],[Email],[FirstName],[LastName],[University],[Alumni],[Profile],[SocialMedia],[Resume],[YearsExperience],[Internship],[Active])");
-                string values = "VALUES(@param1, @param2, @param3, @param4, @param5, @param6, @param7, @param8, @param9, @param10, @param11, @param12)";
+                string values = "VALUES(@param1, @param2, @param3, @param4, @param5, @param6, @param7, @param8, @param9, @param10, @param11, @param12); SELECT @ID = SCOPE_IDENTITY()";
                 sb.Append(values);
                 String sql = sb.ToString();
 
@@ -199,34 +200,27 @@ namespace TechCareerFair.DAL
                     command.Parameters.Add("@param10", SqlDbType.TinyInt).Value = (object)applicant.YearsExperience ?? DBNull.Value;
                     command.Parameters.Add("@param11", SqlDbType.Bit).Value = (object)applicant.Internship ?? DBNull.Value;
                     command.Parameters.Add("@param12", SqlDbType.Bit).Value = (object)applicant.Active ?? DBNull.Value;
+                    command.Parameters.Add("@ID", SqlDbType.Int, 4).Direction = ParameterDirection.Output;
                     command.CommandType = System.Data.CommandType.Text;
                     command.ExecuteNonQuery();
+
+                    id = (int)command.Parameters["@ID"].Value;
                 }
             }
+            Insert(applicant.Fields, id);
         }
 
-        private void Remove(List<string> fields, int applicantID)
+        private void RemoveAll(int applicantID)
         {
             using (TechCareerFair.DAL.Applicant2FieldDAL.Applicant2FieldDatabaseDataService ds = new Applicant2FieldDAL.Applicant2FieldDatabaseDataService())
             {
-                List<applicant2field> a2fs = ds.Read();
-
-                foreach (string name in fields)
-                {
-                    applicant2field a2f = new applicant2field();
-                    int fieldIndex = DatabaseHelper.GetFieldIndex(name);
-
-                    a2f.Applicant = applicantID;
-                    a2f.Field = fieldIndex;
-
-                    ds.Remove(a2f);
-                }
+                ds.RemoveAll(applicantID);
             }
         }
 
         public void Remove(applicant applicant)
         {
-            Remove(applicant.Fields, applicant.ApplicantID);
+            RemoveAll(applicant.ApplicantID);
 
             using (SqlConnection connection = new SqlConnection(DataSettings.CONNECTION_STRING))
             {
@@ -265,7 +259,8 @@ namespace TechCareerFair.DAL
 
         public void Update(applicant applicant)
         {
-            Remove(applicant.Fields, applicant.ApplicantID);
+            RemoveAll(applicant.ApplicantID);
+            Insert(applicant.Fields, applicant.ApplicantID);
 
             using (SqlConnection connection = new SqlConnection(DataSettings.CONNECTION_STRING))
             {

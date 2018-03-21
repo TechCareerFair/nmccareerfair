@@ -1,15 +1,20 @@
 ﻿@model TechCareerFair.Models.business
 
 @{
-    ViewBag.Title = "DeleteBusiness";
+    ViewBag.Title = "Admin - Delete Business";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h2>DeleteBusiness</h2>
+<h2>Delete Business</h2>
+<style>
+    .body-content {
+        background-color: #edf9ef;
+    }
+</style>
 
 <h3>Are you sure you want to delete this?</h3>
 <div>
-    <h4>business</h4>
+    <h4>Business Details</h4>
     <hr />
     <dl class="dl-horizontal">
 
@@ -48,6 +53,7 @@
         <dt>
             @Html.DisplayNameFor(model => model.Fields)
         </dt>
+        <dd></dd>
         @foreach (string field in ViewBag.Fields)
     {
         <dd>
@@ -58,6 +64,7 @@
         <dt>
             @Html.DisplayNameFor(model => model.Positions)
         </dt>
+        <dd></dd>
         @foreach (TechCareerFair.Models.position position in ViewBag.Positions)
     {
         string fullSite = position.Website;

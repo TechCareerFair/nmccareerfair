@@ -1,13 +1,19 @@
 ﻿@model TechCareerFair.Models.applicant
 
 @{
-    ViewBag.Title = "Details";
+    ViewBag.Title = "Admin - Applicant Details";
 }
 
-<h2>Details</h2>
+<style>
+    .body-content {
+        background-color: #edf9ef;
+    }
+</style>
+
+<h2>Applicant Details</h2>
 
 <div>
-    <h4>applicant</h4>
+    <h4>Applicant Account</h4>
     <hr />
     <dl class="dl-horizontal">
 
@@ -38,6 +44,7 @@
         <dt>
             @Html.DisplayNameFor(model => model.Fields)
         </dt>
+        <dd></dd>
         @foreach (string field in ViewBag.Fields)
         {
             <dd>

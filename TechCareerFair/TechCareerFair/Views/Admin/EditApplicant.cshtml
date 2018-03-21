@@ -1,18 +1,22 @@
 ﻿@model TechCareerFair.Models.applicant
 
 @{
-    ViewBag.Title = "EditApplicant";
+    ViewBag.Title = "Admin - Edit Applicant";
 }
 
-<h2>EditApplicant</h2>
-
+<h2>Edit Applicant</h2>
+<style>
+    .body-content {
+        background-color: #edf9ef;
+    }
+</style>
 
 @using (Html.BeginForm())
 {
     @Html.AntiForgeryToken()
     
 <div class="form-horizontal">
-    <h4>applicant</h4>
+    <h4>Applicant Account</h4>
     <hr />
     @Html.ValidationSummary(true, "", new { @class = "text-danger" })
     @Html.HiddenFor(model => model.ApplicantID)
@@ -49,12 +53,21 @@
         </div>
     </div>
 
-    @for (int i = 0; i < ViewBag.AllFields.Count(); i++)
-    {
-        <p>
-            
-        </p>
-    }   
+    <div class="form-group">
+        @Html.LabelFor(model => model.Fields, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @if (ViewBag.AllFields != null)
+            {
+                for(int i = 0; i < ViewBag.AllFields.Count; i++)
+                {
+                    string name = ViewBag.AllFields[i].Name;
+                    bool contains = ViewBag.Fields.Contains(name);
+                    @Html.CheckBox(name, contains) <span>@name </span>
+                    <br />
+                }
+            }
+        </div>
+    </div>
 
     <div class="form-group">
         @Html.LabelFor(model => model.University, htmlAttributes: new { @class = "control-label col-md-2" })

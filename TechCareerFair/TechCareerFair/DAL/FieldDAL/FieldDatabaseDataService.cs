@@ -13,7 +13,7 @@ namespace TechCareerFair.DAL.FieldDAL
     {
         public void Dispose()
         {
-            throw new NotImplementedException();
+            //throw new NotImplementedException();
         }
 
         public List<field> Read()

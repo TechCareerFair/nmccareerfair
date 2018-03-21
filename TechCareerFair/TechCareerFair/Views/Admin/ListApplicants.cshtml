@@ -4,10 +4,16 @@
     ViewBag.Title = "Admin - Manage Applicant Accounts";
 }
 
+<style>
+    .body-content {
+        background-color: #edf9ef;
+    }
+</style>
+
 <h2>Admin - Manage Applicant Accounts</h2>
 
 <p>
-    @Html.ActionLink("Create New", "Create")
+    @Html.ActionLink("Create New", "CreateApplicant") | @Html.ActionLink("Return", "Index")
 </p>
 <table class="table">
     <tr>
@@ -29,7 +35,7 @@
 @foreach (var item in Model) {
     <tr>
         <td>
-            @Html.DisplayFor(modelItem => item.Email)
+            <a href="mailto:@Html.DisplayFor(modelItem => item.Email)">@Html.DisplayFor(modelItem => item.Email)</a>
         </td>
         <td>
             @Html.DisplayFor(modelItem => item.FirstName)

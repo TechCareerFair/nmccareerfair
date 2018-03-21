@@ -256,16 +256,13 @@ namespace TechCareerFair.DAL
 
         public void Insert(business business)
         {
-            Insert(business.Fields, business.BusinessID);
-            Insert(business.Positions);
-            Insert(business.Zip, business.City, business.State, business.BusinessID);
-
+            int id = business.BusinessID;
             using (SqlConnection connection = new SqlConnection(DataSettings.CONNECTION_STRING))
             {
                 connection.Open();
                 StringBuilder sb = new StringBuilder();
                 sb.Append("INSERT INTO [careerfair].[business]([Password],[Email],[BusinessName],[FirstName],[LastName],[Street],[Phone],[Alumni],[NonProfit],[Outlet],[Display],[DisplayDescription],[Attendees],[BusinessDescription],[Website],[SocialMedia],[Photo],[LocationPreference],[ContactMe],[Approved],[Active],[PreferEmail])");
-                string values = "VALUES(@param1, @param2, @param3, @param4, @param5, @param6, @param7, @param8, @param9, @param10, @param11, @param12, @param13, @param14, @param15, @param16, @param17, @param18, @param19, @param20, @param21, @param22)";
+                string values = "VALUES(@param1, @param2, @param3, @param4, @param5, @param6, @param7, @param8, @param9, @param10, @param11, @param12, @param13, @param14, @param15, @param16, @param17, @param18, @param19, @param20, @param21, @param22); SELECT @ID = SCOPE_IDENTITY()";
                 sb.Append(values);
                 String sql = sb.ToString();
 
@@ -293,28 +290,23 @@ namespace TechCareerFair.DAL
                     command.Parameters.Add("@param20", SqlDbType.Bit).Value = (object)business.Approved ?? DBNull.Value;
                     command.Parameters.Add("@param21", SqlDbType.Bit).Value = (object)business.Active ?? DBNull.Value;
                     command.Parameters.Add("@param22", SqlDbType.Bit).Value = (object)business.PreferEmail ?? DBNull.Value;
+                    command.Parameters.Add("@ID", SqlDbType.Int, 4).Direction = ParameterDirection.Output;
                     command.CommandType = System.Data.CommandType.Text;
                     command.ExecuteNonQuery();
+
+                    id = (int)command.Parameters["@ID"].Value;
                 }
             }
+            Insert(business.Fields, id);
+            Insert(business.Positions);
+            Insert(business.Zip, business.City, business.State, id);
         }
 
-        private void Remove(List<string> fields, int businessID)
+        private void RemoveAll(int businessID)
         {
             using (TechCareerFair.DAL.Business2FieldDAL.Business2FieldDatabaseDataService ds = new Business2FieldDAL.Business2FieldDatabaseDataService())
             {
-                List<business2field> b2fs = ds.Read();
-
-                foreach (string name in fields)
-                {
-                    business2field b2f = new business2field();
-                    int fieldIndex = DatabaseHelper.GetFieldIndex(name);
-
-                    b2f.Business = businessID;
-                    b2f.Field = fieldIndex;
-
-                    ds.Remove(b2f);
-                }
+                 ds.RemoveAll(businessID);
             }
         }
 
@@ -339,13 +331,13 @@ namespace TechCareerFair.DAL
 
             using (TechCareerFair.DAL.ZipDAL.ZipDatabaseDataService ds = new ZipDAL.ZipDatabaseDataService())
             {
-                ds.Remove(zip);
+                ds.Remove(businessID);
             }
         }
 
         public void Remove(business business)
         {
-            Remove(business.Fields, business.BusinessID);
+            RemoveAll(business.BusinessID);
             Remove(business.Positions);
             Remove(business.Zip, business.City, business.State, business.BusinessID);
 
@@ -405,13 +397,15 @@ namespace TechCareerFair.DAL
 
             using (TechCareerFair.DAL.ZipDAL.ZipDatabaseDataService ds = new ZipDAL.ZipDatabaseDataService())
             {
-                ds.Update(zip);
+                ds.Update(zip, businessID);
             }
         }
 
         public void Update(business business)
         {
-            Update(business.Fields, business.BusinessID);
+            RemoveAll(business.BusinessID);
+            Insert(business.Fields, business.BusinessID);
+
             Update(business.Positions);
             Update(business.Zip, business.City, business.State, business.BusinessID);
 

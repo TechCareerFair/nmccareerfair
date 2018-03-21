@@ -1,13 +1,18 @@
 ﻿@model TechCareerFair.Models.business
 
 @{
-    ViewBag.Title = "BusinessDetails";
+    ViewBag.Title = "Admin - Business Details";
 }
 
-<h2>BusinessDetails</h2>
+<h2>Business Details</h2>
+<style>
+    .body-content {
+        background-color: #edf9ef;
+    }
+</style>
 
 <div>
-    <h4>business</h4>
+    <h4>Business Account</h4>
     <hr />
     <dl class="dl-horizontal">
 
@@ -46,6 +51,7 @@
         <dt>
             @Html.DisplayNameFor(model => model.Fields)
         </dt>
+        <dd></dd>
         @foreach (string field in ViewBag.Fields)
     {
         <dd>
@@ -56,6 +62,7 @@
         <dt>
             @Html.DisplayNameFor(model => model.Positions)
         </dt>
+        <dd></dd>
         @foreach (TechCareerFair.Models.position position in ViewBag.Positions)
         {
             string fullSite = position.Website;

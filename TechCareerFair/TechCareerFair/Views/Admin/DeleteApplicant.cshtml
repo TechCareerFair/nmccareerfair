@@ -1,15 +1,20 @@
 ﻿@model TechCareerFair.Models.applicant
 
 @{
-    ViewBag.Title = "DeleteApplicant";
+    ViewBag.Title = "Admin - Delete Applicant";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h2>DeleteApplicant</h2>
+<h2>Delete Applicant</h2>
+<style>
+    .body-content {
+        background-color: #edf9ef;
+    }
+</style>
 
 <h3>Are you sure you want to delete this?</h3>
 <div>
-    <h4>applicant</h4>
+    <h4>Applicant Details</h4>
     <hr />
     <dl class="dl-horizontal">
 
@@ -40,6 +45,7 @@
         <dt>
             @Html.DisplayNameFor(model => model.Fields)
         </dt>
+        <dd></dd>
         @foreach (string field in ViewBag.Fields)
     {
         <dd>
