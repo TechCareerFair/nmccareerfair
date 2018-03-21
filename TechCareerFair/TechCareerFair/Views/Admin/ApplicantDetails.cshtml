@@ -36,6 +36,16 @@
         </dd>
 
         <dt>
+            @Html.DisplayNameFor(model => model.Fields)
+        </dt>
+        @foreach (string field in ViewBag.Fields)
+        {
+            <dd>
+                @field
+            </dd>
+        }
+
+        <dt>
             @Html.DisplayNameFor(model => model.University)
         </dt>
 
@@ -103,5 +113,6 @@
 </div>
 <p>
     @Html.ActionLink("Edit", "EditApplicant", new { id = Model.ApplicantID }) |
+    @Html.ActionLink("Delete", "DeleteApplicant", new { id = Model.ApplicantID }) |
     @Html.ActionLink("Back to List", "ListApplicants")
 </p>

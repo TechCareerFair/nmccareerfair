@@ -38,6 +38,16 @@
         </dd>
 
         <dt>
+            @Html.DisplayNameFor(model => model.Fields)
+        </dt>
+        @foreach (string field in ViewBag.Fields)
+    {
+        <dd>
+            @field
+        </dd>
+}
+
+        <dt>
             @Html.DisplayNameFor(model => model.University)
         </dt>
 

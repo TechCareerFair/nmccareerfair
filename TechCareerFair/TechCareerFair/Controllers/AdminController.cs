@@ -117,14 +117,21 @@ namespace TechCareerFair.Controllers
         public ActionResult ApplicantDetails(int id)
         {
             ApplicantRepository applicantRepository = new ApplicantRepository();
-            return View(applicantRepository.SelectOne(id));
+            applicant applicant = applicantRepository.SelectOne(id);
+            ViewBag.Fields = applicant.Fields;
+
+            return View(applicant);
         }
 
         // GET: Admin/Details/5
         public ActionResult BusinessDetails(int id)
         {
             BusinessRepository businessRepository = new BusinessRepository();
-            return View(businessRepository.SelectOne(id));
+            business business = businessRepository.SelectOne(id);
+            ViewBag.Fields = business.Fields;
+            ViewBag.Positions = business.Positions;
+
+            return View(business);
         }
 
         // GET: Admin/Create
@@ -153,7 +160,13 @@ namespace TechCareerFair.Controllers
         public ActionResult EditApplicant(int id)
         {
             ApplicantRepository applicantRepository = new ApplicantRepository();
-            return View(applicantRepository.SelectOne(id));
+            TechCareerFair.DAL.FieldDAL.FieldRepository fr = new TechCareerFair.DAL.FieldDAL.FieldRepository();
+            ViewBag.AllFields = fr.SelectAll();
+
+            applicant applicant = applicantRepository.SelectOne(id);
+            ViewBag.Fields = applicant.Fields;
+
+            return View(applicant);
         }
 
         // POST: Admin/Edit/5
@@ -177,7 +190,14 @@ namespace TechCareerFair.Controllers
         public ActionResult EditBusiness(int id)
         {
             BusinessRepository businessRepository = new BusinessRepository();
-            return View(businessRepository.SelectOne(id));
+            TechCareerFair.DAL.FieldDAL.FieldRepository fr = new TechCareerFair.DAL.FieldDAL.FieldRepository();
+            ViewBag.AllFields = fr.SelectAll();
+
+            business business = businessRepository.SelectOne(id);
+            ViewBag.Positions = business.Positions;
+            ViewBag.Fields = business.Fields;
+
+            return View(business);
         }
 
         // POST: Admin/Edit/5
@@ -201,7 +221,10 @@ namespace TechCareerFair.Controllers
         public ActionResult DeleteApplicant(int id)
         {
             ApplicantRepository applicantRepository = new ApplicantRepository();
-            return View(applicantRepository.SelectOne(id));
+            applicant applicant = applicantRepository.SelectOne(id);
+            ViewBag.Fields = applicant.Fields;
+
+            return View(applicant);
         }
 
         // POST: Admin/Delete/5
@@ -225,7 +248,11 @@ namespace TechCareerFair.Controllers
         public ActionResult DeleteBusiness(int id)
         {
             BusinessRepository businessRepository = new BusinessRepository();
-            return View(businessRepository.SelectOne(id));
+            business business = businessRepository.SelectOne(id);
+            ViewBag.Fields = business.Fields;
+            ViewBag.Positions = business.Positions;
+
+            return View(business);
         }
 
         // POST: Admin/Delete/5

@@ -44,6 +44,38 @@
         </dd>
 
         <dt>
+            @Html.DisplayNameFor(model => model.Fields)
+        </dt>
+        @foreach (string field in ViewBag.Fields)
+    {
+        <dd>
+            @field
+        </dd>
+}
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Positions)
+        </dt>
+        @foreach (TechCareerFair.Models.position position in ViewBag.Positions)
+        {
+            string fullSite = position.Website;
+        <dd>
+            @if (!fullSite.IsEmpty() && !fullSite.Contains("http") && !fullSite.Contains("https"))
+            {
+                fullSite = "<a href='http://" + fullSite + "'>" + position.Name + "</a>";
+            }
+            else
+            {
+                fullSite = position.Name;
+            }
+
+            <p>Name: @Html.Raw(fullSite) <br/>
+            Description: @position.Description <br/>
+            Is Internship: @position.Internship.ToString() </p>
+        </dd>
+        }
+
+        <dt>
             @Html.DisplayNameFor(model => model.Street)
         </dt>
 
@@ -207,5 +239,6 @@
 </div>
 <p>
     @Html.ActionLink("Edit", "EditBusiness", new { id = Model.BusinessID }) |
+    @Html.ActionLink("Delete", "DeleteBusiness", new { id = Model.BusinessID }) |
     @Html.ActionLink("Back to List", "ListBusinesses")
 </p>
