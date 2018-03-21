@@ -12,22 +12,21 @@ namespace TechCareerFair.Controllers
 {
     public class GalleryController : Controller
     {
-        private ApplicationDbContext db = new ApplicationDbContext();
-
+        private TechCareerFair.DAL.GalleryDAL.GalleryRepository gr = new DAL.GalleryDAL.GalleryRepository();
         // GET: Gallery
         public ActionResult Index()
         {
-            return View(db.galleries.ToList());
+            return View(gr.SelectAll());
         }
 
         // GET: Gallery/Details/5
-        public ActionResult Details(int? id)
+        public ActionResult Details(int id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            gallery gallery = db.galleries.Find(id);
+            gallery gallery = gr.SelectOne(id);
             if (gallery == null)
             {
                 return HttpNotFound();
@@ -50,8 +49,7 @@ namespace TechCareerFair.Controllers
         {
             if (ModelState.IsValid)
             {
-                db.galleries.Add(gallery);
-                db.SaveChanges();
+                gr.Insert(gallery);
                 return RedirectToAction("Index");
             }
 
@@ -59,13 +57,13 @@ namespace TechCareerFair.Controllers
         }
 
         // GET: Gallery/Edit/5
-        public ActionResult Edit(int? id)
+        public ActionResult Edit(int id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            gallery gallery = db.galleries.Find(id);
+            gallery gallery = gr.SelectOne(id);
             if (gallery == null)
             {
                 return HttpNotFound();
@@ -82,21 +80,20 @@ namespace TechCareerFair.Controllers
         {
             if (ModelState.IsValid)
             {
-                db.Entry(gallery).State = EntityState.Modified;
-                db.SaveChanges();
+                gr.Update(gallery);
                 return RedirectToAction("Index");
             }
             return View(gallery);
         }
 
         // GET: Gallery/Delete/5
-        public ActionResult Delete(int? id)
+        public ActionResult Delete(int id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            gallery gallery = db.galleries.Find(id);
+            gallery gallery = gr.SelectOne(id);
             if (gallery == null)
             {
                 return HttpNotFound();
@@ -109,9 +106,7 @@ namespace TechCareerFair.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
-            gallery gallery = db.galleries.Find(id);
-            db.galleries.Remove(gallery);
-            db.SaveChanges();
+            gr.Delete(id);
             return RedirectToAction("Index");
         }
 
@@ -119,7 +114,7 @@ namespace TechCareerFair.Controllers
         {
             if (disposing)
             {
-                db.Dispose();
+                gr.Dispose();
             }
             base.Dispose(disposing);
         }

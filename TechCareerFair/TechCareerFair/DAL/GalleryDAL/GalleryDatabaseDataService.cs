@@ -9,7 +9,7 @@ using TechCareerFair.Models;
 
 namespace TechCareerFair.DAL.GalleryDAL
 {
-    public class PositionDatabaseDataService : IGalleryDataService, IDisposable
+    public class GalleryDatabaseDataService : IGalleryDataService, IDisposable
     {
         public void Dispose()
         {

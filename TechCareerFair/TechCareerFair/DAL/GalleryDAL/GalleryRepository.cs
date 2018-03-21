@@ -6,12 +6,12 @@ using TechCareerFair.Models;
 
 namespace TechCareerFair.DAL.GalleryDAL
 {
-    public class PositionRepository : IPositionRepository, IDisposable
+    public class GalleryRepository : IGalleryRepository, IDisposable
     {
         private List<gallery> _galleries;
-        private PositionDatabaseDataService _ds = new PositionDatabaseDataService();
+        private GalleryDatabaseDataService _ds = new GalleryDatabaseDataService();
 
-        public PositionRepository()
+        public GalleryRepository()
         {
             _galleries = _ds.Read();
         }
