@@ -24,5 +24,7 @@ namespace TechCareerFair.Models
 
         [StringLength(50)]
         public string Address { get; set; }
+
+        public string About { get; set; }
     }
 }
