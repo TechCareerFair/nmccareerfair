@@ -5,136 +5,136 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
     }
     
-    <body>
+<body>
 
-        <div class="video gallery">
-            <h2>Video Gallery</h2>
-            <!--youtube link-->
-            <div class="youtube-link">
-                <div class="responsive">
-                    <iframe width="560" height="315" src="https://www.youtube.com/embed/FGRWLPkDRfs?autoplay=1"
-                            data-toggle="lightbox" frameborder="1" allow="autoplay; encrypted-media" allowfullscreen></iframe>
-                </div>
+    <div class="video gallery">
+        <h2>Video Gallery</h2>
+        <!--youtube link-->
+        <div class="youtube-link">
+            <div class="responsive">
+                <iframe width="560" height="315" src="https://www.youtube.com/embed/FGRWLPkDRfs?autoplay=1"
+                        data-toggle="lightbox" frameborder="1" allow="autoplay; encrypted-media" allowfullscreen></iframe>
             </div>
         </div>
-        <div class="photo gallery">
-            <h3>Photo Gallery</h3>
-            <!--photo gallery-->
-                <div class="responsive">
-                    <div class="column">
-                        <a target="_blank" href="~/Content/Images/IT Caeer Fair2015.1.jpg" data-toggle="lightbox">
-                            <img src="~/Content/Images/IT Caeer Fair2015.1.jpg" width="152" height="93">
-                        </a>
-                    </div>
-                    </div>
-                <div class="responsive">
-                    <div class="column">
-                        <a target="_blank" href="~/Content/Images/IT Caeer Fair2015.2.jpg" data-toggle="lightbox">
-                            <img src="~/Content/Images/IT Caeer Fair2015.2.jpg" width="152" height="93">
-                        </a>
-                    </div>
-                </div>
-                <div class="responsive">
-                    <div class="column">
-                        <a target="_blank" href="~/Content/Images/IT Caeer Fair2015.3.jpg" data-toggle="lightbox">
-                            <img src="~/Content/Images/IT Caeer Fair2015.3.jpg" width="152" height="93">
-                        </a>
-                    </div>
-                </div>
-                <div class="responsive">
-                    <div class="column">
-                        <a target="_blank" href="~/Content/Images/IT Caeer Fair2015.jpg" data-toggle="lightbox">
-                            <img src="~/Content/Images/IT Caeer Fair2015.jpg" width="152" height="93">
-                        </a>
-                    </div>
-                </div>
-             </div>
-        <!--<p>@Html.ActionLink("Create New", "Create")
-        </p>-->
-        <table class="table">
-            <tr>
-                <th>
-                    <!-- @Html.DisplayNameFor(model => model.Directory)-->
-                </th>
-                <th>
-                    <!--@Html.DisplayNameFor(model => model.Description)-->
-                </th>
-                <th></th>
-            </tr>@foreach (var item in Model)
-            {
-            <tr>
-                @Html.DisplayFor(modelItem => item.Directory)
+    </div>
+    <div class="photo gallery">
+        <h3>Photo Gallery</h3>
+        <!--photo gallery-->
+        <div class="responsive">
+            <div class="column">
+                <a target="_blank" href="~/Content/Images/IT Caeer Fair2015.1.jpg" data-toggle="lightbox">
+                    <img src="~/Content/Images/IT Caeer Fair2015.1.jpg" width="152" height="93">
+                </a>
+            </div>
+        </div>
+        <div class="responsive">
+            <div class="column">
+                <a target="_blank" href="~/Content/Images/IT Caeer Fair2015.2.jpg" data-toggle="lightbox">
+                    <img src="~/Content/Images/IT Caeer Fair2015.2.jpg" width="152" height="93">
+                </a>
+            </div>
+        </div>
+        <div class="responsive">
+            <div class="column">
+                <a target="_blank" href="~/Content/Images/IT Caeer Fair2015.3.jpg" data-toggle="lightbox">
+                    <img src="~/Content/Images/IT Caeer Fair2015.3.jpg" width="152" height="93">
+                </a>
+            </div>
+        </div>
+        <div class="responsive">
+            <div class="column">
+                <a target="_blank" href="~/Content/Images/IT Caeer Fair2015.jpg" data-toggle="lightbox">
+                    <img src="~/Content/Images/IT Caeer Fair2015.jpg" width="152" height="93">
+                </a>
+            </div>
+        </div>
+    </div>
+    @*@Html.ActionLink("Create New", "Create")
+            </p>-->
+            <table class="table">
+                <tr>
+                    <th>
+                        <!-- @Html.DisplayNameFor(model => model.Directory)-->
+                    </th>
+                    <th>
+                        <!--@Html.DisplayNameFor(model => model.Description)-->
+                    </th>
+                    <th></th>
+                </tr>@foreach (var item in Model)
+                {
+                <tr>
+                    @Html.DisplayFor(modelItem => item.Directory)
 
-                <td>
-                    @Html.DisplayFor(modelItem => item.Description)
-                </td>
-                <td>
-                    @Html.ActionLink("Edit", "Edit", new { id=item.GalleryID }) |
-                    @Html.ActionLink("Details", "Details", new { id=item.GalleryID }) |
-                    @Html.ActionLink("Delete", "Delete", new { id=item.GalleryID })
-                </td>
-            </tr>
-            }
-        </table>
-        <div class="clearfix"></div>
-        <div style="padding:6px;"></div>
-    </body>
-    <!--CSS-->
-    <style>
-        .youtube-link {
-            position: relative;
-            padding-bottom: 35.25%;
-            padding-top: 2%;
-            padding-left: 7%;
-            height: 0;
-        }
-
-         .youtube-link object,
-         .youtube-link embed {
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Description)
+                    </td>
+                    <td>
+                        @Html.ActionLink("Edit", "Edit", new { id=item.GalleryID }) |
+                        @Html.ActionLink("Details", "Details", new { id=item.GalleryID }) |
+                        @Html.ActionLink("Delete", "Delete", new { id=item.GalleryID })
+                    </td>
+                </tr>
+                }
+            </table>*@
+            <div class="clearfix"></div>
+            <div style="padding:6px;"></div>
+        </body>
+        <!--CSS-->
+        <style>
+            .youtube-link {
                 position: relative;
-                top: 0;
-                left: 0;
-                width: auto;
-                height: auto;
-            }
-        .column {
-            border: 2px solid #ccc;
-        }
-
-        .column:hover {
-                border: 0px solid #777;
+                padding-bottom: 35.25%;
+                padding-top: 2%;
+                padding-left: 7%;
+                height: 0;
             }
 
-        .column img {
-                width: 100%;
-                height: auto;
+             .youtube-link object,
+             .youtube-link embed {
+                    position: relative;
+                    top: 0;
+                    left: 0;
+                    width: auto;
+                    height: auto;
+                }
+            .column {
+                border: 2px solid #ccc;
             }
 
-        * {
-            box-sizing: border-box;
-        }
+            .column:hover {
+                    border: 0px solid #777;
+                }
 
-        .responsive {
-            padding: 0 6px;
-            float: left;
-            width: 24.99999%;
-        }
-        @@media only screen and (max-width: 700px) {
+            .column img {
+                    width: 100%;
+                    height: auto;
+                }
+
+            * {
+                box-sizing: border-box;
+            }
+
             .responsive {
-                width: 49.99999%;
-                margin: 6px 0;
+                padding: 0 6px;
+                float: left;
+                width: 24.99999%;
             }
-        }
+            @@media only screen and (max-width: 700px) {
+                .responsive {
+                    width: 49.99999%;
+                    margin: 6px 0;
+                }
+            }
 
-        @@media only screen and (max-width: 500px) {
-       .responsive {
-                width: 100%;
-            }
+            @@media only screen and (max-width: 500px) {
+           .responsive {
+                    width: 100%;
+                }
 
-       .clearfix:after {
-                content: "";
-                display: table;
-                clear: both;
+           .clearfix:after {
+                    content: "";
+                    display: table;
+                    clear: both;
+                }
             }
-        }
-    </style>
+        </style>
