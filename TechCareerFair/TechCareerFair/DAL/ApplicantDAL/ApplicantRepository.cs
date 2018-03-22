@@ -19,7 +19,7 @@ namespace TechCareerFair.DAL
 
         public void Delete(int id)
         {
-            var applicant = _applicants.Where(a => a.ApplicantID == id).FirstOrDefault();
+            var applicant = _applicants.Where(g => g.ApplicantID == id).FirstOrDefault();
 
             if (applicant != null)
             {

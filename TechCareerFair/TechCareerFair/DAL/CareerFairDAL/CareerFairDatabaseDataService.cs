@@ -25,7 +25,7 @@ namespace TechCareerFair.DAL.CareerFairDAL
                 connection.Open();
 
                 StringBuilder sb = new StringBuilder();
-                sb.Append("SELECT [CareerFairID],[Phone],[Date],[Address]");
+                sb.Append("SELECT [CareerFairID],[Phone],[Date],[Address],[About]");
                 sb.Append("FROM [careerfair].[careerfair]");
                 String sql = sb.ToString();
 
@@ -41,6 +41,7 @@ namespace TechCareerFair.DAL.CareerFairDAL
                             car.Phone = DatabaseHelper.CheckNullString(reader, 1);
                             car.Date = DatabaseHelper.CheckNullDateTime(reader, 2);
                             car.Address = DatabaseHelper.CheckNullString(reader, 3);
+                            car.About = DatabaseHelper.CheckNullString(reader, 4);
 
                             careerFairs.Add(car);
                         }
@@ -62,15 +63,16 @@ namespace TechCareerFair.DAL.CareerFairDAL
                 connection.Open();
                 StringBuilder sb = new StringBuilder();
                 sb.Append("UPDATE [careerfair].[careerfair]");
-                sb.Append("SET [Phone] = @param1, Date = @param2, Address = @param3");
+                sb.Append("SET [Phone] = @param1, Date = @param2, Address = @param3, About = @param4 ");
                 sb.Append("WHERE [CareerFairID] = " + careerFair.CareerFairID);
                 String sql = sb.ToString();
 
                 using (SqlCommand command = new SqlCommand(sql, connection))
                 {
-                    command.Parameters.Add("@param1", SqlDbType.NVarChar, 20).Value = careerFair.Phone;
-                    command.Parameters.Add("@param2", SqlDbType.DateTime).Value = careerFair.Date;
-                    command.Parameters.Add("@param3", SqlDbType.NVarChar, 50).Value = careerFair.Address;
+                    command.Parameters.Add("@param1", SqlDbType.NVarChar, 20).Value = (object)careerFair.Phone ?? DBNull.Value;
+                    command.Parameters.Add("@param2", SqlDbType.DateTime).Value = (object)careerFair.Date ?? DBNull.Value;
+                    command.Parameters.Add("@param3", SqlDbType.NVarChar, 50).Value = (object)careerFair.Address ?? DBNull.Value;
+                    command.Parameters.Add("@param4", SqlDbType.NVarChar, int.MaxValue).Value = (object)careerFair.About ?? DBNull.Value;
                     command.CommandType = System.Data.CommandType.Text;
                     command.ExecuteNonQuery();
                 }

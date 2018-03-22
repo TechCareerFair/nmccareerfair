@@ -70,11 +70,11 @@ namespace TechCareerFair.DAL.PositionDAL
 
                 using (SqlCommand command = new SqlCommand(sql, connection))
                 {
-                    command.Parameters.Add("@param1", SqlDbType.Int).Value = position.Business;
-                    command.Parameters.Add("@param2", SqlDbType.NVarChar, 50).Value = position.Name;
-                    command.Parameters.Add("@param3", SqlDbType.NVarChar, int.MaxValue).Value = position.Description;
-                    command.Parameters.Add("@param4", SqlDbType.NVarChar, int.MaxValue).Value = position.Website;
-                    command.Parameters.Add("@param5", SqlDbType.Bit).Value = position.Internship;
+                    command.Parameters.Add("@param1", SqlDbType.Int).Value = (object)position.Business ?? DBNull.Value;
+                    command.Parameters.Add("@param2", SqlDbType.NVarChar, 50).Value = (object)position.Name ?? DBNull.Value;
+                    command.Parameters.Add("@param3", SqlDbType.NVarChar, int.MaxValue).Value = (object)position.Description ?? DBNull.Value;
+                    command.Parameters.Add("@param4", SqlDbType.NVarChar, int.MaxValue).Value = (object)position.Website ?? DBNull.Value;
+                    command.Parameters.Add("@param5", SqlDbType.Bit).Value = (object)position.Internship ?? DBNull.Value;
                     command.CommandType = System.Data.CommandType.Text;
                     command.ExecuteNonQuery();
                 }
@@ -107,16 +107,16 @@ namespace TechCareerFair.DAL.PositionDAL
                 StringBuilder sb = new StringBuilder();
                 sb.Append("UPDATE [careerfair].[position]");
                 sb.Append("SET [Business] = @param1, [Name] = @param2, [Description] = @param3, [Website] = @param4, [Internship] = @param5");
-                sb.Append("WHERE [PositionID] = " + position.PositionID);
+                sb.Append(" WHERE [PositionID] = " + position.PositionID);
                 String sql = sb.ToString();
 
                 using (SqlCommand command = new SqlCommand(sql, connection))
                 {
-                    command.Parameters.Add("@param1", SqlDbType.Int).Value = position.Business;
-                    command.Parameters.Add("@param2", SqlDbType.NVarChar, 50).Value = position.Name;
-                    command.Parameters.Add("@param3", SqlDbType.NVarChar, int.MaxValue).Value = position.Description;
-                    command.Parameters.Add("@param4", SqlDbType.NVarChar, int.MaxValue).Value = position.Website;
-                    command.Parameters.Add("@param5", SqlDbType.Bit).Value = position.Internship;
+                    command.Parameters.Add("@param1", SqlDbType.Int).Value = (object)position.Business ?? DBNull.Value;
+                    command.Parameters.Add("@param2", SqlDbType.NVarChar, 50).Value = (object)position.Name ?? DBNull.Value;
+                    command.Parameters.Add("@param3", SqlDbType.NVarChar, int.MaxValue).Value = (object)position.Description ?? DBNull.Value;
+                    command.Parameters.Add("@param4", SqlDbType.NVarChar, int.MaxValue).Value = (object)position.Website ?? DBNull.Value;
+                    command.Parameters.Add("@param5", SqlDbType.Bit).Value = (object)position.Internship ?? DBNull.Value;
                     command.CommandType = System.Data.CommandType.Text;
                     command.ExecuteNonQuery();
                 }

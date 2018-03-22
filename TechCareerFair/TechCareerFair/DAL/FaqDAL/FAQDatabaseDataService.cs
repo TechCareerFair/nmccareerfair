@@ -69,10 +69,10 @@ namespace TechCareerFair.DAL.FaqDAL
 
                 using (SqlCommand command = new SqlCommand(sql, connection))
                 {
-                    command.Parameters.Add("@param1", SqlDbType.NVarChar, int.MaxValue).Value = faq.Question;
-                    command.Parameters.Add("@param2", SqlDbType.NVarChar, int.MaxValue).Value = faq.Answer;
-                    command.Parameters.Add("@param3", SqlDbType.NVarChar, int.MaxValue).Value = faq.Website;
-                    command.Parameters.Add("@param4", SqlDbType.Bit).Value = faq.IsApplicantQ;
+                    command.Parameters.Add("@param1", SqlDbType.NVarChar, int.MaxValue).Value = (object)faq.Question ?? DBNull.Value;
+                    command.Parameters.Add("@param2", SqlDbType.NVarChar, int.MaxValue).Value = (object)faq.Answer ?? DBNull.Value;
+                    command.Parameters.Add("@param3", SqlDbType.NVarChar, int.MaxValue).Value = (object)faq.Website ?? DBNull.Value;
+                    command.Parameters.Add("@param4", SqlDbType.Bit).Value = (object)faq.IsApplicantQ ?? DBNull.Value;
                     command.CommandType = System.Data.CommandType.Text;
                     command.ExecuteNonQuery();
                 }
@@ -104,16 +104,16 @@ namespace TechCareerFair.DAL.FaqDAL
                 connection.Open();
                 StringBuilder sb = new StringBuilder();
                 sb.Append("UPDATE [careerfair].[faq]");
-                sb.Append("SET [Question] = @param1, [Answer] = @param2, [Website] = @param3, [ApplicantQ] = @param4");
+                sb.Append("SET [Question] = @param1, [Answer] = @param2, [Website] = @param3, [ApplicantQ] = @param4 ");
                 sb.Append("WHERE [FaqID] = " + faq.FaqID);
                 String sql = sb.ToString();
 
                 using (SqlCommand command = new SqlCommand(sql, connection))
                 {
-                    command.Parameters.Add("@param1", SqlDbType.NVarChar, int.MaxValue).Value = faq.Question;
-                    command.Parameters.Add("@param2", SqlDbType.NVarChar, int.MaxValue).Value = faq.Answer;
-                    command.Parameters.Add("@param3", SqlDbType.NVarChar, int.MaxValue).Value = faq.Website;
-                    command.Parameters.Add("@param4", SqlDbType.Bit).Value = faq.IsApplicantQ;
+                    command.Parameters.Add("@param1", SqlDbType.NVarChar, int.MaxValue).Value = (object)faq.Question ?? DBNull.Value;
+                    command.Parameters.Add("@param2", SqlDbType.NVarChar, int.MaxValue).Value = (object)faq.Answer ?? DBNull.Value;
+                    command.Parameters.Add("@param3", SqlDbType.NVarChar, int.MaxValue).Value = (object)faq.Website ?? DBNull.Value;
+                    command.Parameters.Add("@param4", SqlDbType.Bit).Value = (object)faq.IsApplicantQ ?? DBNull.Value;
                     command.CommandType = System.Data.CommandType.Text;
                     command.ExecuteNonQuery();
                 }

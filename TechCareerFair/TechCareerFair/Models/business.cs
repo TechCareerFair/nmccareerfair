@@ -14,17 +14,6 @@ namespace TechCareerFair.Models
         {
             Fields = new List<string>();
             Positions = new List<position>();
-            Street = "";
-            City = "";
-            State = "";
-            Zip = "";
-            Phone = "";
-            DisplayDescription = "";
-            BusinessDescription = "";
-            Website = "";
-            SocialMedia = "";
-            Photo = "";
-            LocationPreference = "";
         }
 
         public int BusinessID { get; set; }
@@ -43,11 +32,12 @@ namespace TechCareerFair.Models
 
         [Required]
         [StringLength(50)]
-        //[Display(Name = "Contact Name")]
+        [Display(Name = "First Name")]
         public string FirstName { get; set; }
 
         [Required]
         [StringLength(50)]
+        [Display(Name = "LastName")]
         public string LastName { get; set; }
 
         [StringLength(50)]
@@ -70,16 +60,20 @@ namespace TechCareerFair.Models
 
         public bool NonProfit { get; set; }
 
+        [Display(Name ="Does Your Display Require Power?")]
         public bool Outlet { get; set; }
 
+        [Display(Name = "Do You Have A Display?")]
         public bool Display { get; set; }
 
         [Display(Name = "Display Description")]
+        [DataType(DataType.MultilineText)]
         public string DisplayDescription { get; set; }
 
         public byte Attendees { get; set; }
 
         [Display(Name = "Business Description")]
+        [DataType(DataType.MultilineText)]
         public string BusinessDescription { get; set; }
 
         public string Website { get; set; }
@@ -92,8 +86,10 @@ namespace TechCareerFair.Models
         [Display(Name = "Location Preference")]
         public string LocationPreference { get; set; }
 
+        [Display(Name = "Contact Me")]
         public bool ContactMe { get; set; }
 
+        [Display(Name = "Contact Me By Email")]
         public bool PreferEmail { get; set; }
 
         public bool Approved { get; set; }

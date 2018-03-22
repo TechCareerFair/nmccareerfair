@@ -67,8 +67,8 @@ namespace TechCareerFair.DAL.Applicant2FieldDAL
 
                 using (SqlCommand command = new SqlCommand(sql, connection))
                 {
-                    command.Parameters.Add("@param1", SqlDbType.Int).Value = applicant2field.Applicant;
-                    command.Parameters.Add("@param2", SqlDbType.Int).Value = applicant2field.Field;
+                    command.Parameters.Add("@param1", SqlDbType.Int).Value = (object)applicant2field.Applicant ?? DBNull.Value;
+                    command.Parameters.Add("@param2", SqlDbType.Int).Value = (object)applicant2field.Field ?? DBNull.Value;
                     command.CommandType = System.Data.CommandType.Text;
                     command.ExecuteNonQuery();
                 }
@@ -93,6 +93,24 @@ namespace TechCareerFair.DAL.Applicant2FieldDAL
             }
         }
 
+        public void RemoveAll(int applicantID)
+        {
+            using (SqlConnection connection = new SqlConnection(DataSettings.CONNECTION_STRING))
+            {
+                connection.Open();
+                StringBuilder sb = new StringBuilder();
+                sb.Append("DELETE FROM [careerfair].[applicant2field]");
+                sb.Append("WHERE [Applicant] = " + applicantID);
+                String sql = sb.ToString();
+
+                using (SqlCommand command = new SqlCommand(sql, connection))
+                {
+                    command.CommandType = System.Data.CommandType.Text;
+                    command.ExecuteNonQuery();
+                }
+            }
+        }
+
         public void Update(applicant2field applicant2field)
         {
             using (SqlConnection connection = new SqlConnection(DataSettings.CONNECTION_STRING))
@@ -100,14 +118,14 @@ namespace TechCareerFair.DAL.Applicant2FieldDAL
                 connection.Open();
                 StringBuilder sb = new StringBuilder();
                 sb.Append("UPDATE [careerfair].[applicant2field]");
-                sb.Append("SET [Applicant] = @param1, [Field] = @param2");
+                sb.Append("SET [Applicant] = @param1, [Field] = @param2 ");
                 sb.Append("WHERE [ApplicantFieldID] = " + applicant2field.ApplicantFieldID);
                 String sql = sb.ToString();
 
                 using (SqlCommand command = new SqlCommand(sql, connection))
                 {
-                    command.Parameters.Add("@param1", SqlDbType.Int).Value = applicant2field.Applicant;
-                    command.Parameters.Add("@param2", SqlDbType.Int).Value = applicant2field.Field;
+                    command.Parameters.Add("@param1", SqlDbType.Int).Value = (object)applicant2field.Applicant ?? DBNull.Value;
+                    command.Parameters.Add("@param2", SqlDbType.Int).Value = (object)applicant2field.Field ?? DBNull.Value;
                     command.CommandType = System.Data.CommandType.Text;
                     command.ExecuteNonQuery();
                 }

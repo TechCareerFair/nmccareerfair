@@ -1,0 +1,51 @@
+﻿@model IEnumerable<TechCareerFair.Models.faq>
+
+@{
+    ViewBag.Title = "FaqPage";
+}
+
+<h2>FaqPage</h2>
+
+<p>
+    @Html.ActionLink("Create New", "FaqCreate")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Question)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Answer)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Website)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.IsApplicantQ)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.Question)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Answer)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Website)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.IsApplicantQ)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "FaqEdit", new { id=item.FaqID }) |
+            @Html.ActionLink("Details", "FaqDetails", new { id=item.FaqID }) |
+            @Html.ActionLink("Delete", "FaqDelete", new { id=item.FaqID })
+        </td>
+    </tr>
+}
+
+</table>

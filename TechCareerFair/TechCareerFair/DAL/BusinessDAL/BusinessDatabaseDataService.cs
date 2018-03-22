@@ -256,65 +256,57 @@ namespace TechCareerFair.DAL
 
         public void Insert(business business)
         {
-            Insert(business.Fields, business.BusinessID);
-            Insert(business.Positions);
-            Insert(business.Zip, business.City, business.State, business.BusinessID);
-
+            int id = business.BusinessID;
             using (SqlConnection connection = new SqlConnection(DataSettings.CONNECTION_STRING))
             {
                 connection.Open();
                 StringBuilder sb = new StringBuilder();
                 sb.Append("INSERT INTO [careerfair].[business]([Password],[Email],[BusinessName],[FirstName],[LastName],[Street],[Phone],[Alumni],[NonProfit],[Outlet],[Display],[DisplayDescription],[Attendees],[BusinessDescription],[Website],[SocialMedia],[Photo],[LocationPreference],[ContactMe],[Approved],[Active],[PreferEmail])");
-                string values = "VALUES(@param1, @param2, @param3, @param4, @param5, @param6, @param7, @param8, @param9, @param10, @param11, @param12, @param13, @param14, @param15, @param16, @param17, @param18, @param19, @param20, @param21, @param22)";
+                string values = "VALUES(@param1, @param2, @param3, @param4, @param5, @param6, @param7, @param8, @param9, @param10, @param11, @param12, @param13, @param14, @param15, @param16, @param17, @param18, @param19, @param20, @param21, @param22); SELECT @ID = SCOPE_IDENTITY()";
                 sb.Append(values);
                 String sql = sb.ToString();
 
                 using (SqlCommand command = new SqlCommand(sql, connection))
                 {
-                    command.Parameters.Add("@param1", SqlDbType.NChar, 64).Value = business.Password;
-                    command.Parameters.Add("@param2", SqlDbType.NVarChar, 320).Value = business.Email;
-                    command.Parameters.Add("@param3", SqlDbType.NVarChar, 50).Value = business.BusinessName;
-                    command.Parameters.Add("@param4", SqlDbType.NVarChar, 50).Value = business.FirstName;
-                    command.Parameters.Add("@param5", SqlDbType.NVarChar, 50).Value = business.LastName;
-                    command.Parameters.Add("@param6", SqlDbType.NVarChar, 50).Value = business.Street;
-                    command.Parameters.Add("@param7", SqlDbType.NVarChar, 20).Value = business.Phone;
-                    command.Parameters.Add("@param8", SqlDbType.Bit).Value = business.Alumni;
-                    command.Parameters.Add("@param9", SqlDbType.Bit).Value = business.NonProfit;
-                    command.Parameters.Add("@param10", SqlDbType.Bit).Value = business.Outlet;
-                    command.Parameters.Add("@param11", SqlDbType.Bit).Value = business.Display;
-                    command.Parameters.Add("@param12", SqlDbType.NVarChar, int.MaxValue).Value = business.DisplayDescription;
-                    command.Parameters.Add("@param13", SqlDbType.TinyInt).Value = business.Attendees;
-                    command.Parameters.Add("@param14", SqlDbType.NVarChar, int.MaxValue).Value = business.BusinessDescription;
-                    command.Parameters.Add("@param15", SqlDbType.NVarChar, int.MaxValue).Value = business.Website;
-                    command.Parameters.Add("@param16", SqlDbType.NVarChar, int.MaxValue).Value = business.SocialMedia;
-                    command.Parameters.Add("@param17", SqlDbType.NVarChar, int.MaxValue).Value = business.Photo;
-                    command.Parameters.Add("@param18", SqlDbType.NVarChar, int.MaxValue).Value = business.LocationPreference;
-                    command.Parameters.Add("@param19", SqlDbType.Bit).Value = business.ContactMe;
-                    command.Parameters.Add("@param20", SqlDbType.Bit).Value = business.Approved;
-                    command.Parameters.Add("@param21", SqlDbType.Bit).Value = business.Active;
-                    command.Parameters.Add("@param22", SqlDbType.Bit).Value = business.PreferEmail;
+                    command.Parameters.Add("@param1", SqlDbType.NChar, 64).Value = (object)business.Password ?? DBNull.Value;
+                    command.Parameters.Add("@param2", SqlDbType.NVarChar, 320).Value = (object)business.Email ?? DBNull.Value;
+                    command.Parameters.Add("@param3", SqlDbType.NVarChar, 50).Value = (object)business.BusinessName ?? DBNull.Value;
+                    command.Parameters.Add("@param4", SqlDbType.NVarChar, 50).Value = (object)business.FirstName ?? DBNull.Value;
+                    command.Parameters.Add("@param5", SqlDbType.NVarChar, 50).Value = (object)business.LastName ?? DBNull.Value;
+                    command.Parameters.Add("@param6", SqlDbType.NVarChar, 50).Value = (object)business.Street ?? DBNull.Value;
+                    command.Parameters.Add("@param7", SqlDbType.NVarChar, 20).Value = (object)business.Phone ?? DBNull.Value;
+                    command.Parameters.Add("@param8", SqlDbType.Bit).Value = (object)business.Alumni ?? DBNull.Value;
+                    command.Parameters.Add("@param9", SqlDbType.Bit).Value = (object)business.NonProfit ?? DBNull.Value;
+                    command.Parameters.Add("@param10", SqlDbType.Bit).Value = (object)business.Outlet ?? DBNull.Value;
+                    command.Parameters.Add("@param11", SqlDbType.Bit).Value = (object)business.Display ?? DBNull.Value;
+                    command.Parameters.Add("@param12", SqlDbType.NVarChar, int.MaxValue).Value = (object)business.DisplayDescription ?? DBNull.Value;
+                    command.Parameters.Add("@param13", SqlDbType.TinyInt).Value = (object)business.Attendees ?? DBNull.Value;
+                    command.Parameters.Add("@param14", SqlDbType.NVarChar, int.MaxValue).Value = (object)business.BusinessDescription ?? DBNull.Value;
+                    command.Parameters.Add("@param15", SqlDbType.NVarChar, int.MaxValue).Value = (object)business.Website ?? DBNull.Value;
+                    command.Parameters.Add("@param16", SqlDbType.NVarChar, int.MaxValue).Value = (object)business.SocialMedia ?? DBNull.Value;
+                    command.Parameters.Add("@param17", SqlDbType.NVarChar, int.MaxValue).Value = (object)business.Photo ?? DBNull.Value;
+                    command.Parameters.Add("@param18", SqlDbType.NVarChar, int.MaxValue).Value = (object)business.LocationPreference ?? DBNull.Value;
+                    command.Parameters.Add("@param19", SqlDbType.Bit).Value = (object)business.ContactMe ?? DBNull.Value;
+                    command.Parameters.Add("@param20", SqlDbType.Bit).Value = (object)business.Approved ?? DBNull.Value;
+                    command.Parameters.Add("@param21", SqlDbType.Bit).Value = (object)business.Active ?? DBNull.Value;
+                    command.Parameters.Add("@param22", SqlDbType.Bit).Value = (object)business.PreferEmail ?? DBNull.Value;
+                    command.Parameters.Add("@ID", SqlDbType.Int, 4).Direction = ParameterDirection.Output;
                     command.CommandType = System.Data.CommandType.Text;
                     command.ExecuteNonQuery();
+
+                    id = (int)command.Parameters["@ID"].Value;
                 }
             }
+            Insert(business.Fields, id);
+            Insert(business.Positions);
+            Insert(business.Zip, business.City, business.State, id);
         }
 
-        private void Remove(List<string> fields, int businessID)
+        private void RemoveAll(int businessID)
         {
             using (TechCareerFair.DAL.Business2FieldDAL.Business2FieldDatabaseDataService ds = new Business2FieldDAL.Business2FieldDatabaseDataService())
             {
-                List<business2field> b2fs = ds.Read();
-
-                foreach (string name in fields)
-                {
-                    business2field b2f = new business2field();
-                    int fieldIndex = DatabaseHelper.GetFieldIndex(name);
-
-                    b2f.Business = businessID;
-                    b2f.Field = fieldIndex;
-
-                    ds.Remove(b2f);
-                }
+                 ds.RemoveAll(businessID);
             }
         }
 
@@ -339,13 +331,13 @@ namespace TechCareerFair.DAL
 
             using (TechCareerFair.DAL.ZipDAL.ZipDatabaseDataService ds = new ZipDAL.ZipDatabaseDataService())
             {
-                ds.Remove(zip);
+                ds.Remove(businessID);
             }
         }
 
         public void Remove(business business)
         {
-            Remove(business.Fields, business.BusinessID);
+            RemoveAll(business.BusinessID);
             Remove(business.Positions);
             Remove(business.Zip, business.City, business.State, business.BusinessID);
 
@@ -405,13 +397,15 @@ namespace TechCareerFair.DAL
 
             using (TechCareerFair.DAL.ZipDAL.ZipDatabaseDataService ds = new ZipDAL.ZipDatabaseDataService())
             {
-                ds.Update(zip);
+                ds.Update(zip, businessID);
             }
         }
 
         public void Update(business business)
         {
-            Update(business.Fields, business.BusinessID);
+            RemoveAll(business.BusinessID);
+            Insert(business.Fields, business.BusinessID);
+
             Update(business.Positions);
             Update(business.Zip, business.City, business.State, business.BusinessID);
 
@@ -419,35 +413,35 @@ namespace TechCareerFair.DAL
             {
                 connection.Open();
                 StringBuilder sb = new StringBuilder();
-                sb.Append("UPDATE [careerfair].[applicant]");
-                sb.Append("SET [Password] = @param1,[Email] = @param2,[BusinessName] = @param3,[FirstName] = @param4,[LastName] = @param5,[Street] = @param6,[Phone] = @param7,[Alumni] = @param8,[NonProfit] = @param9,[Outlet] = @param10,[Display] = @param11,[DisplayDescription] = @param12,[Attendees] = @param13,[BusinessDescription] = @param14,[Website] = @param15,[SocialMedia] = @param16,[Photo] = @param17,[LocationPreference] = @param18,[ContactMe] = @param19,[Approved] = @param20,[Active] = @param21,[PreferEmail] = @param22");
+                sb.Append("UPDATE [careerfair].[business]");
+                sb.Append("SET [Password] = @param1,[Email] = @param2,[BusinessName] = @param3,[FirstName] = @param4,[LastName] = @param5,[Street] = @param6,[Phone] = @param7,[Alumni] = @param8,[NonProfit] = @param9,[Outlet] = @param10,[Display] = @param11,[DisplayDescription] = @param12,[Attendees] = @param13,[BusinessDescription] = @param14,[Website] = @param15,[SocialMedia] = @param16,[Photo] = @param17,[LocationPreference] = @param18,[ContactMe] = @param19,[Approved] = @param20,[Active] = @param21,[PreferEmail] = @param22 ");
                 sb.Append("WHERE [BusinessID] = " + business.BusinessID);
                 String sql = sb.ToString();
 
                 using (SqlCommand command = new SqlCommand(sql, connection))
                 {
-                    command.Parameters.Add("@param1", SqlDbType.NChar, 64).Value = business.Password;
-                    command.Parameters.Add("@param2", SqlDbType.NVarChar, 320).Value = business.Email;
-                    command.Parameters.Add("@param3", SqlDbType.NVarChar, 50).Value = business.BusinessName;
-                    command.Parameters.Add("@param4", SqlDbType.NVarChar, 50).Value = business.FirstName;
-                    command.Parameters.Add("@param5", SqlDbType.NVarChar, 50).Value = business.LastName;
-                    command.Parameters.Add("@param6", SqlDbType.NVarChar, 50).Value = business.Street;
-                    command.Parameters.Add("@param7", SqlDbType.NVarChar, 20).Value = business.Phone;
-                    command.Parameters.Add("@param8", SqlDbType.Bit).Value = business.Alumni;
-                    command.Parameters.Add("@param9", SqlDbType.Bit).Value = business.NonProfit;
-                    command.Parameters.Add("@param10", SqlDbType.Bit).Value = business.Outlet;
-                    command.Parameters.Add("@param11", SqlDbType.Bit).Value = business.Display;
-                    command.Parameters.Add("@param12", SqlDbType.NVarChar, int.MaxValue).Value = business.DisplayDescription;
-                    command.Parameters.Add("@param13", SqlDbType.TinyInt).Value = business.Attendees;
-                    command.Parameters.Add("@param14", SqlDbType.NVarChar, int.MaxValue).Value = business.BusinessDescription;
-                    command.Parameters.Add("@param15", SqlDbType.NVarChar, int.MaxValue).Value = business.Website;
-                    command.Parameters.Add("@param16", SqlDbType.NVarChar, int.MaxValue).Value = business.SocialMedia;
-                    command.Parameters.Add("@param17", SqlDbType.NVarChar, int.MaxValue).Value = business.Photo;
-                    command.Parameters.Add("@param18", SqlDbType.NVarChar, int.MaxValue).Value = business.LocationPreference;
-                    command.Parameters.Add("@param19", SqlDbType.Bit).Value = business.ContactMe;
-                    command.Parameters.Add("@param20", SqlDbType.Bit).Value = business.Approved;
-                    command.Parameters.Add("@param21", SqlDbType.Bit).Value = business.Active;
-                    command.Parameters.Add("@param22", SqlDbType.Bit).Value = business.PreferEmail;
+                    command.Parameters.Add("@param1", SqlDbType.NChar, 64).Value = (object)business.Password ?? DBNull.Value;
+                    command.Parameters.Add("@param2", SqlDbType.NVarChar, 320).Value = (object)business.Email ?? DBNull.Value;
+                    command.Parameters.Add("@param3", SqlDbType.NVarChar, 50).Value = (object)business.BusinessName ?? DBNull.Value;
+                    command.Parameters.Add("@param4", SqlDbType.NVarChar, 50).Value = (object)business.FirstName ?? DBNull.Value;
+                    command.Parameters.Add("@param5", SqlDbType.NVarChar, 50).Value = (object)business.LastName ?? DBNull.Value;
+                    command.Parameters.Add("@param6", SqlDbType.NVarChar, 50).Value = (object)business.Street ?? DBNull.Value;
+                    command.Parameters.Add("@param7", SqlDbType.NVarChar, 20).Value = (object)business.Phone ?? DBNull.Value;
+                    command.Parameters.Add("@param8", SqlDbType.Bit).Value = (object)business.Alumni ?? DBNull.Value;
+                    command.Parameters.Add("@param9", SqlDbType.Bit).Value = (object)business.NonProfit ?? DBNull.Value;
+                    command.Parameters.Add("@param10", SqlDbType.Bit).Value = (object)business.Outlet ?? DBNull.Value;
+                    command.Parameters.Add("@param11", SqlDbType.Bit).Value = (object)business.Display ?? DBNull.Value;
+                    command.Parameters.Add("@param12", SqlDbType.NVarChar, int.MaxValue).Value = (object)business.DisplayDescription ?? DBNull.Value;
+                    command.Parameters.Add("@param13", SqlDbType.TinyInt).Value = (object)business.Attendees ?? DBNull.Value;
+                    command.Parameters.Add("@param14", SqlDbType.NVarChar, int.MaxValue).Value = (object)business.BusinessDescription ?? DBNull.Value;
+                    command.Parameters.Add("@param15", SqlDbType.NVarChar, int.MaxValue).Value = (object)business.Website ?? DBNull.Value;
+                    command.Parameters.Add("@param16", SqlDbType.NVarChar, int.MaxValue).Value = (object)business.SocialMedia ?? DBNull.Value;
+                    command.Parameters.Add("@param17", SqlDbType.NVarChar, int.MaxValue).Value = (object)business.Photo ?? DBNull.Value;
+                    command.Parameters.Add("@param18", SqlDbType.NVarChar, int.MaxValue).Value = (object)business.LocationPreference ?? DBNull.Value;
+                    command.Parameters.Add("@param19", SqlDbType.Bit).Value = (object)business.ContactMe ?? DBNull.Value;
+                    command.Parameters.Add("@param20", SqlDbType.Bit).Value = (object)business.Approved ?? DBNull.Value;
+                    command.Parameters.Add("@param21", SqlDbType.Bit).Value = (object)business.Active ?? DBNull.Value;
+                    command.Parameters.Add("@param22", SqlDbType.Bit).Value = (object)business.PreferEmail ?? DBNull.Value;
                     command.CommandType = System.Data.CommandType.Text;
                     command.ExecuteNonQuery();
                 }

@@ -7,7 +7,7 @@ using TechCareerFair.Models;
 
 namespace TechCareerFair.DAL.GalleryDAL
 {
-    interface IPositionRepository
+    interface IGalleryRepository
     {
         IEnumerable<gallery> SelectAll();
         gallery SelectOne(int id);

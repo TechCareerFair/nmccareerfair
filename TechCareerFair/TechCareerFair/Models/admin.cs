@@ -16,6 +16,7 @@ namespace TechCareerFair.Models
         public string Username { get; set; }
 
         [Required]
+        [DataType(DataType.Password)]
         [StringLength(64)]
         public string Password { get; set; }
     }

@@ -11,7 +11,6 @@ namespace TechCareerFair.Models
     {
         public faq()
         {
-            Website = "";
         }
 
         public int FaqID { get; set; }

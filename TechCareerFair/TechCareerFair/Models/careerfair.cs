@@ -11,8 +11,6 @@ namespace TechCareerFair.Models
     {
         public careerfair()
         {
-            Phone = "";
-            Address = "";
             Date = new DateTime();
         }
 
@@ -26,5 +24,7 @@ namespace TechCareerFair.Models
 
         [StringLength(50)]
         public string Address { get; set; }
+
+        public string About { get; set; }
     }
 }

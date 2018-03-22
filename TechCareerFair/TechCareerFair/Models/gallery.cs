@@ -11,7 +11,6 @@ namespace TechCareerFair.Models
     {
         public gallery()
         {
-            Directory = "";
         }
 
         public int GalleryID { get; set; }
