@@ -3,197 +3,201 @@
 @{
     ViewBag.Title = "Applicant";
 }
-<!--To Do: Turn this script into a js file-->
-<script type="text/javascript">
-    function ShowHideInputForms1(TagID) {
-        //Code Found At:
-        //Site Name: W3Schools
-        //Site https://www.w3schools.com/howto/howto_js_toggle_hide_show.asp
 
-        var x = document.getElementById(TagID);
+<body>
+    <div class="container">
+        <script type="text/javascript">
+            function ShowHideInputForms1(TagID) {
+                //Code Found At:
+                //Site Name: W3Schools
+                //Site https://www.w3schools.com/howto/howto_js_toggle_hide_show.asp
 
-        if (x.style.display === "none") {
-            x.style.display = "block";
+                var x = document.getElementById(TagID);
 
-        } else {
-            x.style.display = "none";
+                if (x.style.display === "none") {
+                    x.style.display = "block";
 
-        }
-    }
+                } else {
+                    x.style.display = "none";
 
-    function ShowHideInputForms2(TagID1, TagID2) {
-        //Code Found At:
-        //Site Name: W3Schools
-        //Site https://www.w3schools.com/howto/howto_js_toggle_hide_show.asp
+                }
+            }
 
-        var x = document.getElementById(TagID1);
-        if (x.style.display === "none") {
-            x.style.display = "block";
+            function ShowHideInputForms2(TagID1, TagID2) {
+                //Code Found At:
+                //Site Name: W3Schools
+                //Site https://www.w3schools.com/howto/howto_js_toggle_hide_show.asp
 
-        } else {
-            x.style.display = "none";
+                var x = document.getElementById(TagID1);
+                if (x.style.display === "none") {
+                    x.style.display = "block";
 
-        }
+                } else {
+                    x.style.display = "none";
 
-        var x = document.getElementById(TagID2);
-        if (x.style.display === "none") {
-            x.style.display = "block";
+                }
 
-        } else {
-            x.style.display = "none";
+                var x = document.getElementById(TagID2);
+                if (x.style.display === "none") {
+                    x.style.display = "block";
 
-        }
-    }
-</script>
+                } else {
+                    x.style.display = "none";
 
-<h2 class="col-md-10 col-md-offset-2">Applicant Sign Up</h2>
+                }
+            }
+        </script>
 
-@using (Html.BeginForm())
-{
-    @Html.AntiForgeryToken()
 
-    <!--To Do: Create css class for grey box about this div-->
-    <div class="col-md-6 col-md-offset-2" style="background-color: lightgray; border-radius: 5px; padding: 15px;" onload="ShowHideInputForms2('optionalInfo1', 'optionalInfo2')">
+        @using (Html.BeginForm())
+        {
+            @Html.AntiForgeryToken()
 
-        <div id="requiredInfo" class="col-lg-12">
-            <hr />
-            <div class="col-lg-12">
-                <img src="~/Content/Images/ApplicantProgress1-3.png" alt="Applicant Progress 1 of 3." />
-            </div>
-            <br />
+            <!--To Do: Create css class for grey box about this div-->
+        <div class="col-md-6 col-md-offset-2" style="background-color: lightgray; border-radius: 5px; padding: 15px;" onload="ShowHideInputForms2('optionalInfo1', 'optionalInfo2')">
 
-            <h4>Required Information</h4>
-
-            <div class="form-group">
-                @Html.LabelFor(model => model.Email, htmlAttributes: new { @class = "control-label col-md-3" })
-                <div class="col-md-12">
-                    @Html.EditorFor(model => model.Email, new { htmlAttributes = new { @class = "form-control" } })
-                    @Html.ValidationMessageFor(model => model.Email, "", new { @class = "text-danger" })
+            <h2 class="col-md-10 col-md-offset-2">Applicant Sign Up</h2>
+            <hr/>
+            <div id="requiredInfo" class="col-lg-12">
+                <h4>Required Information</h4>
+                <br />
+                <h5>Only this page is required to be filled out. All other pages can be filled out later</h5>
+                
+                <div class="form-group">
+                    @Html.LabelFor(model => model.Email, htmlAttributes: new { @class = "control-label col-md-6" })
+                    <div class="col-md-12">
+                        @Html.EditorFor(model => model.Email, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.Email, "", new { @class = "text-danger" })
+                    </div>
                 </div>
-            </div>
 
-            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-            <div class="form-group">
-                @Html.LabelFor(model => model.Password, htmlAttributes: new { @class = "control-label col-md-3" })
-                <div class="col-md-12">
-                    @Html.EditorFor(model => model.Password, new { htmlAttributes = new { @class = "form-control", @type = "password" } })
-                    @Html.ValidationMessageFor(model => model.Password, "", new { @class = "text-danger" })
+                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                <div class="form-group">
+                    @Html.LabelFor(model => model.Password, htmlAttributes: new { @class = "control-label col-md-6" })
+                    <div class="col-md-12">
+                        @Html.EditorFor(model => model.Password, new { htmlAttributes = new { @class = "form-control", @type = "password" } })
+                        @Html.ValidationMessageFor(model => model.Password, "", new { @class = "text-danger" })
+                    </div>
                 </div>
-            </div>
 
-            <div class="form-group">
-                <label id="lblRePass" class="control-label col-md-3">Password Confirm </label>
-                <div class="col-md-12">
-                    <input type="password" name="rePass" id="rePass" class="form-control text-box single-line" />
-                    <label id="lblRePassErr" value="" class="text-danger">@ViewBag.rePassErr</label>
+                <div class="form-group">
+                    <label id="lblRePass" class="control-label col-md-6">Password Confirm </label>
+                    <div class="col-md-12">
+                        <input type="password" name="rePass" id="rePass" class="form-control text-box single-line" />
+                        <label id="lblRePassErr" value="" class="text-danger">@ViewBag.rePassErr</label>
+                    </div>
                 </div>
-            </div>
 
-            <div class="form-group">
-                @Html.LabelFor(model => model.FirstName, htmlAttributes: new { @class = "control-label col-md-3" })
-                <div class="col-md-12">
-                    @Html.EditorFor(model => model.FirstName, new { htmlAttributes = new { @class = "form-control" } })
-                    @Html.ValidationMessageFor(model => model.FirstName, "", new { @class = "text-danger" })
+                <div class="form-group">
+                    @Html.LabelFor(model => model.FirstName, htmlAttributes: new { @class = "control-label col-md-6" })
+                    <div class="col-md-12">
+                        @Html.EditorFor(model => model.FirstName, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.FirstName, "", new { @class = "text-danger" })
+                    </div>
                 </div>
-            </div>
 
-            <div class="form-group">
-                @Html.LabelFor(model => model.LastName, htmlAttributes: new { @class = "control-label col-md-3" })
-                <div class="col-md-12">
-                    @Html.EditorFor(model => model.LastName, new { htmlAttributes = new { @class = "form-control" } })
-                    @Html.ValidationMessageFor(model => model.LastName, "", new { @class = "text-danger" })
+                <div class="form-group">
+                    @Html.LabelFor(model => model.LastName, htmlAttributes: new { @class = "control-label col-md-6" })
+                    <div class="col-md-12">
+                        @Html.EditorFor(model => model.LastName, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.LastName, "", new { @class = "text-danger" })
+                    </div>
                 </div>
+
+                <div class="form-group col-sm-12">
+                    <hr />
+                    <input type="button" class="col-sm-3 col-sm-offset-4 btn btn-default" value="Next " onclick="ShowHideInputForms2('requiredInfo', 'optionalInfo1')" />
+                </div>
+                <br />
             </div>
 
+            <div id="optionalInfo1" style="display: none">
+                <h4>Optinal Information - 1</h4>
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.University, htmlAttributes: new { @class = "control-label col-md-6" })
+                    <div class="col-md-12">
+                        @Html.EditorFor(model => model.University, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.University, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.Alumni, htmlAttributes: new { @class = "control-label col-md-6" })
+                    <div class="col-md-12">
+                        @Html.EditorFor(model => model.Alumni, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.Alumni, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.Profile, htmlAttributes: new { @class = "control-label col-md-6" })
+                    <div class="col-md-12">
+                        @Html.TextAreaFor(model => model.Profile, new { @class = "form-control" })
+                        @Html.ValidationMessageFor(model => model.Profile, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.SocialMedia, htmlAttributes: new { @class = "control-label col-md-6" })
+                    <div class="col-md-12">
+                        @Html.EditorFor(model => model.SocialMedia, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.SocialMedia, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="form-group col-sm-12">
+                    <hr />
+                    <input type="button" class="col-sm-3 btn btn-default" value="Back" onclick="ShowHideInputForms2('requiredInfo', 'optionalInfo1')" />
+                    <input type="button" class="col-sm-3 col-sm-offset-1 btn btn-default" value="Next" onclick="ShowHideInputForms2('optionalInfo1', 'optionalInfo2')" />
+                </div>
+                <br />
+            </div>
+
+            <div id="optionalInfo2" style="display: none">
+
+                <h4>Optinal Information - 2</h4>
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.YearsExperience, htmlAttributes: new { @class = "control-label col-md-6" })
+                    <div class="col-md-12">
+                        @Html.EditorFor(model => model.YearsExperience, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.YearsExperience, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="control-label col-md-6">Looking for an Internship</label>
+                    <div class="col-md-12">
+                        @Html.EditorFor(model => model.Internship, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.Internship, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <br />
+                    <h3 class="col-md-3">Fields Of Intrest</h3>
+                    @foreach (var x in ViewBag.Fields)
+                {
+                <div class="col-md-12">
+                    <input type="checkbox" id="fields" name="fields" value="@x">
+                    <label for="fields">@x.Name</label>
+                </div>
+                }
+                </div>
+
+                    <br />
+                    <div class="form-group col-sm-12">
+                        <hr />
+                        <input type="button" class="col-sm-3 btn btn-default" value="Back" onclick="ShowHideInputForms2('optionalInfo1', 'optionalInfo2')" />
+                    </div>
+                    <br />
+                </div>
             <div class="form-group col-sm-12">
-                <input type="button" class="col-sm-3 col-sm-offset-4 btn btn-default" value="Next " onclick="ShowHideInputForms2('requiredInfo', 'optionalInfo1')" />
+                <input type="reset" class="col-sm-3 btn btn-default" value="Reset" />
+                <input type="submit" class="col-sm-3 col-sm-offset-1 btn btn-default" value="Submit" />
             </div>
-            <br />
         </div>
-
-        <div id="optionalInfo1" style="display: none">
-            <hr />
-            <div class="col-lg-12">
-                <img src="~/Content/Images/ApplicantProgress2-3.png" alt="Applicant Progress 2 of 3." />
-            </div>
-            <br />
-
-            <h4>Optinal Information</h4>
-
-            <div class="form-group">
-                @Html.LabelFor(model => model.University, htmlAttributes: new { @class = "control-label col-md-3" })
-                <div class="col-md-12">
-                    @Html.EditorFor(model => model.University, new { htmlAttributes = new { @class = "form-control" } })
-                    @Html.ValidationMessageFor(model => model.University, "", new { @class = "text-danger" })
-                </div>
-            </div>
-
-            <div class="form-group">
-                @Html.LabelFor(model => model.Alumni, htmlAttributes: new { @class = "control-label col-md-3" })
-                <div class="col-md-12">
-                    @Html.EditorFor(model => model.Alumni, new { htmlAttributes = new { @class = "form-control" } })
-                    @Html.ValidationMessageFor(model => model.Alumni, "", new { @class = "text-danger" })
-                </div>
-            </div>
-
-            <div class="form-group">
-                @Html.LabelFor(model => model.Profile, htmlAttributes: new { @class = "control-label col-md-3" })
-                <div class="col-md-12">
-                    @Html.TextAreaFor(model => model.Profile, new { @class = "form-control" })
-                    @Html.ValidationMessageFor(model => model.Profile, "", new { @class = "text-danger" })
-                </div>
-            </div>
-
-            <div class="form-group">
-                @Html.LabelFor(model => model.SocialMedia, htmlAttributes: new { @class = "control-label col-md-3" })
-                <div class="col-md-12">
-                    @Html.EditorFor(model => model.SocialMedia, new { htmlAttributes = new { @class = "form-control" } })
-                    @Html.ValidationMessageFor(model => model.SocialMedia, "", new { @class = "text-danger" })
-                </div>
-            </div>
-
-            <div class="form-group col-sm-12">
-                <input type="button" class="col-sm-3 btn btn-default" value="Back" onclick="ShowHideInputForms2('requiredInfo', 'optionalInfo1')" />
-                <input type="button" class="col-sm-3 col-sm-offset-1 btn btn-default" value="Next" onclick="ShowHideInputForms2('optionalInfo1', 'optionalInfo2')" />
-            </div>
-            <br />
-        </div>
-
-        <div id="optionalInfo2" style="display: none">
-            <hr />
-            <div class="col-lg-12">
-                <img src="~/Content/Images/ApplicantProgress3-3.png" alt="Applicant Progress 3 of 3." />
-            </div>
-            <br />
-
-            <h4>Optinal Information</h4>
-
-            <div class="form-group">
-                @Html.LabelFor(model => model.YearsExperience, htmlAttributes: new { @class = "control-label col-md-3" })
-                <div class="col-md-12">
-                    @Html.EditorFor(model => model.YearsExperience, new { htmlAttributes = new { @class = "form-control" } })
-                    @Html.ValidationMessageFor(model => model.YearsExperience, "", new { @class = "text-danger" })
-                </div>
-            </div>
-
-            <div class="form-group">
-                <label class="control-label col-md-3">Looking for an Internship</label>
-                <div class="col-md-12">
-                    @Html.EditorFor(model => model.Internship, new { htmlAttributes = new { @class = "form-control" } })
-                    @Html.ValidationMessageFor(model => model.Internship, "", new { @class = "text-danger" })
-                </div>
-            </div>
-            <br />
-
-            <div class="form-group col-sm-12">
-                <input type="button" class="col-sm-3 btn btn-default" value="Back" onclick="ShowHideInputForms2('optionalInfo1', 'optionalInfo2')" />
-            </div>
-            <br />
-        </div>
-        <hr />
-        <div class="form-group col-sm-12">
-            <input type="reset" class="col-sm-3 btn btn-default" value="Reset" />
-            <input type="submit" class="col-sm-3 col-sm-offset-1 btn btn-default" value="Submit" />
-        </div>
+        }
     </div>
-}
+</body>

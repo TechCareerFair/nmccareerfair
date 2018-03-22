@@ -11,8 +11,6 @@ namespace TechCareerFair.Models
     {
         public position()
         {
-            Description = "";
-            Website = "";
         }
 
         public int PositionID { get; set; }

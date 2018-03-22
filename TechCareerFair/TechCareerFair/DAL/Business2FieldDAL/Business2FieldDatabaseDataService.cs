@@ -67,8 +67,8 @@ namespace TechCareerFair.DAL.Business2FieldDAL
 
                 using (SqlCommand command = new SqlCommand(sql, connection))
                 {
-                    command.Parameters.Add("@param1", SqlDbType.Int).Value = business2field.Business;
-                    command.Parameters.Add("@param2", SqlDbType.Int).Value = business2field.Field;
+                    command.Parameters.Add("@param1", SqlDbType.Int).Value = (object)business2field.Business ?? DBNull.Value;
+                    command.Parameters.Add("@param2", SqlDbType.Int).Value = (object)business2field.Field ?? DBNull.Value;
                     command.CommandType = System.Data.CommandType.Text;
                     command.ExecuteNonQuery();
                 }
@@ -93,6 +93,24 @@ namespace TechCareerFair.DAL.Business2FieldDAL
             }
         }
 
+        public void RemoveAll(int businessID)
+        {
+            using (SqlConnection connection = new SqlConnection(DataSettings.CONNECTION_STRING))
+            {
+                connection.Open();
+                StringBuilder sb = new StringBuilder();
+                sb.Append("DELETE FROM [careerfair].[business2field]");
+                sb.Append("WHERE [Business] = " + businessID);
+                String sql = sb.ToString();
+
+                using (SqlCommand command = new SqlCommand(sql, connection))
+                {
+                    command.CommandType = System.Data.CommandType.Text;
+                    command.ExecuteNonQuery();
+                }
+            }
+        }
+
         public void Update(business2field business2field)
         {
             using (SqlConnection connection = new SqlConnection(DataSettings.CONNECTION_STRING))
@@ -100,14 +118,14 @@ namespace TechCareerFair.DAL.Business2FieldDAL
                 connection.Open();
                 StringBuilder sb = new StringBuilder();
                 sb.Append("UPDATE [careerfair].[business2field]");
-                sb.Append("SET [Business] = @param1, [Field] = @param2");
+                sb.Append("SET [Business] = @param1, [Field] = @param2 ");
                 sb.Append("WHERE [BusinessFieldID] = " + business2field.BusinessFieldID);
                 String sql = sb.ToString();
 
                 using (SqlCommand command = new SqlCommand(sql, connection))
                 {
-                    command.Parameters.Add("@param1", SqlDbType.Int).Value = business2field.Business;
-                    command.Parameters.Add("@param2", SqlDbType.Int).Value = business2field.Field;
+                    command.Parameters.Add("@param1", SqlDbType.Int).Value = (object)business2field.Business ?? DBNull.Value;
+                    command.Parameters.Add("@param2", SqlDbType.Int).Value = (object)business2field.Field ?? DBNull.Value;
                     command.CommandType = System.Data.CommandType.Text;
                     command.ExecuteNonQuery();
                 }

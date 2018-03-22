@@ -114,70 +114,189 @@ namespace TechCareerFair.Controllers
         }
 
         // GET: Admin/Details/5
-        public ActionResult Details(int id)
+        public ActionResult ApplicantDetails(int id)
         {
-            return View();
+            ApplicantRepository applicantRepository = new ApplicantRepository();
+            applicant applicant = applicantRepository.SelectOne(id);
+            ViewBag.Fields = applicant.Fields;
+
+            return View(applicant);
+        }
+
+        // GET: Admin/Details/5
+        public ActionResult BusinessDetails(int id)
+        {
+            BusinessRepository businessRepository = new BusinessRepository();
+            business business = businessRepository.SelectOne(id);
+            ViewBag.Fields = business.Fields;
+            ViewBag.Positions = business.Positions;
+
+            return View(business);
         }
 
         // GET: Admin/Create
-        public ActionResult Create()
+        public ActionResult CreateApplicant()
         {
+            ApplicantRepository applicantRepository = new ApplicantRepository();
+            TechCareerFair.DAL.FieldDAL.FieldRepository fr = new TechCareerFair.DAL.FieldDAL.FieldRepository();
+            ViewBag.AllFields = fr.SelectAll();
+
             return View();
         }
 
         // POST: Admin/Create
         [HttpPost]
-        public ActionResult Create(FormCollection collection)
+        public ActionResult CreateApplicant(applicant applicant, FormCollection collection)
         {
-            try
+            TechCareerFair.DAL.FieldDAL.FieldRepository fr = new TechCareerFair.DAL.FieldDAL.FieldRepository();
+            List<field> fields = fr.SelectAll().ToList();
+            foreach (field f in fields)
             {
-                // TODO: Add insert logic here
+                bool isChecked = Convert.ToBoolean(collection[f.Name].Split(',')[0]);
 
-                return RedirectToAction("Index");
+                if (isChecked)
+                {
+                    applicant.Fields.Add(f.Name);
+                }
             }
-            catch
+
+            ApplicantRepository applicantRepository = new ApplicantRepository();
+            applicantRepository.Insert(applicant);
+
+            return RedirectToAction("ListApplicants");
+        }
+
+        // GET: Admin/Create
+        public ActionResult CreateBusiness()
+        {
+            ApplicantRepository applicantRepository = new ApplicantRepository();
+            TechCareerFair.DAL.FieldDAL.FieldRepository fr = new TechCareerFair.DAL.FieldDAL.FieldRepository();
+            ViewBag.AllFields = fr.SelectAll();
+
+            return View();
+        }
+
+        // POST: Admin/Create
+        [HttpPost]
+        public ActionResult CreateBusiness(business business, FormCollection collection)
+        {
+            TechCareerFair.DAL.FieldDAL.FieldRepository fr = new TechCareerFair.DAL.FieldDAL.FieldRepository();
+            List<field> fields = fr.SelectAll().ToList();
+            foreach (field f in fields)
             {
-                return View();
+                bool isChecked = Convert.ToBoolean(collection[f.Name].Split(',')[0]);
+
+                if (isChecked)
+                {
+                    business.Fields.Add(f.Name);
+                }
             }
+
+            BusinessRepository br = new BusinessRepository();
+            br.Insert(business);
+
+            return RedirectToAction("ListBusinesses");
         }
 
         // GET: Admin/Edit/5
         public ActionResult EditApplicant(int id)
         {
-            return View();
+            ApplicantRepository applicantRepository = new ApplicantRepository();
+            TechCareerFair.DAL.FieldDAL.FieldRepository fr = new TechCareerFair.DAL.FieldDAL.FieldRepository();
+            ViewBag.AllFields = fr.SelectAll();
+
+            applicant applicant = applicantRepository.SelectOne(id);
+            ViewBag.Fields = applicant.Fields;
+
+            return View(applicant);
         }
 
         // POST: Admin/Edit/5
         [HttpPost]
-        public ActionResult EditApplicant(int id, FormCollection collection)
+        public ActionResult EditApplicant(applicant applicant, FormCollection collection)
         {
-            try
+            TechCareerFair.DAL.FieldDAL.FieldRepository fr = new TechCareerFair.DAL.FieldDAL.FieldRepository();
+            List<field> fields = fr.SelectAll().ToList();
+            foreach (field f in fields)
             {
-                // TODO: Add update logic here
+                bool isChecked = Convert.ToBoolean(collection[f.Name].Split(',')[0]);
 
-                return RedirectToAction("Index");
+                if (!applicant.Fields.Contains(f.Name) && isChecked)
+                {
+                    applicant.Fields.Add(f.Name);
+                }
+                else if (applicant.Fields.Contains(f.Name) && !isChecked)
+                {
+                    applicant.Fields.Remove(f.Name);
+                }
             }
-            catch
-            {
-                return View();
-            }
+
+            ApplicantRepository applicantRepository = new ApplicantRepository();
+            applicantRepository.Update(applicant);
+
+            return RedirectToAction("ListApplicants");
         }
 
         // GET: Admin/Edit/5
         public ActionResult EditBusiness(int id)
         {
-            return View();
+            BusinessRepository businessRepository = new BusinessRepository();
+            TechCareerFair.DAL.FieldDAL.FieldRepository fr = new TechCareerFair.DAL.FieldDAL.FieldRepository();
+            ViewBag.AllFields = fr.SelectAll();
+
+            business business = businessRepository.SelectOne(id);
+            ViewBag.Positions = business.Positions;
+            ViewBag.Fields = business.Fields;
+
+            return View(business);
         }
 
         // POST: Admin/Edit/5
         [HttpPost]
-        public ActionResult EditBusiness(int id, FormCollection collection)
+        public ActionResult EditBusiness(business business, FormCollection collection)
+        {
+            TechCareerFair.DAL.FieldDAL.FieldRepository fr = new TechCareerFair.DAL.FieldDAL.FieldRepository();
+            List<field> fields = fr.SelectAll().ToList();
+            foreach (field f in fields)
+            {
+                bool isChecked = Convert.ToBoolean(collection[f.Name].Split(',')[0]);
+
+                if (!business.Fields.Contains(f.Name) && isChecked)
+                {
+                    business.Fields.Add(f.Name);
+                }
+                else if (business.Fields.Contains(f.Name) && !isChecked)
+                {
+                    business.Fields.Remove(f.Name);
+                }
+            }
+
+            BusinessRepository businessRepository = new BusinessRepository();
+            businessRepository.Update(business);
+
+            return RedirectToAction("ListBusinesses");
+        }
+
+        // GET: Admin/Delete/5
+        public ActionResult DeleteApplicant(int id)
+        {
+            ApplicantRepository applicantRepository = new ApplicantRepository();
+            applicant applicant = applicantRepository.SelectOne(id);
+            ViewBag.Fields = applicant.Fields;
+
+            return View(applicant);
+        }
+
+        // POST: Admin/Delete/5
+        [HttpPost]
+        public ActionResult DeleteApplicant(int id, FormCollection collection)
         {
             try
             {
-                // TODO: Add update logic here
+                ApplicantRepository applicantRepository = new ApplicantRepository();
+                applicantRepository.Delete(id);
 
-                return RedirectToAction("Index");
+                return RedirectToAction("ListApplicants");
             }
             catch
             {
@@ -186,20 +305,43 @@ namespace TechCareerFair.Controllers
         }
 
         // GET: Admin/Delete/5
-        public ActionResult Delete(int id)
+        public ActionResult DeleteBusiness(int id)
         {
-            return View();
+            BusinessRepository businessRepository = new BusinessRepository();
+            business business = businessRepository.SelectOne(id);
+            ViewBag.Fields = business.Fields;
+            ViewBag.Positions = business.Positions;
+
+            return View(business);
         }
 
         // POST: Admin/Delete/5
         [HttpPost]
-        public ActionResult Delete(int id, FormCollection collection)
+        public ActionResult DeleteBusiness(int id, FormCollection collection)
         {
+            BusinessRepository businessRepository = new BusinessRepository();
+            businessRepository.Delete(id);
+
+            return RedirectToAction("ListBusinesses");
             try
             {
-                // TODO: Add delete logic here
+                
+            }
+            catch
+            {
+                return View();
+            }
+        }
 
-                return RedirectToAction("Index");
+        public ActionResult pos(int id, FormCollection collection)
+        {
+            BusinessRepository businessRepository = new BusinessRepository();
+            businessRepository.Delete(id);
+
+            return RedirectToAction("ListBusinesses");
+            try
+            {
+
             }
             catch
             {

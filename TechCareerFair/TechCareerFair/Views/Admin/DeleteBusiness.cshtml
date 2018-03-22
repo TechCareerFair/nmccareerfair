@@ -1,0 +1,259 @@
+﻿@model TechCareerFair.Models.business
+
+@{
+    ViewBag.Title = "Admin - Delete Business";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Delete Business</h2>
+<style>
+    .body-content {
+        background-color: #edf9ef;
+    }
+</style>
+
+<h3>Are you sure you want to delete this?</h3>
+<div>
+    <h4>Business Details</h4>
+    <hr />
+    <dl class="dl-horizontal">
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Email)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Email)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.BusinessName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.BusinessName)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.FirstName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.FirstName)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.LastName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.LastName)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Fields)
+        </dt>
+        <dd></dd>
+        @foreach (string field in ViewBag.Fields)
+    {
+        <dd>
+            @field
+        </dd>
+}
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Positions)
+        </dt>
+        <dd></dd>
+        @foreach (TechCareerFair.Models.position position in ViewBag.Positions)
+    {
+        string fullSite = position.Website;
+        <dd>
+            @if (!fullSite.IsEmpty() && !fullSite.Contains("http") && !fullSite.Contains("https"))
+        {
+            fullSite = "<a href='http://" + fullSite + "'>" + position.Name + "</a>";
+        }
+        else
+        {
+            fullSite = position.Name;
+        }
+
+            <p>
+                Name: @Html.Raw(fullSite) <br />
+                Description: @position.Description <br />
+                Is Internship: @position.Internship.ToString()
+            </p>
+        </dd>
+}
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Street)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Street)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.City)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.City)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.State)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.State)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Zip)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Zip)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Phone)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Phone)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Alumni)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Alumni)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.NonProfit)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.NonProfit)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Outlet)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Outlet)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Display)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Display)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.DisplayDescription)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.DisplayDescription)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Attendees)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Attendees)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.BusinessDescription)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.BusinessDescription)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Website)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Website)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.SocialMedia)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.SocialMedia)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Photo)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Photo)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.LocationPreference)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.LocationPreference)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ContactMe)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ContactMe)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.PreferEmail)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.PreferEmail)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Approved)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Approved)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Active)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Active)
+        </dd>
+
+    </dl>
+
+    @using (Html.BeginForm()) {
+        @Html.AntiForgeryToken()
+
+        <div class="form-actions no-color">
+            <input type="submit" value="Delete" class="btn btn-default" /> |
+            @Html.ActionLink("Back to List", "ListBusinesses")
+        </div>
+    }
+</div>

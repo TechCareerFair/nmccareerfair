@@ -18,7 +18,7 @@ namespace TechCareerFair.DAL
 
         public void Delete(int id)
         {
-            var business = _businesses.Where(b => b.BusinessID == id).FirstOrDefault();
+            var business = _businesses.Where(g => g.BusinessID == id).FirstOrDefault();
 
             if (business != null)
             {

@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>@ViewBag.Title - Northwestern Michigan College Technology Career Fair</title>
+    <title>@ViewBag.Title - My ASP.NET Application</title>
     <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css">
     <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap-theme.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/ekko-lightbox/5.3.0/ekko-lightbox.css"/>
@@ -63,11 +63,11 @@
             <div class="navbar-collapse collapse">
                 <ul class="top-nav nav navbar-nav text-center">
                     <li class="main-navigation-links">@Html.ActionLink("Home", "Index", "Home")</li>
-                    <li class="main-navigation-links">@Html.ActionLink("Applicant", "About", "Home")</li>
-                    <li class="main-navigation-links">@Html.ActionLink("Business", "Contact", "Home")</li>
-                    <li class="main-navigation-links">@Html.ActionLink("Gallery", "/Index", "Gallery")</li>
-                    <li class="main-navigation-links">@Html.ActionLink("FAQ", "Contact", "Home")</li>
-                    <li class="main-navigation-links">@Html.ActionLink("About Us", "Contact", "Home")</li>
+                    <li class="main-navigation-links">@Html.ActionLink("Applicant", "Applicant", "Home")</li>
+                    <li class="main-navigation-links">@Html.ActionLink("Business", "Business", "Home")</li>
+                    <li class="main-navigation-links">@Html.ActionLink("Gallery", "Gallery", "Home")</li>
+                    <li class="main-navigation-links">@Html.ActionLink("FAQ", "Faq", "Home")</li>
+                    <li class="main-navigation-links">@Html.ActionLink("About Us", "AboutUs", "Home")</li>
                 </ul>
             </div>
         </div>
@@ -80,15 +80,15 @@
         <ul class="footer-menu">
             <li class="footer-navigation-links">@Html.ActionLink("Home", "Index", "Home")</li>
             <span class="spacer-footer">|</span>
-            <li class="footer-navigation-links">@Html.ActionLink("Applicant", "About", "Home")</li>
+            <li class="footer-navigation-links">@Html.ActionLink("Applicant", "Applicant", "Home")</li>
             <span class="spacer-footer">|</span>
-            <li class="footer-navigation-links">@Html.ActionLink("Business", "Contact", "Home")</li>
+            <li class="footer-navigation-links">@Html.ActionLink("Business", "Business", "Home")</li>
             <span class="spacer-footer">|</span>
-            <li class="footer-navigation-links">@Html.ActionLink("Gallery", "/Index", "Gallery")</li>
+            <li class="footer-navigation-links">@Html.ActionLink("Gallery", "Gallery", "Home")</li>
             <span class="spacer-footer">|</span>
-            <li class="footer-navigation-links">@Html.ActionLink("FAQ", "Contact", "Home")</li>
+            <li class="footer-navigation-links">@Html.ActionLink("FAQ", "Faq", "Home")</li>
             <span class="spacer-footer">|</span>
-            <li class="footer-navigation-links">@Html.ActionLink("About Us", "Contact", "Home")</li>
+            <li class="footer-navigation-links">@Html.ActionLink("About Us", "AboutUs", "Home")</li>
         </ul>
         <ul class="footer-social-links">
             <li class="social-link"><a href="https://www.facebook.com/NorthwesternMichiganCollege" target="_blank"><i class="fab fa-facebook fa-2x"></i></a></li>

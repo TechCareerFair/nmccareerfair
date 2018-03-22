@@ -62,15 +62,15 @@ namespace TechCareerFair.DAL.CareerFairDAL
                 connection.Open();
                 StringBuilder sb = new StringBuilder();
                 sb.Append("UPDATE [careerfair].[careerfair]");
-                sb.Append("SET [Phone] = @param1, Date = @param2, Address = @param3");
+                sb.Append("SET [Phone] = @param1, Date = @param2, Address = @param3 ");
                 sb.Append("WHERE [CareerFairID] = " + careerFair.CareerFairID);
                 String sql = sb.ToString();
 
                 using (SqlCommand command = new SqlCommand(sql, connection))
                 {
-                    command.Parameters.Add("@param1", SqlDbType.NVarChar, 20).Value = careerFair.Phone;
-                    command.Parameters.Add("@param2", SqlDbType.DateTime).Value = careerFair.Date;
-                    command.Parameters.Add("@param3", SqlDbType.NVarChar, 50).Value = careerFair.Address;
+                    command.Parameters.Add("@param1", SqlDbType.NVarChar, 20).Value = (object)careerFair.Phone ?? DBNull.Value;
+                    command.Parameters.Add("@param2", SqlDbType.DateTime).Value = (object)careerFair.Date ?? DBNull.Value;
+                    command.Parameters.Add("@param3", SqlDbType.NVarChar, 50).Value = (object)careerFair.Address ?? DBNull.Value;
                     command.CommandType = System.Data.CommandType.Text;
                     command.ExecuteNonQuery();
                 }

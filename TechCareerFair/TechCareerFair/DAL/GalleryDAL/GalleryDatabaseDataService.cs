@@ -9,7 +9,7 @@ using TechCareerFair.Models;
 
 namespace TechCareerFair.DAL.GalleryDAL
 {
-    public class PositionDatabaseDataService : IGalleryDataService, IDisposable
+    public class GalleryDatabaseDataService : IGalleryDataService, IDisposable
     {
         public void Dispose()
         {
@@ -67,8 +67,8 @@ namespace TechCareerFair.DAL.GalleryDAL
 
                 using (SqlCommand command = new SqlCommand(sql, connection))
                 {
-                    command.Parameters.Add("@param1", SqlDbType.NVarChar, int.MaxValue).Value = gallery.Directory;
-                    command.Parameters.Add("@param2", SqlDbType.NVarChar, int.MaxValue).Value = gallery.Description;
+                    command.Parameters.Add("@param1", SqlDbType.NVarChar, int.MaxValue).Value = (object)gallery.Directory ?? DBNull.Value;
+                    command.Parameters.Add("@param2", SqlDbType.NVarChar, int.MaxValue).Value = (object)gallery.Description ?? DBNull.Value;
                     command.CommandType = System.Data.CommandType.Text;
                     command.ExecuteNonQuery();
                 }
@@ -100,14 +100,14 @@ namespace TechCareerFair.DAL.GalleryDAL
                 connection.Open();
                 StringBuilder sb = new StringBuilder();
                 sb.Append("UPDATE [careerfair].[gallery]");
-                sb.Append("SET [Directory] = @param1, [Description] = @param2");
+                sb.Append("SET [Directory] = @param1, [Description] = @param2 ");
                 sb.Append("WHERE [GalleryID] = " + gallery.GalleryID);
                 String sql = sb.ToString();
 
                 using (SqlCommand command = new SqlCommand(sql, connection))
                 {
-                    command.Parameters.Add("@param1", SqlDbType.NVarChar, int.MaxValue).Value = gallery.Directory;
-                    command.Parameters.Add("@param2", SqlDbType.NVarChar, int.MaxValue).Value = gallery.Description;
+                    command.Parameters.Add("@param1", SqlDbType.NVarChar, int.MaxValue).Value = (object)gallery.Directory ?? DBNull.Value;
+                    command.Parameters.Add("@param2", SqlDbType.NVarChar, int.MaxValue).Value = (object)gallery.Description ?? DBNull.Value;
                     command.CommandType = System.Data.CommandType.Text;
                     command.ExecuteNonQuery();
                 }

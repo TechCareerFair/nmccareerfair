@@ -40,11 +40,11 @@
         </div>
 
         <div class="form-group">
-            @Html.LabelFor(model => model.ApplicantQ, htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.LabelFor(model => model.IsApplicantQ, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
                 <div class="checkbox">
-                    @Html.EditorFor(model => model.ApplicantQ)
-                    @Html.ValidationMessageFor(model => model.ApplicantQ, "", new { @class = "text-danger" })
+                    @Html.EditorFor(model => model.IsApplicantQ)
+                    @Html.ValidationMessageFor(model => model.IsApplicantQ, "", new { @class = "text-danger" })
                 </div>
             </div>
         </div>
