@@ -1,7 +1,39 @@
-﻿@{
+﻿@model TechCareerFair.Models.careerfair
+
+@{
     ViewBag.Title = "About";
 }
-<h2>@ViewBag.Title.</h2>
-<h3>@ViewBag.Message</h3>
 
-<p>Use this area to provide additional information.</p>
+<div class="container">
+    <div class="row">
+
+        <!--about page content-->
+        <div class="col-md-12 col-sm-12">
+
+            <div class="home-page-details">
+                <p>@Html.DisplayFor(model => model.About)</p>
+            </div>
+
+            <div class="home-page-details">
+                <h2>@Html.DisplayNameFor(model => model.Date) & @Html.DisplayNameFor(model => model.Address)</h2>
+                <p>@Html.DisplayFor(model => model.Date) at @Html.DisplayFor(model => model.Address)</p>
+            </div>
+
+            <div class="home-page-details">
+                <h2>Contact Us</h2>
+                <p>Any questions or concerns please contact us at: @Html.DisplayFor(model => model.Phone)</p>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<style>
+    p {
+        color: white;
+    }
+    h2{
+        color: white;
+    }
+</style>
+

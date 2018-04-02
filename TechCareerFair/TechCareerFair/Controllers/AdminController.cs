@@ -31,7 +31,7 @@ namespace TechCareerFair.Controllers
             {
                 if (selectAdmin.Username == admin.Username && selectAdmin.Password.Trim() == admin.Password)
                 {
-                    FormsAuthentication.SetAuthCookie(admin.Username, false);
+                    Session["userName"] = admin.Username;
                     return RedirectToAction("LandingPage", "Admin");
                 }
                 else
@@ -46,7 +46,15 @@ namespace TechCareerFair.Controllers
 
         public ActionResult LandingPage()
         {
-            return View();
+            if (Session["userName"] != null)
+            {
+                return View();
+            }
+            else
+            {
+                return RedirectToAction("Index");
+            }
+
         }
 
         public ActionResult FaqPage()
@@ -325,7 +333,7 @@ namespace TechCareerFair.Controllers
             return RedirectToAction("ListBusinesses");
             try
             {
-                
+
             }
             catch
             {
