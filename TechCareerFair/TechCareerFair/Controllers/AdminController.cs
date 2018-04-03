@@ -21,6 +21,9 @@ namespace TechCareerFair.Controllers
             return View();
         }
 
+        //********************
+        // Admin Login
+        //********************
         [HttpPost]
         public ActionResult Index(admin admin)
         {
@@ -43,6 +46,12 @@ namespace TechCareerFair.Controllers
             return View();
         }
 
+        public ActionResult LogOut()
+        {
+            //FormsAuthentication.SignOut(); need to update login with formsAuth at some point
+            Session.Abandon(); // it will clear the session at the end of request
+            return RedirectToAction("Index");
+        }
 
         public ActionResult LandingPage()
         {
