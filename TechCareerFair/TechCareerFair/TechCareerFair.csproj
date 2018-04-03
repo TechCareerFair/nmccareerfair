@@ -191,6 +191,7 @@
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Controllers\RegisterController.cs" />
+    <Compile Include="Controllers\UploadTestController.cs" />
     <Compile Include="Controllers\ViewProfileController.cs" />
     <Compile Include="DAL\AdminDAL\AdminDatabaseDataService.cs" />
     <Compile Include="DAL\AdminDAL\AdminRepository.cs" />
@@ -358,6 +359,7 @@
     <Content Include="Views\Home\FAQ.cshtml" />
     <Content Include="Views\Admin\CreateApplicant.cshtml" />
     <Content Include="Views\Admin\CreateBusiness.cshtml" />
+    <Content Include="Views\UploadTest\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
