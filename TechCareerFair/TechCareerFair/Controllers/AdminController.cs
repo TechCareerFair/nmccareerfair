@@ -27,14 +27,11 @@ namespace TechCareerFair.Controllers
         [HttpPost]
         public ActionResult Index(admin admin)
         {
-            AdminRepository adminRepository = new AdminRepository();
-            admin selectAdmin = adminRepository.SelectOne(1);
-
             if (ModelState.IsValid)
             {
-                if (selectAdmin.Username == admin.Username && selectAdmin.Password.Trim() == admin.Password)
+                if (ValidateAdmin(admin.Username, admin.Password))
                 {
-                    Session["userName"] = admin.Username;
+                    FormsAuthentication.SetAuthCookie(admin.Username, false);
                     return RedirectToAction("LandingPage", "Admin");
                 }
                 else
@@ -46,9 +43,30 @@ namespace TechCareerFair.Controllers
             return View();
         }
 
+        private bool ValidateAdmin(string userName, string password)
+        {
+            bool isValid = false;
+
+            AdminRepository adminRepository = new AdminRepository();
+            admin selectAdmin = adminRepository.SelectOne(1);
+
+            if (selectAdmin.Username == userName)
+            {
+                if (selectAdmin.Password.Trim() == password)
+                {
+                    Session["userID"] = selectAdmin.AdminID;
+                    Session["userName"] = selectAdmin.Username;
+
+                    isValid = true;
+                }
+            }
+
+            return isValid;
+        }
+
         public ActionResult LogOut()
         {
-            //FormsAuthentication.SignOut(); need to update login with formsAuth at some point
+            FormsAuthentication.SignOut();
             Session.Abandon(); // it will clear the session at the end of request
             return RedirectToAction("Index");
         }
