@@ -13,7 +13,7 @@
 <h2>Admin - Manage Applicant Accounts</h2>
 
 <p>
-    @Html.ActionLink("Create New", "CreateApplicant") | @Html.ActionLink("Return", "Index")
+    @Html.ActionLink("Create New", "CreateApplicant") | @Html.ActionLink("Return", "LandingPage")
 </p>
 <table class="table">
     <tr>
@@ -26,7 +26,7 @@
         <th>
             @Html.DisplayNameFor(model => model.LastName)
         </th>
-        <th>
+        <th> 
             @Html.DisplayNameFor(model => model.Active)
         </th>
         <th></th>
@@ -57,5 +57,5 @@
 </table>
 
 <p>
-    @Html.ActionLink("Return", "Index")
+    @Html.ActionLink("Return", "LandingPage")
 </p>
