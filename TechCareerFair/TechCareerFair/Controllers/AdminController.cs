@@ -59,8 +59,16 @@ namespace TechCareerFair.Controllers
 
         public ActionResult FaqPage()
         {
-            DAL.FaqDAL.FAQRepository FaqRepo = new FAQRepository();
-            return View(FaqRepo.SelectAll());
+            if (Session["userName"] != null)
+            {
+                DAL.FaqDAL.FAQRepository FaqRepo = new FAQRepository();
+                return View(FaqRepo.SelectAll());
+            }
+            else
+            {
+                return RedirectToAction("Index");
+            }
+
         }
 
         [HttpGet]
