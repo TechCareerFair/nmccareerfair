@@ -2,6 +2,7 @@
 
 @{
     ViewBag.Title = "Admin - Applicant Details";
+    string resume = Html.DisplayFor(model => model.Resume).ToHtmlString();
 }
 
 <style>
@@ -89,7 +90,7 @@
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.Resume)
+            @Html.DisplayFor(model => model.Resume) <a href="@resume" class="btn btn-default">Download</a>
         </dd>
 
         <dt>

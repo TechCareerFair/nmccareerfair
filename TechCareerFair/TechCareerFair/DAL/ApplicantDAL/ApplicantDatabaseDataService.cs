@@ -218,9 +218,14 @@ namespace TechCareerFair.DAL
             }
         }
 
-        public void Remove(applicant applicant)
+        public void Remove(applicant applicant, string serverPath)
         {
             RemoveAll(applicant.ApplicantID);
+
+            if ((System.IO.File.Exists(serverPath + applicant.Resume)))
+            {
+                System.IO.File.Delete(serverPath + applicant.Resume);
+            }
 
             using (SqlConnection connection = new SqlConnection(DataSettings.CONNECTION_STRING))
             {
@@ -257,10 +262,18 @@ namespace TechCareerFair.DAL
             }
         }
 
-        public void Update(applicant applicant)
+        public void Update(applicant applicant, string serverPath, string oldResume)
         {
             RemoveAll(applicant.ApplicantID);
             Insert(applicant.Fields, applicant.ApplicantID);
+
+            if (oldResume != applicant.Resume)
+            {
+                if ((System.IO.File.Exists(serverPath + oldResume)))
+                {
+                    System.IO.File.Delete(serverPath + oldResume);
+                }
+            }
 
             using (SqlConnection connection = new SqlConnection(DataSettings.CONNECTION_STRING))
             {

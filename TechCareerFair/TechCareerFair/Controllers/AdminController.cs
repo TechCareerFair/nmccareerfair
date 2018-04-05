@@ -9,6 +9,7 @@ using TechCareerFair.Models;
 using TechCareerFair.DAL.AdminDAL;
 using TechCareerFair.DAL.FaqDAL;
 using System.Web.Security;
+using System.IO;
 
 namespace TechCareerFair.Controllers
 {
@@ -261,7 +262,7 @@ namespace TechCareerFair.Controllers
 
         // POST: Admin/Create
         [HttpPost]
-        public ActionResult CreateApplicant(applicant applicant, FormCollection collection)
+        public ActionResult CreateApplicant(applicant applicant, HttpPostedFileBase fileUpload, FormCollection collection)
         {
             if (Session["userName"] != null)
             {
@@ -276,6 +277,8 @@ namespace TechCareerFair.Controllers
                         applicant.Fields.Add(f.Name);
                     }
                 }
+
+                applicant.Resume = UploadFile(DataSettings.RESUME_DIRECTORY, fileUpload);
 
                 ApplicantRepository applicantRepository = new ApplicantRepository();
                 applicantRepository.Insert(applicant);
@@ -294,7 +297,6 @@ namespace TechCareerFair.Controllers
         {
             if (Session["userName"] != null)
             {
-                ApplicantRepository applicantRepository = new ApplicantRepository();
                 TechCareerFair.DAL.FieldDAL.FieldRepository fr = new TechCareerFair.DAL.FieldDAL.FieldRepository();
                 ViewBag.AllFields = fr.SelectAll();
 
@@ -309,7 +311,7 @@ namespace TechCareerFair.Controllers
 
         // POST: Admin/Create
         [HttpPost]
-        public ActionResult CreateBusiness(business business, FormCollection collection)
+        public ActionResult CreateBusiness(business business, HttpPostedFileBase fileUpload, FormCollection collection)
         {
             if (Session["userName"] != null)
             {
@@ -324,6 +326,8 @@ namespace TechCareerFair.Controllers
                         business.Fields.Add(f.Name);
                     }
                 }
+                
+                business.Photo = UploadFile(DataSettings.BUSINESS_DIRECTORY, fileUpload);
 
                 BusinessRepository br = new BusinessRepository();
                 br.Insert(business);
@@ -360,7 +364,7 @@ namespace TechCareerFair.Controllers
 
         // POST: Admin/Edit/5
         [HttpPost]
-        public ActionResult EditApplicant(applicant applicant, FormCollection collection)
+        public ActionResult EditApplicant(applicant applicant, HttpPostedFileBase fileUpload, FormCollection collection)
         {
             if (Session["userName"] != null)
             {
@@ -380,8 +384,22 @@ namespace TechCareerFair.Controllers
                     }
                 }
 
+                if (Convert.ToBoolean(collection["removeResume"].Split(',')[0]))
+                {
+                    applicant.Resume = "";
+                    if ((System.IO.File.Exists(Server.MapPath("~") + applicant.Resume)))
+                    {
+                        System.IO.File.Delete(Server.MapPath("~") + applicant.Resume);
+                    }
+                }
+
+                if (fileUpload != null)
+                {
+                    applicant.Resume = UploadFile(DataSettings.RESUME_DIRECTORY, fileUpload);
+                }
+
                 ApplicantRepository applicantRepository = new ApplicantRepository();
-                applicantRepository.Update(applicant);
+                applicantRepository.Update(applicant, Server.MapPath("~"));
 
                 return RedirectToAction("ListApplicants");
             }
@@ -416,7 +434,7 @@ namespace TechCareerFair.Controllers
 
         // POST: Admin/Edit/5
         [HttpPost]
-        public ActionResult EditBusiness(business business, FormCollection collection)
+        public ActionResult EditBusiness(business business, HttpPostedFileBase fileUpload, FormCollection collection)
         {
             if (Session["userName"] != null)
             {
@@ -436,8 +454,22 @@ namespace TechCareerFair.Controllers
                     }
                 }
 
+                if(Convert.ToBoolean(collection["removeImage"].Split(',')[0]))
+                {
+                    business.Photo = "";
+                    if ((System.IO.File.Exists(Server.MapPath("~")+business.Photo)))
+                    {
+                        System.IO.File.Delete(Server.MapPath("~")+business.Photo);
+                    }
+                }
+
+                if (fileUpload != null)
+                {
+                    business.Photo = UploadFile(DataSettings.BUSINESS_DIRECTORY, fileUpload);
+                }
+
                 BusinessRepository businessRepository = new BusinessRepository();
-                businessRepository.Update(business);
+                businessRepository.Update(business, Server.MapPath("~"));
 
                 return RedirectToAction("ListBusinesses");
             }
@@ -475,7 +507,7 @@ namespace TechCareerFair.Controllers
                 try
                 {
                     ApplicantRepository applicantRepository = new ApplicantRepository();
-                    applicantRepository.Delete(id);
+                    applicantRepository.Delete(id, Server.MapPath("~"));
 
                     return RedirectToAction("ListApplicants");
                 }
@@ -516,13 +548,12 @@ namespace TechCareerFair.Controllers
         {
             if (Session["userName"] != null)
             {
-                BusinessRepository businessRepository = new BusinessRepository();
-                businessRepository.Delete(id);
-
-                return RedirectToAction("ListBusinesses");
                 try
                 {
+                    BusinessRepository businessRepository = new BusinessRepository();
+                    businessRepository.Delete(id, Server.MapPath("~"));
 
+                    return RedirectToAction("ListBusinesses");
                 }
                 catch
                 {
@@ -535,29 +566,20 @@ namespace TechCareerFair.Controllers
             }
 
         }
-
-        public ActionResult pos(int id, FormCollection collection)
+        
+        public string UploadFile(string directory, HttpPostedFileBase postedFile)
         {
-            if (Session["userName"] != null)
-            {
-                BusinessRepository businessRepository = new BusinessRepository();
-                businessRepository.Delete(id);
+            string pathName = "";
 
-                return RedirectToAction("ListBusinesses");
-                try
-                {
-
-                }
-                catch
-                {
-                    return View();
-                }
-            }
-            else
+            if (postedFile != null && postedFile.ContentLength > 0)
             {
-                return RedirectToAction("Index");
+                pathName = DateTime.Now.ToBinary().ToString() + Path.GetFileName(postedFile.FileName);
+                postedFile.SaveAs(Server.MapPath("~"+directory) + pathName);
+
+                pathName = directory + pathName;
             }
 
+            return pathName;
         }
     }
 }

@@ -335,11 +335,16 @@ namespace TechCareerFair.DAL
             }
         }
 
-        public void Remove(business business)
+        public void Remove(business business, string serverPath)
         {
             RemoveAll(business.BusinessID);
             Remove(business.Positions);
             Remove(business.Zip, business.City, business.State, business.BusinessID);
+
+            if ((System.IO.File.Exists(serverPath + business.Photo)))
+            {
+                System.IO.File.Delete(serverPath + business.Photo);
+            }
 
             using (SqlConnection connection = new SqlConnection(DataSettings.CONNECTION_STRING))
             {
@@ -401,13 +406,21 @@ namespace TechCareerFair.DAL
             }
         }
 
-        public void Update(business business)
+        public void Update(business business, string serverPath, string oldImagePath)
         {
             RemoveAll(business.BusinessID);
             Insert(business.Fields, business.BusinessID);
 
             Update(business.Positions);
             Update(business.Zip, business.City, business.State, business.BusinessID);
+
+            if(oldImagePath != business.Photo)
+            {
+                if ((System.IO.File.Exists(serverPath + oldImagePath)))
+                {
+                    System.IO.File.Delete(serverPath + oldImagePath);
+                }
+            }
 
             using (SqlConnection connection = new SqlConnection(DataSettings.CONNECTION_STRING))
             {
