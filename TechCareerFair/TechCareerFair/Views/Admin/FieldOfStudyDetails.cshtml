@@ -1,0 +1,20 @@
+﻿@model TechCareerFair.Models.field
+
+<div>
+    <h4>field</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Name)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Name)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "FeildOfStudyEdit", new { id = Model.FieldID }) |
+    @Html.ActionLink("Back to List", "FieldOfStudy")
+</p>
