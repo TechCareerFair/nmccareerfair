@@ -65,6 +65,18 @@ namespace TechCareerFair.DAL
             }
         }
 
+        public void UpdateBusinessProfile(business business, string serverPath)
+        {
+            var oldBusiness = _businesses.Where(b => b.BusinessID == business.BusinessID).FirstOrDefault();
+
+            if (oldBusiness != null)
+            {
+                _businesses.Remove(oldBusiness);
+                _businesses.Add(business);
+                _ds.UpdateBusinessProfile(business, serverPath, oldBusiness.Photo);
+            }
+        }
+
         public void Dispose()
         {
             _ds = null;
