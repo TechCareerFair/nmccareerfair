@@ -76,7 +76,8 @@ namespace TechCareerFair.Controllers
         {
             if (Session["userName"] != null)
             {
-                return View();
+                DAL.CareerFairDAL.CareerFairRepository LandingPageRepo = new DAL.CareerFairDAL.CareerFairRepository();
+                return View(LandingPageRepo.SelectAll());
             }
             else
             {
@@ -85,6 +86,45 @@ namespace TechCareerFair.Controllers
 
         }
 
+        [HttpGet]
+        public ActionResult LandingPageEdit(int id)
+        {
+            if (Session["userName"] != null)
+            {
+                DAL.CareerFairDAL.CareerFairRepository AddressRepo = new DAL.CareerFairDAL.CareerFairRepository();
+                return View(AddressRepo.SelectOne(id));
+            }
+            else
+            {
+                return RedirectToAction("Index");
+            }
+        }
+
+        [HttpPost]
+        public ActionResult LandingPageEdit(int id, careerfair LandingPage)
+        {
+            if (Session["userName"] != null)
+            {
+                try
+                {
+                    DAL.CareerFairDAL.CareerFairRepository careerFairLandingPage = new DAL.CareerFairDAL.CareerFairRepository();
+                    careerFairLandingPage.Update(LandingPage);
+
+                    return RedirectToAction("LandingPage");
+                }
+                catch
+                {
+                    return View();
+                }
+            }
+            else
+            {
+                return RedirectToAction("Index");
+            }
+        }
+
+
+        //FAQ//////////////////////////////////////
         public ActionResult FaqPage()
         {
             if (Session["userName"] != null)
@@ -97,6 +137,20 @@ namespace TechCareerFair.Controllers
                 return RedirectToAction("Index");
             }
 
+        }
+
+        public ActionResult FaqDetails(int id)
+        {
+            if (Session["userName"] != null)
+            {
+                DAL.FaqDAL.FAQRepository FaqRepo = new FAQRepository();
+                faq _faq = FaqRepo.SelectOne(id);
+                return View(_faq);
+            }
+            else
+            {
+                return RedirectToAction("Index");
+            }
         }
 
         [HttpGet]
@@ -177,6 +231,336 @@ namespace TechCareerFair.Controllers
 
         }
 
+        [HttpGet]
+        public ActionResult FaqDelete(int id)
+        {
+
+            if (Session["userName"] != null)
+            {
+                DAL.FaqDAL.FAQRepository FaqRepo = new FAQRepository();
+                return View(FaqRepo.SelectOne(id));
+            }
+            else
+            {
+                return RedirectToAction("Index");
+            }
+
+        }
+
+        [HttpPost]
+        public ActionResult FaqDelete(int id, faq _faq)
+        {
+
+            if (Session["userName"] != null)
+            {
+                try
+                {
+                    DAL.FaqDAL.FAQRepository FaqRepo = new FAQRepository();
+                    FaqRepo.Delete(id);
+
+                    return RedirectToAction("FaqPage");
+                }
+                catch
+                {
+                    return View();
+                }
+            }
+            else
+            {
+                return RedirectToAction("Index");
+            }
+        }
+
+
+        //Field Of Study////////////////////////////////
+        public ActionResult FieldOfStudy()
+        {
+            if (Session["userName"] != null)
+            {
+                DAL.FieldDAL.FieldRepository FieldOfStudyRepo = new DAL.FieldDAL.FieldRepository();
+                return View(FieldOfStudyRepo.SelectAll());
+            }
+            else
+            {
+                return RedirectToAction("Index");
+            }
+
+        }
+        [HttpGet]
+        public ActionResult FieldOfStudyCreate()
+        {
+            if (Session["userName"] != null)
+            {
+                return View();
+            }
+            else
+            {
+                return RedirectToAction("Index");
+            }  
+        }
+
+        [HttpPost]
+        public ActionResult FieldOfStudyCreate(field _field)
+        {
+
+            if (Session["userName"] != null)
+            {
+                try
+                {
+                    DAL.FieldDAL.FieldRepository FieldOfStudyRepo = new DAL.FieldDAL.FieldRepository();
+                    FieldOfStudyRepo.Insert(_field);
+
+                    return RedirectToAction("FieldOfStudy");
+                }
+                catch
+                {
+                    return View();
+                }
+            }
+            else
+            {
+                return RedirectToAction("Index");
+            }
+        }
+
+        [HttpGet]
+        public ActionResult FieldOfStudyEdit(int id)
+        {
+            if (Session["userName"] != null)
+            {
+
+                DAL.FieldDAL.FieldRepository FieldOfStudyRepo = new DAL.FieldDAL.FieldRepository();
+                return View(FieldOfStudyRepo.SelectOne(id));
+            }
+            else
+            {
+                return RedirectToAction("Index");
+            }
+        }
+
+        [HttpPost]
+        public ActionResult FieldOfStudyEdit(int id, field _field)
+        {
+
+            if (Session["userName"] != null)
+            {
+                try
+                {
+                    DAL.FieldDAL.FieldRepository FieldOfStudyRepo = new DAL.FieldDAL.FieldRepository();
+                    FieldOfStudyRepo.Update(_field);
+
+                    return RedirectToAction("FieldOfStudy");
+                }
+                catch
+                {
+                    return View();
+                }
+            }
+            else
+            {
+                return RedirectToAction("Index");
+            }
+        }
+
+        [HttpGet]
+        public ActionResult FieldOfStudyDelete(int id)
+        {
+
+            if (Session["userName"] != null)
+            {
+                DAL.FieldDAL.FieldRepository FieldOfStudyRepo = new DAL.FieldDAL.FieldRepository();
+                return View(FieldOfStudyRepo.SelectOne(id));
+            }
+            else
+            {
+                return RedirectToAction("Index");
+            }
+
+        }
+
+        [HttpPost]
+        public ActionResult FieldOfStudyDelete(int id, field _field)
+        {
+
+            if (Session["userName"] != null)
+            {
+                try
+                {
+                    DAL.FieldDAL.FieldRepository FieldOfStudyRepo = new DAL.FieldDAL.FieldRepository();
+                    FieldOfStudyRepo.Delete(id);
+
+                    return RedirectToAction("FieldOfStudy");
+                }
+                catch
+                {
+                    return View();
+                }
+            }
+            else
+            {
+                return RedirectToAction("Index");
+            }
+
+        }
+
+        public ActionResult FieldOfStudyDetails(int id)
+        {
+
+            if (Session["userName"] != null)
+            {
+                DAL.FieldDAL.FieldRepository FieldOfStudyRepo = new DAL.FieldDAL.FieldRepository();
+                field _field = FieldOfStudyRepo.SelectOne(id);
+
+                return View(_field);
+            }
+            else
+            {
+                return RedirectToAction("Index");
+            }
+        }
+
+        //Gallery////////////////////////////////////
+        public ActionResult Gallery()
+        {
+            if (Session["userName"] != null)
+            {
+                DAL.GalleryDAL.GalleryRepository GalleryRepo = new DAL.GalleryDAL.GalleryRepository();
+                return View(GalleryRepo.SelectAll());
+            }
+            else
+            {
+                return RedirectToAction("Index");
+            }
+        }
+
+        [HttpGet]
+        public ActionResult GalleryEdit(int id)
+        {
+            if (Session["userName"] != null)
+            {
+                return View();
+            }
+            else
+            {
+                return RedirectToAction("Index");
+            }
+        }
+
+        [HttpPost]
+        public ActionResult GalleryEdit(int id, gallery _gallery)
+        {
+            if (Session["userName"] != null)
+            {
+                try
+                {
+                    DAL.GalleryDAL.GalleryRepository GalleryRepo = new DAL.GalleryDAL.GalleryRepository();
+                    GalleryRepo.Update(_gallery, Server.MapPath("~"));
+
+                    return RedirectToAction("FieldOfStudy");
+                }
+                catch
+                {
+                    return View();
+                }
+            }
+            else
+            {
+                return RedirectToAction("Index");
+            }
+        }
+
+        [HttpGet]
+        public ActionResult GalleryDelete(int id)
+        {
+            if (Session["userName"] != null)
+            {
+                DAL.GalleryDAL.GalleryRepository GalleryRepo = new DAL.GalleryDAL.GalleryRepository();
+                return View(GalleryRepo.SelectOne(id));
+            }
+            else
+            {
+                return RedirectToAction("Index");
+            }
+        }
+
+        [HttpPost]
+        public ActionResult GalleryDelete(int id, gallery _gallery)
+        {
+
+            if (Session["userName"] != null)
+            {
+                try
+                {
+                    DAL.GalleryDAL.GalleryRepository GalleryRepo = new DAL.GalleryDAL.GalleryRepository();
+                    GalleryRepo.Delete(id, Server.MapPath("~"));
+
+                    return RedirectToAction("Gallery");
+                }
+                catch
+                {
+                    return View();
+                }
+            }
+            else
+            {
+                return RedirectToAction("Index");
+            }
+        }
+
+        [HttpGet]
+        public ActionResult GalleryCreate()
+        {
+            if (Session["userName"] != null)
+            {
+                return View();
+            }
+            else
+            {
+                return RedirectToAction("Index");
+            }
+        }
+
+        [HttpPost]
+        public ActionResult GalleryCreate(gallery _gallery)
+        {
+
+            if (Session["userName"] != null)
+            {
+                try
+                {
+                    DAL.GalleryDAL.GalleryRepository GalleryRepo = new DAL.GalleryDAL.GalleryRepository();
+                    GalleryRepo.Insert(_gallery);
+
+                    return RedirectToAction("Gallery");
+                }
+                catch
+                {
+                    return View();
+                }
+            }
+            else
+            {
+                return RedirectToAction("Index");
+            }
+        }
+        public ActionResult GalleryDetails(int id)
+        {
+
+            if (Session["userName"] != null)
+            {
+                DAL.GalleryDAL.GalleryRepository GalleryRepo = new DAL.GalleryDAL.GalleryRepository();
+                gallery _gallery = GalleryRepo.SelectOne(id);
+
+                return View(_gallery);
+            }
+            else
+            {
+                return RedirectToAction("Index");
+            }
+        }
+
+
+        //Applicants and Business////////////////////////////////////
         public ActionResult ListApplicants()
         {
             if (Session["userName"] != null)

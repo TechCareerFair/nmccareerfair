@@ -1,0 +1,44 @@
+﻿@model TechCareerFair.Models.faq
+
+<div>
+    <h4>faq</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Question)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Question)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Answer)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Answer)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Website)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Website)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.IsApplicantQ)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.IsApplicantQ)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "FaqEdit", new { id = Model.FaqID }) |
+    @Html.ActionLink("Back to List", "FaqPage")
+</p>
