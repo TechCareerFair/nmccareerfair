@@ -365,6 +365,19 @@
     <Content Include="Views\Admin\PositionDetails.cshtml" />
     <Content Include="Views\Admin\EditPosition.cshtml" />
     <Content Include="Views\Admin\DeletePosition.cshtml" />
+    <Content Include="Views\Admin\FaqDelete.cshtml" />
+    <Content Include="Views\Admin\FaqDetails.cshtml" />
+    <Content Include="Views\Admin\FieldOfStudy.cshtml" />
+    <Content Include="Views\Admin\FieldOfStudyCreate.cshtml" />
+    <Content Include="Views\Admin\FieldOfStudyDelete.cshtml" />
+    <Content Include="Views\Admin\FieldOfStudyDetails.cshtml" />
+    <Content Include="Views\Admin\FieldOfStudyEdit.cshtml" />
+    <Content Include="Views\Admin\Gallery.cshtml" />
+    <Content Include="Views\Admin\GalleryCreate.cshtml" />
+    <Content Include="Views\Admin\GalleryDelete.cshtml" />
+    <Content Include="Views\Admin\GalleryDetails.cshtml" />
+    <Content Include="Views\Admin\GalleryEdit.cshtml" />
+    <Content Include="Views\Admin\LandingPageEdit.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
