@@ -40,9 +40,9 @@ namespace TechCareerFair.DAL.PositionDAL
                             position.PositionID = DatabaseHelper.CheckNullInt(reader, 0);
                             position.Business = DatabaseHelper.CheckNullInt(reader, 1);
                             position.Name = DatabaseHelper.CheckNullString(reader, 2);
-                            position.Description = DatabaseHelper.CheckNullString(reader, 2);
-                            position.Website = DatabaseHelper.CheckNullString(reader, 2);
-                            position.Internship = DatabaseHelper.CheckNullBool(reader, 2);
+                            position.Description = DatabaseHelper.CheckNullString(reader, 3);
+                            position.Website = DatabaseHelper.CheckNullString(reader, 4);
+                            position.Internship = DatabaseHelper.CheckNullBool(reader, 5);
 
                             positions.Add(position);
                         }

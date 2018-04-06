@@ -480,6 +480,162 @@ namespace TechCareerFair.Controllers
 
         }
 
+        public ActionResult ListPositions(int id)
+        {
+            if (Session["userName"] != null)
+            {
+                TechCareerFair.DAL.PositionDAL.PositionRepository pr = new DAL.PositionDAL.PositionRepository();
+                List<position> positions = pr.SelectAll().ToList();
+
+                BusinessRepository businessRepository = new BusinessRepository();
+                business business = businessRepository.SelectOne(id);
+                ViewBag.Business = business.BusinessName;
+                ViewBag.ID = id;
+
+                positions = positions.Where(p => p.Business == id).ToList();
+
+                return View(positions);
+            }
+            else
+            {
+                return RedirectToAction("Index");
+            }
+        }
+
+        // GET: Admin/Create
+        public ActionResult CreatePosition(int id)
+        {
+            if (Session["userName"] != null)
+            {
+                BusinessRepository br = new BusinessRepository();
+                business bus = br.SelectOne(id);
+                ViewBag.Business = bus.BusinessName;
+                ViewBag.ID = id;
+
+                position position = new position();
+                position.Business = id;
+
+                return View(position);
+            }
+            else
+            {
+                return RedirectToAction("Index");
+            }
+
+        }
+
+        // POST: Admin/Create
+        [HttpPost]
+        public ActionResult CreatePosition(position position)
+        {
+            if (Session["userName"] != null)
+            {
+                TechCareerFair.DAL.PositionDAL.PositionRepository pr = new DAL.PositionDAL.PositionRepository();
+                pr.Insert(position);
+
+                return RedirectToAction("ListPositions", new { id = position.Business });
+            }
+            else
+            {
+                return RedirectToAction("Index");
+            }
+
+        }
+
+        // GET: Admin/Details/5
+        public ActionResult PositionDetails(int id)
+        {
+            if (Session["userName"] != null)
+            {
+                TechCareerFair.DAL.PositionDAL.PositionRepository pr = new DAL.PositionDAL.PositionRepository();
+                position position = pr.SelectOne(id);
+
+                BusinessRepository br = new BusinessRepository();
+                business bus = br.SelectOne(position.Business);
+                ViewBag.Business = bus.BusinessName;
+
+                return View(position);
+            }
+            else
+            {
+                return RedirectToAction("Index");
+            }
+
+        }
+
+        public ActionResult EditPosition(int id)
+        {
+            if (Session["userName"] != null)
+            {
+                TechCareerFair.DAL.PositionDAL.PositionRepository pr = new DAL.PositionDAL.PositionRepository();
+                position position = pr.SelectOne(id);
+
+                return View(position);
+            }
+            else
+            {
+                return RedirectToAction("Index");
+            }
+        }
+
+        [HttpPost]
+        public ActionResult EditPosition(position position)
+        {
+            if (Session["userName"] != null)
+            {
+                TechCareerFair.DAL.PositionDAL.PositionRepository pr = new DAL.PositionDAL.PositionRepository();
+                pr.Update(position);
+
+                return RedirectToAction("ListPositions", new { id = position.Business });
+            }
+            else
+            {
+                return RedirectToAction("Index");
+            }
+        }
+
+        // GET: Admin/Create
+        public ActionResult DeletePosition(int id)
+        {
+            if (Session["userName"] != null)
+            {
+                TechCareerFair.DAL.PositionDAL.PositionRepository pr = new DAL.PositionDAL.PositionRepository();
+                position position = pr.SelectOne(id);
+
+                BusinessRepository br = new BusinessRepository();
+                business bus = br.SelectOne(position.Business);
+                ViewBag.Business = bus.BusinessName;
+
+                return View(position);
+            }
+            else
+            {
+                return RedirectToAction("Index");
+            }
+
+        }
+
+        // POST: Admin/Create
+        [HttpPost]
+        public ActionResult DeletePosition(int id, FormCollection collection)
+        {
+            if (Session["userName"] != null)
+            {
+                TechCareerFair.DAL.PositionDAL.PositionRepository pr = new DAL.PositionDAL.PositionRepository();
+                position position = pr.SelectOne(id);
+                int businessID = position.Business;
+
+                pr.Delete(id);
+
+                return RedirectToAction("ListPositions", new { id = businessID });
+            }
+            else
+            {
+                return RedirectToAction("Index");
+            }
+
+        }
+
         // GET: Admin/Delete/5
         public ActionResult DeleteApplicant(int id)
         {
