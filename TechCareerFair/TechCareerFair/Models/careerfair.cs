@@ -5,6 +5,8 @@ namespace TechCareerFair.Models
     using System.ComponentModel.DataAnnotations;
     using System.ComponentModel.DataAnnotations.Schema;
     using System.Data.Entity.Spatial;
+    using System.Drawing;
+    using GoogleMaps.LocationServices;
 
     [Table("careerfair.careerfair")]
     public partial class careerfair
@@ -26,5 +28,12 @@ namespace TechCareerFair.Models
         public string Address { get; set; }
 
         public string About { get; set; }
+
+        public MapPoint GeoCodeAddress()
+        {
+            var locationservice = new GoogleLocationService();
+            return locationservice.GetLatLongFromAddress(Address);
+        }
+
     }
 }
