@@ -11,7 +11,7 @@ namespace TechCareerFair.DAL
         IEnumerable<business> SelectAll();
         business SelectOne(int id);
         void Insert(business business);
-        void Update(business business);
-        void Delete(int id);
+        void Update(business business, string serverPath);
+        void Delete(int id, string serverPath);
     }
 }

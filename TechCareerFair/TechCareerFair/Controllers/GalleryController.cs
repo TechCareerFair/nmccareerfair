@@ -84,7 +84,7 @@ namespace TechCareerFair.Controllers
         {
             if (ModelState.IsValid)
             {
-                gr.Update(gallery);
+                gr.Update(gallery, Server.MapPath("~"));
                 return RedirectToAction("Index");
             }
             return View(gallery);
@@ -112,7 +112,7 @@ namespace TechCareerFair.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
-            gr.Delete(id);
+            gr.Delete(id, Server.MapPath("~"));
             return RedirectToAction("Index");
         }
 

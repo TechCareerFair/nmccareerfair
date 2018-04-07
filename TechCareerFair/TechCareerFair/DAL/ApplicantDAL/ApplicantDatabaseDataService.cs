@@ -218,9 +218,14 @@ namespace TechCareerFair.DAL
             }
         }
 
-        public void Remove(applicant applicant)
+        public void Remove(applicant applicant, string serverPath)
         {
             RemoveAll(applicant.ApplicantID);
+
+            if ((System.IO.File.Exists(serverPath + applicant.Resume)))
+            {
+                System.IO.File.Delete(serverPath + applicant.Resume);
+            }
 
             using (SqlConnection connection = new SqlConnection(DataSettings.CONNECTION_STRING))
             {
@@ -257,10 +262,18 @@ namespace TechCareerFair.DAL
             }
         }
 
-        public void Update(applicant applicant)
+        public void Update(applicant applicant, string serverPath, string oldResume)
         {
             RemoveAll(applicant.ApplicantID);
             Insert(applicant.Fields, applicant.ApplicantID);
+
+            if (oldResume != applicant.Resume)
+            {
+                if ((System.IO.File.Exists(serverPath + oldResume)))
+                {
+                    System.IO.File.Delete(serverPath + oldResume);
+                }
+            }
 
             using (SqlConnection connection = new SqlConnection(DataSettings.CONNECTION_STRING))
             {
@@ -290,5 +303,49 @@ namespace TechCareerFair.DAL
                 }
             }
         }
+
+        public void UpdateApplicantProfile(applicant applicant, string serverPath, string oldResume)
+        {
+            RemoveAll(applicant.ApplicantID);
+            Insert(applicant.Fields, applicant.ApplicantID);
+
+            if (oldResume != applicant.Resume)
+            {
+                if ((System.IO.File.Exists(serverPath + oldResume)))
+                {
+                    System.IO.File.Delete(serverPath + oldResume);
+                }
+            }
+
+            using (SqlConnection connection = new SqlConnection(DataSettings.CONNECTION_STRING))
+            {
+                connection.Open();
+                StringBuilder sb = new StringBuilder();
+                sb.Append("UPDATE [careerfair].[applicant]");
+                sb.Append("[Email] = @param2,[FirstName] = @param3,[LastName] = @param4,[University] = @param5,[Alumni] = @param6,[Profile] = @param7,[SocialMedia] = @param8,[Resume] = @param9,[YearsExperience] = @param10,[Internship] = @param11");
+                sb.Append(" WHERE [ApplicantID] = " + applicant.ApplicantID);
+                String sql = sb.ToString();
+
+                using (SqlCommand command = new SqlCommand(sql, connection))
+                {
+                    command.Parameters.Add("@param1", SqlDbType.NChar, 64).Value = (object)applicant.Password ?? DBNull.Value;
+                    command.Parameters.Add("@param2", SqlDbType.NVarChar, 320).Value = (object)applicant.Email ?? DBNull.Value;
+                    command.Parameters.Add("@param3", SqlDbType.NVarChar, 50).Value = (object)applicant.FirstName ?? DBNull.Value;
+                    command.Parameters.Add("@param4", SqlDbType.NVarChar, 50).Value = (object)applicant.LastName ?? DBNull.Value;
+                    command.Parameters.Add("@param5", SqlDbType.NVarChar, 50).Value = (object)applicant.University ?? DBNull.Value;
+                    command.Parameters.Add("@param6", SqlDbType.Bit).Value = (object)applicant.Alumni ?? DBNull.Value;
+                    command.Parameters.Add("@param7", SqlDbType.NVarChar, int.MaxValue).Value = (object)applicant.Profile ?? DBNull.Value;
+                    command.Parameters.Add("@param8", SqlDbType.NVarChar, int.MaxValue).Value = (object)applicant.SocialMedia ?? DBNull.Value;
+                    command.Parameters.Add("@param9", SqlDbType.NVarChar, int.MaxValue).Value = (object)applicant.Resume ?? DBNull.Value;
+                    command.Parameters.Add("@param10", SqlDbType.TinyInt).Value = (object)applicant.YearsExperience ?? DBNull.Value;
+                    command.Parameters.Add("@param11", SqlDbType.Bit).Value = (object)applicant.Internship ?? DBNull.Value;
+                    command.Parameters.Add("@param12", SqlDbType.Bit).Value = (object)applicant.Active ?? DBNull.Value;
+                    command.CommandType = System.Data.CommandType.Text;
+                    command.ExecuteNonQuery();
+                }
+            }
+        }
+
+
     }
 }

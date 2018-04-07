@@ -17,14 +17,14 @@ namespace TechCareerFair.DAL
             _applicants = _ds.Read();
         }
 
-        public void Delete(int id)
+        public void Delete(int id, string serverPath)
         {
             var applicant = _applicants.Where(g => g.ApplicantID == id).FirstOrDefault();
 
             if (applicant != null)
             {
                 _applicants.Remove(applicant);
-                _ds.Remove(applicant);
+                _ds.Remove(applicant, serverPath);
             }
         }
 
@@ -54,9 +54,7 @@ namespace TechCareerFair.DAL
             return selectedApplicant;
         }
 
-      
-
-        public void Update(applicant applicant)
+        public void Update(applicant applicant, string serverPath)
         {
             var oldApplicant = _applicants.Where(a => a.ApplicantID == applicant.ApplicantID).FirstOrDefault();
 
@@ -64,7 +62,19 @@ namespace TechCareerFair.DAL
             {
                 _applicants.Remove(oldApplicant);
                 _applicants.Add(applicant);
-                _ds.Update(applicant);
+                _ds.Update(applicant, serverPath, oldApplicant.Resume);
+            }
+        }
+        
+        public void UpdateApplicantProfile(applicant applicant, string serverPath)
+        {
+            var oldApplicant = _applicants.Where(a => a.ApplicantID == applicant.ApplicantID).FirstOrDefault();
+
+            if (oldApplicant != null)
+            {
+                _applicants.Remove(oldApplicant);
+                _applicants.Add(applicant);
+                _ds.UpdateApplicantProfile(applicant, serverPath, oldApplicant.Resume);
             }
         }
 

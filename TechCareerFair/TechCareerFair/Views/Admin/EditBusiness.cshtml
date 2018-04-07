@@ -2,6 +2,16 @@
 
 @{
     ViewBag.Title = "Admin - Edit Business";
+
+    var states = (List<SelectListItem>)ViewBag.States;
+    foreach(SelectListItem state in states)
+    {
+        if(Model.State == state.Value)
+        {
+            state.Selected = true;
+            break;
+        }
+    }
 }
 
 <h2>Edit Business</h2>
@@ -12,7 +22,7 @@
     }
 </style>
 
-@using (Html.BeginForm())
+@using (Html.BeginForm("EditBusiness", "Admin", FormMethod.Post, new { enctype = "multipart/form-data" }))
 {
     @Html.AntiForgeryToken()
     
@@ -79,6 +89,30 @@
     </div>
 
     <div class="form-group">
+        @Html.LabelFor(model => model.Positions, htmlAttributes: new { @class = "control-label col-md-2" })
+        @Html.ActionLink("Manage", "ListPositions", new { id = Model.BusinessID }, new { @class = "btn btn-default col-md-1" })
+        <div class="col-md-8">
+            @foreach (TechCareerFair.Models.position position in ViewBag.Positions)
+        {
+            string fullSite = position.Website;
+            if (!fullSite.IsEmpty() && !fullSite.Contains("http") && !fullSite.Contains("https"))
+            {
+                fullSite = "<a href='http://" + fullSite + "'>" + position.Name + "</a>";
+            }
+            else
+            {
+                fullSite = position.Name;
+            }
+            <p>
+                Name: @Html.Raw(fullSite) <br />
+                Description: @position.Description <br />
+                Is Internship: @position.Internship.ToString()
+            </p>
+    }
+        </div>
+    </div>
+
+    <div class="form-group">
         @Html.LabelFor(model => model.Street, htmlAttributes: new { @class = "control-label col-md-2" })
         <div class="col-md-10">
             @Html.EditorFor(model => model.Street, new { htmlAttributes = new { @class = "form-control" } })
@@ -97,7 +131,7 @@
     <div class="form-group">
         @Html.LabelFor(model => model.State, htmlAttributes: new { @class = "control-label col-md-2" })
         <div class="col-md-10">
-            @Html.EditorFor(model => model.State, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.DropDownListFor(model => model.State, states, htmlAttributes: new { @class = "form-control" })
             @Html.ValidationMessageFor(model => model.State, "", new { @class = "text-danger" })
         </div>
     </div>
@@ -201,7 +235,9 @@
     <div class="form-group">
         @Html.LabelFor(model => model.Photo, htmlAttributes: new { @class = "control-label col-md-2" })
         <div class="col-md-10">
-            @Html.EditorFor(model => model.Photo, new { htmlAttributes = new { @class = "form-control" } })
+            <input class="form-control" type="file" id="fileUpload" name="fileUpload" /> @Html.CheckBox("removeImage") <span>Remove</span>
+            <img src='@Html.DisplayFor(model => model.Photo).ToHtmlString()' />
+            @Html.EditorFor(model => model.Photo, new { htmlAttributes = new { @class = "hidden" } })
             @Html.ValidationMessageFor(model => model.Photo, "", new { @class = "text-danger" })
         </div>
     </div>

@@ -1,76 +1,114 @@
 ﻿@model IEnumerable<TechCareerFair.Models.business>
 
+@using PagedList;
+@using PagedList.Mvc;
+
 @{
     ViewBag.Title = "Admin - Manage Business Accounts";
+    var pagedList = (IPagedList)Model;
+    var criteria = ViewBag.CurrentCriteria;
+    var currentFilter = ViewBag.CurrentFilter;
 }
 
 <h2>Admin - Manage Business Accounts</h2>
 
+Page @(pagedList.PageCount < pagedList.PageNumber ? 0 : pagedList.PageNumber) of @pagedList.PageCount
+@Html.PagedListPager(pagedList, page => Url.Action("ListBusinesses", new { page, filter = currentFilter, sortOrder = ViewBag.CurrentSort, searchCriteria = criteria}))
+
+@using (Html.BeginForm())
+{
+<div id="FilterSearch" class="form-horizontal">
+
+    <div class="form-group">
+        @Html.Label("Search by Business Name", htmlAttributes: new { @class = "control-label col-md-2" })
+        @Html.TextBox("searchCriteria", null, new { @class = "form-control" })
+    </div>
+
+    <div class="form-group">
+        @Html.Label("Filter by Account Status", htmlAttributes: new { @class = "control-label col-md-2" })
+        <select id="filter" name="filter" class="form-control">
+            <option value="None">None</option>
+            <option value="Approved">Approved</option>
+            <option value="NotApproved">Not Approved</option>
+            <option value="Active">Active</option>
+            <option value="Inactive">Inactive</option>
+        </select>
+    </div>
+
+    <div class="form-group">
+        <input type="submit" value="Find Businesses" class="btn col-md-2 col-md-offset-2" />
+        <input type="button" value="Reset Business List" onclick="location.href='@Url.Action("ListBusinesses","Admin")'" class="btn col-md-2 col-md-offset-2" />
+    </div>
+
+</div>
+}
+
 <p>
-    @Html.ActionLink("Create New", "CreateBusiness") | @Html.ActionLink("Return", "Index")
+    @Html.ActionLink("Create New", "CreateBusiness") | @Html.ActionLink("Return", "LandingPage")
 </p>
 <table class="table">
     <tr>
         <th>
-            @Html.DisplayNameFor(model => model.Email)
+            @Html.ActionLink(@Html.DisplayNameFor(model => model.Email).ToHtmlString(), "ListBusinesses", new { sortOrder = "Email", searchCriteria = criteria, filter = currentFilter})
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.BusinessName)
+            @Html.ActionLink(@Html.DisplayNameFor(model => model.BusinessName).ToHtmlString(), "ListBusinesses", new { sortOrder = "BusinessName", searchCriteria = criteria, filter = currentFilter })
         </th>
         <th>
             @Html.DisplayNameFor(model => model.Phone)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.ContactMe)
+            @Html.ActionLink(@Html.DisplayNameFor(model => model.ContactMe).ToHtmlString(), "ListBusinesses", new { sortOrder = "ContactMe", searchCriteria = criteria, filter = currentFilter })
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.PreferEmail)
+            @Html.ActionLink(@Html.DisplayNameFor(model => model.PreferEmail).ToHtmlString(), "ListBusinesses", new { sortOrder = "PreferEmail", searchCriteria = criteria, filter = currentFilter })
             <br />(if unchecked, contact by phone)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.Approved)
+            @Html.ActionLink(@Html.DisplayNameFor(model => model.Approved).ToHtmlString(), "ListBusinesses", new { sortOrder = "Approved", searchCriteria = criteria, filter = currentFilter })
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.Active)
+            @Html.ActionLink(@Html.DisplayNameFor(model => model.Active).ToHtmlString(), "ListBusinesses", new { sortOrder = "Active", searchCriteria = criteria, filter = currentFilter })
         </th>
         <th></th>
     </tr>
 
-@foreach (var item in Model) {
-    <tr>
-        <td>
-            <a href="mailto:@Html.DisplayFor(modelItem => item.Email)">@Html.DisplayFor(modelItem => item.Email)</a>
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.BusinessName)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Phone)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.ContactMe)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.PreferEmail)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Approved)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Active)
-        </td>
-        <td>
-            @Html.ActionLink("Edit", "EditBusiness", new { id = item.BusinessID }) |
-            @Html.ActionLink("Details", "BusinessDetails", new { id = item.BusinessID }) |
-            @Html.ActionLink("Delete", "DeleteBusiness", new { id = item.BusinessID })
-        </td>
-    </tr>
-}
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                <a href="mailto:@Html.DisplayFor(modelItem => item.Email)">@Html.DisplayFor(modelItem => item.Email)</a>
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.BusinessName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Phone)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ContactMe)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.PreferEmail)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Approved)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Active)
+            </td>
+            <td>
+                @Html.ActionLink("Edit", "EditBusiness", new { id = item.BusinessID }) |
+                @Html.ActionLink("Details", "BusinessDetails", new { id = item.BusinessID }) |
+                @Html.ActionLink("Delete", "DeleteBusiness", new { id = item.BusinessID })
+            </td>
+        </tr>
+    }
 
 </table>
 
 <p>
-    @Html.ActionLink("Return", "Index")
+    @Html.ActionLink("Return", "LandingPage")
 </p>
 <style>
     .body-content {

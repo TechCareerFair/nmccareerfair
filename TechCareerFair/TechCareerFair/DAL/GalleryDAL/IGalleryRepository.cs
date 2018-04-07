@@ -12,7 +12,7 @@ namespace TechCareerFair.DAL.GalleryDAL
         IEnumerable<gallery> SelectAll();
         gallery SelectOne(int id);
         void Insert(gallery gallery);
-        void Update(gallery gallery);
-        void Delete(int id);
+        void Update(gallery gallery, string serverPath);
+        void Delete(int id, string serverPath);
     }
 }

@@ -75,8 +75,13 @@ namespace TechCareerFair.DAL.GalleryDAL
             }
         }
 
-        public void Remove(gallery gallery)
+        public void Remove(gallery gallery, string serverPath)
         {
+            if ((System.IO.File.Exists(serverPath + gallery.Directory)))
+            {
+                System.IO.File.Delete(serverPath + gallery.Directory);
+            }
+
             using (SqlConnection connection = new SqlConnection(DataSettings.CONNECTION_STRING))
             {
                 connection.Open();
@@ -93,8 +98,16 @@ namespace TechCareerFair.DAL.GalleryDAL
             }
         }
 
-        public void Update(gallery gallery)
+        public void Update(gallery gallery, string serverPath, string oldPath)
         {
+            if (oldPath != gallery.Directory)
+            {
+                if ((System.IO.File.Exists(serverPath + oldPath)))
+                {
+                    System.IO.File.Delete(serverPath + oldPath);
+                }
+            }
+
             using (SqlConnection connection = new SqlConnection(DataSettings.CONNECTION_STRING))
             {
                 connection.Open();

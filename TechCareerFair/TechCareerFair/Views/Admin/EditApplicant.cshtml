@@ -11,7 +11,7 @@
     }
 </style>
 
-@using (Html.BeginForm())
+@using (Html.BeginForm("EditApplicant", "Admin", FormMethod.Post, new { enctype = "multipart/form-data" }))
 {
     @Html.AntiForgeryToken()
     
@@ -106,7 +106,9 @@
     <div class="form-group">
         @Html.LabelFor(model => model.Resume, htmlAttributes: new { @class = "control-label col-md-2" })
         <div class="col-md-10">
-            @Html.EditorFor(model => model.Resume, new { htmlAttributes = new { @class = "form-control" } })
+            <input class="form-control" type="file" id="fileUpload" name="fileUpload" /> @Html.CheckBox("removeResume") <span>Remove</span>
+            @Html.DisplayFor(model => model.Resume)
+            @Html.EditorFor(model => model.Resume, new { htmlAttributes = new { @class = "hidden" } })
             @Html.ValidationMessageFor(model => model.Resume, "", new { @class = "text-danger" })
         </div>
     </div>

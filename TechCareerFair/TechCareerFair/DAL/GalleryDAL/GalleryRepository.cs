@@ -16,14 +16,14 @@ namespace TechCareerFair.DAL.GalleryDAL
             _galleries = _ds.Read();
         }
 
-        public void Delete(int id)
+        public void Delete(int id, string serverPath)
         {
             var gallery = _galleries.Where(g => g.GalleryID == id).FirstOrDefault();
 
             if (gallery != null)
             {
                 _galleries.Remove(gallery);
-                _ds.Remove(gallery);
+                _ds.Remove(gallery, serverPath);
             }
         }
 
@@ -59,7 +59,7 @@ namespace TechCareerFair.DAL.GalleryDAL
             return selectedGallery;
         }
 
-        public void Update(gallery gallery)
+        public void Update(gallery gallery, string serverPath)
         {
             var oldGallery = _galleries.Where(g => g.GalleryID == gallery.GalleryID).FirstOrDefault();
 
@@ -67,7 +67,7 @@ namespace TechCareerFair.DAL.GalleryDAL
             {
                 _galleries.Remove(oldGallery);
                 _galleries.Add(gallery);
-                _ds.Update(gallery);
+                _ds.Update(gallery, serverPath, oldGallery.Directory);
             }
         }
     }

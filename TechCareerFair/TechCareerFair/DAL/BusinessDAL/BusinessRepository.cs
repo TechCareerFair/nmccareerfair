@@ -16,14 +16,14 @@ namespace TechCareerFair.DAL
             _businesses = _ds.Read();
         }
 
-        public void Delete(int id)
+        public void Delete(int id, string serverPath)
         {
             var business = _businesses.Where(g => g.BusinessID == id).FirstOrDefault();
 
             if (business != null)
             {
                 _businesses.Remove(business);
-                _ds.Remove(business);
+                _ds.Remove(business, serverPath);
             }
         }
 
@@ -53,8 +53,7 @@ namespace TechCareerFair.DAL
             return selectedBusiness;
         }
 
-
-        public void Update(business business)
+        public void Update(business business, string serverPath)
         {
             var oldBusiness = _businesses.Where(b => b.BusinessID == business.BusinessID).FirstOrDefault();
 
@@ -62,7 +61,19 @@ namespace TechCareerFair.DAL
             {
                 _businesses.Remove(oldBusiness);
                 _businesses.Add(business);
-                _ds.Update(business);
+                _ds.Update(business, serverPath, oldBusiness.Photo);
+            }
+        }
+
+        public void UpdateBusinessProfile(business business, string serverPath)
+        {
+            var oldBusiness = _businesses.Where(b => b.BusinessID == business.BusinessID).FirstOrDefault();
+
+            if (oldBusiness != null)
+            {
+                _businesses.Remove(oldBusiness);
+                _businesses.Add(business);
+                _ds.UpdateBusinessProfile(business, serverPath, oldBusiness.Photo);
             }
         }
 

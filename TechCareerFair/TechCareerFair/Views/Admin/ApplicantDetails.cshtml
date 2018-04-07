@@ -2,6 +2,7 @@
 
 @{
     ViewBag.Title = "Admin - Applicant Details";
+    string resume = Html.DisplayFor(model => model.Resume).ToHtmlString();
 }
 
 <style>
@@ -16,6 +17,14 @@
     <h4>Applicant Account</h4>
     <hr />
     <dl class="dl-horizontal">
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Password)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Password)
+        </dd>
 
         <dt>
             @Html.DisplayNameFor(model => model.Email)
@@ -46,11 +55,11 @@
         </dt>
         <dd></dd>
         @foreach (string field in ViewBag.Fields)
-        {
-            <dd>
-                @field
-            </dd>
-        }
+    {
+        <dd>
+            @field
+        </dd>
+}
 
         <dt>
             @Html.DisplayNameFor(model => model.University)
@@ -89,7 +98,7 @@
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.Resume)
+            @Html.DisplayFor(model => model.Resume) <a href="@resume" class="btn btn-default">Download</a>
         </dd>
 
         <dt>
