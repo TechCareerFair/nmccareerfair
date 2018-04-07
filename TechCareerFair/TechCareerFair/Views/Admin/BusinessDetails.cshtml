@@ -17,6 +17,14 @@
     <dl class="dl-horizontal">
 
         <dt>
+            @Html.DisplayNameFor(model => model.Password)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Password)
+        </dd>
+
+        <dt>
             @Html.DisplayNameFor(model => model.Email)
         </dt>
 
@@ -64,23 +72,25 @@
         </dt>
         <dd></dd>
         @foreach (TechCareerFair.Models.position position in ViewBag.Positions)
-        {
-            string fullSite = position.Website;
+    {
+        string fullSite = position.Website;
         <dd>
             @if (!fullSite.IsEmpty() && !fullSite.Contains("http") && !fullSite.Contains("https"))
-            {
-                fullSite = "<a href='http://" + fullSite + "'>" + position.Name + "</a>";
-            }
-            else
-            {
-                fullSite = position.Name;
-            }
-
-            <p>Name: @Html.Raw(fullSite) <br/>
-            Description: @position.Description <br/>
-            Is Internship: @position.Internship.ToString() </p>
-        </dd>
+        {
+            fullSite = "<a href='http://" + fullSite + "'>" + position.Name + "</a>";
         }
+        else
+        {
+            fullSite = position.Name;
+        }
+
+            <p>
+                Name: @Html.Raw(fullSite) <br />
+                Description: @position.Description <br />
+                Is Internship: @position.Internship.ToString()
+            </p>
+        </dd>
+}
 
         <dt>
             @Html.DisplayNameFor(model => model.Street)
@@ -199,7 +209,7 @@
         </dt>
 
         <dd>
-            <img src = '@Html.DisplayFor(model => model.Photo).ToHtmlString()' />
+            <img src='@Html.DisplayFor(model => model.Photo).ToHtmlString()' />
         </dd>
 
         <dt>

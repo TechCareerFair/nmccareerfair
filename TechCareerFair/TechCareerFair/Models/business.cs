@@ -70,6 +70,7 @@ namespace TechCareerFair.Models
         [DataType(DataType.MultilineText)]
         public string DisplayDescription { get; set; }
 
+        [Range(0, 100)]
         public byte Attendees { get; set; }
 
         [Display(Name = "Business Description")]

@@ -10,11 +10,68 @@ using TechCareerFair.DAL.AdminDAL;
 using TechCareerFair.DAL.FaqDAL;
 using System.Web.Security;
 using System.IO;
+using PagedList;
 
 namespace TechCareerFair.Controllers
 {
     public class AdminController : Controller
     {
+        private List<SelectListItem> _states = new List<SelectListItem>()
+        {
+            new SelectListItem() {Text="Select a U.S. State", Value="NA"},
+            new SelectListItem() {Text="Alabama", Value="AL"},
+            new SelectListItem() { Text="Alaska", Value="AK"},
+            new SelectListItem() { Text="Arizona", Value="AZ"},
+            new SelectListItem() { Text="Arkansas", Value="AR"},
+            new SelectListItem() { Text="California", Value="CA"},
+            new SelectListItem() { Text="Colorado", Value="CO"},
+            new SelectListItem() { Text="Connecticut", Value="CT"},
+            new SelectListItem() { Text="District of Columbia", Value="DC"},
+            new SelectListItem() { Text="Delaware", Value="DE"},
+            new SelectListItem() { Text="Florida", Value="FL"},
+            new SelectListItem() { Text="Georgia", Value="GA"},
+            new SelectListItem() { Text="Hawaii", Value="HI"},
+            new SelectListItem() { Text="Idaho", Value="ID"},
+            new SelectListItem() { Text="Illinois", Value="IL"},
+            new SelectListItem() { Text="Indiana", Value="IN"},
+            new SelectListItem() { Text="Iowa", Value="IA"},
+            new SelectListItem() { Text="Kansas", Value="KS"},
+            new SelectListItem() { Text="Kentucky", Value="KY"},
+            new SelectListItem() { Text="Louisiana", Value="LA"},
+            new SelectListItem() { Text="Maine", Value="ME"},
+            new SelectListItem() { Text="Maryland", Value="MD"},
+            new SelectListItem() { Text="Massachusetts", Value="MA"},
+            new SelectListItem() { Text="Michigan", Value="MI"},
+            new SelectListItem() { Text="Minnesota", Value="MN"},
+            new SelectListItem() { Text="Mississippi", Value="MS"},
+            new SelectListItem() { Text="Missouri", Value="MO"},
+            new SelectListItem() { Text="Montana", Value="MT"},
+            new SelectListItem() { Text="Nebraska", Value="NE"},
+            new SelectListItem() { Text="Nevada", Value="NV"},
+            new SelectListItem() { Text="New Hampshire", Value="NH"},
+            new SelectListItem() { Text="New Jersey", Value="NJ"},
+            new SelectListItem() { Text="New Mexico", Value="NM"},
+            new SelectListItem() { Text="New York", Value="NY"},
+            new SelectListItem() { Text="North Carolina", Value="NC"},
+            new SelectListItem() { Text="North Dakota", Value="ND"},
+            new SelectListItem() { Text="Ohio", Value="OH"},
+            new SelectListItem() { Text="Oklahoma", Value="OK"},
+            new SelectListItem() { Text="Oregon", Value="OR"},
+            new SelectListItem() { Text="Pennsylvania", Value="PA"},
+            new SelectListItem() { Text="Rhode Island", Value="RI"},
+            new SelectListItem() { Text="South Carolina", Value="SC"},
+            new SelectListItem() { Text="South Dakota", Value="SD"},
+            new SelectListItem() { Text="Tennessee", Value="TN"},
+            new SelectListItem() { Text="Texas", Value="TX"},
+            new SelectListItem() { Text="Utah", Value="UT"},
+            new SelectListItem() { Text="Vermont", Value="VT"},
+            new SelectListItem() { Text="Virginia", Value="VA"},
+            new SelectListItem() { Text="Washington", Value="WA"},
+            new SelectListItem() { Text="West Virginia", Value="WV"},
+            new SelectListItem() { Text="Wisconsin", Value="WI"},
+            new SelectListItem() { Text="Wyoming", Value="WY"}
+        };
+
         // GET: Admin
         [HttpGet]
         public ActionResult Index()
@@ -561,12 +618,40 @@ namespace TechCareerFair.Controllers
 
 
         //Applicants and Business////////////////////////////////////
-        public ActionResult ListApplicants()
+        public ActionResult ListApplicants(string sortOrder, string filter, string searchCriteria, int? page)
         {
             if (Session["userName"] != null)
             {
+                ViewBag.CurrentSort = sortOrder;
+                ViewBag.CurrentCriteria = searchCriteria;
+                ViewBag.CurrentFilter = filter;
+
+                int pageSize = 30;
+                int pageNumber = (page ?? 1);
+
                 ApplicantRepository applicantRepository = new ApplicantRepository();
-                return View(applicantRepository.SelectAll());
+                IEnumerable<applicant> applicants = applicantRepository.SelectAll();
+
+                applicants = FilterApplicants(applicants, filter, searchCriteria);
+
+                switch (sortOrder)
+                {
+                    case "FirstName":
+                        applicants = applicants.OrderBy(a => a.FirstName);
+                        break;
+                    case "LastName":
+                        applicants = applicants.OrderBy(a => a.LastName);
+                        break;
+                    case "Active":
+                        applicants = applicants.OrderBy(a => a.Active);
+                        break;
+                    default:
+                        applicants = applicants.OrderBy(a => a.Email);
+                        break;
+                }
+
+                applicants = applicants.ToPagedList(pageNumber, pageSize);
+                return View(applicants);
             }
             else
             {
@@ -575,18 +660,167 @@ namespace TechCareerFair.Controllers
 
         }
 
-        public ActionResult ListBusinesses()
+        [HttpPost]
+        public ActionResult ListApplicants(string searchCriteria, string filter, int? page)
         {
             if (Session["userName"] != null)
             {
+                int pageSize = 30;
+                int pageNumber = (page ?? 1);
+
+                ViewBag.CurrentCriteria = searchCriteria;
+                ViewBag.CurrentFilter = filter;
+
+                ApplicantRepository ar = new ApplicantRepository();
+
+                IEnumerable<applicant> applicants;
+                using (ar)
+                {
+                    applicants = ar.SelectAll() as IList<applicant>;
+                }
+
+                applicants = FilterApplicants(applicants, filter, searchCriteria);
+
+                applicants = applicants.ToPagedList(pageNumber, pageSize);
+
+                return View(applicants);
+            }
+            else
+            {
+                return RedirectToAction("Index");
+            }
+        }
+
+        [NonAction]
+        private IEnumerable<applicant> FilterApplicants(IEnumerable<applicant> applicants, string filter, string searchCriteria)
+        {
+            if (searchCriteria != null)
+            {
+                applicants = applicants.Where(a => a.LastName.ToUpper().Contains(searchCriteria.ToUpper()));
+            }
+
+            if (filter != null)
+            {
+                switch (filter)
+                {
+                    case "Active":
+                        applicants = applicants.Where(a => a.Active);
+                        break;
+                    case "Inactive":
+                        applicants = applicants.Where(a => !a.Active);
+                        break;
+                }
+            }
+            return applicants;
+        }
+
+        public ActionResult ListBusinesses(string sortOrder, string filter, string searchCriteria, int? page)
+        {
+            if (Session["userName"] != null)
+            {
+                ViewBag.CurrentSort = sortOrder;
+                ViewBag.CurrentCriteria = searchCriteria;
+                ViewBag.CurrentFilter = filter;
+
+                int pageSize = 30;
+                int pageNumber = (page ?? 1);
+
                 BusinessRepository businessRepository = new BusinessRepository();
-                return View(businessRepository.SelectAll());
+                IEnumerable<business> businesses = businessRepository.SelectAll();
+
+                businesses = FilterBusinesses(businesses, filter, searchCriteria);
+
+                switch (sortOrder)
+                {
+                    case "BusinessName":
+                        businesses = businesses.OrderBy(b => b.BusinessName);
+                        break;
+                    case "ContactMe":
+                        businesses = businesses.OrderBy(b => b.ContactMe);
+                        break;
+                    case "PreferEmail":
+                        businesses = businesses.OrderBy(b => b.PreferEmail);
+                        break;
+                    case "Active":
+                        businesses = businesses.OrderBy(b => b.Active);
+                        break;
+                    case "Approved":
+                        businesses = businesses.OrderBy(b => b.Approved);
+                        break;
+                    default:
+                        businesses = businesses.OrderBy(b => b.Email);
+                        break;
+                }
+
+                businesses = businesses.ToPagedList(pageNumber, pageSize);
+                return View(businesses);
             }
             else
             {
                 return RedirectToAction("Index");
             }
 
+        }
+
+        [HttpPost]
+        public ActionResult ListBusinesses(string searchCriteria, string filter, int? page)
+        {
+            if (Session["userName"] != null)
+            {
+                int pageSize = 5;
+                int pageNumber = (page ?? 1);
+
+                ViewBag.CurrentCriteria = searchCriteria;
+                ViewBag.CurrentFilter = filter;
+
+                BusinessRepository br = new BusinessRepository();
+
+                IEnumerable<business> businesses;
+                using (br)
+                {
+                    businesses = br.SelectAll() as IList<business>;
+                }
+
+                businesses = FilterBusinesses(businesses, filter, searchCriteria);
+
+                businesses = businesses.ToPagedList(pageNumber, pageSize);
+
+                return View(businesses);
+            }
+            else
+            {
+                return RedirectToAction("Index");
+            }
+        }
+
+        [NonAction]
+        private IEnumerable<business> FilterBusinesses(IEnumerable<business> businesses, string filter, string searchCriteria)
+        {
+            if (searchCriteria != null)
+            {
+                businesses = businesses.Where(b => b.BusinessName.ToUpper().Contains(searchCriteria.ToUpper()));
+            }
+
+            if (filter != null)
+            {
+                switch (filter)
+                {
+                    case "Approved":
+                        businesses = businesses.Where(b => b.Approved);
+                        break;
+                    case "NotApproved":
+                        businesses = businesses.Where(b => !b.Approved);
+                        break;
+                    case "Active":
+                        businesses = businesses.Where(b => b.Active);
+                        break;
+                    case "Inactive":
+                        businesses = businesses.Where(b => !b.Active);
+                        break;
+                }
+            }
+
+            return businesses;
         }
 
         // GET: Admin/Details/5
@@ -683,6 +917,7 @@ namespace TechCareerFair.Controllers
             {
                 TechCareerFair.DAL.FieldDAL.FieldRepository fr = new TechCareerFair.DAL.FieldDAL.FieldRepository();
                 ViewBag.AllFields = fr.SelectAll();
+                ViewBag.States = _states;
 
                 return View();
             }
@@ -710,6 +945,8 @@ namespace TechCareerFair.Controllers
                         business.Fields.Add(f.Name);
                     }
                 }
+
+                business.State = collection["state"];
                 
                 business.Photo = UploadFile(DataSettings.BUSINESS_DIRECTORY, fileUpload);
 
@@ -724,6 +961,8 @@ namespace TechCareerFair.Controllers
             }
 
         }
+
+
 
         // GET: Admin/Edit/5
         public ActionResult EditApplicant(int id)
@@ -806,6 +1045,7 @@ namespace TechCareerFair.Controllers
                 business business = businessRepository.SelectOne(id);
                 ViewBag.Positions = business.Positions;
                 ViewBag.Fields = business.Fields;
+                ViewBag.States = _states;
 
                 return View(business);
             }
@@ -1107,7 +1347,8 @@ namespace TechCareerFair.Controllers
 
         }
         
-        public string UploadFile(string directory, HttpPostedFileBase postedFile)
+        [NonAction]
+        private string UploadFile(string directory, HttpPostedFileBase postedFile)
         {
             string pathName = "";
 

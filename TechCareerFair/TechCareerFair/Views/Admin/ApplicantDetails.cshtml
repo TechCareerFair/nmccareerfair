@@ -19,6 +19,14 @@
     <dl class="dl-horizontal">
 
         <dt>
+            @Html.DisplayNameFor(model => model.Password)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Password)
+        </dd>
+
+        <dt>
             @Html.DisplayNameFor(model => model.Email)
         </dt>
 
@@ -47,11 +55,11 @@
         </dt>
         <dd></dd>
         @foreach (string field in ViewBag.Fields)
-        {
-            <dd>
-                @field
-            </dd>
-        }
+    {
+        <dd>
+            @field
+        </dd>
+}
 
         <dt>
             @Html.DisplayNameFor(model => model.University)
