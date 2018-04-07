@@ -9,6 +9,7 @@ using TechCareerFair.Models;
 
 namespace TechCareerFair.Controllers
 {
+    
     public class HomeController : Controller
     {
         public ActionResult Index()
@@ -24,6 +25,7 @@ namespace TechCareerFair.Controllers
             return View(selectCareerFair);
         }
 
+        
         public ActionResult Contact()
         {
             ViewBag.Message = "Your contact page.";
