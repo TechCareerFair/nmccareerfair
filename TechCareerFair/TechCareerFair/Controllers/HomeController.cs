@@ -7,6 +7,7 @@ using TechCareerFair.DAL.FaqDAL;
 
 namespace TechCareerFair.Controllers
 {
+    
     public class HomeController : Controller
     {
         public ActionResult Index()
@@ -21,6 +22,7 @@ namespace TechCareerFair.Controllers
             return View();
         }
 
+        
         public ActionResult Contact()
         {
             ViewBag.Message = "Your contact page.";

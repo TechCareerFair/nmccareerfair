@@ -323,7 +323,9 @@ namespace TechCareerFair.Controllers
             businessRepository.Delete(id);
 
             return RedirectToAction("ListBusinesses");
+#pragma warning disable CS0162 // Unreachable code detected
             try
+#pragma warning restore CS0162 // Unreachable code detected
             {
                 
             }
@@ -333,13 +335,15 @@ namespace TechCareerFair.Controllers
             }
         }
 
-        public ActionResult pos(int id, FormCollection collection)
+        public ActionResult Pos(int id, FormCollection collection)
         {
             BusinessRepository businessRepository = new BusinessRepository();
             businessRepository.Delete(id);
 
             return RedirectToAction("ListBusinesses");
+#pragma warning disable CS0162 // Unreachable code detected
             try
+#pragma warning restore CS0162 // Unreachable code detected
             {
 
             }

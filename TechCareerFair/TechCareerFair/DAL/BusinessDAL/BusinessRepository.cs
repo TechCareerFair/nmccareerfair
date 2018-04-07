@@ -53,6 +53,7 @@ namespace TechCareerFair.DAL
             return selectedBusiness;
         }
 
+
         public void Update(business business)
         {
             var oldBusiness = _businesses.Where(b => b.BusinessID == business.BusinessID).FirstOrDefault();

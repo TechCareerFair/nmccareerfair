@@ -9,6 +9,10 @@ using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
 using TechCareerFair.Models;
+using System.Data;
+using System.Data.Entity;
+using TechCareerFair.DAL;
+using System.Collections.Generic;
 
 namespace TechCareerFair.Controllers
 {
@@ -54,6 +58,7 @@ namespace TechCareerFair.Controllers
 
         //
         // GET: /Account/Login
+        
         [AllowAnonymous]
         public ActionResult Login(string returnUrl)
         {
@@ -62,8 +67,46 @@ namespace TechCareerFair.Controllers
         }
 
         //
-        // POST: /Account/Login
+        // POST: /Login
         [HttpPost]
+        [AllowAnonymous]
+        [ValidateAntiForgeryToken]
+        public ActionResult Login(LoginViewModel model)
+        {
+            BusinessRepository businessRepository = new BusinessRepository();
+            TechCareerFair.DAL.BusinessRepository bs = new TechCareerFair.DAL.BusinessRepository();
+            List<business> businesses = bs.SelectAll().ToList();
+            business bus = businesses.Where(a => a.Email == model.Email && a.Password.Trim() == model.Password).FirstOrDefault();
+            ApplicantRepository applicantRepository = new ApplicantRepository();
+            TechCareerFair.DAL.ApplicantRepository ar = new TechCareerFair.DAL.ApplicantRepository();
+            List<applicant> applicants = ar.SelectAll().ToList();
+            applicant ap = applicants.Where(a => a.Email == model.Email && a.Password.Trim() == model.Password).FirstOrDefault();
+
+
+
+            if (ModelState.IsValid)
+            {
+                if (ap != null)
+                {
+
+                    return RedirectToAction("ApplicantLoginLanding", "Account");
+                }
+                else if (bus != null)
+                {
+                    return RedirectToAction("BusinessLoginLanding", "Account");
+                }
+                else
+                {
+                    ModelState.AddModelError("", "Invalid Login Attempt, Please check username and / or password");
+                }
+            }
+            return View(model);
+
+        }
+       
+        //
+        // POST: /Account/Login
+        /*[HttpPost]
         [AllowAnonymous]
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> Login(LoginViewModel model, string returnUrl)
@@ -71,6 +114,23 @@ namespace TechCareerFair.Controllers
             if (!ModelState.IsValid)
             {
                 return View(model);
+            }
+
+            // Require the user to have a confirmed email before they can log on.
+            // var user = await UserManager.FindByNameAsync(model.Email);
+            //var user = UserManager.Find(model.Email, model.Password);
+            if (user != null)
+            {
+                if (!await UserManager.IsEmailConfirmedAsync(user.Id))
+                {
+                    string callbackUrl = await SendEmailConfirmationTokenAsync(user.Id, "Confirm your account-Resend");
+
+                    // Uncomment to debug locally  
+                    ViewBag.Link = callbackUrl;
+                    ViewBag.errorMessage = "You must have a confirmed email to log on. "
+                                         + "The confirmation token has been resent to your email account.";
+                    return View("Error");
+                }
             }
 
             // This doesn't count login failures towards account lockout
@@ -89,11 +149,11 @@ namespace TechCareerFair.Controllers
                     ModelState.AddModelError("", "Invalid login attempt.");
                     return View(model);
             }
-        }
+        }*/
+
 
         //
         // GET: /Account/VerifyCode
-        [AllowAnonymous]
         public async Task<ActionResult> VerifyCode(string provider, string returnUrl, bool rememberMe)
         {
             // Require that the user has already logged in via username/password or external login
@@ -156,12 +216,13 @@ namespace TechCareerFair.Controllers
                 if (result.Succeeded)
                 {
                     await SignInManager.SignInAsync(user, isPersistent:false, rememberBrowser:false);
-                    
-                    // For more information on how to enable account confirmation and password reset please visit https://go.microsoft.com/fwlink/?LinkID=320771
-                    // Send an email with this link
-                    // string code = await UserManager.GenerateEmailConfirmationTokenAsync(user.Id);
-                    // var callbackUrl = Url.Action("ConfirmEmail", "Account", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);
-                    // await UserManager.SendEmailAsync(user.Id, "Confirm your account", "Please confirm your account by clicking <a href=\"" + callbackUrl + "\">here</a>");
+
+                    /*string code = await UserManager.GenerateEmailConfirmationTokenAsync(user.Id);
+                    var callbackUrl = Url.Action("ConfirmEmail", "Account",
+                       new { userId = user.Id, code }, protocol: Request.Url.Scheme);
+                    await UserManager.SendEmailAsync(user.Id,
+                       "Confirm your account", "Please confirm your account by clicking <a href=\""
+                       + callbackUrl + "\">here</a>");*/
 
                     return RedirectToAction("Index", "Home");
                 }
@@ -209,12 +270,10 @@ namespace TechCareerFair.Controllers
                     return View("ForgotPasswordConfirmation");
                 }
 
-                // For more information on how to enable account confirmation and password reset please visit https://go.microsoft.com/fwlink/?LinkID=320771
-                // Send an email with this link
-                // string code = await UserManager.GeneratePasswordResetTokenAsync(user.Id);
-                // var callbackUrl = Url.Action("ResetPassword", "Account", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);		
-                // await UserManager.SendEmailAsync(user.Id, "Reset Password", "Please reset your password by clicking <a href=\"" + callbackUrl + "\">here</a>");
-                // return RedirectToAction("ForgotPasswordConfirmation", "Account");
+                /*string code = await UserManager.GeneratePasswordResetTokenAsync(user.Id);
+                var callbackUrl = Url.Action("ResetPassword", "Account", new { userId = user.Id, code }, protocol: Request.Url.Scheme);
+                await UserManager.SendEmailAsync(user.Id, "Reset Password", "Please reset your password by clicking <a href=\"" + callbackUrl + "\">here</a>");
+                return RedirectToAction("ForgotPasswordConfirmation", "Account");*/
             }
 
             // If we got this far, something failed, redisplay form
@@ -314,7 +373,7 @@ namespace TechCareerFair.Controllers
             {
                 return View("Error");
             }
-            return RedirectToAction("VerifyCode", new { Provider = model.SelectedProvider, ReturnUrl = model.ReturnUrl, RememberMe = model.RememberMe });
+            return RedirectToAction("VerifyCode", new { Provider = model.SelectedProvider, model.ReturnUrl, model.RememberMe });
         }
 
         //
@@ -367,7 +426,10 @@ namespace TechCareerFair.Controllers
                 {
                     return View("ExternalLoginFailure");
                 }
-                var user = new ApplicationUser { UserName = model.Email, Email = model.Email };
+                var user = new ApplicationUser { UserName = model.Email, Email = model.Email,
+                    BirthDate = model.BirthDate,
+                    HomeTown = model.HomeTown
+                };
                 var result = await UserManager.CreateAsync(user);
                 if (result.Succeeded)
                 {
@@ -393,6 +455,14 @@ namespace TechCareerFair.Controllers
         {
             AuthenticationManager.SignOut(DefaultAuthenticationTypes.ApplicationCookie);
             return RedirectToAction("Index", "Home");
+        }
+
+        //
+        // GET: /Account/LoginFailure
+        [AllowAnonymous]
+        public ActionResult LoginFailure()
+        {
+                return View("Password is incorrect, try again");
         }
 
         //
@@ -479,6 +549,17 @@ namespace TechCareerFair.Controllers
                 }
                 context.HttpContext.GetOwinContext().Authentication.Challenge(properties, LoginProvider);
             }
+        }
+
+        private async Task<string> SendEmailConfirmationTokenAsync(string userID, string subject)
+        {
+            string code = await UserManager.GenerateEmailConfirmationTokenAsync(userID);
+            var callbackUrl = Url.Action("ConfirmEmail", "Account",
+               new { userId = userID, code }, protocol: Request.Url.Scheme);
+            await UserManager.SendEmailAsync(userID, subject,
+               "Please confirm your account by clicking <a href=\"" + callbackUrl + "\">here</a>");
+
+            return callbackUrl;
         }
         #endregion
     }

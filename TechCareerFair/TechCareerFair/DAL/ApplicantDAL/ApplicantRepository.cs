@@ -54,6 +54,8 @@ namespace TechCareerFair.DAL
             return selectedApplicant;
         }
 
+      
+
         public void Update(applicant applicant)
         {
             var oldApplicant = _applicants.Where(a => a.ApplicantID == applicant.ApplicantID).FirstOrDefault();
