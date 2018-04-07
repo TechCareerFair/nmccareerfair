@@ -21,7 +21,7 @@ namespace TechCareerFair.Models
         public virtual DbSet<faq> faqs { get; set; }
         public virtual DbSet<field> fields { get; set; }
         public virtual DbSet<gallery> galleries { get; set; }
-        public virtual DbSet<position> positions { get; set; }
+        public virtual DbSet<user2applicant> positions { get; set; }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
