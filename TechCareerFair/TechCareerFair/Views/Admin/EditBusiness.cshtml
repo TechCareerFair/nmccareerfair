@@ -2,6 +2,16 @@
 
 @{
     ViewBag.Title = "Admin - Edit Business";
+
+    var states = (List<SelectListItem>)ViewBag.States;
+    foreach(SelectListItem state in states)
+    {
+        if(Model.State == state.Value)
+        {
+            state.Selected = true;
+            break;
+        }
+    }
 }
 
 <h2>Edit Business</h2>
@@ -121,7 +131,7 @@
     <div class="form-group">
         @Html.LabelFor(model => model.State, htmlAttributes: new { @class = "control-label col-md-2" })
         <div class="col-md-10">
-            @Html.EditorFor(model => model.State, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.DropDownListFor(model => model.State, states, htmlAttributes: new { @class = "form-control" })
             @Html.ValidationMessageFor(model => model.State, "", new { @class = "text-danger" })
         </div>
     </div>
