@@ -9,7 +9,7 @@ namespace TechCareerFair.DAL
 {
     interface IApplicantRepository
     {
-        IEnumerable<applicant> SelectAll();
+        IList<applicant> SelectAll();
         applicant SelectOne(int id);
         void Insert(applicant applicant);
         void Update(applicant applicant, string serverPath);

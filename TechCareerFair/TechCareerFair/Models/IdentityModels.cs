@@ -41,7 +41,7 @@ namespace TechCareerFair.Models
 
         public System.Data.Entity.DbSet<TechCareerFair.Models.gallery> galleries { get; set; }
 
-        public System.Data.Entity.DbSet<TechCareerFair.Models.user2applicant> positions { get; set; }
+        public System.Data.Entity.DbSet<TechCareerFair.Models.position> positions { get; set; }
 
         public System.Data.Entity.DbSet<TechCareerFair.Models.applicant> applicants { get; set; }
 

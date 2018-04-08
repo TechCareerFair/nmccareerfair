@@ -10,11 +10,19 @@ namespace TechCareerFair.DAL
     public class ApplicantRepository : IApplicantRepository, IDisposable
     {
         private ApplicantDatabaseDataService _ds = new ApplicantDatabaseDataService();
-        private List<applicant> _applicants;
+        private IList<applicant> _applicants;
 
         public ApplicantRepository()
         {
             _applicants = _ds.Read();
+        }
+
+        public void GetAccountInfoByUserID(ApplicantViewModel app)
+        {
+            ApplicantViewModel accountInfo = _ds.GetAccountInfoBy(app.UserID);
+
+            app.Email = accountInfo.Email;
+            app.Password = accountInfo.Password;
         }
 
         public void Delete(int id, string serverPath)
@@ -23,7 +31,7 @@ namespace TechCareerFair.DAL
 
             if (applicant != null)
             {
-                _applicants.Remove(applicant);
+                //_applicants.Remove(applicant);
                 _ds.Remove(applicant, serverPath);
             }
         }
@@ -31,7 +39,7 @@ namespace TechCareerFair.DAL
         public void Insert(applicant applicant)
         {
             applicant.ApplicantID = NextIdValue();
-            _applicants.Add(applicant);
+            //_applicants.Add(applicant);
 
             _ds.Insert(applicant);
         }
@@ -42,9 +50,87 @@ namespace TechCareerFair.DAL
             return currentMaxId + 1;
         }
 
-        public IEnumerable<applicant> SelectAll()
+        public applicant ToModel(ApplicantViewModel a)
+        {
+            return new applicant
+            {
+                ApplicantID = a.ApplicantID,
+
+                UserID = a.UserID,
+
+                FirstName = a.FirstName,
+
+                LastName = a.LastName,
+
+                University = a.University,
+
+                Alumni = a.Alumni,
+
+                Profile = a.Profile,
+
+                SocialMedia = a.SocialMedia,
+
+                Resume = a.Resume,
+
+                YearsExperience = a.YearsExperience,
+
+                Internship = a.Internship,
+
+                Active = a.Active,
+
+                Fields = a.Fields
+            };
+        }
+
+        public ApplicantViewModel ToViewModel(applicant a)
+        {
+             return new ApplicantViewModel
+            {
+
+                ApplicantID = a.ApplicantID,
+
+                UserID = a.UserID,
+
+                FirstName = a.FirstName,
+
+                LastName = a.LastName,
+
+                University = a.University,
+
+                Alumni = a.Alumni,
+
+                Profile = a.Profile,
+
+                SocialMedia = a.SocialMedia,
+
+                Resume = a.Resume,
+
+                YearsExperience = a.YearsExperience,
+
+                Internship = a.Internship,
+
+                Active = a.Active,
+
+                Fields = a.Fields
+            };
+        }
+
+        public IList<applicant> SelectAll()
         {
             return _applicants;
+        }
+
+        public IList<ApplicantViewModel> SelectAllAsViewModel()
+        {
+            List<ApplicantViewModel> applicants = new List<ApplicantViewModel>();
+            foreach(applicant a in _applicants)
+            {
+                ApplicantViewModel avm = ToViewModel(a);
+
+                applicants.Add(avm);
+            }
+
+            return applicants;
         }
 
         public applicant SelectOne(int id)
@@ -60,8 +146,8 @@ namespace TechCareerFair.DAL
 
             if (oldApplicant != null)
             {
-                _applicants.Remove(oldApplicant);
-                _applicants.Add(applicant);
+                //_applicants.Remove(oldApplicant);
+                //_applicants.Add(applicant);
                 _ds.Update(applicant, serverPath, oldApplicant.Resume);
             }
         }
@@ -72,8 +158,8 @@ namespace TechCareerFair.DAL
 
             if (oldApplicant != null)
             {
-                _applicants.Remove(oldApplicant);
-                _applicants.Add(applicant);
+                //_applicants.Remove(oldApplicant);
+                //_applicants.Add(applicant);
                 _ds.UpdateApplicantProfile(applicant, serverPath, oldApplicant.Resume);
             }
         }

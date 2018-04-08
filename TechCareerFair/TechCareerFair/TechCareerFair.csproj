@@ -245,14 +245,6 @@
     <Compile Include="DAL\Business2FieldDAL\IBusiness2FieldRepository.cs" />
     <Compile Include="DAL\Business2FieldDAL\Business2FieldDatabaseDataService.cs" />
     <Compile Include="DAL\Business2FieldDAL\Business2FieldRepository.cs" />
-    <Compile Include="DAL\User2ApplicantDAL\IUser2ApplicantDataService.cs" />
-    <Compile Include="DAL\User2ApplicantDAL\IUser2ApplicantRepository.cs" />
-    <Compile Include="DAL\User2ApplicantDAL\User2ApplicantDatabaseDataService.cs" />
-    <Compile Include="DAL\User2ApplicantDAL\User2ApplicantRepository.cs" />
-    <Compile Include="DAL\User2BusinessDAL\IUser2BusinessDataService.cs" />
-    <Compile Include="DAL\User2BusinessDAL\IUser2BusinessRepository.cs" />
-    <Compile Include="DAL\User2BusinessDAL\User2BusinessDatabaseDataService.cs" />
-    <Compile Include="DAL\User2BusinessDAL\User2BusinessRepository.cs" />
     <Compile Include="DAL\ZipDAL\IZipDataService.cs" />
     <Compile Include="DAL\ZipDAL\IZipRepository.cs" />
     <Compile Include="DAL\ZipDAL\ZipDatabaseDataService.cs" />
@@ -282,8 +274,6 @@
     <Compile Include="Models\ManageViewModels.cs" />
     <Compile Include="Models\position.cs" />
     <Compile Include="Models\test.cs" />
-    <Compile Include="Models\user2applicant.cs" />
-    <Compile Include="Models\user2business.cs" />
     <Compile Include="Models\Zipcode.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
