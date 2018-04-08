@@ -11,16 +11,78 @@ namespace TechCareerFair.Controllers
 {
     public class ViewProfileController : Controller
     {
+        private List<SelectListItem> _states = new List<SelectListItem>()
+        {
+            new SelectListItem() {Text="Select a U.S. State", Value="NA"},
+            new SelectListItem() {Text="Alabama", Value="AL"},
+            new SelectListItem() { Text="Alaska", Value="AK"},
+            new SelectListItem() { Text="Arizona", Value="AZ"},
+            new SelectListItem() { Text="Arkansas", Value="AR"},
+            new SelectListItem() { Text="California", Value="CA"},
+            new SelectListItem() { Text="Colorado", Value="CO"},
+            new SelectListItem() { Text="Connecticut", Value="CT"},
+            new SelectListItem() { Text="District of Columbia", Value="DC"},
+            new SelectListItem() { Text="Delaware", Value="DE"},
+            new SelectListItem() { Text="Florida", Value="FL"},
+            new SelectListItem() { Text="Georgia", Value="GA"},
+            new SelectListItem() { Text="Hawaii", Value="HI"},
+            new SelectListItem() { Text="Idaho", Value="ID"},
+            new SelectListItem() { Text="Illinois", Value="IL"},
+            new SelectListItem() { Text="Indiana", Value="IN"},
+            new SelectListItem() { Text="Iowa", Value="IA"},
+            new SelectListItem() { Text="Kansas", Value="KS"},
+            new SelectListItem() { Text="Kentucky", Value="KY"},
+            new SelectListItem() { Text="Louisiana", Value="LA"},
+            new SelectListItem() { Text="Maine", Value="ME"},
+            new SelectListItem() { Text="Maryland", Value="MD"},
+            new SelectListItem() { Text="Massachusetts", Value="MA"},
+            new SelectListItem() { Text="Michigan", Value="MI"},
+            new SelectListItem() { Text="Minnesota", Value="MN"},
+            new SelectListItem() { Text="Mississippi", Value="MS"},
+            new SelectListItem() { Text="Missouri", Value="MO"},
+            new SelectListItem() { Text="Montana", Value="MT"},
+            new SelectListItem() { Text="Nebraska", Value="NE"},
+            new SelectListItem() { Text="Nevada", Value="NV"},
+            new SelectListItem() { Text="New Hampshire", Value="NH"},
+            new SelectListItem() { Text="New Jersey", Value="NJ"},
+            new SelectListItem() { Text="New Mexico", Value="NM"},
+            new SelectListItem() { Text="New York", Value="NY"},
+            new SelectListItem() { Text="North Carolina", Value="NC"},
+            new SelectListItem() { Text="North Dakota", Value="ND"},
+            new SelectListItem() { Text="Ohio", Value="OH"},
+            new SelectListItem() { Text="Oklahoma", Value="OK"},
+            new SelectListItem() { Text="Oregon", Value="OR"},
+            new SelectListItem() { Text="Pennsylvania", Value="PA"},
+            new SelectListItem() { Text="Rhode Island", Value="RI"},
+            new SelectListItem() { Text="South Carolina", Value="SC"},
+            new SelectListItem() { Text="South Dakota", Value="SD"},
+            new SelectListItem() { Text="Tennessee", Value="TN"},
+            new SelectListItem() { Text="Texas", Value="TX"},
+            new SelectListItem() { Text="Utah", Value="UT"},
+            new SelectListItem() { Text="Vermont", Value="VT"},
+            new SelectListItem() { Text="Virginia", Value="VA"},
+            new SelectListItem() { Text="Washington", Value="WA"},
+            new SelectListItem() { Text="West Virginia", Value="WV"},
+            new SelectListItem() { Text="Wisconsin", Value="WI"},
+            new SelectListItem() { Text="Wyoming", Value="WY"}
+        };
+
         public ActionResult BusinessViewProfile(int id)
         {
-            BusinessRepository businessRepository = new BusinessRepository();
-            business business = new business();
-
-            using (businessRepository)
+            if (Session["userName"] != null)
             {
-                business = businessRepository.SelectOne(id);
+                BusinessRepository businessRepository = new BusinessRepository();
+                BusinessViewModel business = businessRepository.SelectOneAsViewModel(id);
+                ViewBag.Fields = business.Fields;
+                ViewBag.Positions = business.Positions;
+
+                return View(business);
             }
-            return View(business);
+            else
+            {
+                return RedirectToAction("Index", "Home");
+            }
+
         }
 
         // GET: ViewProfile/Edit
@@ -33,9 +95,10 @@ namespace TechCareerFair.Controllers
                 TechCareerFair.DAL.FieldDAL.FieldRepository fr = new TechCareerFair.DAL.FieldDAL.FieldRepository();
                 ViewBag.AllFields = fr.SelectAll();
 
-                business business = businessRepository.SelectOne(id);
+                BusinessViewModel business = businessRepository.SelectOneAsViewModel(id);
                 ViewBag.Positions = business.Positions;
                 ViewBag.Fields = business.Fields;
+                ViewBag.States = _states;
 
                 return View(business);
             }
@@ -50,7 +113,7 @@ namespace TechCareerFair.Controllers
         // Business
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult EditBusiness([Bind(Include = "BusinessID,Email,BusinessName,FirstName,LastName,Fields,Street,City,State,Zip,Phone,Alumni,NonProfit,Outlet,Display,DisplayDescription,Attendees,BusinessDescription,Website,SocialMedia,Photo,LocationPreference,ContactMe,PreferEmail")]business business, HttpPostedFileBase fileUpload, FormCollection collection)
+        public ActionResult EditBusiness([Bind(Include = "BusinessID,Email,BusinessName,FirstName,LastName,Fields,Street,City,State,Zip,Phone,Alumni,NonProfit,Outlet,Display,DisplayDescription,Attendees,BusinessDescription,Website,SocialMedia,Photo,LocationPreference,ContactMe,PreferEmail")]BusinessViewModel business, HttpPostedFileBase fileUpload, FormCollection collection)
         {
             if (Session["userName"] != null)
             {
@@ -85,7 +148,7 @@ namespace TechCareerFair.Controllers
                 }
 
                 BusinessRepository businessRepository = new BusinessRepository();
-                businessRepository.Update(business, Server.MapPath("~"));
+                businessRepository.UpdateBusinessProfile(businessRepository.ToModel(business), Server.MapPath("~"));
 
                 return RedirectToAction("ListBusinesses");
             }
@@ -98,14 +161,20 @@ namespace TechCareerFair.Controllers
 
         public ActionResult ApplicantViewProfile(int id)
         {
-            ApplicantRepository applicantRepository = new ApplicantRepository();
-            applicant applicant = new applicant();
-
-            using (applicantRepository)
+            if (Session["userName"] != null)
             {
-                applicant = applicantRepository.SelectOne(id);
+                ApplicantRepository applicantRepository = new ApplicantRepository();
+                ApplicantViewModel applicant = applicantRepository.SelectOneAsViewModel(id);
+
+                ViewBag.Fields = applicant.Fields;
+
+                return View(applicant);
             }
-            return View(applicant);
+            else
+            {
+                return RedirectToAction("Index","Home");
+            }
+
         }
 
         // GET: ViewProfile/Edit
@@ -118,7 +187,7 @@ namespace TechCareerFair.Controllers
                 TechCareerFair.DAL.FieldDAL.FieldRepository fr = new TechCareerFair.DAL.FieldDAL.FieldRepository();
                 ViewBag.AllFields = fr.SelectAll();
 
-                applicant applicant = applicantRepository.SelectOne(id);
+                ApplicantViewModel applicant = applicantRepository.SelectOneAsViewModel(id);
                 ViewBag.Fields = applicant.Fields;
 
                 return View(applicant);
@@ -134,7 +203,7 @@ namespace TechCareerFair.Controllers
         // Applicant
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult EditApplicant([Bind(Include = "ApplicantID,Email,FirstName,LastName,Fields,University,Alumni,Profile,SocialMedia,Resume,YearsExperience,Internship")]applicant applicant, HttpPostedFileBase fileUpload, FormCollection collection)
+        public ActionResult EditApplicant([Bind(Include = "ApplicantID,Email,FirstName,LastName,Fields,University,Alumni,Profile,SocialMedia,Resume,YearsExperience,Internship")]ApplicantViewModel applicant, HttpPostedFileBase fileUpload, FormCollection collection)
         {
             if (Session["userName"] != null)
             {
@@ -169,7 +238,7 @@ namespace TechCareerFair.Controllers
                 }
 
                 ApplicantRepository applicantRepository = new ApplicantRepository();
-                applicantRepository.Update(applicant, Server.MapPath("~"));
+                applicantRepository.UpdateApplicantProfile(applicantRepository.ToModel(applicant), Server.MapPath("~"));
 
                 //applicant = applicantRepository.SelectOne(id);
 
