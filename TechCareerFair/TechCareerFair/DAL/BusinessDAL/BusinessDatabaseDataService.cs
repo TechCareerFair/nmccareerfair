@@ -155,19 +155,25 @@ namespace TechCareerFair.DAL
         {
             StringBuilder sb = new StringBuilder();
             sb.Append("SELECT [Email],[PasswordHash]");
-            sb.Append("FROM [dbo].[AspNetUsers] WHERE [Id] = " + userID);
-            String sql = sb.ToString();
-            SqlConnection connection = new SqlConnection(DataSettings.CONNECTION_STRING);
+            sb.Append("FROM [dbo].[AspNetUsers]");
+            sb.Append("WHERE [Id] = '" + userID + "'");
 
+            String sql = sb.ToString();
             BusinessViewModel bus = new BusinessViewModel();
-            using (SqlCommand command = new SqlCommand(sql, connection))
+
+            using (SqlConnection connection = new SqlConnection(DataSettings.CONNECTION_STRING))
             {
-                using (SqlDataReader reader = command.ExecuteReader())
+                connection.Open();
+
+                using (SqlCommand command = new SqlCommand(sql, connection))
                 {
-                    while (reader.Read())
+                    using (SqlDataReader reader = command.ExecuteReader())
                     {
-                        bus.Email = DatabaseHelper.CheckNullString(reader, 0);
-                        bus.Password = DatabaseHelper.CheckNullString(reader, 0);
+                        while (reader.Read())
+                        {
+                            bus.Email = DatabaseHelper.CheckNullString(reader, 0);
+                            bus.Password = DatabaseHelper.CheckNullString(reader, 1);
+                        }
                     }
                 }
             }
@@ -331,6 +337,20 @@ namespace TechCareerFair.DAL
             }
         }
 
+        private void RemoveUser(business business, SqlConnection connection)
+        {
+            StringBuilder sb = new StringBuilder();
+            sb.Append("DELETE FROM [dbo].[AspNetUsers]");
+            sb.Append("WHERE [Id] = '" + business.UserID + "'");
+            String sql = sb.ToString();
+
+            using (SqlCommand command = new SqlCommand(sql, connection))
+            {
+                command.CommandType = System.Data.CommandType.Text;
+                command.ExecuteNonQuery();
+            }
+        }
+
         private void Remove(List<position> positions)
         {
             using (TechCareerFair.DAL.PositionDAL.PositionDatabaseDataService ds = new PositionDAL.PositionDatabaseDataService())
@@ -370,6 +390,9 @@ namespace TechCareerFair.DAL
             using (SqlConnection connection = new SqlConnection(DataSettings.CONNECTION_STRING))
             {
                 connection.Open();
+
+                RemoveUser(business, connection);
+
                 StringBuilder sb = new StringBuilder();
                 sb.Append("DELETE FROM [careerfair].[business]");
                 sb.Append("WHERE [BusinessID] = " + business.BusinessID);

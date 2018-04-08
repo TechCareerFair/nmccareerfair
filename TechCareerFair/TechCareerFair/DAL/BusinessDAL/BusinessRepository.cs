@@ -174,12 +174,18 @@ namespace TechCareerFair.DAL
             return _businesses;
         }
 
+        public IEnumerable<business> SelectRange(int startRow, int numberOfRows)
+        {
+            return _ds.Read(startRow, numberOfRows);
+        }
+
         public IList<BusinessViewModel> SelectAllAsViewModel()
         {
             List<BusinessViewModel> bvms = new List<BusinessViewModel>();
             foreach (business b in _businesses)
             {
                 BusinessViewModel bvm = ToViewModel(b);
+                GetAccountInfoByUserID(bvm);
 
                 bvms.Add(bvm);
             }
@@ -190,6 +196,16 @@ namespace TechCareerFair.DAL
         public business SelectOne(int id)
         {
             business selectedBusiness = _businesses.Where(b => b.BusinessID == id).FirstOrDefault();
+
+            return selectedBusiness;
+        }
+
+        public BusinessViewModel SelectOneAsViewModel(int id)
+        {
+            business bus = _businesses.Where(b => b.BusinessID == id).FirstOrDefault();
+
+            BusinessViewModel selectedBusiness = ToViewModel(bus);
+            GetAccountInfoByUserID(selectedBusiness);
 
             return selectedBusiness;
         }

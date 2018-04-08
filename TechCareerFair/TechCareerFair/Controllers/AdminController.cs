@@ -616,29 +616,6 @@ namespace TechCareerFair.Controllers
             }
         }
 
-
-        [NonAction]
-        private void GetAccountInfo(IEnumerable<ApplicantViewModel> applicants)
-        {
-            ApplicantRepository applicantRepository = new ApplicantRepository();
-
-            foreach (ApplicantViewModel a in applicants)
-            {
-                applicantRepository.GetAccountInfoByUserID(a);
-            }
-        }
-
-        [NonAction]
-        private void GetAccountInfo(IEnumerable<BusinessViewModel> businesses)
-        {
-            BusinessRepository br = new BusinessRepository();
-
-            foreach (BusinessViewModel b in businesses)
-            {
-                br.GetAccountInfoByUserID(b);
-            }
-        }
-
         //Applicants and Business////////////////////////////////////
         public ActionResult ListApplicants(string sortOrder, string filter, string searchCriteria, int? page)
         {
@@ -655,8 +632,6 @@ namespace TechCareerFair.Controllers
                 IEnumerable<ApplicantViewModel> apps = applicantRepository.SelectAllAsViewModel();
                 
                 apps = FilterApplicants(apps, filter, searchCriteria);
-                
-                //GetAccountInfo(apps);
 
                 switch (sortOrder)
                 {
@@ -703,12 +678,10 @@ namespace TechCareerFair.Controllers
                     apps = ar.SelectAllAsViewModel() as IList<ApplicantViewModel>;
                     apps = FilterApplicants(apps, filter, searchCriteria);
                 }
-                IEnumerable<ApplicantViewModel> applicants = (IEnumerable<ApplicantViewModel>)apps;
-                //GetAccountInfo(applicants);
 
-                applicants = applicants.ToPagedList(pageNumber, pageSize);
+                apps = apps.ToPagedList(pageNumber, pageSize);
 
-                return View(applicants);
+                return View(apps);
             }
             else
             {
@@ -753,8 +726,7 @@ namespace TechCareerFair.Controllers
                 BusinessRepository businessRepository = new BusinessRepository();
                 IEnumerable<BusinessViewModel> businesses = businessRepository.SelectAllAsViewModel();
                 FilterBusinesses(businesses, filter, searchCriteria);
-
-                //GetAccountInfo(businesses);
+                
 
                 switch (sortOrder)
                 {
@@ -853,7 +825,7 @@ namespace TechCareerFair.Controllers
             if (Session["userName"] != null)
             {
                 ApplicantRepository applicantRepository = new ApplicantRepository();
-                ApplicantViewModel applicant = applicantRepository.ToViewModel(applicantRepository.SelectOne(id));
+                ApplicantViewModel applicant = applicantRepository.SelectOneAsViewModel(id);
 
                 ViewBag.Fields = applicant.Fields;
 
@@ -872,7 +844,7 @@ namespace TechCareerFair.Controllers
             if (Session["userName"] != null)
             {
                 BusinessRepository businessRepository = new BusinessRepository();
-                BusinessViewModel business = businessRepository.ToViewModel(businessRepository.SelectOne(id));
+                BusinessViewModel business = businessRepository.SelectOneAsViewModel(id);
                 ViewBag.Fields = business.Fields;
                 ViewBag.Positions = business.Positions;
 
@@ -997,7 +969,7 @@ namespace TechCareerFair.Controllers
                 TechCareerFair.DAL.FieldDAL.FieldRepository fr = new TechCareerFair.DAL.FieldDAL.FieldRepository();
                 ViewBag.AllFields = fr.SelectAll();
 
-                ApplicantViewModel applicant = applicantRepository.ToViewModel(applicantRepository.SelectOne(id));
+                ApplicantViewModel applicant = applicantRepository.SelectOneAsViewModel(id);
                 ViewBag.Fields = applicant.Fields;
 
                 return View(applicant);
@@ -1066,7 +1038,7 @@ namespace TechCareerFair.Controllers
                 TechCareerFair.DAL.FieldDAL.FieldRepository fr = new TechCareerFair.DAL.FieldDAL.FieldRepository();
                 ViewBag.AllFields = fr.SelectAll();
 
-                BusinessViewModel business = businessRepository.ToViewModel(businessRepository.SelectOne(id));
+                BusinessViewModel business = businessRepository.SelectOneAsViewModel(id);
                 ViewBag.Positions = business.Positions;
                 ViewBag.Fields = business.Fields;
                 ViewBag.States = _states;
@@ -1290,7 +1262,7 @@ namespace TechCareerFair.Controllers
             if (Session["userName"] != null)
             {
                 ApplicantRepository applicantRepository = new ApplicantRepository();
-                ApplicantViewModel applicant = applicantRepository.ToViewModel(applicantRepository.SelectOne(id));
+                ApplicantViewModel applicant = applicantRepository.SelectOneAsViewModel(id);
                 ViewBag.Fields = applicant.Fields;
 
                 return View(applicant);
@@ -1333,7 +1305,7 @@ namespace TechCareerFair.Controllers
             if (Session["userName"] != null)
             {
                 BusinessRepository businessRepository = new BusinessRepository();
-                BusinessViewModel business = businessRepository.ToViewModel(businessRepository.SelectOne(id));
+                BusinessViewModel business = businessRepository.SelectOneAsViewModel(id);
                 ViewBag.Fields = business.Fields;
                 ViewBag.Positions = business.Positions;
 

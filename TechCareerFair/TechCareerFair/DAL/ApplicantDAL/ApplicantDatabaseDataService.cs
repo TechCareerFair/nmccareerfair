@@ -126,12 +126,16 @@ namespace TechCareerFair.DAL
         {
             StringBuilder sb = new StringBuilder();
             sb.Append("SELECT [Email],[PasswordHash]");
-            sb.Append("FROM [dbo].[AspNetUsers] WHERE [Id] = "+ userID);
+            sb.Append("FROM [dbo].[AspNetUsers]");
+            sb.Append("WHERE [Id] = '" + userID + "'");
+
             String sql = sb.ToString();
             ApplicantViewModel app = new ApplicantViewModel();
 
             using (SqlConnection connection = new SqlConnection(DataSettings.CONNECTION_STRING))
             {
+                connection.Open();
+
                 using (SqlCommand command = new SqlCommand(sql, connection))
                 {
                     using (SqlDataReader reader = command.ExecuteReader())
@@ -139,7 +143,7 @@ namespace TechCareerFair.DAL
                         while (reader.Read())
                         {
                             app.Email = DatabaseHelper.CheckNullString(reader, 0);
-                            app.Password = DatabaseHelper.CheckNullString(reader, 0);
+                            app.Password = DatabaseHelper.CheckNullString(reader, 1);
                         }
                     }
                 }
@@ -241,6 +245,20 @@ namespace TechCareerFair.DAL
             }
         }
 
+        private void RemoveUser(applicant applicant, SqlConnection connection)
+        {
+            StringBuilder sb = new StringBuilder();
+            sb.Append("DELETE FROM [dbo].[AspNetUsers]");
+            sb.Append("WHERE [Id] = '" + applicant.UserID + "'");
+            String sql = sb.ToString();
+
+            using (SqlCommand command = new SqlCommand(sql, connection))
+            {
+                command.CommandType = System.Data.CommandType.Text;
+                command.ExecuteNonQuery();
+            }
+        }
+
         public void Remove(applicant applicant, string serverPath)
         {
             RemoveAll(applicant.ApplicantID);
@@ -253,6 +271,9 @@ namespace TechCareerFair.DAL
             using (SqlConnection connection = new SqlConnection(DataSettings.CONNECTION_STRING))
             {
                 connection.Open();
+
+                RemoveUser(applicant, connection);
+
                 StringBuilder sb = new StringBuilder();
                 sb.Append("DELETE FROM [careerfair].[applicant]");
                 sb.Append("WHERE [ApplicantID] = " + applicant.ApplicantID);

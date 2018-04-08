@@ -17,7 +17,7 @@ namespace TechCareerFair.DAL
             _applicants = _ds.Read();
         }
 
-        public void GetAccountInfoByUserID(ApplicantViewModel app)
+        private void GetAccountInfoByUserID(ApplicantViewModel app)
         {
             ApplicantViewModel accountInfo = _ds.GetAccountInfoBy(app.UserID);
 
@@ -120,12 +120,18 @@ namespace TechCareerFair.DAL
             return _applicants;
         }
 
+        public IEnumerable<applicant> SelectRange(int startRow, int numberOfRows)
+        {
+            return _ds.Read(startRow, numberOfRows);
+        }
+
         public IList<ApplicantViewModel> SelectAllAsViewModel()
         {
             List<ApplicantViewModel> applicants = new List<ApplicantViewModel>();
             foreach(applicant a in _applicants)
             {
                 ApplicantViewModel avm = ToViewModel(a);
+                GetAccountInfoByUserID(avm);
 
                 applicants.Add(avm);
             }
@@ -136,6 +142,16 @@ namespace TechCareerFair.DAL
         public applicant SelectOne(int id)
         {
             applicant selectedApplicant = _applicants.Where(a => a.ApplicantID == id).FirstOrDefault();
+
+            return selectedApplicant;
+        }
+
+        public ApplicantViewModel SelectOneAsViewModel(int id)
+        {
+            applicant app = _applicants.Where(a => a.ApplicantID == id).FirstOrDefault();
+
+            ApplicantViewModel selectedApplicant = ToViewModel(app);
+            GetAccountInfoByUserID(selectedApplicant);
 
             return selectedApplicant;
         }

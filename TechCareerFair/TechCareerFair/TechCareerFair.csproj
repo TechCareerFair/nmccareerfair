@@ -419,6 +419,7 @@
     <Folder Include="Content\Images\Business\" />
     <Folder Include="Content\Images\Gallery\" />
     <Folder Include="Content\Resume\" />
+    <Folder Include="DAL\AspNetUsersDAL\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />
