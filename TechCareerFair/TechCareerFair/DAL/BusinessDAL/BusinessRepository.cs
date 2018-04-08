@@ -65,7 +65,7 @@ namespace TechCareerFair.DAL
             }
         }
 
-        public void UpdateBusinessProfile(business business, string serverPath)
+        public void Update(business business)
         {
             var oldBusiness = _businesses.Where(b => b.BusinessID == business.BusinessID).FirstOrDefault();
 

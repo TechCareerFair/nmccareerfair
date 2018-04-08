@@ -54,19 +54,7 @@ namespace TechCareerFair.DAL
             return selectedApplicant;
         }
 
-        public void Update(applicant applicant, string serverPath)
-        {
-            var oldApplicant = _applicants.Where(a => a.ApplicantID == applicant.ApplicantID).FirstOrDefault();
-
-            if (oldApplicant != null)
-            {
-                _applicants.Remove(oldApplicant);
-                _applicants.Add(applicant);
-                _ds.Update(applicant, serverPath, oldApplicant.Resume);
-            }
-        }
-        
-        public void UpdateApplicantProfile(applicant applicant, string serverPath)
+        public void Update(applicant applicant)
         {
             var oldApplicant = _applicants.Where(a => a.ApplicantID == applicant.ApplicantID).FirstOrDefault();
 
