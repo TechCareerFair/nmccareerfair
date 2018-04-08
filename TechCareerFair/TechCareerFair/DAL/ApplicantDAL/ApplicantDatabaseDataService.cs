@@ -365,13 +365,12 @@ namespace TechCareerFair.DAL
                 connection.Open();
                 StringBuilder sb = new StringBuilder();
                 sb.Append("UPDATE [careerfair].[applicant]");
-                sb.Append("[UserID] = @param2,[FirstName] = @param3,[LastName] = @param4,[University] = @param5,[Alumni] = @param6,[Profile] = @param7,[SocialMedia] = @param8,[Resume] = @param9,[YearsExperience] = @param10,[Internship] = @param11");
+                sb.Append("[FirstName] = @param3,[LastName] = @param4,[University] = @param5,[Alumni] = @param6,[Profile] = @param7,[SocialMedia] = @param8,[Resume] = @param9,[YearsExperience] = @param10,[Internship] = @param11");
                 sb.Append(" WHERE [ApplicantID] = " + applicant.ApplicantID);
                 String sql = sb.ToString();
 
                 using (SqlCommand command = new SqlCommand(sql, connection))
                 {
-                    command.Parameters.Add("@param2", SqlDbType.NVarChar, 128).Value = (object)applicant.UserID ?? DBNull.Value;
                     command.Parameters.Add("@param3", SqlDbType.NVarChar, 50).Value = (object)applicant.FirstName ?? DBNull.Value;
                     command.Parameters.Add("@param4", SqlDbType.NVarChar, 50).Value = (object)applicant.LastName ?? DBNull.Value;
                     command.Parameters.Add("@param5", SqlDbType.NVarChar, 50).Value = (object)applicant.University ?? DBNull.Value;

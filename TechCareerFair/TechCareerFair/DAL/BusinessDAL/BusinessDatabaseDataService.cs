@@ -525,13 +525,12 @@ namespace TechCareerFair.DAL
                 connection.Open();
                 StringBuilder sb = new StringBuilder();
                 sb.Append("UPDATE [careerfair].[business]");
-                sb.Append("[UserID] = @param2,[BusinessName] = @param3,[FirstName] = @param4,[LastName] = @param5,[Street] = @param6,[Phone] = @param7,[Alumni] = @param8,[NonProfit] = @param9,[Outlet] = @param10,[Display] = @param11,[DisplayDescription] = @param12,[Attendees] = @param13,[BusinessDescription] = @param14,[Website] = @param15,[SocialMedia] = @param16,[Photo] = @param17,[LocationPreference] = @param18,[ContactMe] = @param19,[PreferEmail] = @param22 ");
+                sb.Append("[BusinessName] = @param3,[FirstName] = @param4,[LastName] = @param5,[Street] = @param6,[Phone] = @param7,[Alumni] = @param8,[NonProfit] = @param9,[Outlet] = @param10,[Display] = @param11,[DisplayDescription] = @param12,[Attendees] = @param13,[BusinessDescription] = @param14,[Website] = @param15,[SocialMedia] = @param16,[Photo] = @param17,[LocationPreference] = @param18,[ContactMe] = @param19,[PreferEmail] = @param22 ");
                 sb.Append("WHERE [BusinessID] = " + business.BusinessID);
                 String sql = sb.ToString();
 
                 using (SqlCommand command = new SqlCommand(sql, connection))
                 {
-                    command.Parameters.Add("@param2", SqlDbType.NVarChar, 128).Value = (object)business.UserID ?? DBNull.Value;
                     command.Parameters.Add("@param3", SqlDbType.NVarChar, 50).Value = (object)business.BusinessName ?? DBNull.Value;
                     command.Parameters.Add("@param4", SqlDbType.NVarChar, 50).Value = (object)business.FirstName ?? DBNull.Value;
                     command.Parameters.Add("@param5", SqlDbType.NVarChar, 50).Value = (object)business.LastName ?? DBNull.Value;
