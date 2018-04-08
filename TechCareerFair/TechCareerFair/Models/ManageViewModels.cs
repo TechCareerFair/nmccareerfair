@@ -97,8 +97,6 @@ namespace TechCareerFair.Models
 
         public int ApplicantID { get; set; }
 
-        public string UserID { get; set; }
-
         [Required]
         [StringLength(50)]
         public string FirstName { get; set; }
@@ -144,8 +142,6 @@ namespace TechCareerFair.Models
         public string Email { get; set; }
 
         public int BusinessID { get; set; }
-
-        public string UserID { get; set; }
 
         [Required]
         [StringLength(50)]

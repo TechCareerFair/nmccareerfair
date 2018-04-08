@@ -26,7 +26,7 @@ namespace TechCareerFair.Models
         [StringLength(320)]
         public string Email { get; set; }*/
 
-        public string UserID { get; set; }
+        public string Email { get; set; }
 
         [Required]
         [StringLength(50)]

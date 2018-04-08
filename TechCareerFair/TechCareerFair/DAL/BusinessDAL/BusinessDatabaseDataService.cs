@@ -63,7 +63,7 @@ namespace TechCareerFair.DAL
                             business bus = new business();
 
                             bus.BusinessID = DatabaseHelper.CheckNullInt(reader, 0);
-                            bus.UserID = DatabaseHelper.CheckNullString(reader, 1);
+                            bus.Email = DatabaseHelper.CheckNullString(reader, 1);
 
                             businesses.Add(bus);
                         }
@@ -77,7 +77,7 @@ namespace TechCareerFair.DAL
         private void InitBusiness(SqlConnection connection, List<business> businesses, int startRow, int numberOfRows)
         {
             StringBuilder sb = new StringBuilder();
-            sb.Append("SELECT [BusinessID],[UserID],[BusinessName],[FirstName],[LastName],[Street],[Phone],[Alumni],[NonProfit],[Outlet],[Display],[DisplayDescription],[Attendees],[BusinessDescription],[Website],[SocialMedia],[Photo],[LocationPreference],[ContactMe],[Approved],[Active],[PreferEmail]");
+            sb.Append("SELECT [BusinessID],[Email],[BusinessName],[FirstName],[LastName],[Street],[Phone],[Alumni],[NonProfit],[Outlet],[Display],[DisplayDescription],[Attendees],[BusinessDescription],[Website],[SocialMedia],[Photo],[LocationPreference],[ContactMe],[Approved],[Active],[PreferEmail]");
             sb.Append("FROM [careerfair].[business]");
             if(startRow >= 0)
             {
@@ -94,7 +94,7 @@ namespace TechCareerFair.DAL
                         business bus = new business();
 
                         bus.BusinessID = DatabaseHelper.CheckNullInt(reader, 0);
-                        bus.UserID = DatabaseHelper.CheckNullString(reader, 1);
+                        bus.Email = DatabaseHelper.CheckNullString(reader, 1);
                         bus.BusinessName = DatabaseHelper.CheckNullString(reader, 2);
                         bus.FirstName = DatabaseHelper.CheckNullString(reader, 3);
                         bus.LastName = DatabaseHelper.CheckNullString(reader, 4);
@@ -151,12 +151,12 @@ namespace TechCareerFair.DAL
             }
         }
 
-        public BusinessViewModel GetAccountInfoBy(string userID)
+        public BusinessViewModel GetAccountInfoBy(string email)
         {
             StringBuilder sb = new StringBuilder();
-            sb.Append("SELECT [Email],[PasswordHash]");
+            sb.Append("SELECT [PasswordHash]");
             sb.Append("FROM [dbo].[AspNetUsers]");
-            sb.Append("WHERE [Id] = '" + userID + "'");
+            sb.Append("WHERE [Email] = '" + email + "'");
 
             String sql = sb.ToString();
             BusinessViewModel bus = new BusinessViewModel();
@@ -171,8 +171,7 @@ namespace TechCareerFair.DAL
                     {
                         while (reader.Read())
                         {
-                            bus.Email = DatabaseHelper.CheckNullString(reader, 0);
-                            bus.Password = DatabaseHelper.CheckNullString(reader, 1);
+                            bus.Password = DatabaseHelper.CheckNullString(reader, 0);
                         }
                     }
                 }
@@ -289,14 +288,14 @@ namespace TechCareerFair.DAL
             {
                 connection.Open();
                 StringBuilder sb = new StringBuilder();
-                sb.Append("INSERT INTO [careerfair].[business]([UserID],[BusinessName],[FirstName],[LastName],[Street],[Phone],[Alumni],[NonProfit],[Outlet],[Display],[DisplayDescription],[Attendees],[BusinessDescription],[Website],[SocialMedia],[Photo],[LocationPreference],[ContactMe],[Approved],[Active],[PreferEmail])");
+                sb.Append("INSERT INTO [careerfair].[business]([Email],[BusinessName],[FirstName],[LastName],[Street],[Phone],[Alumni],[NonProfit],[Outlet],[Display],[DisplayDescription],[Attendees],[BusinessDescription],[Website],[SocialMedia],[Photo],[LocationPreference],[ContactMe],[Approved],[Active],[PreferEmail])");
                 string values = "VALUES(@param2, @param3, @param4, @param5, @param6, @param7, @param8, @param9, @param10, @param11, @param12, @param13, @param14, @param15, @param16, @param17, @param18, @param19, @param20, @param21, @param22); SELECT @ID = SCOPE_IDENTITY()";
                 sb.Append(values);
                 String sql = sb.ToString();
 
                 using (SqlCommand command = new SqlCommand(sql, connection))
                 {
-                    command.Parameters.Add("@param2", SqlDbType.NVarChar, 128).Value = (object)business.UserID ?? DBNull.Value;
+                    command.Parameters.Add("@param2", SqlDbType.NVarChar, 320).Value = (object)business.Email ?? DBNull.Value;
                     command.Parameters.Add("@param3", SqlDbType.NVarChar, 50).Value = (object)business.BusinessName ?? DBNull.Value;
                     command.Parameters.Add("@param4", SqlDbType.NVarChar, 50).Value = (object)business.FirstName ?? DBNull.Value;
                     command.Parameters.Add("@param5", SqlDbType.NVarChar, 50).Value = (object)business.LastName ?? DBNull.Value;
@@ -341,7 +340,7 @@ namespace TechCareerFair.DAL
         {
             StringBuilder sb = new StringBuilder();
             sb.Append("DELETE FROM [dbo].[AspNetUsers]");
-            sb.Append("WHERE [Id] = '" + business.UserID + "'");
+            sb.Append("WHERE [Email] = '" + business.Email + "'");
             String sql = sb.ToString();
 
             using (SqlCommand command = new SqlCommand(sql, connection))
@@ -471,13 +470,13 @@ namespace TechCareerFair.DAL
                 connection.Open();
                 StringBuilder sb = new StringBuilder();
                 sb.Append("UPDATE [careerfair].[business]");
-                sb.Append("SET [UserID] = @param2,[BusinessName] = @param3,[FirstName] = @param4,[LastName] = @param5,[Street] = @param6,[Phone] = @param7,[Alumni] = @param8,[NonProfit] = @param9,[Outlet] = @param10,[Display] = @param11,[DisplayDescription] = @param12,[Attendees] = @param13,[BusinessDescription] = @param14,[Website] = @param15,[SocialMedia] = @param16,[Photo] = @param17,[LocationPreference] = @param18,[ContactMe] = @param19,[Approved] = @param20,[Active] = @param21,[PreferEmail] = @param22 ");
+                sb.Append("SET [Email] = @param2,[BusinessName] = @param3,[FirstName] = @param4,[LastName] = @param5,[Street] = @param6,[Phone] = @param7,[Alumni] = @param8,[NonProfit] = @param9,[Outlet] = @param10,[Display] = @param11,[DisplayDescription] = @param12,[Attendees] = @param13,[BusinessDescription] = @param14,[Website] = @param15,[SocialMedia] = @param16,[Photo] = @param17,[LocationPreference] = @param18,[ContactMe] = @param19,[Approved] = @param20,[Active] = @param21,[PreferEmail] = @param22 ");
                 sb.Append("WHERE [BusinessID] = " + business.BusinessID);
                 String sql = sb.ToString();
 
                 using (SqlCommand command = new SqlCommand(sql, connection))
                 {
-                    command.Parameters.Add("@param2", SqlDbType.NVarChar, 128).Value = (object)business.UserID ?? DBNull.Value;
+                    command.Parameters.Add("@param2", SqlDbType.NVarChar, 320).Value = (object)business.Email ?? DBNull.Value;
                     command.Parameters.Add("@param3", SqlDbType.NVarChar, 50).Value = (object)business.BusinessName ?? DBNull.Value;
                     command.Parameters.Add("@param4", SqlDbType.NVarChar, 50).Value = (object)business.FirstName ?? DBNull.Value;
                     command.Parameters.Add("@param5", SqlDbType.NVarChar, 50).Value = (object)business.LastName ?? DBNull.Value;
@@ -525,13 +524,13 @@ namespace TechCareerFair.DAL
                 connection.Open();
                 StringBuilder sb = new StringBuilder();
                 sb.Append("UPDATE [careerfair].[business]");
-                sb.Append("[UserID] = @param2,[BusinessName] = @param3,[FirstName] = @param4,[LastName] = @param5,[Street] = @param6,[Phone] = @param7,[Alumni] = @param8,[NonProfit] = @param9,[Outlet] = @param10,[Display] = @param11,[DisplayDescription] = @param12,[Attendees] = @param13,[BusinessDescription] = @param14,[Website] = @param15,[SocialMedia] = @param16,[Photo] = @param17,[LocationPreference] = @param18,[ContactMe] = @param19,[PreferEmail] = @param22 ");
+                sb.Append("SET [Email] = @param2,[BusinessName] = @param3,[FirstName] = @param4,[LastName] = @param5,[Street] = @param6,[Phone] = @param7,[Alumni] = @param8,[NonProfit] = @param9,[Outlet] = @param10,[Display] = @param11,[DisplayDescription] = @param12,[Attendees] = @param13,[BusinessDescription] = @param14,[Website] = @param15,[SocialMedia] = @param16,[Photo] = @param17,[LocationPreference] = @param18,[ContactMe] = @param19,[PreferEmail] = @param22 ");
                 sb.Append("WHERE [BusinessID] = " + business.BusinessID);
                 String sql = sb.ToString();
 
                 using (SqlCommand command = new SqlCommand(sql, connection))
                 {
-                    command.Parameters.Add("@param2", SqlDbType.NVarChar, 128).Value = (object)business.UserID ?? DBNull.Value;
+                    command.Parameters.Add("@param2", SqlDbType.NVarChar, 320).Value = (object)business.Email ?? DBNull.Value;
                     command.Parameters.Add("@param3", SqlDbType.NVarChar, 50).Value = (object)business.BusinessName ?? DBNull.Value;
                     command.Parameters.Add("@param4", SqlDbType.NVarChar, 50).Value = (object)business.FirstName ?? DBNull.Value;
                     command.Parameters.Add("@param5", SqlDbType.NVarChar, 50).Value = (object)business.LastName ?? DBNull.Value;

@@ -18,9 +18,8 @@ namespace TechCareerFair.DAL
 
         public void GetAccountInfoByUserID(BusinessViewModel bus)
         {
-            BusinessViewModel accountInfo = _ds.GetAccountInfoBy(bus.UserID);
-
-            bus.Email = accountInfo.Email;
+            BusinessViewModel accountInfo = _ds.GetAccountInfoBy(bus.Email);
+            
             bus.Password = accountInfo.Password;
         }
 
@@ -55,7 +54,7 @@ namespace TechCareerFair.DAL
             {
                 BusinessID = b.BusinessID,
 
-                UserID = b.UserID,
+                Email = b.Email,
 
                 BusinessName = b.BusinessName,
 
@@ -115,7 +114,7 @@ namespace TechCareerFair.DAL
             {
                 BusinessID = b.BusinessID,
 
-                UserID = b.UserID,
+                Email = b.Email,
 
                 BusinessName = b.BusinessName,
 

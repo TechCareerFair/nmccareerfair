@@ -19,9 +19,8 @@ namespace TechCareerFair.DAL
 
         private void GetAccountInfoByUserID(ApplicantViewModel app)
         {
-            ApplicantViewModel accountInfo = _ds.GetAccountInfoBy(app.UserID);
-
-            app.Email = accountInfo.Email;
+            ApplicantViewModel accountInfo = _ds.GetAccountInfoBy(app.Email);
+            
             app.Password = accountInfo.Password;
         }
 
@@ -56,7 +55,7 @@ namespace TechCareerFair.DAL
             {
                 ApplicantID = a.ApplicantID,
 
-                UserID = a.UserID,
+                Email = a.Email,
 
                 FirstName = a.FirstName,
 
@@ -89,7 +88,7 @@ namespace TechCareerFair.DAL
 
                 ApplicantID = a.ApplicantID,
 
-                UserID = a.UserID,
+                Email = a.Email,
 
                 FirstName = a.FirstName,
 
