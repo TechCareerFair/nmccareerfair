@@ -54,7 +54,7 @@ namespace TechCareerFair.DAL
                 connection.Open();
 
                 StringBuilder sb = new StringBuilder();
-                sb.Append("SELECT [ApplicantID],[UserID]");
+                sb.Append("SELECT [ApplicantID],[Email]");
                 sb.Append("FROM [careerfair].[applicant]");
                 String sql = sb.ToString();
 
@@ -67,7 +67,7 @@ namespace TechCareerFair.DAL
                             applicant app = new applicant();
 
                             app.ApplicantID = DatabaseHelper.CheckNullInt(reader, 0);
-                            app.UserID = DatabaseHelper.CheckNullString(reader, 1);
+                            app.Email = DatabaseHelper.CheckNullString(reader, 1);
 
                             applicants.Add(app);
                         }
@@ -81,7 +81,7 @@ namespace TechCareerFair.DAL
         private void InitApplicant(List<applicant> applicants, SqlConnection connection, int startRow, int numberOfRows)
         {
             StringBuilder sb = new StringBuilder();
-            sb.Append("SELECT [ApplicantID],[UserID],[FirstName],[LastName],[University],[Alumni],[Profile],[SocialMedia],[Resume],[YearsExperience],[Internship],[Active]");
+            sb.Append("SELECT [ApplicantID],[Email],[FirstName],[LastName],[University],[Alumni],[Profile],[SocialMedia],[Resume],[YearsExperience],[Internship],[Active]");
             sb.Append("FROM [careerfair].[applicant]");
             if (startRow >= 0)
             {
@@ -98,7 +98,7 @@ namespace TechCareerFair.DAL
                         applicant app = new applicant();
 
                         app.ApplicantID = DatabaseHelper.CheckNullInt(reader, 0);
-                        app.UserID = DatabaseHelper.CheckNullString(reader, 1);
+                        app.Email = DatabaseHelper.CheckNullString(reader, 1);
                         app.FirstName = DatabaseHelper.CheckNullString(reader, 2);
                         app.LastName = DatabaseHelper.CheckNullString(reader, 3);
                         app.University = DatabaseHelper.CheckNullString(reader, 4);
@@ -122,12 +122,12 @@ namespace TechCareerFair.DAL
             
         }
 
-        public ApplicantViewModel GetAccountInfoBy(string userID)
+        public ApplicantViewModel GetAccountInfoBy(string Email)
         {
             StringBuilder sb = new StringBuilder();
-            sb.Append("SELECT [Email],[PasswordHash]");
+            sb.Append("SELECT [PasswordHash]");
             sb.Append("FROM [dbo].[AspNetUsers]");
-            sb.Append("WHERE [Id] = '" + userID + "'");
+            sb.Append("WHERE [Email] = '" + Email + "'");
 
             String sql = sb.ToString();
             ApplicantViewModel app = new ApplicantViewModel();
@@ -142,8 +142,7 @@ namespace TechCareerFair.DAL
                     {
                         while (reader.Read())
                         {
-                            app.Email = DatabaseHelper.CheckNullString(reader, 0);
-                            app.Password = DatabaseHelper.CheckNullString(reader, 1);
+                            app.Password = DatabaseHelper.CheckNullString(reader, 0);
                         }
                     }
                 }
@@ -209,14 +208,14 @@ namespace TechCareerFair.DAL
             {
                 connection.Open();
                 StringBuilder sb = new StringBuilder();
-                sb.Append("INSERT INTO [careerfair].[applicant]([UserID],[FirstName],[LastName],[University],[Alumni],[Profile],[SocialMedia],[Resume],[YearsExperience],[Internship],[Active])");
+                sb.Append("INSERT INTO [careerfair].[applicant]([Email],[FirstName],[LastName],[University],[Alumni],[Profile],[SocialMedia],[Resume],[YearsExperience],[Internship],[Active])");
                 string values = "VALUES(@param2, @param3, @param4, @param5, @param6, @param7, @param8, @param9, @param10, @param11, @param12); SELECT @ID = SCOPE_IDENTITY()";
                 sb.Append(values);
                 String sql = sb.ToString();
 
                 using (SqlCommand command = new SqlCommand(sql, connection))
                 {
-                    command.Parameters.Add("@param2", SqlDbType.NVarChar, 128).Value = (object)applicant.UserID ?? DBNull.Value;
+                    command.Parameters.Add("@param2", SqlDbType.NVarChar, 128).Value = (object)applicant.Email ?? DBNull.Value;
                     command.Parameters.Add("@param3", SqlDbType.NVarChar, 50).Value = (object)applicant.FirstName ?? DBNull.Value;
                     command.Parameters.Add("@param4", SqlDbType.NVarChar, 50).Value = (object)applicant.LastName ?? DBNull.Value;
                     command.Parameters.Add("@param5", SqlDbType.NVarChar, 50).Value = (object)applicant.University ?? DBNull.Value;
@@ -249,7 +248,7 @@ namespace TechCareerFair.DAL
         {
             StringBuilder sb = new StringBuilder();
             sb.Append("DELETE FROM [dbo].[AspNetUsers]");
-            sb.Append("WHERE [Id] = '" + applicant.UserID + "'");
+            sb.Append("WHERE [Email] = '" + applicant.Email + "'");
             String sql = sb.ToString();
 
             using (SqlCommand command = new SqlCommand(sql, connection))
@@ -324,13 +323,13 @@ namespace TechCareerFair.DAL
                 connection.Open();
                 StringBuilder sb = new StringBuilder();
                 sb.Append("UPDATE [careerfair].[applicant]");
-                sb.Append("SET [UserID] = @param2,[FirstName] = @param3,[LastName] = @param4,[University] = @param5,[Alumni] = @param6,[Profile] = @param7,[SocialMedia] = @param8,[Resume] = @param9,[YearsExperience] = @param10,[Internship] = @param11,[Active] = @param12");
+                sb.Append("SET [Email] = @param2,[FirstName] = @param3,[LastName] = @param4,[University] = @param5,[Alumni] = @param6,[Profile] = @param7,[SocialMedia] = @param8,[Resume] = @param9,[YearsExperience] = @param10,[Internship] = @param11,[Active] = @param12");
                 sb.Append(" WHERE [ApplicantID] = " + applicant.ApplicantID);
                 String sql = sb.ToString();
 
                 using (SqlCommand command = new SqlCommand(sql, connection))
                 {
-                    command.Parameters.Add("@param2", SqlDbType.NVarChar, 128).Value = (object)applicant.UserID ?? DBNull.Value;
+                    command.Parameters.Add("@param2", SqlDbType.NVarChar, 128).Value = (object)applicant.Email ?? DBNull.Value;
                     command.Parameters.Add("@param3", SqlDbType.NVarChar, 50).Value = (object)applicant.FirstName ?? DBNull.Value;
                     command.Parameters.Add("@param4", SqlDbType.NVarChar, 50).Value = (object)applicant.LastName ?? DBNull.Value;
                     command.Parameters.Add("@param5", SqlDbType.NVarChar, 50).Value = (object)applicant.University ?? DBNull.Value;
