@@ -1,4 +1,4 @@
-﻿@model TechCareerFair.Models.business
+﻿@model TechCareerFair.Models.BusinessViewModel
 
 @{
     ViewBag.Title = "BusinessViewProfile";
@@ -9,8 +9,11 @@
 <div>
     @*general business profile info*@
     <dl class="dl-horizontal col-md-5">
+        <dt>
+            @Html.DisplayNameFor(model => model.Photo)
+        </dt>
         <dd>
-            @Html.DisplayFor(model => model.BusinessName)
+            <img src="@Html.DisplayFor(model => model.Photo)" alt="Business Photo" height="150" width="200"/>
         </dd>
         <dt>
             @Html.DisplayNameFor(model => model.Street)
@@ -41,6 +44,41 @@
         <dd>
             @Html.DisplayFor(model => model.FirstName) @Html.DisplayFor(model => model.LastName)
         </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Fields)
+        </dt>
+        <dd></dd>
+        @foreach (string field in ViewBag.Fields)
+        {
+            <dd>
+                @field
+            </dd>
+        }
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Positions)
+        </dt>
+        <dd></dd>
+        @foreach (TechCareerFair.Models.position position in ViewBag.Positions)
+        {
+            string fullSite = position.Website;
+            <dd>
+                @if (!fullSite.IsEmpty() && !fullSite.Contains("http") && !fullSite.Contains("https"))
+                {
+                    fullSite = "<a href='http://" + fullSite + "'>" + position.Name + "</a>";
+                }
+                else
+                {
+                    fullSite = position.Name;
+                }
+
+                <p>
+                    Name: @Html.Raw(fullSite) <br />
+                    Description: @position.Description <br />
+                    Is Internship: @position.Internship.ToString()
+                </p>
+            </dd>
+        }
         <dt>
             @Html.DisplayNameFor(model => model.Alumni)
         </dt>
@@ -121,8 +159,14 @@
             @Html.DisplayFor(model => model.LocationPreference)
         </dd>
     </dl>
-    <p class="col-md-2">
-        @*@Html.ActionLink("Edit Profile", "Edit", new { id = Model.BusinessID })*@ <button type="button" value="edit" class="btn">Edit Profile</button>
+    <p>
+        @Html.ActionLink("Edit Profile", "EditBusiness", new { id = Model.BusinessID })
     </p>
 </div>
+
+<style>
+    .body-content {
+        background-color: #edf9ef;
+    }
+</style>
 
