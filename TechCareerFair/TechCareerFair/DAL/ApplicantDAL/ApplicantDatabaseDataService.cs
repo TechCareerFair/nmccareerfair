@@ -79,6 +79,11 @@ namespace TechCareerFair.DAL
             return applicants;
         }
 
+        internal void UpdateApplicantProfile(applicant applicant, object serverPath, string resume)
+        {
+            throw new NotImplementedException();
+        }
+
         private void InitApplicant(List<applicant> applicants, SqlConnection connection, int startRow, int numberOfRows)
         {
             StringBuilder sb = new StringBuilder();

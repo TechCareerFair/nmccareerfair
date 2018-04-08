@@ -353,7 +353,7 @@ namespace TechCareerFair.Controllers
             else
             {
                 return RedirectToAction("Index");
-            }  
+            }
         }
 
         [HttpPost]
@@ -947,7 +947,7 @@ namespace TechCareerFair.Controllers
                 }
 
                 business.State = collection["state"];
-                
+
                 business.Photo = UploadFile(DataSettings.BUSINESS_DIRECTORY, fileUpload);
 
                 BusinessRepository br = new BusinessRepository();
@@ -1022,7 +1022,7 @@ namespace TechCareerFair.Controllers
                 }
 
                 ApplicantRepository applicantRepository = new ApplicantRepository();
-                applicantRepository.Update(applicant, Server.MapPath("~"));
+                //applicantRepository.Update(applicant, Server.MapPath("~"));
 
                 return RedirectToAction("ListApplicants");
             }
@@ -1078,12 +1078,12 @@ namespace TechCareerFair.Controllers
                     }
                 }
 
-                if(Convert.ToBoolean(collection["removeImage"].Split(',')[0]))
+                if (Convert.ToBoolean(collection["removeImage"].Split(',')[0]))
                 {
                     business.Photo = "";
-                    if ((System.IO.File.Exists(Server.MapPath("~")+business.Photo)))
+                    if ((System.IO.File.Exists(Server.MapPath("~") + business.Photo)))
                     {
-                        System.IO.File.Delete(Server.MapPath("~")+business.Photo);
+                        System.IO.File.Delete(Server.MapPath("~") + business.Photo);
                     }
                 }
 
@@ -1102,6 +1102,11 @@ namespace TechCareerFair.Controllers
                 return RedirectToAction("Index");
             }
 
+        }
+
+        private string UploadFile(string bUSINESS_DIRECTORY, HttpPostedFileBase fileUpload)
+        {
+            throw new NotImplementedException();
         }
 
         public ActionResult ListPositions(int id)
@@ -1333,18 +1338,16 @@ namespace TechCareerFair.Controllers
                     BusinessRepository businessRepository = new BusinessRepository();
                     businessRepository.Delete(id, Server.MapPath("~"));
 
-            return RedirectToAction("ListBusinesses");
-            try
-            {
-                
-            }
-            catch
-            {
-                return View();
-            }
+                    return RedirectToAction("ListBusinesses");
+                }
+                catch
+                {
+                    return View(id);
+                }
+            }return View();
         }
 
-        public ActionResult pos(int id, FormCollection collection)
+        /*public ActionResult pos(int id, FormCollection collection)
         {
             string pathName = "";
 
@@ -1359,5 +1362,7 @@ namespace TechCareerFair.Controllers
 
             return pathName;
         }
+    }*/
     }
 }
+        

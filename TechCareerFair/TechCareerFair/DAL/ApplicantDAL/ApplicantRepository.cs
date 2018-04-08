@@ -12,6 +12,8 @@ namespace TechCareerFair.DAL
         private ApplicantDatabaseDataService _ds = new ApplicantDatabaseDataService();
         private List<applicant> _applicants;
 
+        public object serverPath { get; private set; }
+
         public ApplicantRepository()
         {
             _applicants = _ds.Read();
@@ -70,6 +72,11 @@ namespace TechCareerFair.DAL
         {
             _ds = null;
             _applicants = null;
+        }
+
+        public void Update(applicant applicant, string serverPath)
+        {
+            throw new NotImplementedException();
         }
     }
 }
