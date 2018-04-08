@@ -10,6 +10,12 @@
     @*general business profile info*@
     <dl class="dl-horizontal col-md-5">
         <dt>
+            @Html.DisplayNameFor(model => model.Photo)
+        </dt>
+        <dd>
+            <img src="@Html.DisplayFor(model => model.Photo)" alt="Business Photo" height="150" width="200"/>
+        </dd>
+        <dt>
             @Html.DisplayNameFor(model => model.Street)
         </dt>
         <dd>

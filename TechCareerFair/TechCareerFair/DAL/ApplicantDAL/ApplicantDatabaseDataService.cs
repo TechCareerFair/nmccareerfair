@@ -365,7 +365,7 @@ namespace TechCareerFair.DAL
                 connection.Open();
                 StringBuilder sb = new StringBuilder();
                 sb.Append("UPDATE [careerfair].[applicant]");
-                sb.Append("[FirstName] = @param3,[LastName] = @param4,[University] = @param5,[Alumni] = @param6,[Profile] = @param7,[SocialMedia] = @param8,[Resume] = @param9,[YearsExperience] = @param10,[Internship] = @param11");
+                sb.Append("SET [FirstName] = @param3,[LastName] = @param4,[University] = @param5,[Alumni] = @param6,[Profile] = @param7,[SocialMedia] = @param8,[Resume] = @param9,[YearsExperience] = @param10,[Internship] = @param11");
                 sb.Append(" WHERE [ApplicantID] = " + applicant.ApplicantID);
                 String sql = sb.ToString();
 

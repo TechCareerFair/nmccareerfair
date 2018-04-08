@@ -150,7 +150,7 @@ namespace TechCareerFair.Controllers
                 BusinessRepository businessRepository = new BusinessRepository();
                 businessRepository.UpdateBusinessProfile(businessRepository.ToModel(business), Server.MapPath("~"));
 
-                return RedirectToAction("ListBusinesses");
+                return RedirectToAction("BusinessViewProfile", new { id = business.BusinessID } );
             }
             else
             {

@@ -186,7 +186,7 @@
         @Html.LabelFor(model => model.Photo, htmlAttributes: new { @class = "control-label col-md-2" })
         <div class="col-md-10">
             <input class="form-control" type="file" id="fileUpload" name="fileUpload" /> @Html.CheckBox("removeImage") <span>Remove</span>
-            <img src='@Html.DisplayFor(model => model.Photo).ToHtmlString()' />
+            <img src='@Html.DisplayFor(model => model.Photo).ToHtmlString()' alt="Business Photo" height="150" width="200" />
             @Html.EditorFor(model => model.Photo, new { htmlAttributes = new { @class = "hidden" } })
             @Html.ValidationMessageFor(model => model.Photo, "", new { @class = "text-danger" })
         </div>
@@ -229,7 +229,7 @@
 }
 
 <div>
-    @Html.ActionLink("Back to Profile", "ViewProfile", new { id = Model.BusinessID})
+    @Html.ActionLink("Back to Profile", "BusinessViewProfile", new { id = Model.BusinessID})
 </div>
 
 @section Scripts {
