@@ -99,7 +99,8 @@ namespace TechCareerFair.Models
         public bool Approved { get; set; }
 
         public bool Active { get; set; }
-        
+
+        [Display(Name = "Fields of Business")]
         public List<string> Fields { get; set; }
         
         public List<position> Positions { get; set; }

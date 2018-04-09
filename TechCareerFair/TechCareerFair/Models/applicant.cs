@@ -57,6 +57,7 @@ namespace TechCareerFair.Models
 
         public bool Active { get; set; }
         
+        [Display(Name = "Fields of Interest")]
         public List<string> Fields { get; set; }
     }
 }

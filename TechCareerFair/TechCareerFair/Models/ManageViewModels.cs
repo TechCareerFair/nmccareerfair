@@ -138,6 +138,7 @@ namespace TechCareerFair.Models
 
         public bool Active { get; set; }
 
+        [Display(Name = "Fields of Study")]
         public List<string> Fields { get; set; }
     }
 
@@ -239,6 +240,7 @@ namespace TechCareerFair.Models
 
         public bool Active { get; set; }
 
+        [Display(Name = "Fields of Business")]
         public List<string> Fields { get; set; }
 
         public List<position> Positions { get; set; }
