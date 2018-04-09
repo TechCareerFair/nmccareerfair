@@ -353,7 +353,7 @@ namespace TechCareerFair.Controllers
             else
             {
                 return RedirectToAction("Index");
-            }  
+            }
         }
 
         [HttpPost]
@@ -616,6 +616,7 @@ namespace TechCareerFair.Controllers
             }
         }
 
+
         //Applicants and Business////////////////////////////////////
         public ActionResult ListApplicants(string sortOrder, string filter, string searchCriteria, int? page)
         {
@@ -629,28 +630,28 @@ namespace TechCareerFair.Controllers
                 int pageNumber = (page ?? 1);
 
                 ApplicantRepository applicantRepository = new ApplicantRepository();
-                IEnumerable<ApplicantViewModel> apps = applicantRepository.SelectAllAsViewModel();
-                
-                apps = FilterApplicants(apps, filter, searchCriteria);
+                IEnumerable<applicant> applicants = applicantRepository.SelectAll();
+
+                applicants = FilterApplicants(applicants, filter, searchCriteria);
 
                 switch (sortOrder)
                 {
                     case "FirstName":
-                        apps = apps.OrderBy(a => a.FirstName);
+                        applicants = applicants.OrderBy(a => a.FirstName);
                         break;
                     case "LastName":
-                        apps = apps.OrderBy(a => a.LastName);
+                        applicants = applicants.OrderBy(a => a.LastName);
                         break;
                     case "Active":
-                        apps = apps.OrderBy(a => a.Active);
+                        applicants = applicants.OrderBy(a => a.Active);
                         break;
                     default:
-                        apps = apps.OrderBy(a => a.Email);
+                        applicants = applicants.OrderBy(a => a.Email);
                         break;
                 }
 
-                apps = apps.ToPagedList(pageNumber, pageSize);
-                return View(apps);
+                applicants = applicants.ToPagedList(pageNumber, pageSize);
+                return View(applicants);
             }
             else
             {
@@ -672,16 +673,17 @@ namespace TechCareerFair.Controllers
 
                 ApplicantRepository ar = new ApplicantRepository();
 
-                IEnumerable<ApplicantViewModel> apps;
+                IEnumerable<applicant> applicants;
                 using (ar)
                 {
-                    apps = ar.SelectAllAsViewModel() as IList<ApplicantViewModel>;
-                    apps = FilterApplicants(apps, filter, searchCriteria);
+                    applicants = ar.SelectAll() as IList<applicant>;
                 }
 
-                apps = apps.ToPagedList(pageNumber, pageSize);
+                applicants = FilterApplicants(applicants, filter, searchCriteria);
 
-                return View(apps);
+                applicants = applicants.ToPagedList(pageNumber, pageSize);
+
+                return View(applicants);
             }
             else
             {
@@ -690,7 +692,7 @@ namespace TechCareerFair.Controllers
         }
 
         [NonAction]
-        private IEnumerable<ApplicantViewModel> FilterApplicants(IEnumerable<ApplicantViewModel> applicants, string filter, string searchCriteria)
+        private IEnumerable<applicant> FilterApplicants(IEnumerable<applicant> applicants, string filter, string searchCriteria)
         {
             if (searchCriteria != null)
             {
@@ -724,9 +726,9 @@ namespace TechCareerFair.Controllers
                 int pageNumber = (page ?? 1);
 
                 BusinessRepository businessRepository = new BusinessRepository();
-                IEnumerable<BusinessViewModel> businesses = businessRepository.SelectAllAsViewModel();
-                FilterBusinesses(businesses, filter, searchCriteria);
-                
+                IEnumerable<business> businesses = businessRepository.SelectAll();
+
+                businesses = FilterBusinesses(businesses, filter, searchCriteria);
 
                 switch (sortOrder)
                 {
@@ -773,13 +775,13 @@ namespace TechCareerFair.Controllers
 
                 BusinessRepository br = new BusinessRepository();
 
-                IEnumerable<BusinessViewModel> businesses;
+                IEnumerable<business> businesses;
                 using (br)
                 {
-                    businesses = br.SelectAllAsViewModel() as IList<BusinessViewModel>;
+                    businesses = br.SelectAll() as IList<business>;
                 }
 
-                FilterBusinesses(businesses, filter, searchCriteria);
+                businesses = FilterBusinesses(businesses, filter, searchCriteria);
 
                 businesses = businesses.ToPagedList(pageNumber, pageSize);
 
@@ -792,7 +794,7 @@ namespace TechCareerFair.Controllers
         }
 
         [NonAction]
-        private void FilterBusinesses(IEnumerable<BusinessViewModel> businesses, string filter, string searchCriteria)
+        private IEnumerable<business> FilterBusinesses(IEnumerable<business> businesses, string filter, string searchCriteria)
         {
             if (searchCriteria != null)
             {
@@ -817,6 +819,8 @@ namespace TechCareerFair.Controllers
                         break;
                 }
             }
+
+            return businesses;
         }
 
         // GET: Admin/Details/5
@@ -825,8 +829,7 @@ namespace TechCareerFair.Controllers
             if (Session["userName"] != null)
             {
                 ApplicantRepository applicantRepository = new ApplicantRepository();
-                ApplicantViewModel applicant = applicantRepository.SelectOneAsViewModel(id);
-
+                applicant applicant = applicantRepository.SelectOne(id);
                 ViewBag.Fields = applicant.Fields;
 
                 return View(applicant);
@@ -844,7 +847,7 @@ namespace TechCareerFair.Controllers
             if (Session["userName"] != null)
             {
                 BusinessRepository businessRepository = new BusinessRepository();
-                BusinessViewModel business = businessRepository.SelectOneAsViewModel(id);
+                business business = businessRepository.SelectOne(id);
                 ViewBag.Fields = business.Fields;
                 ViewBag.Positions = business.Positions;
 
@@ -862,6 +865,7 @@ namespace TechCareerFair.Controllers
         {
             if (Session["userName"] != null)
             {
+                ApplicantRepository applicantRepository = new ApplicantRepository();
                 TechCareerFair.DAL.FieldDAL.FieldRepository fr = new TechCareerFair.DAL.FieldDAL.FieldRepository();
                 ViewBag.AllFields = fr.SelectAll();
 
@@ -876,7 +880,7 @@ namespace TechCareerFair.Controllers
 
         // POST: Admin/Create
         [HttpPost]
-        public ActionResult CreateApplicant(ApplicantViewModel applicant, HttpPostedFileBase fileUpload, FormCollection collection)
+        public ActionResult CreateApplicant(applicant applicant, HttpPostedFileBase fileUpload, FormCollection collection)
         {
             if (Session["userName"] != null)
             {
@@ -895,7 +899,7 @@ namespace TechCareerFair.Controllers
                 applicant.Resume = UploadFile(DataSettings.RESUME_DIRECTORY, fileUpload);
 
                 ApplicantRepository applicantRepository = new ApplicantRepository();
-                applicantRepository.Insert(applicantRepository.ToModel(applicant));
+                applicantRepository.Insert(applicant);
 
                 return RedirectToAction("ListApplicants");
             }
@@ -926,7 +930,7 @@ namespace TechCareerFair.Controllers
 
         // POST: Admin/Create
         [HttpPost]
-        public ActionResult CreateBusiness(BusinessViewModel business, HttpPostedFileBase fileUpload, FormCollection collection)
+        public ActionResult CreateBusiness(business business, HttpPostedFileBase fileUpload, FormCollection collection)
         {
             if (Session["userName"] != null)
             {
@@ -943,11 +947,11 @@ namespace TechCareerFair.Controllers
                 }
 
                 business.State = collection["state"];
-                
+
                 business.Photo = UploadFile(DataSettings.BUSINESS_DIRECTORY, fileUpload);
 
                 BusinessRepository br = new BusinessRepository();
-                br.Insert(br.ToModel(business));
+                br.Insert(business);
 
                 return RedirectToAction("ListBusinesses");
             }
@@ -969,7 +973,7 @@ namespace TechCareerFair.Controllers
                 TechCareerFair.DAL.FieldDAL.FieldRepository fr = new TechCareerFair.DAL.FieldDAL.FieldRepository();
                 ViewBag.AllFields = fr.SelectAll();
 
-                ApplicantViewModel applicant = applicantRepository.SelectOneAsViewModel(id);
+                applicant applicant = applicantRepository.SelectOne(id);
                 ViewBag.Fields = applicant.Fields;
 
                 return View(applicant);
@@ -983,7 +987,7 @@ namespace TechCareerFair.Controllers
 
         // POST: Admin/Edit/5
         [HttpPost]
-        public ActionResult EditApplicant(ApplicantViewModel applicant, HttpPostedFileBase fileUpload, FormCollection collection)
+        public ActionResult EditApplicant(applicant applicant, HttpPostedFileBase fileUpload, FormCollection collection)
         {
             if (Session["userName"] != null)
             {
@@ -1018,7 +1022,7 @@ namespace TechCareerFair.Controllers
                 }
 
                 ApplicantRepository applicantRepository = new ApplicantRepository();
-                applicantRepository.Update(applicantRepository.ToModel(applicant), Server.MapPath("~"));
+                //applicantRepository.Update(applicant, Server.MapPath("~"));
 
                 return RedirectToAction("ListApplicants");
             }
@@ -1038,7 +1042,7 @@ namespace TechCareerFair.Controllers
                 TechCareerFair.DAL.FieldDAL.FieldRepository fr = new TechCareerFair.DAL.FieldDAL.FieldRepository();
                 ViewBag.AllFields = fr.SelectAll();
 
-                BusinessViewModel business = businessRepository.SelectOneAsViewModel(id);
+                business business = businessRepository.SelectOne(id);
                 ViewBag.Positions = business.Positions;
                 ViewBag.Fields = business.Fields;
                 ViewBag.States = _states;
@@ -1054,7 +1058,7 @@ namespace TechCareerFair.Controllers
 
         // POST: Admin/Edit/5
         [HttpPost]
-        public ActionResult EditBusiness(BusinessViewModel business, HttpPostedFileBase fileUpload, FormCollection collection)
+        public ActionResult EditBusiness(business business, HttpPostedFileBase fileUpload, FormCollection collection)
         {
             if (Session["userName"] != null)
             {
@@ -1074,12 +1078,12 @@ namespace TechCareerFair.Controllers
                     }
                 }
 
-                if(Convert.ToBoolean(collection["removeImage"].Split(',')[0]))
+                if (Convert.ToBoolean(collection["removeImage"].Split(',')[0]))
                 {
                     business.Photo = "";
-                    if ((System.IO.File.Exists(Server.MapPath("~")+business.Photo)))
+                    if ((System.IO.File.Exists(Server.MapPath("~") + business.Photo)))
                     {
-                        System.IO.File.Delete(Server.MapPath("~")+business.Photo);
+                        System.IO.File.Delete(Server.MapPath("~") + business.Photo);
                     }
                 }
 
@@ -1089,7 +1093,7 @@ namespace TechCareerFair.Controllers
                 }
 
                 BusinessRepository businessRepository = new BusinessRepository();
-                businessRepository.Update(businessRepository.ToModel(business), Server.MapPath("~"));
+                businessRepository.Update(business, Server.MapPath("~"));
 
                 return RedirectToAction("ListBusinesses");
             }
@@ -1098,6 +1102,11 @@ namespace TechCareerFair.Controllers
                 return RedirectToAction("Index");
             }
 
+        }
+
+        private string UploadFile(string bUSINESS_DIRECTORY, HttpPostedFileBase fileUpload)
+        {
+            throw new NotImplementedException();
         }
 
         public ActionResult ListPositions(int id)
@@ -1262,7 +1271,7 @@ namespace TechCareerFair.Controllers
             if (Session["userName"] != null)
             {
                 ApplicantRepository applicantRepository = new ApplicantRepository();
-                ApplicantViewModel applicant = applicantRepository.SelectOneAsViewModel(id);
+                applicant applicant = applicantRepository.SelectOne(id);
                 ViewBag.Fields = applicant.Fields;
 
                 return View(applicant);
@@ -1305,7 +1314,7 @@ namespace TechCareerFair.Controllers
             if (Session["userName"] != null)
             {
                 BusinessRepository businessRepository = new BusinessRepository();
-                BusinessViewModel business = businessRepository.SelectOneAsViewModel(id);
+                business business = businessRepository.SelectOne(id);
                 ViewBag.Fields = business.Fields;
                 ViewBag.Positions = business.Positions;
 
@@ -1333,22 +1342,17 @@ namespace TechCareerFair.Controllers
                 }
                 catch
                 {
-                    return View();
+                    return View(id);
                 }
-            }
-            else
-            {
-                return RedirectToAction("Index");
-            }
-
+            }return View();
         }
-        
-        [NonAction]
-        private string UploadFile(string directory, HttpPostedFileBase postedFile)
+
+        /*public ActionResult pos(int id, FormCollection collection)
         {
             string pathName = "";
 
-            if (postedFile != null && postedFile.ContentLength > 0)
+            return RedirectToAction("ListBusinesses");
+            try
             {
                 pathName = DateTime.Now.ToBinary().ToString() + Path.GetFileName(postedFile.FileName);
                 postedFile.SaveAs(Server.MapPath("~"+directory) + pathName);
@@ -1358,5 +1362,7 @@ namespace TechCareerFair.Controllers
 
             return pathName;
         }
+    }*/
     }
 }
+        

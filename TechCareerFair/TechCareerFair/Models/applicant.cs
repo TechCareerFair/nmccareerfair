@@ -18,14 +18,12 @@ namespace TechCareerFair.Models
 
         public int ApplicantID { get; set; }
 
-        /*[Required]
+        [Required]
         [StringLength(64)]
-        public string Password { get; set; }*/
+        public string Password { get; set; }
 
-        /*[Required]
+        [Required]
         [StringLength(320)]
-        public string Email { get; set; }*/
-
         public string Email { get; set; }
 
         [Required]

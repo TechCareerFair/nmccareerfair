@@ -7,13 +7,9 @@
 .body-content {
     padding-left: 15px;
     padding-right: 15px;
-    min-height:650px;
     margin-top:150px;
-    background-color:#eee;
+    background-color:#777;
     padding-bottom:40px;
-}
-p {
-    padding-top:15px;
 }
 
 /* Override the default bootstrap behavior where horizontal description lists 
@@ -57,8 +53,7 @@ Header
 }
 
 .container.top-menu-container {
-    padding: 5px;
-    height:40px;
+    padding: 10px;
 }
 ul.top-menu-ul {
     display: inline-block;
@@ -160,8 +155,10 @@ li.main-navigation-links > a{
     Home Page
 ==========================================================
 */
-.home-page-details {
-    min-height: 280px;
+    .home-page-details {
+    height: auto;
+    background: #999;
+    padding: 20px;
     margin: 30px 0;
 }
 
@@ -171,6 +168,7 @@ li.main-navigation-links > a{
 
 .home-page-gallery {
     height: auto;
+    background: #999;
     padding: 20px 20px;
     margin: 30px 0;
 }
@@ -179,18 +177,21 @@ li.main-navigation-links > a{
     text-align:center;
     margin:0px auto;
     margin-bottom:20px;
+
 }
 
 .candidate {
     height: auto;
+    background: #999;
     padding: 20px 20px;
-    margin-right: 15px;
+    margin-right:15px;
 }
 
 .business {
     height: auto;
+    background: #999;
     padding: 20px 20px;
-    margin-left: 15px;
+    margin-left:15px;
 }
 
 .custom-col-6{
@@ -206,13 +207,21 @@ sidebar
 ==========================================================
 */
 .sidebar-calender {
+    background: #999;
     margin-top: 30px;
 }
 
+.sidebar-news {
+    height: 200px;
+    background: #999;
+    padding: 20px;
+    margin-top: 30px;
+}
 
 #sidebar-map {
     height: 200px;
     width:100%;
+    background: #999;
     padding: 20px;
     margin-top: 30px;
 }

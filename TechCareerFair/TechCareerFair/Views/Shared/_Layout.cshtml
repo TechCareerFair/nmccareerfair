@@ -65,9 +65,9 @@
                     <li class="main-navigation-links">@Html.ActionLink("Home", "Index", "Home")</li>
                     <li class="main-navigation-links">@Html.ActionLink("Applicant", "Applicant", "Home")</li>
                     <li class="main-navigation-links">@Html.ActionLink("Business", "Business", "Home")</li>
-                    <li class="main-navigation-links">@Html.ActionLink("Gallery", "Gallery", "Home")</li>
+                    <li class="main-navigation-links">@Html.ActionLink("Gallery", "Index", "Gallery")</li>
                     <li class="main-navigation-links">@Html.ActionLink("FAQ", "Faq", "Home")</li>
-                    <li class="main-navigation-links">@Html.ActionLink("About Us", "AboutUs", "Home")</li>
+                    <li class="main-navigation-links">@Html.ActionLink("About Us", "About", "Home")</li>
                 </ul>
             </div>
         </div>
@@ -84,7 +84,7 @@
             <span class="spacer-footer">|</span>
             <li class="footer-navigation-links">@Html.ActionLink("Business", "Business", "Home")</li>
             <span class="spacer-footer">|</span>
-            <li class="footer-navigation-links">@Html.ActionLink("Gallery", "Gallery", "Home")</li>
+            <li class="footer-navigation-links">@Html.ActionLink("Gallery", "Index", "Gallery")</li>
             <span class="spacer-footer">|</span>
             <li class="footer-navigation-links">@Html.ActionLink("FAQ", "Faq", "Home")</li>
             <span class="spacer-footer">|</span>
@@ -101,7 +101,8 @@
     @Scripts.Render("~/bundles/jquery")
     @Scripts.Render("~/bundles/bootstrap")
     @RenderSection("scripts", required: false)
-
+    <script src="//code.jquery.com/jquery-1.11.2.min.js"></script>
+    <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
     <script src="~/Scripts/Carousel.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/ekko-lightbox/5.3.0/ekko-lightbox.js"></script>
     <script defer src="https://use.fontawesome.com/releases/v5.0.8/js/all.js"></script>
@@ -111,20 +112,7 @@
             $(this).ekkoLightbox();
         });
     </script>
-    <script>
 
-        @{
-            TechCareerFair.DAL.CareerFairDAL.CareerFairRepository Date = new TechCareerFair.DAL.CareerFairDAL.CareerFairRepository();
-            TechCareerFair.Models.careerfair careerfairDate = Date.SelectOne(1);
-            DateTime date = careerfairDate.Date;
-
-            int dayof = date.Day;
-
-        }
-        console.log(@dayof);
-        $('.day-@dayof').addClass("current");
-
-    </script>
 
 </body>
 </html>
