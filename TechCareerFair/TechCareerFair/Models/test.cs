@@ -29,9 +29,9 @@ namespace TechCareerFair.Models
                 .Property(e => e.Password)
                 .IsFixedLength();
 
-            modelBuilder.Entity<applicant>()
-                .Property(e => e.Password)
-                .IsFixedLength();
+            //modelBuilder.Entity<applicant>()
+            //    .Property(e => e.Password)
+            //    .IsFixedLength();
 
             //modelBuilder.Entity<applicant>()
             //    .HasMany(e => e.applicant2field)
@@ -39,9 +39,9 @@ namespace TechCareerFair.Models
             //    .HasForeignKey(e => e.Applicant)
             //    .WillCascadeOnDelete(false);
 
-            modelBuilder.Entity<business>()
-                .Property(e => e.Password)
-                .IsFixedLength();
+            //modelBuilder.Entity<business>()
+            //    .Property(e => e.Password)
+            //    .IsFixedLength();
 
             //modelBuilder.Entity<business>()
             //    .HasMany(e => e.business2field)

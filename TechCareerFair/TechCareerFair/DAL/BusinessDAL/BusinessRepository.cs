@@ -8,12 +8,19 @@ namespace TechCareerFair.DAL
 {
     public class BusinessRepository : IBusinessRepository, IDisposable
     {
-        private List<business> _businesses;
+        private IEnumerable<business> _businesses;
         private BusinessDatabaseDataService _ds = new BusinessDatabaseDataService();
 
         public BusinessRepository()
         {
             _businesses = _ds.Read();
+        }
+
+        public void GetAccountInfoByUserID(BusinessViewModel bus)
+        {
+            BusinessViewModel accountInfo = _ds.GetAccountInfoBy(bus.Email);
+            
+            bus.Password = accountInfo.Password;
         }
 
         public void Delete(int id, string serverPath)
@@ -22,7 +29,7 @@ namespace TechCareerFair.DAL
 
             if (business != null)
             {
-                _businesses.Remove(business);
+                //_businesses.Remove(business);
                 _ds.Remove(business, serverPath);
             }
         }
@@ -30,7 +37,7 @@ namespace TechCareerFair.DAL
         public void Insert(business business)
         {
             business.BusinessID = NextIdValue();
-            _businesses.Add(business);
+            //_businesses.Add(business);
 
             _ds.Insert(business);
         }
@@ -41,14 +48,163 @@ namespace TechCareerFair.DAL
             return currentMaxId + 1;
         }
 
+        public business ToModel(BusinessViewModel b)
+        {
+            return new business
+            {
+                BusinessID = b.BusinessID,
+
+                Email = b.Email,
+
+                BusinessName = b.BusinessName,
+
+                FirstName = b.FirstName,
+
+                LastName = b.LastName,
+
+                Street = b.Street,
+
+                City = b.City,
+
+                State = b.State,
+
+                Zip = b.Zip,
+
+                Phone = b.Phone,
+
+                Alumni = b.Alumni,
+
+                NonProfit = b.NonProfit,
+
+                Outlet = b.Outlet,
+
+                Display = b.Display,
+
+                DisplayDescription = b.DisplayDescription,
+
+                Attendees = b.Attendees,
+
+                BusinessDescription = b.BusinessDescription,
+
+                Website = b.Website,
+
+                SocialMedia = b.SocialMedia,
+
+                Photo = b.Photo,
+
+                LocationPreference = b.LocationPreference,
+
+                ContactMe = b.ContactMe,
+
+                PreferEmail = b.PreferEmail,
+
+                Approved = b.Approved,
+
+                Active = b.Active,
+
+                Fields = b.Fields,
+
+                Positions = b.Positions
+            };
+        }
+
+        public BusinessViewModel ToViewModel(business b)
+        {
+            return new BusinessViewModel
+            {
+                BusinessID = b.BusinessID,
+
+                Email = b.Email,
+
+                BusinessName = b.BusinessName,
+
+                FirstName = b.FirstName,
+
+                LastName = b.LastName,
+
+                Street = b.Street,
+
+                City = b.City,
+
+                State = b.State,
+
+                Zip = b.Zip,
+
+                Phone = b.Phone,
+
+                Alumni = b.Alumni,
+
+                NonProfit = b.NonProfit,
+
+                Outlet = b.Outlet,
+
+                Display = b.Display,
+
+                DisplayDescription = b.DisplayDescription,
+
+                Attendees = b.Attendees,
+
+                BusinessDescription = b.BusinessDescription,
+
+                Website = b.Website,
+
+                SocialMedia = b.SocialMedia,
+
+                Photo = b.Photo,
+
+                LocationPreference = b.LocationPreference,
+
+                ContactMe = b.ContactMe,
+
+                PreferEmail = b.PreferEmail,
+
+                Approved = b.Approved,
+
+                Active = b.Active,
+
+                Fields = b.Fields,
+
+                Positions = b.Positions
+            };
+        }
+
         public IEnumerable<business> SelectAll()
         {
             return _businesses;
         }
 
+        public IEnumerable<business> SelectRange(int startRow, int numberOfRows)
+        {
+            return _ds.Read(startRow, numberOfRows);
+        }
+
+        public IList<BusinessViewModel> SelectAllAsViewModel()
+        {
+            List<BusinessViewModel> bvms = new List<BusinessViewModel>();
+            foreach (business b in _businesses)
+            {
+                BusinessViewModel bvm = ToViewModel(b);
+                GetAccountInfoByUserID(bvm);
+
+                bvms.Add(bvm);
+            }
+
+            return bvms;
+        }
+
         public business SelectOne(int id)
         {
             business selectedBusiness = _businesses.Where(b => b.BusinessID == id).FirstOrDefault();
+
+            return selectedBusiness;
+        }
+
+        public BusinessViewModel SelectOneAsViewModel(int id)
+        {
+            business bus = _businesses.Where(b => b.BusinessID == id).FirstOrDefault();
+
+            BusinessViewModel selectedBusiness = ToViewModel(bus);
+            GetAccountInfoByUserID(selectedBusiness);
 
             return selectedBusiness;
         }
@@ -59,8 +215,8 @@ namespace TechCareerFair.DAL
 
             if (oldBusiness != null)
             {
-                _businesses.Remove(oldBusiness);
-                _businesses.Add(business);
+                //_businesses.Remove(oldBusiness);
+                //_businesses.Add(business);
                 _ds.Update(business, serverPath, oldBusiness.Photo);
             }
         }
@@ -71,8 +227,8 @@ namespace TechCareerFair.DAL
 
             if (oldBusiness != null)
             {
-                _businesses.Remove(oldBusiness);
-                _businesses.Add(business);
+                //_businesses.Remove(oldBusiness);
+                //_businesses.Add(business);
                 _ds.UpdateBusinessProfile(business, serverPath, oldBusiness.Photo);
             }
         }

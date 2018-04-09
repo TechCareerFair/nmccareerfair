@@ -22,9 +22,7 @@ namespace TechCareerFair.Controllers
         // GET: Gallery/Details/5
         public ActionResult Details(int id)
         {
-#pragma warning disable CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
             if (id == null)
-#pragma warning restore CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
@@ -61,9 +59,7 @@ namespace TechCareerFair.Controllers
         // GET: Gallery/Edit/5
         public ActionResult Edit(int id)
         {
-#pragma warning disable CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
             if (id == null)
-#pragma warning restore CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
@@ -93,9 +89,7 @@ namespace TechCareerFair.Controllers
         // GET: Gallery/Delete/5
         public ActionResult Delete(int id)
         {
-#pragma warning disable CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
             if (id == null)
-#pragma warning restore CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }

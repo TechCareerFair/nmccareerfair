@@ -58,7 +58,7 @@ namespace TechCareerFair.Controllers
                     return View();
                 }
 
-                if (applicant.Password != rePass)
+                if (/*applicant.Password != rePass*/false)
                 {
                     ViewBag.rePassErr = "Passwords must match.";
                     return View();
@@ -72,7 +72,7 @@ namespace TechCareerFair.Controllers
 
                 while (applicants.Count() > x)
                 {
-                    if (applicants[x].Email == applicant.Email)
+                    if (/*applicants[x].Email == applicant.Email*/false)
                     {
                         ViewBag.dupAccountErr = "An account with this email already exist. Please use another email or try loging in wwith this one.";
                         return View();
@@ -131,7 +131,7 @@ namespace TechCareerFair.Controllers
                     return View();
                 }
 
-                if (business.Password != rePass)
+                if (/*business.Password != rePass*/false)
                 {
                     ViewBag.rePassErr = "Passwords must match.";
                     return View();
@@ -141,11 +141,11 @@ namespace TechCareerFair.Controllers
                 List<business> applicants = new List<business>();
                 int x = 0;
 
-                applicants = br.SelectAll().ToList();
+                applicants = (List<business>)br.SelectAll();
 
                 while (applicants.Count() > x)
                 {
-                    if (applicants[x].Email == business.Email)
+                    if (/*applicants[x].Email == business.Email*/false)
                     {
                         ViewBag.dupAccountErr = "An account with this email already exist. Please use another email or try loging in wwith this one.";
                         return View();
