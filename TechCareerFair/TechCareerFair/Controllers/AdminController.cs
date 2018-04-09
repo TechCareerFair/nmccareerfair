@@ -1333,23 +1333,26 @@ namespace TechCareerFair.Controllers
                     BusinessRepository businessRepository = new BusinessRepository();
                     businessRepository.Delete(id, Server.MapPath("~"));
 
-            return RedirectToAction("ListBusinesses");
-            try
-            {
-                
+                    return RedirectToAction("ListBusinesses");
+                }
+                catch
+                {
+                    return View();
+                }
             }
-            catch
+            else
             {
-                return View();
+                return RedirectToAction("Index");
             }
-        }
 
-        public ActionResult pos(int id, FormCollection collection)
+        }
+        
+        [NonAction]
+        private string UploadFile(string directory, HttpPostedFileBase postedFile)
         {
             string pathName = "";
 
-            return RedirectToAction("ListBusinesses");
-            try
+            if (postedFile != null && postedFile.ContentLength > 0)
             {
                 pathName = DateTime.Now.ToBinary().ToString() + Path.GetFileName(postedFile.FileName);
                 postedFile.SaveAs(Server.MapPath("~"+directory) + pathName);
