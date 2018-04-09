@@ -70,6 +70,12 @@ namespace TechCareerFair.Controllers
             new SelectListItem() { Text="Wisconsin", Value="WI"},
             new SelectListItem() { Text="Wyoming", Value="WY"}
         };
+
+        public ActionResult PostSignUp()
+        {
+            return View("PostSignUp");
+        }
+
         // GET: Register
         public ActionResult Index()
         {
@@ -90,55 +96,55 @@ namespace TechCareerFair.Controllers
         }
 
         // POST: Register/Create
-        [HttpPost]
-        public ActionResult Applicant(ApplicantViewModel applicant, string rePass, HttpPostedFileBase fileUpload)
-        {
+        //[HttpPost]
+        //public ActionResult Applicant(ApplicantViewModel applicant, string rePass, HttpPostedFileBase fileUpload)
+        //{
 
-            FieldDatabaseDataService Fds = new FieldDatabaseDataService();
+        //    FieldDatabaseDataService Fds = new FieldDatabaseDataService();
 
-            List<field> fields = Fds.Read();
+        //    List<field> fields = Fds.Read();
 
-            ViewBag.Fields = fields;
-            ViewBag.ErrCheckFields = applicant.Fields;
+        //    ViewBag.Fields = fields;
+        //    ViewBag.ErrCheckFields = applicant.Fields;
 
-            if (!ModelState.IsValid)
-            {
-                return View();
-            }
+        //    if (!ModelState.IsValid)
+        //    {
+        //        return View();
+        //    }
 
-            if (applicant.Password != rePass)
-            {
-                ViewBag.rePassErr = "Passwords must match.";
-                return View();
-            }
+        //    if (applicant.Password != rePass)
+        //    {
+        //        ViewBag.rePassErr = "Passwords must match.";
+        //        return View();
+        //    }
 
-            if (fileUpload != null)
-            {
-                applicant.Resume = UploadFile(DataSettings.RESUME_DIRECTORY, fileUpload);
-            }
+        //    if (fileUpload != null)
+        //    {
+        //        applicant.Resume = UploadFile(DataSettings.RESUME_DIRECTORY, fileUpload);
+        //    }
 
-            ApplicantRepository ar = new ApplicantRepository();
-            List<applicant> applicants = new List<applicant>();
-            int x = 0;
+        //    ApplicantRepository ar = new ApplicantRepository();
+        //    List<applicant> applicants = new List<applicant>();
+        //    int x = 0;
 
-            applicants = ar.SelectAll().ToList();
+        //    applicants = ar.SelectAll().ToList();
 
-            while (applicants.Count() > x)
-            {
-                if (applicants[x].Email == applicant.Email)
-                {
-                    ViewBag.dupAccountErr = "An account with this email already exist. Please use another email or try loging in wwith this one.";
-                    return View();
-                }
-                x++;
-            }
+        //    while (applicants.Count() > x)
+        //    {
+        //        if (applicants[x].Email == applicant.Email)
+        //        {
+        //            ViewBag.dupAccountErr = "An account with this email already exists. Please use another email or try loging in wwith this one.";
+        //            return View();
+        //        }
+        //        x++;
+        //    }
 
-            applicant.Active = true;
-            ar.Insert(ar.ToModel(applicant));
+        //    applicant.Active = true;
+        //    ar.Insert(ar.ToModel(applicant));
 
-            ViewBag.FullName = applicant.FirstName + " " + applicant.LastName;
-            return View("PostSignUp");
-        }
+        //    //ViewBag.FullName = applicant.FirstName + " " + applicant.LastName;
+        //    return View("PostSignUp");
+        //}
 
         // GET: Register/Create
         public ActionResult Business()
@@ -154,62 +160,62 @@ namespace TechCareerFair.Controllers
         }
 
         // POST: Register/Create
-        [HttpPost]
-        public ActionResult Business(BusinessViewModel business, HttpPostedFileBase fileUpload, string rePass)
-        {
-            try
-            {
-                FieldDatabaseDataService Fds = new FieldDatabaseDataService();
+        //[HttpPost]
+        //public ActionResult Business(BusinessViewModel business, HttpPostedFileBase fileUpload, string rePass)
+        //{
+        //    try
+        //    {
+        //        FieldDatabaseDataService Fds = new FieldDatabaseDataService();
 
-                List<field> fields = Fds.Read();
+        //        List<field> fields = Fds.Read();
 
-                ViewBag.Fields = fields;
-                ViewBag.ErrCheckFields = business.Fields;
-                ViewBag.States = _states;
+        //        ViewBag.Fields = fields;
+        //        ViewBag.ErrCheckFields = business.Fields;
+        //        ViewBag.States = _states;
 
-                if (!ModelState.IsValid)
-                {
-                    return View();
-                }
+        //        if (!ModelState.IsValid)
+        //        {
+        //            return View();
+        //        }
 
-                if (business.Password != rePass)
-                {
-                    ViewBag.rePassErr = "Passwords must match.";
-                    return View();
-                }
+        //        if (business.Password != rePass)
+        //        {
+        //            ViewBag.rePassErr = "Passwords must match.";
+        //            return View();
+        //        }
 
-                if (fileUpload != null)
-                {
-                    business.Photo = UploadFile(DataSettings.RESUME_DIRECTORY, fileUpload);
-                }
-                BusinessRepository br = new BusinessRepository();
-                List<business> businesses = new List<business>();
-                int x = 0;
+        //        if (fileUpload != null)
+        //        {
+        //            business.Photo = UploadFile(DataSettings.RESUME_DIRECTORY, fileUpload);
+        //        }
+        //        BusinessRepository br = new BusinessRepository();
+        //        List<business> businesses = new List<business>();
+        //        int x = 0;
 
-                businesses = br.SelectAll().ToList();
+        //        businesses = br.SelectAll().ToList();
 
-                while (businesses.Count() > x)
-                {
-                    if (businesses[x].Email == business.Email)
-                    {
-                        ViewBag.dupAccountErr = "An account with this email already exist. Please use another email or try loging in wwith this one.";
-                        return View();
-                    }
-                    x++;
-                }
+        //        while (businesses.Count() > x)
+        //        {
+        //            if (businesses[x].Email == business.Email)
+        //            {
+        //                ViewBag.dupAccountErr = "An account with this email already exists. Please use another email or try loging in wwith this one.";
+        //                return View();
+        //            }
+        //            x++;
+        //        }
 
-                business.Approved = false;
-                business.Active = true;
-                br.Insert(br.ToModel(business));
-                ViewBag.FullName = business.FirstName + " " + business.LastName;
+        //        business.Approved = false;
+        //        business.Active = true;
+        //        br.Insert(br.ToModel(business));
+        //        //ViewBag.FullName = business.FirstName + " " + business.LastName;
 
-                return View("PostSignUp");
-            }
-            catch
-            {
-                return View();
-            }
-        }
+        //        return View("PostSignUp");
+        //    }
+        //    catch
+        //    {
+        //        return View();
+        //    }
+        //}
 
         [NonAction]
         public string UploadFile(string directory, HttpPostedFileBase postedFile)

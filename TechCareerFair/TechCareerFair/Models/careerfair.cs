@@ -31,8 +31,19 @@ namespace TechCareerFair.Models
 
         public MapPoint GeoCodeAddress()
         {
-            var locationservice = new GoogleLocationService();
-            return locationservice.GetLatLongFromAddress(Address);
+            try
+            {
+                var locationservice = new GoogleLocationService();
+                return locationservice.GetLatLongFromAddress(Address);
+            }
+            catch(Exception e)
+            {
+                MapPoint mp = new MapPoint();
+                mp.Latitude = 44.765159;
+                mp.Longitude = -85.606783;
+
+                return mp;
+            }
         }
 
     }

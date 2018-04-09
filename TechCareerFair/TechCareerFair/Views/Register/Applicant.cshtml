@@ -8,7 +8,7 @@
     <div class="container">
 
 
-        @using (Html.BeginForm("Applicant", "Register", FormMethod.Post, new { enctype = "multipart/form-data" }))
+        @using (Html.BeginForm("RegisterApplicant", "Account", FormMethod.Post, new { enctype = "multipart/form-data" }))
         {
             @Html.AntiForgeryToken()
 
@@ -44,11 +44,12 @@
                         </div>
                     </div>
 
+                    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
                     <div class="form-group">
-                        <label id="lblRePass" class="control-label col-md-6">Password Confirm </label>
+                        @Html.LabelFor(model => model.ConfirmPassword, htmlAttributes: new { @class = "control-label col-md-6" })
                         <div class="col-md-12">
-                            <input type="password" name="rePass" id="rePass" class="form-control text-box single-line" />
-                            <label id="lblRePassErr" value="" class="text-danger">@ViewBag.rePassErr</label>
+                            @Html.EditorFor(model => model.ConfirmPassword, new { htmlAttributes = new { @class = "form-control", @type = "password" } })
+                            @Html.ValidationMessageFor(model => model.ConfirmPassword, "", new { @class = "text-danger" })
                         </div>
                     </div>
 
@@ -146,23 +147,19 @@
                         </div>
                     </div>
 
-                    <div class="col-md-12" style="margin-top: 15px;">
-                        <h3>Fields Of Work</h3>
-                        @foreach (var x in ViewBag.Fields)
-                        {
-                            <input class="" type="checkbox" id="@x.Name" name="fields" value="@x.Name">
-                            <label for="fields">@x.Name</label>
-                            <br />
-                        }
-                        @if (ViewBag.ErrCheckFields != null)
-                        {
-                            foreach (var y in ViewBag.ErrCheckFields)
-                            {
-                                <script>
-                            document.getElementById("@y").checked = true;
-                                </script>
-                            }
-                        }
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.Fields, htmlAttributes: new { @class = "control-label col-md-2" }) of Study
+                        <div class="col-md-10">
+                            @if (ViewBag.Fields != null)
+        {
+            for (int i = 0; i < ViewBag.Fields.Count; i++)
+            {
+                string name = ViewBag.Fields[i].Name;
+                    @Html.CheckBox(name, false) <span>@name </span>
+                    <br />
+}
+}
+                        </div>
                     </div>
 
                     <br />

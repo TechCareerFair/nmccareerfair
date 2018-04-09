@@ -14,6 +14,7 @@ namespace TechCareerFair.Models
         {
             Fields = new List<string>();
             Positions = new List<position>();
+            Attendees = 0;
         }
 
         public int BusinessID { get; set; }

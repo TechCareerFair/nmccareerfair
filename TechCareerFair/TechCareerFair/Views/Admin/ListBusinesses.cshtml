@@ -77,7 +77,7 @@ Page @(pagedList.PageCount < pagedList.PageNumber ? 0 : pagedList.PageNumber) of
     {
         <tr>
             <td>
-                <a href="mailto:@Html.DisplayFor(modelItem => item.Email)">@Html.DisplayFor(modelItem => item.Email)</a>
+                <a href="mailto:@Html.DisplayFor(modelItem => item.Email).ToHtmlString()">@Html.DisplayFor(modelItem => item.Email)</a>
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.BusinessName)

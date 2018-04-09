@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Globalization;
+using System.IO;
 using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
@@ -148,7 +149,7 @@ namespace TechCareerFair.Controllers
         [HttpPost]
         [AllowAnonymous]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Register(RegisterViewModel model)
+        public async Task<ActionResult> RegisterApplicant(ApplicantViewModel model, HttpPostedFileBase fileUpload, FormCollection collection)
         {
             if (ModelState.IsValid)
             {
@@ -158,20 +159,99 @@ namespace TechCareerFair.Controllers
                 {
 
                     await SignInManager.SignInAsync(user, isPersistent:false, rememberBrowser:false);
-                    
+
                     // For more information on how to enable account confirmation and password reset please visit https://go.microsoft.com/fwlink/?LinkID=320771
                     // Send an email with this link
                     // string code = await UserManager.GenerateEmailConfirmationTokenAsync(user.Id);
                     // var callbackUrl = Url.Action("ConfirmEmail", "Account", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);
                     // await UserManager.SendEmailAsync(user.Id, "Confirm your account", "Please confirm your account by clicking <a href=\"" + callbackUrl + "\">here</a>");
 
-                    return RedirectToAction("Index", "Home");
+                    TechCareerFair.DAL.FieldDAL.FieldRepository fr = new TechCareerFair.DAL.FieldDAL.FieldRepository();
+                    List<field> fields = fr.SelectAll().ToList();
+                    foreach (field f in fields)
+                    {
+                        bool isChecked = Convert.ToBoolean(collection[f.Name].Split(',')[0]);
+
+                        if (isChecked)
+                        {
+                            model.Fields.Add(f.Name);
+                        }
+                    }
+
+                    if (fileUpload != null)
+                    {
+                        model.Resume = UploadFile(DAL.DataSettings.RESUME_DIRECTORY, fileUpload);
+                    }
+
+                    DAL.ApplicantRepository ar = new DAL.ApplicantRepository();
+                    List<applicant> applicants = ar.SelectAll().ToList();
+
+                    model.Active = true;
+                    ar.Insert(ar.ToModel(model));
+
+                    ViewBag.FullName = model.FirstName + " " + model.LastName;
+                    return RedirectToAction("PostSignUp", "Register");
                 }
                 AddErrors(result);
             }
 
             // If we got this far, something failed, redisplay form
-            return View(model);
+            return RedirectToAction("Applicant", "Register", model);
+        }
+
+        //
+        // POST: /Account/Register
+        [HttpPost]
+        [AllowAnonymous]
+        [ValidateAntiForgeryToken]
+        public async Task<ActionResult> RegisterBusiness(BusinessViewModel model, HttpPostedFileBase fileUpload, FormCollection collection)
+        {
+            if (ModelState.IsValid)
+            {
+                var user = new ApplicationUser { UserName = model.Email, Email = model.Email };
+                var result = await UserManager.CreateAsync(user, model.Password);
+                if (result.Succeeded)
+                {
+
+                    await SignInManager.SignInAsync(user, isPersistent: false, rememberBrowser: false);
+
+                    // For more information on how to enable account confirmation and password reset please visit https://go.microsoft.com/fwlink/?LinkID=320771
+                    // Send an email with this link
+                    // string code = await UserManager.GenerateEmailConfirmationTokenAsync(user.Id);
+                    // var callbackUrl = Url.Action("ConfirmEmail", "Account", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);
+                    // await UserManager.SendEmailAsync(user.Id, "Confirm your account", "Please confirm your account by clicking <a href=\"" + callbackUrl + "\">here</a>");
+
+                    TechCareerFair.DAL.FieldDAL.FieldRepository fr = new TechCareerFair.DAL.FieldDAL.FieldRepository();
+                    List<field> fields = fr.SelectAll().ToList();
+                    foreach (field f in fields)
+                    {
+                        bool isChecked = Convert.ToBoolean(collection[f.Name].Split(',')[0]);
+
+                        if (isChecked)
+                        {
+                            model.Fields.Add(f.Name);
+                        }
+                    }
+
+                    if (fileUpload != null)
+                    {
+                        model.Photo = UploadFile(DAL.DataSettings.BUSINESS_DIRECTORY, fileUpload);
+                    }
+                    DAL.BusinessRepository br = new DAL.BusinessRepository();
+                    List<business> businesses = br.SelectAll().ToList();
+
+                    model.Approved = false;
+                    model.Active = true;
+                    br.Insert(br.ToModel(model));
+
+                    ViewBag.FullName = model.FirstName + " " + model.LastName;
+                    return RedirectToAction("PostSignUp", "Register");
+                }
+                AddErrors(result);
+            }
+
+            // If we got this far, something failed, redisplay form
+            return RedirectToAction("Business","Register",model);
         }
 
         //
@@ -481,6 +561,22 @@ namespace TechCareerFair.Controllers
                 }
                 context.HttpContext.GetOwinContext().Authentication.Challenge(properties, LoginProvider);
             }
+        }
+
+        [NonAction]
+        public string UploadFile(string directory, HttpPostedFileBase postedFile)
+        {
+            string pathName = "";
+
+            if (postedFile != null && postedFile.ContentLength > 0)
+            {
+                pathName = DateTime.Now.ToBinary().ToString() + Path.GetFileName(postedFile.FileName);
+                postedFile.SaveAs(Server.MapPath("~" + directory) + pathName);
+
+                pathName = directory + pathName;
+            }
+
+            return pathName;
         }
         #endregion
     }

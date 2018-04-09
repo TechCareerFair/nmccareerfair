@@ -49,7 +49,7 @@
             }
         </script>
 
-        @using (Html.BeginForm("Business", "Register", FormMethod.Post, new { enctype = "multipart/form-data" }))
+        @using (Html.BeginForm("RegisterBusiness", "Account", FormMethod.Post, new { enctype = "multipart/form-data" }))
         {
             @Html.AntiForgeryToken()
 
@@ -88,10 +88,10 @@
                     </div>
 
                     <div class="form-group">
-                        <label id="lblRePass" class="control-label col-md-6">Password Confirm </label>
+                        @Html.LabelFor(model => model.ConfirmPassword, htmlAttributes: new { @class = "control-label col-md-6" })
                         <div class="col-md-12">
-                            <input type="password" name="rePass" id="rePass" class="form-control text-box single-line" />
-                            <label id="lblRePassErr" value="" class="text-danger">@ViewBag.rePassErr</label>
+                            @Html.EditorFor(model => model.ConfirmPassword, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(model => model.ConfirmPassword, "", new { @class = "text-danger" })
                         </div>
                     </div>
 
@@ -303,14 +303,29 @@
                     <hr />
                     <h4>Optional Information - 5</h4>
                     <br />
-                    <h3>Fields Of Work</h3>
-                    @foreach (var x in ViewBag.Fields)
-                    {
-                        <div class="col-md-12">
-                            <input type="checkbox" id="fields" name="fields" value="@x">
-                            <label for="fields">@x.Name</label>
+
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.Photo, htmlAttributes: new { @class = "control-label col-md-2" })
+                        <div class="col-md-10">
+                            <input class="form-control" type="file" id="fileUpload" name="fileUpload" />
+                            @Html.ValidationMessageFor(model => model.Photo, "", new { @class = "text-danger" })
                         </div>
-                    }
+                    </div>
+
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.Fields, htmlAttributes: new { @class = "control-label col-md-2" }) of Work
+                        <div class="col-md-10">
+                            @if (ViewBag.Fields != null)
+            {
+                for (int i = 0; i < ViewBag.Fields.Count; i++)
+                {
+                    string name = ViewBag.Fields[i].Name;
+                    @Html.CheckBox(name, false) <span>@name </span>
+                    <br />
+}
+}
+                        </div>
+                    </div>
 
                     <br />
                     <div class="form-group col-sm-12">
