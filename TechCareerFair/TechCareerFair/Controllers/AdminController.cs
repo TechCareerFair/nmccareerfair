@@ -1018,11 +1018,7 @@ namespace TechCareerFair.Controllers
                 }
 
                 ApplicantRepository applicantRepository = new ApplicantRepository();
-<<<<<<< HEAD
-                applicantRepository.Update(applicant, Server.MapPath("~"));
-=======
                 applicantRepository.Update(applicantRepository.ToModel(applicant), Server.MapPath("~"));
->>>>>>> parent of b48a676... Revert "download update from github"
 
                 return RedirectToAction("ListApplicants");
             }
