@@ -10,7 +10,6 @@ namespace TechCareerFair.DAL
     {
         private List<business> _businesses;
         private BusinessDatabaseDataService _ds = new BusinessDatabaseDataService();
-        private string serverPath;
 
         public BusinessRepository()
         {
