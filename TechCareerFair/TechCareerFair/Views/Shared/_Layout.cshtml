@@ -31,8 +31,9 @@
                         <li class="social-link"><a class="social-link-a" href="https://twitter.com/nmc_tc?lang=en" target="_blank"><i class="fab fa-twitter-square fa-2x"></i></a></li>
                         <li class="social-link"><a class="social-link-a" href="https://www.instagram.com/p/BfgwfNNFX9h" target="_blank"><i class="fab fa-instagram fa-2x"></i></a></li>
                         <li class="social-link"><a class="social-link-a" href="https://www.linkedin.com/school/northwestern-michigan-college" target="_blank"><i class="fab fa-linkedin fa-2x"></i></a></li>
-                        <li class="user-login">@Html.ActionLink("Log in", "Index", "Account/Login")</li>
-                        <li class="user-login">@Html.ActionLink("Sign up", "RegisterIndex", "Account")</li>
+                        @*<li class="user-login">@Html.ActionLink("Log in", "Index", "Account/Login")</li>
+                        <li class="user-login">@Html.ActionLink("Sign up", "RegisterIndex", "Account")</li>*@
+                        @Html.Partial("_LoginPartial")
                     </ul>
                 </div>
             </div>
