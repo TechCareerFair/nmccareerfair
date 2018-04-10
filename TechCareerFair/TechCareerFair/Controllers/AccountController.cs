@@ -10,6 +10,7 @@ using System.Web.Mvc;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
+using TechCareerFair.DAL.FieldDAL;
 using TechCareerFair.Models;
 
 namespace TechCareerFair.Controllers
@@ -24,7 +25,7 @@ namespace TechCareerFair.Controllers
         {
         }
 
-        public AccountController(ApplicationUserManager userManager, ApplicationSignInManager signInManager )
+        public AccountController(ApplicationUserManager userManager, ApplicationSignInManager signInManager)
         {
             UserManager = userManager;
             SignInManager = signInManager;
@@ -36,9 +37,9 @@ namespace TechCareerFair.Controllers
             {
                 return _signInManager ?? HttpContext.GetOwinContext().Get<ApplicationSignInManager>();
             }
-            private set 
-            { 
-                _signInManager = value; 
+            private set
+            {
+                _signInManager = value;
             }
         }
 
@@ -122,7 +123,7 @@ namespace TechCareerFair.Controllers
             // If a user enters incorrect codes for a specified amount of time then the user account 
             // will be locked out for a specified amount of time. 
             // You can configure the account lockout settings in IdentityConfig
-            var result = await SignInManager.TwoFactorSignInAsync(model.Provider, model.Code, isPersistent:  model.RememberMe, rememberBrowser: model.RememberBrowser);
+            var result = await SignInManager.TwoFactorSignInAsync(model.Provider, model.Code, isPersistent: model.RememberMe, rememberBrowser: model.RememberBrowser);
             switch (result)
             {
                 case SignInStatus.Success:
@@ -134,124 +135,6 @@ namespace TechCareerFair.Controllers
                     ModelState.AddModelError("", "Invalid code.");
                     return View(model);
             }
-        }
-
-        //
-        // GET: /Account/Register
-        [AllowAnonymous]
-        public ActionResult Register()
-        {
-            return View();
-        }
-
-        //
-        // POST: /Account/Register
-        [HttpPost]
-        [AllowAnonymous]
-        [ValidateAntiForgeryToken]
-        public async Task<ActionResult> RegisterApplicant(ApplicantViewModel model, HttpPostedFileBase fileUpload, FormCollection collection)
-        {
-            if (ModelState.IsValid)
-            {
-                var user = new ApplicationUser { UserName = model.Email, Email = model.Email };
-                var result = await UserManager.CreateAsync(user, model.Password);
-                if (result.Succeeded)
-                {
-
-                    await SignInManager.SignInAsync(user, isPersistent:false, rememberBrowser:false);
-
-                    // For more information on how to enable account confirmation and password reset please visit https://go.microsoft.com/fwlink/?LinkID=320771
-                    // Send an email with this link
-                    // string code = await UserManager.GenerateEmailConfirmationTokenAsync(user.Id);
-                    // var callbackUrl = Url.Action("ConfirmEmail", "Account", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);
-                    // await UserManager.SendEmailAsync(user.Id, "Confirm your account", "Please confirm your account by clicking <a href=\"" + callbackUrl + "\">here</a>");
-
-                    TechCareerFair.DAL.FieldDAL.FieldRepository fr = new TechCareerFair.DAL.FieldDAL.FieldRepository();
-                    List<field> fields = fr.SelectAll().ToList();
-                    foreach (field f in fields)
-                    {
-                        bool isChecked = Convert.ToBoolean(collection[f.Name].Split(',')[0]);
-
-                        if (isChecked)
-                        {
-                            model.Fields.Add(f.Name);
-                        }
-                    }
-
-                    if (fileUpload != null)
-                    {
-                        model.Resume = UploadFile(DAL.DataSettings.RESUME_DIRECTORY, fileUpload);
-                    }
-
-                    DAL.ApplicantRepository ar = new DAL.ApplicantRepository();
-                    List<applicant> applicants = ar.SelectAll().ToList();
-
-                    model.Active = true;
-                    ar.Insert(ar.ToModel(model));
-
-                    ViewBag.FullName = model.FirstName + " " + model.LastName;
-                    return RedirectToAction("PostSignUp", "Register");
-                }
-                AddErrors(result);
-            }
-
-            // If we got this far, something failed, redisplay form
-            return RedirectToAction("Applicant", "Register", model);
-        }
-
-        //
-        // POST: /Account/Register
-        [HttpPost]
-        [AllowAnonymous]
-        [ValidateAntiForgeryToken]
-        public async Task<ActionResult> RegisterBusiness(BusinessViewModel model, HttpPostedFileBase fileUpload, FormCollection collection)
-        {
-            if (ModelState.IsValid)
-            {
-                var user = new ApplicationUser { UserName = model.Email, Email = model.Email };
-                var result = await UserManager.CreateAsync(user, model.Password);
-                if (result.Succeeded)
-                {
-
-                    await SignInManager.SignInAsync(user, isPersistent: false, rememberBrowser: false);
-
-                    // For more information on how to enable account confirmation and password reset please visit https://go.microsoft.com/fwlink/?LinkID=320771
-                    // Send an email with this link
-                    // string code = await UserManager.GenerateEmailConfirmationTokenAsync(user.Id);
-                    // var callbackUrl = Url.Action("ConfirmEmail", "Account", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);
-                    // await UserManager.SendEmailAsync(user.Id, "Confirm your account", "Please confirm your account by clicking <a href=\"" + callbackUrl + "\">here</a>");
-
-                    TechCareerFair.DAL.FieldDAL.FieldRepository fr = new TechCareerFair.DAL.FieldDAL.FieldRepository();
-                    List<field> fields = fr.SelectAll().ToList();
-                    foreach (field f in fields)
-                    {
-                        bool isChecked = Convert.ToBoolean(collection[f.Name].Split(',')[0]);
-
-                        if (isChecked)
-                        {
-                            model.Fields.Add(f.Name);
-                        }
-                    }
-
-                    if (fileUpload != null)
-                    {
-                        model.Photo = UploadFile(DAL.DataSettings.BUSINESS_DIRECTORY, fileUpload);
-                    }
-                    DAL.BusinessRepository br = new DAL.BusinessRepository();
-                    List<business> businesses = br.SelectAll().ToList();
-
-                    model.Approved = false;
-                    model.Active = true;
-                    br.Insert(br.ToModel(model));
-
-                    ViewBag.FullName = model.FirstName + " " + model.LastName;
-                    return RedirectToAction("PostSignUp", "Register");
-                }
-                AddErrors(result);
-            }
-
-            // If we got this far, something failed, redisplay form
-            return RedirectToAction("Business","Register",model);
         }
 
         //
@@ -577,6 +460,218 @@ namespace TechCareerFair.Controllers
             }
 
             return pathName;
+        }
+        #endregion
+
+        #region Register
+
+        //
+        // GET: Account/Register
+        [AllowAnonymous]
+        public ActionResult RegisterIndex()
+        {
+            return View();
+        }
+
+        [HttpGet]
+        [AllowAnonymous]
+        // GET: Account/Create
+        public ActionResult RegisterApplicant()
+        {
+            FieldDatabaseDataService Fds = new FieldDatabaseDataService();
+
+            List<field> fields = Fds.Read();
+
+            ViewBag.Fields = fields;
+
+            return View();
+        }
+
+        //
+        // POST: Account/Register
+        [HttpPost]
+        [AllowAnonymous]
+        [ValidateAntiForgeryToken]
+        public async Task<ActionResult> RegisterApplicant(ApplicantViewModel model, HttpPostedFileBase fileUpload, FormCollection collection)
+        {
+            FieldDatabaseDataService Fds = new FieldDatabaseDataService();
+
+            List<field> fields = Fds.Read();
+
+            ViewBag.Fields = fields;
+            ViewBag.States = _states;
+
+            if (ModelState.IsValid)
+            {
+                var user = new ApplicationUser { UserName = model.Email, Email = model.Email };
+                var result = await UserManager.CreateAsync(user, model.Password);
+                if (result.Succeeded)
+                {
+
+                    await SignInManager.SignInAsync(user, isPersistent: false, rememberBrowser: false);
+
+                    // For more information on how to enable account confirmation and password reset please visit https://go.microsoft.com/fwlink/?LinkID=320771
+                    // Send an email with this link
+                    // string code = await UserManager.GenerateEmailConfirmationTokenAsync(user.Id);
+                    // var callbackUrl = Url.Action("ConfirmEmail", "Account", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);
+                    // await UserManager.SendEmailAsync(user.Id, "Confirm your account", "Please confirm your account by clicking <a href=\"" + callbackUrl + "\">here</a>");
+
+                    if (fileUpload != null)
+                    {
+                        model.Resume = UploadFile(DAL.DataSettings.RESUME_DIRECTORY, fileUpload);
+                    }
+                    DAL.ApplicantRepository ar = new DAL.ApplicantRepository();
+                    List<applicant> applicants = ar.SelectAll().ToList();
+
+                    model.Active = true;
+                    ar.Insert(ar.ToModel(model));
+
+                    LoginViewModel loginModel = new LoginViewModel();
+                    loginModel.Email = model.Email;
+
+                    return RedirectToAction("LoginFromRegistration", "Account", loginModel);
+                }
+                AddErrors(result);
+            }
+
+            // If we got this far, something failed, redisplay form
+            return View();
+        }
+
+        // GET: Account/Business
+        [HttpGet]
+        [AllowAnonymous]
+        public ActionResult RegisterBusiness()
+        {
+            FieldDatabaseDataService Fds = new FieldDatabaseDataService();
+
+            List<field> fields = Fds.Read();
+
+            ViewBag.Fields = fields;
+            ViewBag.States = _states;
+
+            return View();
+        }
+
+        //
+        // POST: /Account/Register
+        [HttpPost]
+        [AllowAnonymous]
+        [ValidateAntiForgeryToken]
+        public async Task<ActionResult> RegisterBusiness(BusinessViewModel model, HttpPostedFileBase fileUpload, FormCollection collection)
+        {
+
+            FieldDatabaseDataService Fds = new FieldDatabaseDataService();
+
+            List<field> fields = Fds.Read();
+
+            ViewBag.Fields = fields;
+            ViewBag.States = _states;
+
+            if (ModelState.IsValid)
+            {
+                var user = new ApplicationUser { UserName = model.Email, Email = model.Email };
+                var result = await UserManager.CreateAsync(user, model.Password);
+                if (result.Succeeded)
+                {
+
+                    await SignInManager.SignInAsync(user, isPersistent: false, rememberBrowser: false);
+
+                    // For more information on how to enable account confirmation and password reset please visit https://go.microsoft.com/fwlink/?LinkID=320771
+                    // Send an email with this link
+                    // string code = await UserManager.GenerateEmailConfirmationTokenAsync(user.Id);
+                    // var callbackUrl = Url.Action("ConfirmEmail", "Account", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);
+                    // await UserManager.SendEmailAsync(user.Id, "Confirm your account", "Please confirm your account by clicking <a href=\"" + callbackUrl + "\">here</a>");
+
+                    if (fileUpload != null)
+                    {
+                        model.Photo = UploadFile(DAL.DataSettings.BUSINESS_DIRECTORY, fileUpload);
+                    }
+                    DAL.BusinessRepository br = new DAL.BusinessRepository();
+                    List<business> businesses = br.SelectAll().ToList();
+
+                    model.Approved = false;
+                    model.Active = true;
+                    br.Insert(br.ToModel(model));
+
+                    LoginViewModel loginModel = new LoginViewModel();
+                    loginModel.Email = model.Email;
+
+                    return RedirectToAction("LoginFromRegistration", "Account", loginModel);
+                }
+                AddErrors(result);
+            }
+
+            // If we got this far, something failed, redisplay form
+            return View();
+        }
+
+        public ActionResult PostSignUp()
+        {
+            return View("PostSignUp");
+        }
+
+        private List<SelectListItem> _states = new List<SelectListItem>()
+        {
+            new SelectListItem() {Text="Select a U.S. State", Value="NA"},
+            new SelectListItem() {Text="Alabama", Value="AL"},
+            new SelectListItem() { Text="Alaska", Value="AK"},
+            new SelectListItem() { Text="Arizona", Value="AZ"},
+            new SelectListItem() { Text="Arkansas", Value="AR"},
+            new SelectListItem() { Text="California", Value="CA"},
+            new SelectListItem() { Text="Colorado", Value="CO"},
+            new SelectListItem() { Text="Connecticut", Value="CT"},
+            new SelectListItem() { Text="District of Columbia", Value="DC"},
+            new SelectListItem() { Text="Delaware", Value="DE"},
+            new SelectListItem() { Text="Florida", Value="FL"},
+            new SelectListItem() { Text="Georgia", Value="GA"},
+            new SelectListItem() { Text="Hawaii", Value="HI"},
+            new SelectListItem() { Text="Idaho", Value="ID"},
+            new SelectListItem() { Text="Illinois", Value="IL"},
+            new SelectListItem() { Text="Indiana", Value="IN"},
+            new SelectListItem() { Text="Iowa", Value="IA"},
+            new SelectListItem() { Text="Kansas", Value="KS"},
+            new SelectListItem() { Text="Kentucky", Value="KY"},
+            new SelectListItem() { Text="Louisiana", Value="LA"},
+            new SelectListItem() { Text="Maine", Value="ME"},
+            new SelectListItem() { Text="Maryland", Value="MD"},
+            new SelectListItem() { Text="Massachusetts", Value="MA"},
+            new SelectListItem() { Text="Michigan", Value="MI"},
+            new SelectListItem() { Text="Minnesota", Value="MN"},
+            new SelectListItem() { Text="Mississippi", Value="MS"},
+            new SelectListItem() { Text="Missouri", Value="MO"},
+            new SelectListItem() { Text="Montana", Value="MT"},
+            new SelectListItem() { Text="Nebraska", Value="NE"},
+            new SelectListItem() { Text="Nevada", Value="NV"},
+            new SelectListItem() { Text="New Hampshire", Value="NH"},
+            new SelectListItem() { Text="New Jersey", Value="NJ"},
+            new SelectListItem() { Text="New Mexico", Value="NM"},
+            new SelectListItem() { Text="New York", Value="NY"},
+            new SelectListItem() { Text="North Carolina", Value="NC"},
+            new SelectListItem() { Text="North Dakota", Value="ND"},
+            new SelectListItem() { Text="Ohio", Value="OH"},
+            new SelectListItem() { Text="Oklahoma", Value="OK"},
+            new SelectListItem() { Text="Oregon", Value="OR"},
+            new SelectListItem() { Text="Pennsylvania", Value="PA"},
+            new SelectListItem() { Text="Rhode Island", Value="RI"},
+            new SelectListItem() { Text="South Carolina", Value="SC"},
+            new SelectListItem() { Text="South Dakota", Value="SD"},
+            new SelectListItem() { Text="Tennessee", Value="TN"},
+            new SelectListItem() { Text="Texas", Value="TX"},
+            new SelectListItem() { Text="Utah", Value="UT"},
+            new SelectListItem() { Text="Vermont", Value="VT"},
+            new SelectListItem() { Text="Virginia", Value="VA"},
+            new SelectListItem() { Text="Washington", Value="WA"},
+            new SelectListItem() { Text="West Virginia", Value="WV"},
+            new SelectListItem() { Text="Wisconsin", Value="WI"},
+            new SelectListItem() { Text="Wyoming", Value="WY"}
+        };
+
+        [AllowAnonymous]
+        public ActionResult LoginFromRegistration(LoginViewModel model)
+        {
+            ViewBag.ReturnUrl = "Home/Index";
+            return View(model);
         }
         #endregion
     }
