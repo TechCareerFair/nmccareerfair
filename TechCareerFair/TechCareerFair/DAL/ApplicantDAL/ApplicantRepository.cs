@@ -85,7 +85,6 @@ namespace TechCareerFair.DAL
         {
              return new ApplicantViewModel
             {
-
                 ApplicantID = a.ApplicantID,
 
                 Email = a.Email,
