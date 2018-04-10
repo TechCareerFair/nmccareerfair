@@ -6,6 +6,7 @@ using System.Web.Mvc;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
+using TechCareerFair.DAL;
 using TechCareerFair.Models;
 
 namespace TechCareerFair.Controllers
@@ -32,9 +33,9 @@ namespace TechCareerFair.Controllers
             {
                 return _signInManager ?? HttpContext.GetOwinContext().Get<ApplicationSignInManager>();
             }
-            private set 
-            { 
-                _signInManager = value; 
+            private set
+            {
+                _signInManager = value;
             }
         }
 
@@ -54,6 +55,25 @@ namespace TechCareerFair.Controllers
         // GET: /Manage/Index
         public async Task<ActionResult> Index(ManageMessageId? message)
         {
+            string applicantUserName = User.Identity.GetUserName();
+            string businessUserName = User.Identity.GetUserName();
+
+            ApplicantRepository ar = new ApplicantRepository();
+            applicant applicant = ar.SelectAll().Where(a => a.Email == applicantUserName).FirstOrDefault();
+            if (applicant != null)
+            {
+                ViewBag.ApplicantId = applicant.ApplicantID;
+            }
+
+
+            BusinessRepository br = new BusinessRepository();
+            business business = br.SelectAll().Where(a => a.Email == applicantUserName).FirstOrDefault();
+            if (business != null)
+            {
+                ViewBag.BusinessId = business.BusinessID;
+            }
+
+
             ViewBag.StatusMessage =
                 message == ManageMessageId.ChangePasswordSuccess ? "Your password has been changed."
                 : message == ManageMessageId.SetPasswordSuccess ? "Your password has been set."
@@ -333,7 +353,7 @@ namespace TechCareerFair.Controllers
             base.Dispose(disposing);
         }
 
-#region Helpers
+        #region Helpers
         // Used for XSRF protection when adding external logins
         private const string XsrfKey = "XsrfId";
 
@@ -384,6 +404,6 @@ namespace TechCareerFair.Controllers
             Error
         }
 
-#endregion
+        #endregion
     }
 }

@@ -31,11 +31,11 @@
             @Html.DisplayNameFor(model => model.Fields)
         </dt>
         @foreach (string field in ViewBag.Fields)
-    {
-        <dd>
-            @field
-        </dd>
-}
+        {
+            <dd>
+                @field
+            </dd>
+        }
     </dl>
     @*education / experience info*@
     <dl class="dl-horizontal col-md-5">
@@ -69,6 +69,7 @@
         </dd>
     </dl>
     <p>
+        @Html.ActionLink("Change your password", "ChangePassword", new { id = Model.ApplicantID })
         @Html.ActionLink("Edit Profile", "EditApplicant", new { id = Model.ApplicantID })
     </p>
 </div>

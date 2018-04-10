@@ -31,8 +31,9 @@
                         <li class="social-link"><a class="social-link-a" href="https://twitter.com/nmc_tc?lang=en" target="_blank"><i class="fab fa-twitter-square fa-2x"></i></a></li>
                         <li class="social-link"><a class="social-link-a" href="https://www.instagram.com/p/BfgwfNNFX9h" target="_blank"><i class="fab fa-instagram fa-2x"></i></a></li>
                         <li class="social-link"><a class="social-link-a" href="https://www.linkedin.com/school/northwestern-michigan-college" target="_blank"><i class="fab fa-linkedin fa-2x"></i></a></li>
-                        <li class="user-login">@Html.ActionLink("Log in", "Index", "Account/Login")</li>
-                        <li class="user-login">@Html.ActionLink("Sign up", "Index", "Register")</li>
+                        @*<li class="user-login">@Html.ActionLink("Log in", "Index", "Account/Login")</li>
+                            <li class="user-login">@Html.ActionLink("Sign up", "Index", "Register")</li>*@
+                        @Html.Partial("_LoginPartial")
                     </ul>
                 </div>
             </div>
@@ -50,25 +51,25 @@
             </div>
         </div>
 
-            <div class="navbar-header">
-                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                </button>
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
 
-            </div>
-            <div class="navbar-collapse collapse">
-                <ul class="top-nav nav navbar-nav text-center">
-                    <li class="main-navigation-links">@Html.ActionLink("Home", "Index", "Home")</li>
-                    <li class="main-navigation-links">@Html.ActionLink("Applicant", "Applicant", "Home")</li>
-                    <li class="main-navigation-links">@Html.ActionLink("Business", "Business", "Home")</li>
-                    <li class="main-navigation-links">@Html.ActionLink("Gallery", "Gallery", "Home")</li>
-                    <li class="main-navigation-links">@Html.ActionLink("FAQ", "Faq", "Home")</li>
-                    <li class="main-navigation-links">@Html.ActionLink("About Us", "AboutUs", "Home")</li>
-                </ul>
-            </div>
         </div>
+        <div class="navbar-collapse collapse">
+            <ul class="top-nav nav navbar-nav text-center">
+                <li class="main-navigation-links">@Html.ActionLink("Home", "Index", "Home")</li>
+                <li class="main-navigation-links">@Html.ActionLink("Applicant", "Applicant", "Home")</li>
+                <li class="main-navigation-links">@Html.ActionLink("Business", "Business", "Home")</li>
+                <li class="main-navigation-links">@Html.ActionLink("Gallery", "Gallery", "Home")</li>
+                <li class="main-navigation-links">@Html.ActionLink("FAQ", "Faq", "Home")</li>
+                <li class="main-navigation-links">@Html.ActionLink("About Us", "AboutUs", "Home")</li>
+            </ul>
+        </div>
+    </div>
 
     <div class="body-content">
         @RenderBody()
