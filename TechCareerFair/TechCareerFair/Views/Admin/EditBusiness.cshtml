@@ -31,12 +31,20 @@
     <hr />
     @Html.ValidationSummary(true, "", new { @class = "text-danger" })
     @Html.HiddenFor(model => model.BusinessID)
+    @Html.HiddenFor(model => model.OldEmail)
 
     <div class="form-group">
         @Html.LabelFor(model => model.Password, htmlAttributes: new { @class = "control-label col-md-2" })
         <div class="col-md-10">
             @Html.EditorFor(model => model.Password, new { htmlAttributes = new { @class = "form-control" } })
             @Html.ValidationMessageFor(model => model.Password, "", new { @class = "text-danger" })
+        </div>
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(model => model.ConfirmPassword, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.EditorFor(model => model.ConfirmPassword, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.ValidationMessageFor(model => model.ConfirmPassword, "", new { @class = "text-danger" })
         </div>
     </div>
 
@@ -93,22 +101,22 @@
         @Html.ActionLink("Manage", "ListPositions", new { id = Model.BusinessID }, new { @class = "btn btn-default col-md-1" })
         <div class="col-md-8">
             @foreach (TechCareerFair.Models.position position in ViewBag.Positions)
-        {
-            string fullSite = position.Website;
-            if (!fullSite.IsEmpty() && !fullSite.Contains("http") && !fullSite.Contains("https"))
             {
-                fullSite = "<a href='http://" + fullSite + "'>" + position.Name + "</a>";
+                string fullSite = position.Website;
+                if (!fullSite.IsEmpty() && !fullSite.Contains("http") && !fullSite.Contains("https"))
+                {
+                    fullSite = "<a href='http://" + fullSite + "'>" + position.Name + "</a>";
+                }
+                else
+                {
+                    fullSite = position.Name;
+                }
+                <p>
+                    Name: @Html.Raw(fullSite) <br />
+                    Description: @position.Description <br />
+                    Is Internship: @position.Internship.ToString()
+                </p>
             }
-            else
-            {
-                fullSite = position.Name;
-            }
-            <p>
-                Name: @Html.Raw(fullSite) <br />
-                Description: @position.Description <br />
-                Is Internship: @position.Internship.ToString()
-            </p>
-    }
         </div>
     </div>
 
