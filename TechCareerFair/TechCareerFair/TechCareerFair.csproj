@@ -208,7 +208,6 @@
     <Compile Include="Controllers\GalleryController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
-    <Compile Include="Controllers\RegisterController.cs" />
     <Compile Include="Controllers\UploadTestController.cs" />
     <Compile Include="Controllers\ViewProfileController.cs" />
     <Compile Include="DAL\AdminDAL\AdminDatabaseDataService.cs" />
@@ -290,16 +289,20 @@
     <Content Include="Content\Images\ApplicantProgress1-3.PNG" />
     <Content Include="Content\Images\ApplicantProgress2-3.PNG" />
     <Content Include="Content\Images\ApplicantProgress3-3.PNG" />
+    <Content Include="Content\Images\engineer-tech.jpg" />
     <Content Include="Content\Images\IT Caeer Fair2015.1.jpg" />
     <Content Include="Content\Images\IT Caeer Fair2015.2.jpg" />
     <Content Include="Content\Images\IT Caeer Fair2015.3.jpg" />
     <Content Include="Content\Images\IT Caeer Fair2015.jpg" />
     <Content Include="Content\Images\library.jpg" />
     <Content Include="Content\Images\logo-nmc.png" />
+    <Content Include="Content\Images\networking.jpg" />
     <Content Include="Content\Images\nursing.jpg" />
     <Content Include="Content\Images\sculpture.jpg" />
     <Content Include="Content\Images\ship.jpg" />
     <Content Include="Content\Images\students.jpg" />
+    <Content Include="Content\Images\vca-nmc.jpg" />
+    <Content Include="Content\Images\Welding.jpg" />
     <Content Include="Content\Images\white-nmc-logo.png" />
     <Content Include="Content\PagedList.css" />
     <Content Include="favicon.ico" />
@@ -365,9 +368,9 @@
     <Content Include="Views\ViewProfile\ApplicantViewProfile.cshtml" />
     <Content Include="Views\Admin\ListApplicants.cshtml" />
     <Content Include="Views\Admin\ListBusinesses.cshtml" />
-    <Content Include="Views\Register\Applicant.cshtml" />
-    <Content Include="Views\Register\Business.cshtml" />
-    <Content Include="Views\Register\Index.cshtml" />
+    <Content Include="Views\Account\RegisterApplicant.cshtml" />
+    <Content Include="Views\Account\RegisterBusiness.cshtml" />
+    <Content Include="Views\Account\RegisterIndex.cshtml" />
     <Content Include="Views\Admin\EditApplicant.cshtml" />
     <Content Include="Views\Admin\EditBusiness.cshtml" />
     <Content Include="Views\Admin\FaqCreate.cshtml" />
@@ -413,7 +416,8 @@
     <Content Include="Views\Account\_RemoveAccountPartial.cshtml" />
     <Content Include="Views\Account\_SetPasswordPartial.cshtml" />
     <Content Include="Views\Shared\Info.cshtml" />
-    <Content Include="Views\Register\PostSignUp.cshtml" />
+    <Content Include="Views\Account\PostSignUp.cshtml" />
+    <Content Include="Views\Account\LoginFromRegistration.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
