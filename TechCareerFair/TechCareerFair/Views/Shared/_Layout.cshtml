@@ -6,7 +6,8 @@
     <title>@ViewBag.Title - Northwestern Michigan College</title>
     <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css">
     <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap-theme.min.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/ekko-lightbox/5.3.0/ekko-lightbox.css"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/ekko-lightbox/5.3.0/ekko-lightbox.css" />
+    <link href="https://fonts.googleapis.com/css?family=Roboto+Condensed" rel="stylesheet">
     @Styles.Render("~/Content/css")
     @Scripts.Render("~/bundles/modernizr")
     <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
@@ -19,10 +20,10 @@
     <div class="navbar navbar-inverse navbar-fixed-top">
         <div class="container top-menu-container">
             <div class="row">
-                <div class="col-xs-6 top-menu">
+                <div class="col-xs-3 top-menu">
                     <a class="nmc-home" href="https://www.nmc.edu">nmc.edu</a>
                 </div>
-                <div class="col-xs-6 top-menu-links">
+                <div class="col-xs-9 top-menu-links">
 
 
                     <ul class="top-menu-ul">
@@ -49,9 +50,6 @@
             </div>
         </div>
 
-
-
-        <div class="container ">
             <div class="navbar-header">
                 <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
                     <span class="icon-bar"></span>
@@ -71,7 +69,7 @@
                 </ul>
             </div>
         </div>
-    </div>
+
     <div class="body-content">
         @RenderBody()
 

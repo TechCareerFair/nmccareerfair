@@ -1,0 +1,459 @@
+﻿@using GoogleMaps.LocationServices
+@using System.Globalization;
+@{
+    ViewBag.Title = "Home Page";
+}
+
+<body>
+
+    <section class="banner">
+
+    </section>
+
+    <section class="description">
+        <div class="container">
+            <div class="row">
+
+                <!--homepage content-->
+                <div class="col-md-9 col-sm-12">
+                    <div class="row">
+                        <div class="home-page-details">
+                            <div class="col-sm-6 col-xs-12">
+                                <h3 class="header-hp">What is the Technology Career Fair?</h3>
+                                <p>
+                                    The Technology Career Fair is hosted by Northwestern Michigan College for applicants and employers to meet together for employment oppurtunities and networking.
+                                    This event is open to the public and has provided exceptional results for both applicants and businesses. Professional attire is highly encouraged for on
+                                    site interviews that can take place.
+                                </p>
+                            </div>
+                            <div class="col-sm-6 col-xs-12">
+                                <iframe class="hp-video" src="https://www.youtube.com/embed/FGRWLPkDRfs?rel=0"
+                                        data-toggle="lightbox" frameborder="1" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+                                <a class="btn-view-gallery" href="">View Gallery</a>
+                            </div>
+                        </div>
+                    </div>
+
+                    @*gallery slide show
+                    <div class="home-page-gallery">
+                        <h3>Technology Career Fair Images</h3>
+
+                        <div class="carousel slide multi-item-carousel" id="theCarousel" data-interval="false">
+                            <div class="carousel-inner">
+                                <div class="item active">
+                                    <div class="col-xs-4">
+                                        <a href="~/Content/Images/library.jpg" data-toggle="lightbox" data-gallery="multiimages" data-title="Image 1">
+                                            <img src="~/Content/Images/library.jpg" class="img-responsive">
+                                        </a>
+                                    </div>
+                                </div>
+                                <div class="item">
+                                    <div class="col-xs-4">
+                                        <a href="~/Content/Images/ship.jpg" data-toggle="lightbox" data-gallery="multiimages" data-title="Image 2">
+                                            <img src="~/Content/Images/ship.jpg" class="img-responsive">
+                                        </a>
+                                    </div>
+                                </div>
+                                <div class="item">
+                                    <div class="col-xs-4">
+                                        <a href="~/Content/Images/students.jpg" data-toggle="lightbox" data-gallery="multiimages" data-title="Image 3">
+                                            <img src="~/Content/Images/students.jpg" class="img-responsive">
+                                        </a>
+                                    </div>
+                                </div>
+                                <div class="item">
+                                    <div class="col-xs-4">
+                                        <a href="~/Content/Images/sculpture.jpg" data-toggle="lightbox" data-gallery="multiimages" data-title="Image 3">
+                                            <img src="~/Content/Images/sculpture.jpg" class="img-responsive">
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                            <a class="left carousel-control" href="#theCarousel" data-slide="prev"><i class="glyphicon glyphicon-chevron-left"></i></a>
+                            <a class="right carousel-control" href="#theCarousel" data-slide="next"><i class="glyphicon glyphicon-chevron-right"></i></a>
+                        </div>
+                    </div>*@
+
+                    <!--pitch for career fair-->
+                    <div class="home-page-pitch">
+                        <div class="row">
+                            <div class="col-sm-6">
+                                <div class="pitch-container">
+                                    <h3>New Applicant?</h3>
+                                    <p>
+                                        Join us for an exciting evening of networking and oppurtunties at a Career Fair that has
+                                        provided results with employment, internships, and careers.
+                                        Applicants searching for a career, position, or internship can display their talents
+                                        with on-the-spot interviews with professional businesses at their discretion.
+
+                                    </p>
+                                    <button type="button"><a href="#">Applicant Registration</a></button>
+                                </div>
+                            </div>
+                            <div class="col-sm-6">
+                                <div class="pitch-container">
+                                    <h3>New Business?</h3>
+                                    <p>
+                                        Join us for an exciting evening of exceptional talent available to fill that position
+                                        with an applicant you have been looking for. Employers from professional and occupational
+                                        fields will be able to fast track qualified applicants for career track positions,
+                                        seasonal, entry level positions, and internships.
+                                    </p>
+
+                                    <button type="button"><a href="#">Business Registration</a></button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                            <!--homepage sidebar content-->
+                            <div class="col-md-3 col-sm-6 col-xs-12">
+                                <div class="sidebar-calender">
+                                    <div id="calendar">
+                                        <h1 id="calendarMonth">
+                                            @{
+                                                TechCareerFair.DAL.CareerFairDAL.CareerFairRepository date = new TechCareerFair.DAL.CareerFairDAL.CareerFairRepository();
+                                                TechCareerFair.Models.careerfair dateof = date.SelectOne(1);
+                                                int careerFairMonth = dateof.Date.Month;
+                                            }
+                                            <script>
+                                                var month;
+                                                switch (@careerFairMonth) {
+                                                    case 1:
+                                                        month = "January";
+                                                        break;
+                                                    case 2:
+                                                        month = "February";
+                                                        break;
+                                                    case 3:
+                                                        month = "March";
+                                                        break;
+                                                    case 4:
+                                                        month = "April";
+                                                        break;
+                                                    case 5:
+                                                        month = "May";
+                                                        break;
+                                                    case 6:
+                                                        month = "June";
+                                                        break;
+                                                    case 7:
+                                                        month = "July";
+                                                        break;
+                                                    case 8:
+                                                        month = "August";
+                                                        break;
+                                                    case 9:
+                                                        month = "September";
+                                                        break;
+                                                    case 10:
+                                                        month = "October";
+                                                        break;
+                                                    case 11:
+                                                        month = "November";
+                                                        break;
+                                                    case 12:
+                                                        month = "December";
+                                                        break;
+                                                    default:
+                                                        break;
+                                                }
+                                                document.getElementById("calendarMonth").innerHTML = month;
+                                            </script>
+                                        </h1>
+                                        
+                                        <table>
+                                            <tr>
+                                                <td class="lastmonth day-31-31">31</td>
+                                                <td class="day-1">1</td>
+                                                <td class="day-2">2</td>
+                                                <td class="day-3">3</td>
+                                                <td class="day-4">4</td>
+                                                <td class="day-5">5</td>
+                                                <td class="day-6">6</td>
+                                            </tr>
+                                            <tr>
+                                                <td class="day-7">7</td>
+                                                <td class="day-8">8</td>
+                                                <td class="day-9">9</td>
+                                                <td class="day-10">10</td>
+                                                <td class="day-11">11</td>
+                                                <td class="day-12">12</td>
+                                                <td class="day-13">13</td>
+                                            </tr>
+                                            <tr>
+                                                <td class="day-14">14</td>
+                                                <td class="day-15">15</td>
+                                                <td class="day-16">16</td>
+                                                <td class="day-17">17</td>
+                                                <td class="day-18">18</td>
+                                                <td class="day-19">19</td>
+                                                <td class="day-20">20</td>
+                                            </tr>
+                                            <tr>
+                                                <td class="day-21">21</td>
+                                                <td class="day-22">22</td>
+                                                <td class="day-23">23</td>
+                                                <td class="day-24">24</td>
+                                                <td class="day-25">25</td>
+                                                <td class="day-26">26</td>
+                                                <td class="day-27">27</td>
+                                            </tr>
+                                            <tr>
+                                                <td class="day-28">28</td>
+                                                <td class="day-29">29</td>
+                                                <td class="day-30">30</td>
+                                                <td class="nextmonth day-1-1">1</td>
+                                                <td class="nextmonth day-2-2">2</td>
+                                                <td class="nextmonth day-3-3">3</td>
+                                                <td class="nextmonth day-4-4">4</td>
+                                            </tr>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+
+
+
+                            <div class="col-md-3 col-sm-6 col-xs-12">
+                                <div id="sidebar-map">
+                                    <h3>Location</h3>
+                                    <script>
+                                        function initMap() {
+                                           @{
+                                                    TechCareerFair.DAL.CareerFairDAL.CareerFairRepository GeoLocator = new TechCareerFair.DAL.CareerFairDAL.CareerFairRepository();
+                                                    TechCareerFair.Models.careerfair careerFair = GeoLocator.SelectOne(1);
+                                                    MapPoint points = careerFair.GeoCodeAddress();
+
+                                                    var pointlat = points.Latitude;
+                                                    var pointlong = points.Longitude;
+
+                                                }
+                                                var uluru = { lat: @pointlat, lng: @pointlong };
+                                            var map = new google.maps.Map(document.getElementById('sidebar-map'), {
+                                                zoom: 10,
+                                                center: uluru
+                                            });
+                                            var marker = new google.maps.Marker({
+                                                position: uluru,
+                                                map: map
+                                            });
+                                        }
+                                    </script>
+                                    <script async defer
+                                            src="https://maps.googleapis.com/maps/api/js?key=AIzaSyC68IwddGZVX8aN2HV60AriTVTePoGWvd0&callback=initMap">
+                                    </script>
+                                </div>
+                            </div>
+                        </div> <!--row end-->
+        </div><!--container end-->
+
+        <div class="container">
+            <div class="row">
+                <div class="img-container-bottom">
+                    <div class="col-xs-12 field-of-study-links">
+                        <h2>Find out more about NMC's Technology Fields</h2>
+                        <div class="row">
+                            <div class="col-sm-3 col-xs-6 ">
+                                <div class="img-container-fp-links">
+                                    <a href=""><img src="~/Content/Images/engineer-tech.jpg" alt="Alternate Text" /></a>
+                                </div>
+                                <h4>Robotics</h4>
+                            </div>
+                            <div class="col-sm-3 col-xs-6 ">
+                                <div class="img-container-fp-links">
+                                    <a href=""><img src="~/Content/Images/networking.jpg" alt="Alternate Text" /></a>
+                                </div>
+                                <h4>Computer Information Technology</h4>
+                            </div>
+                            <div class="col-sm-3 col-xs-6 ">
+                                <div class="img-container-fp-links">
+                                    <a href=""><img src="~/Content/Images/Welding.jpg" alt="Alternate Text" /></a>
+                                </div>
+                                <h4>Welding</h4>
+                            </div>
+                            <div class="col-sm-3 col-xs-6 ">
+                                <div class="img-container-fp-links">
+                                    <a href=""><img src="~/Content/Images/vca-nmc.jpg" alt="Alternate Text" /></a>
+                                </div>
+                                <h4>Visual Communications</h4>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                @{ 
+                    TechCareerFair.DAL.CareerFairDAL.CareerFairRepository careerFairRepo = new TechCareerFair.DAL.CareerFairDAL.CareerFairRepository();
+                    TechCareerFair.Models.careerfair careerModel = careerFairRepo.SelectOne(1);
+                    string phoneNumber = careerModel.Phone.ToString();
+                    Console.Write(phoneNumber);
+                }
+                <p style="margin-left:30px;">For any additional information about the Technology Career Fair call:<a href="tel:@phoneNumber"> @phoneNumber </a></p>
+            </div>
+        </div>
+
+        
+
+    </section>
+
+</body>
+
+<style>
+    .home-page-details p {
+        font-size: 17px;
+        font-family: 'Roboto Condensed', sans-serif;
+    }
+    .pitch-container {
+        background-color: #fff;
+        box-shadow: #999 0px 2px 8px;
+        padding: 20px;
+        font-family: 'Roboto Condensed', sans-serif;
+        font-size:16px;
+    }
+
+        .pitch-container p {
+            margin-bottom:20px;
+        }
+
+        .pitch-container h3 {
+            text-align: left;
+            font-family: 'Roboto Condensed', sans-serif;
+        }
+        .pitch-container button {
+            background-color: #fff;
+            border:2px solid #008265;
+            padding: 10px 20px;
+            box-shadow: #999 0px 1px 6px;
+            margin-top: 20px;
+        }
+            .pitch-container button a {
+                display: block;
+                color: #008265;
+                font-family: 'Roboto Condensed', sans-serif;
+            }
+
+            iframe.hp-video {
+                width: 100%;
+                border: 0;
+                height: 220px;
+            }
+    .btn-view-gallery {
+        display: block;
+        width: 100%;
+        text-align: center;
+        padding: 10px 30px;
+        color: #008265;
+        background: #fff;
+        font-family: 'Roboto Condensed', sans-serif;
+        box-shadow: #999 0px 1px 6px;
+    }
+
+        .btn-view-gallery:hover {
+            color: #008265;
+            text-decoration: underline;
+        }
+
+        .carousel-control.right {
+            right: 15px;
+        }
+    .carousel-control.left {
+        left: 15px;
+    }
+    .img-container-fp-links img {
+        height: auto;
+        width: 100%;
+        box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
+        transition: all 0.3s cubic-bezier(.25,.8,.25,1);
+    }
+
+    .img-container-fp-links img:hover {
+        box-shadow: 0 14px 28px rgba(0,0,0,0.25), 0 10px 10px rgba(0,0,0,0.22);
+    }
+
+    .img-container-bottom {
+        padding: 15px;
+    }
+    .field-of-study-links h2 {
+        margin: 10px 0px;
+        font-family: 'Roboto Condensed', sans-serif;
+    }
+    .col-xs-12.field-of-study-links {
+        margin: 20px 0px;
+        padding: 10px 30px;
+    }
+
+    .col-sm-3.col-xs-12 {
+        padding:10px 5px;
+    }
+
+    #calendar {
+        font-family: 'Open Sans',sans-serif;
+        text-align: center;
+        color: #555;
+        box-shadow: 0 0 50px -14px rgba(0,0,0,.8);
+    }
+
+    #sidebar-map {
+        box-shadow: 0 0 50px -14px rgba(0,0,0,.8);
+    }
+
+        #calendar h1 {
+            background: #008265;
+            padding: 15px;
+            margin: 0;
+            font-size: 140%;
+            font-weight: 300;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: #fff;
+            cursor: default;
+            text-shadow: 0 0 10px rgba(0,0,0,.8);
+        }
+
+        #calendar table {
+            border-top: 1px solid #ddd;
+            border-left: 1px solid #ddd;
+            border-spacing: 0;
+        }
+
+        #calendar td {
+            width: 38px;
+            height: 38px;
+            background: #eee;
+            border-right: 1px solid #ddd;
+            border-bottom: 1px solid #ddd;
+            padding: 6px;
+            cursor: pointer;
+            transition: background .3s;
+            -webkit-transition: background .3s;
+        }
+
+        #calendar td:hover:not(.current) {
+           background: #ddd;
+        }
+
+        #calendar .lastmonth, #calendar .nextmonth, #calendar .nextmonth ~ * {
+            background: #fff;
+            color: #999;
+        }
+
+        #calendar .current {
+            background: #008265;
+            font-weight: 700;
+            color: #fff;
+            text-shadow: 0 0 10px rgba(0,0,0,.5);
+        }
+
+        #calendar .hastask {
+            font-weight: 700;
+        }
+
+        #calendar tr:last-of-type td:first-of-type {
+            border-radius: 0 0 0 5px;
+        }
+
+        #calendar tr:last-of-type td:last-of-type {
+            border-radius: 0 0 5px 0;
+        }
+
+</style>
