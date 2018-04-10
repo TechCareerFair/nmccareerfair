@@ -7,15 +7,23 @@
 <body>
     <br/>
     <div class="container" style="height: auto">
-        <div style="background-color: lightgray; border-radius: 5px; padding: 10px" class="col-lg-4 col-lg-offset-1">
-            <h2>Register As Applicant</h2>
-            <br/>
-            <input type="button" value="Applicant Sign Up" class="btn btn-default" onclick="location.href='@Url.Action("Applicant", "Register")'" />
+        <div class="col-sm-6">
+            <div class="shrink-col-size">
+                <div class="register-block">
+                    <h2>Register As Applicant</h2>
+                    <br />
+                    <input type="button" value="Sign Up" class="btn-register" onclick="location.href='@Url.Action("Applicant", "Register")'" />
+                </div>
+            </div>
         </div>
-        <div style="background-color: lightgray; border-radius: 5px; padding: 10px" class="col-lg-4 col-lg-offset-1">
-            <h2>Register As Business</h2>
-            <br/>
-            <input type="button" value="Business Sign Up" class="btn btn-default" onclick="location.href='@Url.Action("Business", "Register")'" />
+        <div class="col-sm-6">
+            <div class="shrink-col-size">
+                <div class="register-block">
+                    <h2>Register As Business</h2>
+                    <br />
+                    <input type="button" value="Sign Up" class="btn-register" onclick="location.href='@Url.Action("Business", "Register")'" />
+                </div>
+            </div>
         </div>
     </div>
 </body>

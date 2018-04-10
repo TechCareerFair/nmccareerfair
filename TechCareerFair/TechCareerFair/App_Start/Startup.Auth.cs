@@ -3,6 +3,7 @@ using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin;
 using Microsoft.Owin.Security.Cookies;
+using Microsoft.Owin.Security.Facebook;
 using Microsoft.Owin.Security.Google;
 using Owin;
 using TechCareerFair.Models;
@@ -26,6 +27,8 @@ namespace TechCareerFair
             {
                 AuthenticationType = DefaultAuthenticationTypes.ApplicationCookie,
                 LoginPath = new PathString("/Account/Login"),
+                LogoutPath = new PathString("/Account/Logout"),
+                ExpireTimeSpan = TimeSpan.FromMinutes(5.0),
                 Provider = new CookieAuthenticationProvider
                 {
                     // Enables the application to validate the security stamp when the user logs in.
@@ -34,7 +37,7 @@ namespace TechCareerFair
                         validateInterval: TimeSpan.FromMinutes(30),
                         regenerateIdentity: (manager, user) => user.GenerateUserIdentityAsync(manager))
                 }
-            });            
+            });
             app.UseExternalSignInCookie(DefaultAuthenticationTypes.ExternalCookie);
 
             // Enables the application to temporarily store user information when they are verifying the second factor in the two-factor authentication process.
@@ -54,15 +57,21 @@ namespace TechCareerFair
             //   consumerKey: "",
             //   consumerSecret: "");
 
-            //app.UseFacebookAuthentication(
-            //   appId: "",
-            //   appSecret: "");
+            var facebookOptions = new FacebookAuthenticationOptions()
+            {
+                AppId = "364846563994378",
+                AppSecret = "f26a0cabce9d9272734be06847747553",
+                UserInformationEndpoint = "https://graph.facebook.com/v2.8/me?fields=id,name,email,first_name,last_name",
+                Scope = { "email" }
+            };
 
-            //app.UseGoogleAuthentication(new GoogleOAuth2AuthenticationOptions()
-            //{
-            //    ClientId = "",
-            //    ClientSecret = ""
-            //});
+            app.UseFacebookAuthentication(facebookOptions);
+
+            app.UseGoogleAuthentication(new GoogleOAuth2AuthenticationOptions()
+            {
+                ClientId = "514477754818-a761lbmu5c25jvmp7baajmi3die5a41o.apps.googleusercontent.com",
+                ClientSecret = "t5c7KbIul097s0JQH2PGZLOm"
+        });
         }
     }
 }
