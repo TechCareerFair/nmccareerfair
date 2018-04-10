@@ -7,8 +7,8 @@
 .body-content {
     padding-left: 15px;
     padding-right: 15px;
-    min-height:650px;
-    margin-top:150px;
+    min-height:670px;
+    margin-top:140px;
     background-color:#eee;
     padding-bottom:40px;
 }
@@ -30,11 +30,14 @@ textarea {
     max-width: 280px;
 }
 
-h2,h3 {
-    margin:0px;
-    padding:0px;
+h2, h3 {
+    margin: 0px;
+    padding: 0px;
+    font-family: 'Roboto Condensed', sans-serif;
 }
-
+h4 {
+    font-family: 'Roboto Condensed', sans-serif;
+}
 /*
 ==========================================================
 Header
@@ -63,6 +66,7 @@ Header
 ul.top-menu-ul {
     display: inline-block;
     list-style: none;
+    float:right;
     margin:0;
     padding: 0;
 }
@@ -142,7 +146,8 @@ li.main-navigation-links > a{
 
 /*Bootstrap overrides*/
 .navbar-inverse .navbar-collapse, .navbar-inverse .navbar-form {
-    border-color: #101010;
+    border-color: #333;
+    background-color:#333;
     text-align:center;
     height:auto;
 }
@@ -154,7 +159,31 @@ li.main-navigation-links > a{
     background-color: #333;
     border-color: #080808;
 }
+.navbar-header {
+    background-color: #333;
+}
+@media (min-width: 768px) {
+    .navbar-collapse.collapse {
+        display: block !important;
+        height: 49px !important;
+        padding-bottom: 0;
+        overflow: visible !important;
+    }
+}
 
+@media screen and (max-width:767px) {
+    .pitch-container {
+        margin-top: 20px;
+    }
+
+}
+
+@media screen and (min-width:991px) and (max-width:1200px) {
+    .pitch-container p {
+        min-height: 200px;
+    }
+
+}
     /*
 ==========================================================
     Home Page
@@ -165,7 +194,7 @@ li.main-navigation-links > a{
     margin: 30px 0;
 }
 
-.home-page-details h2 {
+.home-page-details h3 {
     margin:0px;
 }
 
@@ -216,6 +245,59 @@ sidebar
     padding: 20px;
     margin-top: 30px;
 }
+
+
+
+/*
+==========================================================
+Register page
+==========================================================
+*/
+.shrink-col-size {
+    padding: 20px 80px;
+}
+.register-block {
+    background-color: #fff;
+    border-radius: 5px;
+    padding: 20px;
+    margin-top: 30px;
+    text-align: center;
+    box-shadow: #999 0px 2px 8px;
+}
+
+
+    .register-block h2 {
+        color: #777;
+    }
+
+.btn-register {
+    background-color: #008265;
+    padding: 10px 30px;
+    font-size: 20px;
+    color: #fff;
+    border: none;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
+    transition: all 0.3s cubic-bezier(.25,.8,.25,1);
+}
+
+    .btn-register:hover {
+        box-shadow: 0 14px 28px rgba(0,0,0,0.25), 0 10px 10px rgba(0,0,0,0.22);
+    }
+
+    @media screen and (max-width:1200px) {
+        .shrink-col-size {
+            padding: 20px 35px;
+        }
+    }
+
+@media screen and (max-width:991px) {
+    .shrink-col-size {
+        padding: 20px 0px;
+    }
+}
+
+
+
 /*
 ==========================================================
 Footer
