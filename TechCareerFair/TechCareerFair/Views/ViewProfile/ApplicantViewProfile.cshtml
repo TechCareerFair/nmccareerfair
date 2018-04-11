@@ -4,6 +4,8 @@
     ViewBag.Title = "ApplicantViewProfile";
 }
 
+<p class="text-success">@ViewBag.StatusMessage</p>
+
 <h2>@Html.DisplayFor(model => model.FirstName) @Html.DisplayFor(model => model.LastName)</h2>
 
 <div>
@@ -68,10 +70,10 @@
             @Html.DisplayFor(model => model.Internship)
         </dd>
     </dl>
-    <p>
-        @Html.ActionLink("Change your password", "ChangePassword", new { id = Model.ApplicantID })
-        @Html.ActionLink("Edit Profile", "EditApplicant", new { id = Model.ApplicantID })
-    </p>
+    <div class="form-group">
+        <input type="button" value="Change Password" onclick="location.href='@Url.Action("ChangePassword", "Manage")'" class="btn btn-primary" />
+        <input type="button" value="Edit Profile" onclick="location.href='@Url.Action("EditApplicant", new { id = Model.ApplicantID })'" class="btn btn-primary" />
+    </div>
 </div>
 
 <style>

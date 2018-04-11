@@ -4,6 +4,8 @@
     ViewBag.Title = "BusinessViewProfile";
 }
 
+<p class="text-success">@ViewBag.StatusMessage</p>
+
 <h2>@Html.DisplayFor(model => model.BusinessName)</h2>
 
 <div>
@@ -13,7 +15,7 @@
             @Html.DisplayNameFor(model => model.Photo)
         </dt>
         <dd>
-            <img src="@Html.DisplayFor(model => model.Photo)" alt="Business Photo" height="150" width="200"/>
+            <img src="@Html.DisplayFor(model => model.Photo)" alt="Business Photo" height="150" width="200" />
         </dd>
         <dt>
             @Html.DisplayNameFor(model => model.Street)
@@ -159,9 +161,10 @@
             @Html.DisplayFor(model => model.LocationPreference)
         </dd>
     </dl>
-    <p>
-        @Html.ActionLink("Edit Profile", "EditBusiness", new { id = Model.BusinessID })
-    </p>
+    <div class="form-group">
+        <input type="button" value="Change Password" onclick="location.href='@Url.Action("ChangePassword", "Manage")'" class="btn btn-primary" />
+        <input type="button" value="Edit Profile" onclick="location.href='@Url.Action("EditBusiness", new { id = Model.BusinessID })'" class="btn btn-primary" />
+    </div>
 </div>
 
 <style>

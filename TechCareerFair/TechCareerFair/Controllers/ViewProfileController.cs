@@ -7,6 +7,7 @@ using System.Web;
 using System.Web.Mvc;
 using TechCareerFair.DAL;
 using TechCareerFair.Models;
+using static TechCareerFair.Controllers.ManageController;
 
 namespace TechCareerFair.Controllers
 {
@@ -68,25 +69,23 @@ namespace TechCareerFair.Controllers
             new SelectListItem() { Text="Wyoming", Value="WY"}
         };
         
-        public ActionResult GetUserType()
+        public ActionResult GetUserType(ManageMessageId? message)
         {
             string userName = User.Identity.GetUserName();
 
             ApplicantRepository ar = new ApplicantRepository();
-            applicant applicant = ar.SelectAll().Where(a => a.Email == userName).FirstOrDefault();
-
-            
+            applicant applicant = ar.SelectAll().Where(a => a.Email == userName).FirstOrDefault();            
 
             BusinessRepository br = new BusinessRepository();
             business business = br.SelectAll().Where(a => a.Email == userName).FirstOrDefault();
 
             if (applicant != null)
             {
-                return ApplicantViewProfile(applicant);
+                return ApplicantViewProfile(applicant, message);
             }
             else if (business != null)
             {
-                return BusinessViewProfile(business);
+                return BusinessViewProfile(business, message);
             }
             else
             {
@@ -96,12 +95,17 @@ namespace TechCareerFair.Controllers
 
         }
 
-        public ActionResult BusinessViewProfile(business business)
+        public ActionResult BusinessViewProfile(business business, ManageMessageId? message)
         {
             BusinessRepository businessRepository = new BusinessRepository();
             BusinessViewModel businessVM = businessRepository.ToViewModel(business);
             ViewBag.Fields = businessVM.Fields;
             ViewBag.Positions = businessVM.Positions;
+
+            ViewBag.StatusMessage =
+                message == ManageMessageId.ChangePasswordSuccess ? "Your password has been changed."
+                : message == ManageMessageId.Error ? "An error has occurred."
+                : "";
 
             return View("BusinessViewProfile", businessVM);
 
@@ -169,11 +173,16 @@ namespace TechCareerFair.Controllers
 
         }
 
-        public ActionResult ApplicantViewProfile(applicant applicant)
+        public ActionResult ApplicantViewProfile(applicant applicant, ManageMessageId? message)
         {
             ApplicantRepository applicantRepository = new ApplicantRepository();
             ApplicantViewModel applicantVM = applicantRepository.ToViewModel(applicant);
             ViewBag.Fields = applicant.Fields;
+
+            ViewBag.StatusMessage =
+                message == ManageMessageId.ChangePasswordSuccess ? "Your password has been changed."
+                : message == ManageMessageId.Error ? "An error has occurred."
+                : "";
 
             return View("ApplicantViewProfile", applicantVM);
         }
