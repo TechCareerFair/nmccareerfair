@@ -6,17 +6,19 @@
 
 <p class="text-success">@ViewBag.StatusMessage</p>
 
-<h2>@Html.DisplayFor(model => model.BusinessName)</h2>
+<div>
+    <h2 class="col-md-6">@Html.DisplayFor(model => model.BusinessName)</h2>
+    <dl class="col-md-6">
+        <dd>
+            <img src="@Html.DisplayFor(model => model.Photo)" alt="Business Photo" height="150" width="200" />
+        </dd>
+    </dl>
+</div>
+
 
 <div>
     @*general business profile info*@
     <dl class="dl-horizontal col-md-5">
-        <dt>
-            @Html.DisplayNameFor(model => model.Photo)
-        </dt>
-        <dd>
-            <img src="@Html.DisplayFor(model => model.Photo)" alt="Business Photo" height="150" width="200" />
-        </dd>
         <dt>
             @Html.DisplayNameFor(model => model.Street)
         </dt>
@@ -96,6 +98,11 @@
         <dd>
             @Html.DisplayFor(model => model.NonProfit)
         </dd>
+
+    </dl>
+
+    @*tech career fair related info*@
+    <dl class="dl-horizontal col-md-5">
         <dt>
             @Html.DisplayNameFor(model => model.BusinessDescription)
         </dt>
@@ -118,10 +125,6 @@
         <dd>
             @Html.DisplayFor(model => model.SocialMedia)
         </dd>
-    </dl>
-
-    @*tech career fair related info*@
-    <dl class="dl-horizontal col-md-5">
         <dt>
             @Html.DisplayNameFor(model => model.Outlet)
         </dt>
@@ -161,7 +164,7 @@
             @Html.DisplayFor(model => model.LocationPreference)
         </dd>
     </dl>
-    <div class="form-group">
+    <div class="form-group col-md-2">
         <input type="button" value="Change Password" onclick="location.href='@Url.Action("ChangePassword", "Manage")'" class="btn btn-primary" />
         <input type="button" value="Edit Profile" onclick="location.href='@Url.Action("EditBusiness", new { id = Model.BusinessID })'" class="btn btn-primary" />
     </div>
