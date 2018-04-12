@@ -10,16 +10,17 @@
         <!--about page content-->
         <div class="col-md-12 col-sm-12">
 
-            <div class="home-page-details">
+            <div class="about-page-details">
+                <h2>What is the Technology Career Fair?</h2>
                 <p>@Html.DisplayFor(model => model.About)</p>
             </div>
 
-            <div class="home-page-details">
+            <div class="about-page-details">
                 <h2>@Html.DisplayNameFor(model => model.Date) & @Html.DisplayNameFor(model => model.Address)</h2>
                 <p>@Html.DisplayFor(model => model.Date) at @Html.DisplayFor(model => model.Address)</p>
             </div>
 
-            <div class="home-page-details">
+            <div class="about-page-details">
                 <h2>Contact Us</h2>
                 <p>Any questions or concerns please contact us at: @Html.DisplayFor(model => model.Phone)</p>
             </div>
@@ -27,13 +28,3 @@
         </div>
     </div>
 </div>
-
-<style>
-    p {
-        color: white;
-    }
-    h2{
-        color: white;
-    }
-</style>
-
