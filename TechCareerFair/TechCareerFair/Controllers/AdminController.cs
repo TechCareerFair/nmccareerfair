@@ -1444,7 +1444,10 @@ namespace TechCareerFair.Controllers
 
             editedUser.Email = user.Email;
             editedUser.UserName = user.Email;
-            editedUser.PasswordHash = passwordHasher.HashPassword(user.Password);
+            if(editedUser.PasswordHash != user.Password)
+            {
+                editedUser.PasswordHash = passwordHasher.HashPassword(user.Password);
+            }
 
             db.Entry(editedUser).State = System.Data.Entity.EntityState.Modified;
             db.SaveChanges();
