@@ -88,8 +88,14 @@ li.user-login {
     display: inline-block;
     text-align: right;
     position: relative;
-    top: -3px;
+    top: -5px;
     margin-left: 6px;
+}
+@media screen and (max-width:767px) {
+    li.user-login {
+        position:relative;
+        top:0px;
+    }
 }
 .nmc-logo-img{
     height:80px;
@@ -102,6 +108,14 @@ li.user-login {
     color: #fff;
     font-size: 32px;
     font-family: 'Roboto', sans-serif;
+    position:relative;
+    top:-15px;
+}
+@media screen and (max-width:767px) {
+    .banner-h2 {
+        position:relative;
+        top:0px;
+    }
 }
 a.nmc-home {
     position:relative;
@@ -117,6 +131,8 @@ a.nmc-home:hover {
     margin: 0;
     display: inline-block;
     margin: auto;
+    position:relative;
+    top:-5px;
 }
 .main-navigation-links {
     display:inline-block;
