@@ -168,7 +168,7 @@ namespace TechCareerFair.Controllers
             BusinessRepository businessRepository = new BusinessRepository();
             businessRepository.UpdateBusinessProfile(businessRepository.ToModel(business), Server.MapPath("~"));
 
-            return RedirectToAction("BusinessViewProfile", business);
+            return BusinessViewProfile(businessRepository.ToModel(business), null);
 
 
         }
@@ -246,7 +246,7 @@ namespace TechCareerFair.Controllers
 
             //applicant = applicantRepository.SelectOne(id);
 
-            return RedirectToAction("ApplicantViewProfile", applicant);
+            return ApplicantViewProfile(applicantRepository.ToModel(applicant), null);
 
 
         }
