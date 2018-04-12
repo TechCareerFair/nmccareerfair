@@ -2,6 +2,7 @@
 
 @{
     ViewBag.Title = "ApplicantViewProfile";
+    string resume = Html.DisplayFor(model => model.Resume).ToHtmlString();
 }
 
 <p class="text-success">@ViewBag.StatusMessage</p>
@@ -38,6 +39,12 @@
                 @field
             </dd>
         }
+        <dt>
+            @Html.DisplayNameFor(model => model.Resume)
+        </dt>
+        <dd>
+            <a href="@resume" class="btn btn-default">Download</a>
+        </dd>
     </dl>
     @*education / experience info*@
     <dl class="dl-horizontal col-md-5">
