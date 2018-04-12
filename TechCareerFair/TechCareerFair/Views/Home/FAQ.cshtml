@@ -11,16 +11,18 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <style>
 
-     .answer{
-        margin:10px;
+    .answer {
+        margin: 10px;
         background-color: #999;
-        padding:5px 25px;
+        padding: 5px 25px;
     }
-     .answer h2{
-         text-align:center;
-         padding:10px;
-         color:white;
-     }
+
+        .answer h2 {
+            text-align: center;
+            padding: 10px;
+            color: white;
+        }
+
     .accordion {
         background-color: #eee;
         color: #444;
@@ -55,7 +57,7 @@
         background-color: white;
         max-height: 0;
         overflow: hidden;
-        border-radius:0;
+        border-radius: 0;
         transition: max-height 0.2s ease-out;
     }
 </style>
@@ -63,33 +65,23 @@
 
 <br />
 <h2>FAQ</h2>
-
-
-
-
 <div class="container">
 
     <div class="row">
 
         <div class="col-md-6">
- 
-                <div class="answer">
-                    <h2>Applicant Answers</h2>
 
-                    <button class="accordion">Question 1</button>
-                    <div class="panel">
-                        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
-                    </div>
+            <div class="answer">
+                <h2>Applicant Answers</h2>
 
-                    <button class="accordion">Question 2</button>
-                    <div class="panel">
-                        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
-                    </div>
-
-                    <button class="accordion">Question 3</button>
-                    <div class="panel">
-                        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
-                    </div>
+                @foreach (TechCareerFair.Models.faq faq in ViewBag.Faq)
+                {
+                    if (faq.IsApplicantQ)
+                    {
+                        <button class="accordion">@faq.Question</button>
+                        <div class="panel"><p>@faq.Answer</p></div>
+                    }
+                }
 
             </div><!--end applicant faq-->
         </div><!--end left column-->
@@ -99,28 +91,17 @@
             <div class="answer">
 
                 <h2>Business Answers</h2>
-
-                <button class="accordion">Question 1</button>
-                <div class="panel">
-                    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
-                </div>
-
-                <button class="accordion">Question 2</button>
-                <div class="panel">
-                    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
-                </div>
-
-                <button class="accordion">Question 3</button>
-                <div class="panel">
-                    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
-                </div>
-
+                @foreach (TechCareerFair.Models.faq faq in ViewBag.Faq)
+                {
+                    if (!faq.IsApplicantQ)
+                    {
+                        <button class="accordion">@faq.Question</button>
+                        <div class="panel"><p>@faq.Answer</p></div>
+                    }
+                }
 
             </div><!--end business faq-->
         </div><!--end right column-->
-
-
-
 
 
     </div><!--end row-->
@@ -142,53 +123,6 @@
         });
     }
 </script>
-
-
-@*<p>
-            @Html.ActionLink("Create New", "Create")
-        </p>
-        <table class="table">
-            <tr>
-                <th>
-                    @Html.DisplayNameFor(model => model.Question)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.Answer)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.Website)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.ApplicantQ)
-                </th>
-                <th></th>
-            </tr>
-
-        @foreach (var item in Model) {
-            <tr>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Question)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Answer)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Website)
-    <a href="~/Controllers/AccountController.cs">~/Controllers/AccountController.cs</a>
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.ApplicantQ)
-                </td>
-                <td>
-                    @Html.ActionLink("Edit", "Edit", new { id=item.FaqID }) |
-                    @Html.ActionLink("Details", "Details", new { id=item.FaqID }) |
-                    @Html.ActionLink("Delete", "Delete", new { id=item.FaqID })
-                </td>
-            </tr>
-        }
-
-        </table>*@
-
 
 
 <!-- Optional JavaScript -->
