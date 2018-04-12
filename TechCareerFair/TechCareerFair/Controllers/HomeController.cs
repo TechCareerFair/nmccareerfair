@@ -41,23 +41,22 @@ namespace TechCareerFair.Controllers
         }
 
         //GET/Home/SearchApp
-        public ActionResult SearchApp(string sortOrder, string filter, string searchCriteria, int? page)
+        public ActionResult SearchApp(string sortOrder, string searchCriteria, int? page)
         {
 
             TechCareerFair.DAL.ApplicantRepository applicantRepository = new TechCareerFair.DAL.ApplicantRepository();
             TechCareerFair.DAL.FieldDAL.FieldRepository fieldRepo = new TechCareerFair.DAL.FieldDAL.FieldRepository();
 
             IEnumerable<ApplicantViewModel> apps = applicantRepository.SelectAllAsViewModel();
-            ViewBag.AllField = fieldRepo.SelectAll();
+            ViewBag.AllFields = fieldRepo.SelectAll();
 
             ViewBag.CurrentSort = sortOrder;
             ViewBag.CurrentCriteria = searchCriteria;
-            ViewBag.CurrentFilter = filter;
 
             int pageSize = 30;
             int pageNumber = (page ?? 1);
 
-            apps = FilterApplicants(apps, filter, searchCriteria);
+            apps = FilterApplicants(apps, null, searchCriteria);
 
             switch (sortOrder)
             {
@@ -76,14 +75,13 @@ namespace TechCareerFair.Controllers
             return View(apps);
         }
         [HttpPost]
-        public ActionResult SearchApp(string searchCriteria, string filter, int? page, ApplicantViewModel applicant, FormCollection collection)
+        public ActionResult SearchApp(string searchCriteria, int? page, ApplicantViewModel applicant, FormCollection collection)
         {
 
             int pageSize = 30;
             int pageNumber = (page ?? 1);
 
             ViewBag.CurrentCriteria = searchCriteria;
-            ViewBag.CurrentFilter = filter;
 
 
 
@@ -91,39 +89,38 @@ namespace TechCareerFair.Controllers
             TechCareerFair.DAL.FieldDAL.FieldRepository fieldRepo = new TechCareerFair.DAL.FieldDAL.FieldRepository();
             IEnumerable<ApplicantViewModel> apps;
 
+            List<string> fieldsSelected = new List<string>();
+
+            List<field> fields = fieldRepo.SelectAll().ToList();
+
+            foreach (field f in fields)
+            {
+                bool isChecked = Convert.ToBoolean(collection[f.Name].Split(',')[0]);
+
+                if (isChecked)
+                {
+                    fieldsSelected.Add(f.Name);
+                }
+            }
+
+            ViewBag.AllFields = fields;
+            ViewBag.Fields = fieldsSelected;
+
+
             using (ar)
             {
                 apps = ar.SelectAllAsViewModel() as IList<ApplicantViewModel>;
-                apps = FilterApplicants(apps, filter, searchCriteria);
+                apps = FilterApplicants(apps, fieldsSelected, searchCriteria);
             }
 
             apps = apps.ToPagedList(pageNumber, pageSize);
+
+
             return View(apps);
-        }
-
-
-            //List<field> fields = fieldRepo.SelectAll().ToList();
-
-            //foreach (field f in fields)
-            //{
-            //    bool isChecked = Convert.ToBoolean(collection[f.Name].Split(',')[0]);
-
-            //    if (!applicant.Fields.Contains(f.Name) && isChecked)
-            //    {
-            //        applicant.Fields.Add(f.Name);
-            //    }
-            //    else if (applicant.Fields.Contains(f.Name) && !isChecked)
-            //    {
-            //        applicant.Fields.Remove(f.Name);
-            //    }
-            //}
-
-          
-        
-
-
+        }       
+  
         [NonAction]
-        private IEnumerable<ApplicantViewModel> FilterApplicants(IEnumerable<ApplicantViewModel> applicants, string filter, string searchCriteria)
+        private IEnumerable<ApplicantViewModel> FilterApplicants(IEnumerable<ApplicantViewModel> applicants, List<string> fields, string searchCriteria)
         {
            
             if (searchCriteria != null)
@@ -131,7 +128,15 @@ namespace TechCareerFair.Controllers
                 applicants = applicants.Where(a => a.LastName.ToUpper().Contains(searchCriteria.ToUpper()));
 
             }
-          
+
+            if(fields != null && fields.Count > 0)
+            {
+                foreach(string f in fields)
+                {
+                    applicants = applicants.Where(a => a.Fields.Contains(f));
+                }
+                
+            }          
 
             return applicants;
         }
@@ -139,23 +144,23 @@ namespace TechCareerFair.Controllers
 
         //Search Business
         //GET/Home/SearchBus
-        public ActionResult SearchBus(string sortOrder, string filter, string searchCriteria, int? page)
+        public ActionResult SearchBus(string sortOrder,string searchCriteria, int? page)
         {
 
             TechCareerFair.DAL.BusinessRepository businessRepository = new TechCareerFair.DAL.BusinessRepository();
             TechCareerFair.DAL.FieldDAL.FieldRepository fieldRepo = new TechCareerFair.DAL.FieldDAL.FieldRepository();
 
             IEnumerable<BusinessViewModel> companies = businessRepository.SelectAllAsViewModel();
-            ViewBag.AllField = fieldRepo.SelectAll();
+            ViewBag.AllFields = fieldRepo.SelectAll();
 
             ViewBag.CurrentSort = sortOrder;
             ViewBag.CurrentCriteria = searchCriteria;
-            ViewBag.CurrentFilter = filter;
+            
 
             int pageSize = 30;
             int pageNumber = (page ?? 1);
 
-            companies = FilterBusiness(companies, filter, searchCriteria);
+            companies = FilterBusinesses(companies,null, searchCriteria);
 
             switch (sortOrder)
             {
@@ -165,7 +170,9 @@ namespace TechCareerFair.Controllers
                 case "LastName":
                     companies = companies.OrderBy(a => a.LastName);
                     break;
-
+                case "BusinessName":
+                    companies = companies.OrderBy(a => a.BusinessName);
+                    break;
                 default:
                     break;
             }
@@ -174,25 +181,41 @@ namespace TechCareerFair.Controllers
             return View(companies);
         }
         [HttpPost]
-        public ActionResult SearchBus(string searchCriteria, string filter, int? page, BusinessViewModel licant, FormCollection collection)
+        public ActionResult SearchBus(string searchCriteria, int? page, BusinessViewModel business, FormCollection collection)
         {
 
             int pageSize = 30;
             int pageNumber = (page ?? 1);
 
             ViewBag.CurrentCriteria = searchCriteria;
-            ViewBag.CurrentFilter = filter;
-
-
+        
 
             TechCareerFair.DAL.BusinessRepository businessRepo = new TechCareerFair.DAL.BusinessRepository();
             TechCareerFair.DAL.FieldDAL.FieldRepository fieldRepo = new TechCareerFair.DAL.FieldDAL.FieldRepository();
             IEnumerable<BusinessViewModel> bus;
 
+            List<string> fieldsSelected = new List<string>();
+
+            List<field> fields = fieldRepo.SelectAll().ToList();
+
+            foreach (field f in fields)
+            {
+                bool isChecked = Convert.ToBoolean(collection[f.Name].Split(',')[0]);
+
+                if (isChecked)
+                {
+                    fieldsSelected.Add(f.Name);
+                }
+            }
+
+            ViewBag.AllFields = fields;
+            ViewBag.Fields = fieldsSelected;
+
+
             using (businessRepo)
             {
                 bus= businessRepo.SelectAllAsViewModel() as IList<BusinessViewModel>;
-                bus = FilterBusiness(bus, filter, searchCriteria);
+                bus = FilterBusinesses(bus, fieldsSelected, searchCriteria);
             }
 
             bus = bus.ToPagedList(pageNumber, pageSize);
@@ -200,33 +223,22 @@ namespace TechCareerFair.Controllers
         }
 
 
-        //List<field> fields = fieldRepo.SelectAll().ToList();
-
-        //foreach (field f in fields)
-        //{
-        //    bool isChecked = Convert.ToBoolean(collection[f.Name].Split(',')[0]);
-
-        //    if (!applicant.Fields.Contains(f.Name) && isChecked)
-        //    {
-        //        applicant.Fields.Add(f.Name);
-        //    }
-        //    else if (applicant.Fields.Contains(f.Name) && !isChecked)
-        //    {
-        //        applicant.Fields.Remove(f.Name);
-        //    }
-        //}
-
-
-
-
-
+       
         [NonAction]
-        private IEnumerable<BusinessViewModel> FilterBusiness(IEnumerable<BusinessViewModel> business, string filter, string searchCriteria)
+        private IEnumerable<BusinessViewModel> FilterBusinesses(IEnumerable<BusinessViewModel> business, List<string> fields, string searchCriteria)
         {
 
             if (searchCriteria != null)
             {
-                business = business.Where(a => a.BusinessName.ToUpper().Contains(searchCriteria.ToUpper()));
+                business = business.Where(b => b.BusinessName.ToUpper().Contains(searchCriteria.ToUpper()));
+
+            }
+            if (fields != null && fields.Count > 0)
+            {
+                foreach (string f in fields)
+                {
+                    business = business.Where(b => b.Fields.Contains(f));
+                }
 
             }
 
