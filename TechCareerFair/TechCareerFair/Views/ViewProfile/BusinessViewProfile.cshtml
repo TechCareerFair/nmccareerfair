@@ -2,6 +2,8 @@
 
 @{
     ViewBag.Title = "BusinessViewProfile";
+    string socialMedia = ViewBag.SocialMedia;
+    string website = ViewBag.Website;
 }
 
 <p class="text-success">@ViewBag.StatusMessage</p>
@@ -115,15 +117,29 @@
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.Website)
+            @if (!website.IsEmpty() && !website.Contains("http") && !website.Contains("https"))
+            {
+                website = "<a href='http://" + website + "'>" + website + "</a>";
+            }
+            else
+            {
+                @Html.DisplayFor(model => model.Website)
+            }
+            @Html.Raw(website)
         </dd>
-
         <dt>
             @Html.DisplayNameFor(model => model.SocialMedia)
         </dt>
-
         <dd>
-            @Html.DisplayFor(model => model.SocialMedia)
+            @if (!socialMedia.IsEmpty() && !socialMedia.Contains("http") && !socialMedia.Contains("https"))
+            {
+                socialMedia = "<a href='http://" + socialMedia + "'>" + socialMedia + "</a>";
+            }
+            else
+            {
+                @Html.DisplayFor(model => model.SocialMedia)
+            }
+            @Html.Raw(socialMedia)
         </dd>
         <dt>
             @Html.DisplayNameFor(model => model.Outlet)

@@ -3,6 +3,8 @@
 @{
     ViewBag.Title = "ApplicantViewProfile";
     string resume = Html.DisplayFor(model => model.Resume).ToHtmlString();
+    string socialMedia = ViewBag.SocialMedia;
+
 }
 
 <p class="text-success">@ViewBag.StatusMessage</p>
@@ -22,7 +24,15 @@
             @Html.DisplayNameFor(model => model.SocialMedia)
         </dt>
         <dd>
-            @Html.DisplayFor(model => model.SocialMedia)
+            @if (!socialMedia.IsEmpty() && !socialMedia.Contains("http") && !socialMedia.Contains("https"))
+            {
+                socialMedia = "<a href='http://" + socialMedia + "'>" + socialMedia + "</a>";
+            }
+            else
+            {
+                @Html.DisplayFor(model => model.SocialMedia)
+            }
+            @Html.Raw(socialMedia)
         </dd>
         <dt>
             @Html.DisplayNameFor(model => model.Profile)
@@ -39,12 +49,7 @@
                 @field
             </dd>
         }
-        <dt>
-            @Html.DisplayNameFor(model => model.Resume)
-        </dt>
-        <dd>
-            <a href="@resume" class="btn btn-default">Download</a>
-        </dd>
+
     </dl>
     @*education / experience info*@
     <dl class="dl-horizontal col-md-5">
@@ -75,6 +80,12 @@
 
         <dd>
             @Html.DisplayFor(model => model.Internship)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Resume)
+        </dt>
+        <dd>
+            <a href="@resume" class="btn btn-default">Download</a>
         </dd>
     </dl>
     <div class="form-group col-md-2">

@@ -99,8 +99,10 @@ namespace TechCareerFair.Controllers
         {
             BusinessRepository businessRepository = new BusinessRepository();
             BusinessViewModel businessVM = businessRepository.ToViewModel(business);
-            ViewBag.Fields = businessVM.Fields;
-            ViewBag.Positions = businessVM.Positions;
+            ViewBag.Fields = business.Fields;
+            ViewBag.Positions = business.Positions;
+            ViewBag.SocialMedia = business.SocialMedia;
+            ViewBag.Website = business.Website;
 
             ViewBag.StatusMessage =
                 message == ManageMessageId.ChangePasswordSuccess ? "Your password has been changed."
@@ -178,6 +180,7 @@ namespace TechCareerFair.Controllers
             ApplicantRepository applicantRepository = new ApplicantRepository();
             ApplicantViewModel applicantVM = applicantRepository.ToViewModel(applicant);
             ViewBag.Fields = applicant.Fields;
+            ViewBag.SocialMedia = applicant.SocialMedia;
 
             ViewBag.StatusMessage =
                 message == ManageMessageId.ChangePasswordSuccess ? "Your password has been changed."
