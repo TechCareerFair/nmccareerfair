@@ -134,7 +134,8 @@ namespace TechCareerFair.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult EditBusiness([Bind(Include = "BusinessID,Email,BusinessName,FirstName,LastName,Fields,Street,City,State,Zip,Phone,Alumni,NonProfit,Outlet,Display,DisplayDescription,Attendees,BusinessDescription,Website,SocialMedia,Photo,LocationPreference,ContactMe,PreferEmail")]BusinessViewModel business, HttpPostedFileBase fileUpload, FormCollection collection)
         {
-
+            try
+            {
             TechCareerFair.DAL.FieldDAL.FieldRepository fr = new TechCareerFair.DAL.FieldDAL.FieldRepository();
             List<field> fields = fr.SelectAll().ToList();
             foreach (field f in fields)
@@ -162,7 +163,7 @@ namespace TechCareerFair.Controllers
 
             if (fileUpload != null)
             {
-                business.Photo = UploadFile(DataSettings.BUSINESS_DIRECTORY, fileUpload);
+                business.Photo = DAL.DatabaseHelper.UploadFile(DataSettings.BUSINESS_DIRECTORY, fileUpload, Server);
             }
 
             BusinessRepository businessRepository = new BusinessRepository();
@@ -170,7 +171,12 @@ namespace TechCareerFair.Controllers
 
             return BusinessViewProfile(businessRepository.ToModel(business), null);
 
-
+            }
+            catch (ArgumentException e)
+            {
+                ViewBag.Error = e.Message;
+                return View(business);
+            }
         }
 
         public ActionResult ApplicantViewProfile(applicant applicant, ManageMessageId? message)
@@ -210,60 +216,51 @@ namespace TechCareerFair.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult EditApplicant([Bind(Include = "ApplicantID,Email,FirstName,LastName,Fields,University,Alumni,Profile,SocialMedia,Resume,YearsExperience,Internship")]ApplicantViewModel applicant, HttpPostedFileBase fileUpload, FormCollection collection)
         {
-
-            TechCareerFair.DAL.FieldDAL.FieldRepository fr = new TechCareerFair.DAL.FieldDAL.FieldRepository();
-            List<field> fields = fr.SelectAll().ToList();
-            foreach (field f in fields)
+            try
             {
-                bool isChecked = Convert.ToBoolean(collection[f.Name].Split(',')[0]);
-
-                if (!applicant.Fields.Contains(f.Name) && isChecked)
+                TechCareerFair.DAL.FieldDAL.FieldRepository fr = new TechCareerFair.DAL.FieldDAL.FieldRepository();
+                List<field> fields = fr.SelectAll().ToList();
+                foreach (field f in fields)
                 {
-                    applicant.Fields.Add(f.Name);
+                    bool isChecked = Convert.ToBoolean(collection[f.Name].Split(',')[0]);
+
+                    if (!applicant.Fields.Contains(f.Name) && isChecked)
+                    {
+                        applicant.Fields.Add(f.Name);
+                    }
+                    else if (applicant.Fields.Contains(f.Name) && !isChecked)
+                    {
+                        applicant.Fields.Remove(f.Name);
+                    }
                 }
-                else if (applicant.Fields.Contains(f.Name) && !isChecked)
+
+                if (Convert.ToBoolean(collection["removeResume"].Split(',')[0]))
                 {
-                    applicant.Fields.Remove(f.Name);
+                    applicant.Resume = "";
+                    if ((System.IO.File.Exists(Server.MapPath("~") + applicant.Resume)))
+                    {
+                        System.IO.File.Delete(Server.MapPath("~") + applicant.Resume);
+                    }
                 }
-            }
 
-            if (Convert.ToBoolean(collection["removeResume"].Split(',')[0]))
-            {
-                applicant.Resume = "";
-                if ((System.IO.File.Exists(Server.MapPath("~") + applicant.Resume)))
+                if (fileUpload != null)
                 {
-                    System.IO.File.Delete(Server.MapPath("~") + applicant.Resume);
+                    applicant.Resume = DatabaseHelper.UploadFile(DataSettings.RESUME_DIRECTORY, fileUpload, Server);
                 }
-            }
 
-            if (fileUpload != null)
+                ApplicantRepository applicantRepository = new ApplicantRepository();
+                applicantRepository.UpdateApplicantProfile(applicantRepository.ToModel(applicant), Server.MapPath("~"));
+
+                //applicant = applicantRepository.SelectOne(id);
+
+                return ApplicantViewProfile(applicantRepository.ToModel(applicant), null);
+            }
+            catch (ArgumentException e)
             {
-                applicant.Resume = UploadFile(DataSettings.RESUME_DIRECTORY, fileUpload);
+                ViewBag.Error = e.Message;
+                return View(applicant);
             }
 
-            ApplicantRepository applicantRepository = new ApplicantRepository();
-            applicantRepository.UpdateApplicantProfile(applicantRepository.ToModel(applicant), Server.MapPath("~"));
-
-            //applicant = applicantRepository.SelectOne(id);
-
-            return ApplicantViewProfile(applicantRepository.ToModel(applicant), null);
-
-
-        }
-
-        public string UploadFile(string directory, HttpPostedFileBase postedFile)
-        {
-            string pathName = "";
-
-            if (postedFile != null && postedFile.ContentLength > 0)
-            {
-                pathName = DateTime.Now.ToBinary().ToString() + Path.GetFileName(postedFile.FileName);
-                postedFile.SaveAs(Server.MapPath("~" + directory) + pathName);
-
-                pathName = directory + pathName;
-            }
-
-            return pathName;
         }
     }
 }

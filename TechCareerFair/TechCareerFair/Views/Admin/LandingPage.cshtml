@@ -1,69 +1,103 @@
 ﻿@model IEnumerable<TechCareerFair.Models.careerfair>
 
+@{
+    TechCareerFair.Models.admin admin = ViewBag.Admin;
+}
+
 <div class="container">
     <div class="row">
-<div class="faq-edit">
-    <div class="lp-box">
-        <p class="admin-lp-title">Frequently Asked Questions</p>
-        <div class="card actionLink">@Html.ActionLink("Edit FAQ's", "FaqPage", "Admin")</div>
+        <div class="faq-edit">
+            <div class="lp-box">
+                <p class="admin-lp-title">Frequently Asked Questions</p>
+                <div class="card actionLink">@Html.ActionLink("Edit FAQ's", "FaqPage", "Admin")</div>
+            </div>
+        </div>
+
+        <div class="applicant-business-edit">
+            <div class="lp-box">
+                <p class="admin-lp-title">Please Choose The Following Category To Edit</p>
+                <div class="selected-to-edit card">@Html.ActionLink("Applicants", "ListApplicants", "Admin")</div>
+                <div class="selected-to-edit card">@Html.ActionLink("Businesses", "ListBusinesses", "Admin")</div>
+            </div>
+        </div>
+
+        <div class="field-of-study-edit">
+            <p class="admin-lp-title">Edit Field of Studies</p>
+            <div class="card actionLink">@Html.ActionLink("Edit Field Of Studies", "FieldOfStudy", "Admin")</div>
+        </div>
+
+        <div class="gallery-edit">
+            <p class="admin-lp-title">Edit Field of Studies</p>
+            <div class="card actionLink">@Html.ActionLink("Edit Gallery Images", "Gallery", "Admin")</div>
+        </div>
+
+        <table class="table">
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(model => model.Phone)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Date)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Address)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.About)
+                </th>
+                <th></th>
+            </tr>
+
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Phone)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Date)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Address)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.About)
+                    </td>
+                    <td>
+                        @Html.ActionLink("Edit", "LandingPageEdit", new { id = item.CareerFairID })
+                    </td>
+                </tr>
+            }
+
+        </table>
+
+        <table class="table">
+            <tr>
+                <th>
+                    Admin's Email Login
+                </th>
+                <th>
+                    Support's Email
+                </th>
+                <th></th>
+            </tr>
+
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        @admin.Username
+                    </td>
+                    <td>
+                        @admin.ContactEmail
+                    </td>
+                    <td>
+                        @Html.ActionLink("Edit", "EditAdmin", new { id = admin.AdminID })
+                    </td>
+                </tr>
+            }
+
+        </table>
+
     </div>
 </div>
-
-<div class="applicant-business-edit">
-    <div class="lp-box">
-        <p class="admin-lp-title">Please Choose The Following Category To Edit</p>
-        <div class="selected-to-edit card">@Html.ActionLink("Applicants", "ListApplicants", "Admin")</div>
-        <div class="selected-to-edit card">@Html.ActionLink("Businesses", "ListBusinesses", "Admin")</div>
-    </div>
-</div>
-
-<div class="field-of-study-edit">
-    <p class="admin-lp-title">Edit Field of Studies</p>
-    <div class="card actionLink">@Html.ActionLink("Edit Field Of Studies", "FieldOfStudy", "Admin")</div>
-</div>
-
-<div class="gallery-edit">
-    <p class="admin-lp-title">Edit Field of Studies</p>
-    <div class="card actionLink">@Html.ActionLink("Edit Gallery Images", "Gallery", "Admin")</div>
-</div>
-
-<table class="table">
-    <tr>
-        <th>
-            @Html.DisplayNameFor(model => model.Phone)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Date)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Address)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.About)
-        </th>
-        <th></th>
-    </tr>
-
-    @foreach (var item in Model)
-    {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Phone)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Date)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Address)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.About)
-            </td>
-            <td>
-                @Html.ActionLink("Edit", "LandingPageEdit", new { id = item.CareerFairID })
-            </td>
-        </tr>
-    }
-
-</table>
-        </div></div>

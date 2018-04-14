@@ -12,12 +12,19 @@ namespace TechCareerFair.Models
         public int AdminID { get; set; }
 
         [Required]
-        [StringLength(15)]
+        //[EmailAddress]
+        //[Display(Name = "Email")]
         public string Username { get; set; }
 
         [Required]
+        [StringLength(100, ErrorMessage = "The {0} must be at least {2} characters long.", MinimumLength = 6)]
         [DataType(DataType.Password)]
-        [StringLength(64)]
+        [Display(Name = "Password")]
         public string Password { get; set; }
+
+        [Required]
+        [EmailAddress]
+        [Display(Name = "Support's Email")]
+        public string ContactEmail { get; set; }
     }
 }
