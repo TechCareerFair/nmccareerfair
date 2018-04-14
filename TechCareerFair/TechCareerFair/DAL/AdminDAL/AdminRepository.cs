@@ -36,6 +36,29 @@ namespace TechCareerFair.DAL.AdminDAL
             return _admins;
         }
 
+        public AdminViewModel ToViewModel(admin a)
+        {
+            return new AdminViewModel
+            {
+                AdminID = a.AdminID,
+                Username = a.Username,
+                Password = a.Password,
+                ConfirmPassword = a.Password,
+                ContactEmail = a.ContactEmail
+            };
+        }
+
+        public admin ToModel(AdminViewModel a)
+        {
+            return new admin
+            {
+                AdminID = a.AdminID,
+                Username = a.Username,
+                Password = a.Password,
+                ContactEmail = a.ContactEmail
+            };
+        }
+
         public admin SelectOne(int id)
         {
             admin selectedAdmin = _admins.Where(a => a.AdminID == id).FirstOrDefault();
@@ -45,7 +68,12 @@ namespace TechCareerFair.DAL.AdminDAL
 
         public void Update(admin admin)
         {
-            throw new NotImplementedException();
+            var oldAdmin = _admins.Where(a => a.AdminID == admin.AdminID).FirstOrDefault();
+
+            if (oldAdmin != null)
+            {
+                _ds.Update(admin);
+            }
         }
     }
 }

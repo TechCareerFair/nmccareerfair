@@ -445,22 +445,6 @@ namespace TechCareerFair.Controllers
                 context.HttpContext.GetOwinContext().Authentication.Challenge(properties, LoginProvider);
             }
         }
-
-        [NonAction]
-        public string UploadFile(string directory, HttpPostedFileBase postedFile)
-        {
-            string pathName = "";
-
-            if (postedFile != null && postedFile.ContentLength > 0)
-            {
-                pathName = DateTime.Now.ToBinary().ToString() + Path.GetFileName(postedFile.FileName);
-                postedFile.SaveAs(Server.MapPath("~" + directory) + pathName);
-
-                pathName = directory + pathName;
-            }
-
-            return pathName;
-        }
         #endregion
 
         #region Register
@@ -507,7 +491,8 @@ namespace TechCareerFair.Controllers
                 var result = await UserManager.CreateAsync(user, model.Password);
                 if (result.Succeeded)
                 {
-
+                    try
+                    { 
                     await SignInManager.SignInAsync(user, isPersistent: false, rememberBrowser: false);
 
                     // For more information on how to enable account confirmation and password reset please visit https://go.microsoft.com/fwlink/?LinkID=320771
@@ -518,7 +503,7 @@ namespace TechCareerFair.Controllers
 
                     if (fileUpload != null)
                     {
-                        model.Resume = UploadFile(DAL.DataSettings.RESUME_DIRECTORY, fileUpload);
+                        model.Resume = DAL.DatabaseHelper.UploadFile(DAL.DataSettings.RESUME_DIRECTORY, fileUpload, Server);
                     }
                     DAL.ApplicantRepository ar = new DAL.ApplicantRepository();
                     List<applicant> applicants = ar.SelectAll().ToList();
@@ -531,6 +516,12 @@ namespace TechCareerFair.Controllers
 
                     return RedirectToAction("LoginFromRegistration", "Account", loginModel);
                 }
+                    catch (ArgumentException e)
+                {
+                    ViewBag.Error = e.Message;
+                    return View();
+                }
+            }
                 AddErrors(result);
             }
 
@@ -574,7 +565,7 @@ namespace TechCareerFair.Controllers
                 var result = await UserManager.CreateAsync(user, model.Password);
                 if (result.Succeeded)
                 {
-
+                    try { 
                     await SignInManager.SignInAsync(user, isPersistent: false, rememberBrowser: false);
 
                     // For more information on how to enable account confirmation and password reset please visit https://go.microsoft.com/fwlink/?LinkID=320771
@@ -585,7 +576,7 @@ namespace TechCareerFair.Controllers
 
                     if (fileUpload != null)
                     {
-                        model.Photo = UploadFile(DAL.DataSettings.BUSINESS_DIRECTORY, fileUpload);
+                        model.Photo = DAL.DatabaseHelper.UploadFile(DAL.DataSettings.BUSINESS_DIRECTORY, fileUpload, Server);
                     }
                     DAL.BusinessRepository br = new DAL.BusinessRepository();
                     List<business> businesses = br.SelectAll().ToList();
@@ -599,6 +590,12 @@ namespace TechCareerFair.Controllers
 
                     return RedirectToAction("LoginFromRegistration", "Account", loginModel);
                 }
+                    catch (ArgumentException e)
+                {
+                    ViewBag.Error = e.Message;
+                    return View();
+                }
+            }
                 AddErrors(result);
             }
 

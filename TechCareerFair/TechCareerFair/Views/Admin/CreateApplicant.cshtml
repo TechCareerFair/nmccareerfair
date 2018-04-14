@@ -110,6 +110,7 @@
         <div class="col-md-10">
             <input class="form-control" type="file" id="fileUpload" name="fileUpload" />
             @Html.ValidationMessageFor(model => model.Resume, "", new { @class = "text-danger" })
+            <span class="text-danger">@ViewBag.Error</span>
         </div>
     </div>
 

@@ -418,6 +418,9 @@
     <Content Include="Views\Shared\Info.cshtml" />
     <Content Include="Views\Account\PostSignUp.cshtml" />
     <Content Include="Views\Account\LoginFromRegistration.cshtml" />
+    <Content Include="Views\Admin\EditAdmin.cshtml" />
+    <Content Include="Views\ViewProfile\EditBusiness.cshtml" />
+    <Content Include="Views\ViewProfile\EditApplicant.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

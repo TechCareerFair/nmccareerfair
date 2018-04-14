@@ -118,6 +118,7 @@
             @Html.DisplayFor(model => model.Resume)
             @Html.EditorFor(model => model.Resume, new { htmlAttributes = new { @class = "hidden" } })
             @Html.ValidationMessageFor(model => model.Resume, "", new { @class = "text-danger" })
+            <span class="text-danger">@ViewBag.Error</span>
         </div>
     </div>
 

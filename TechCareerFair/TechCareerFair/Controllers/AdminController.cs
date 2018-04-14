@@ -11,6 +11,8 @@ using TechCareerFair.DAL.FaqDAL;
 using System.Web.Security;
 using System.IO;
 using PagedList;
+using Microsoft.AspNet.Identity.Owin;
+using System.Threading.Tasks;
 
 namespace TechCareerFair.Controllers
 {
@@ -85,17 +87,14 @@ namespace TechCareerFair.Controllers
         [HttpPost]
         public ActionResult Index(admin admin)
         {
-            if (ModelState.IsValid)
+            if (ValidateAdmin(admin.Username, admin.Password))
             {
-                if (ValidateAdmin(admin.Username, admin.Password))
-                {
-                    FormsAuthentication.SetAuthCookie(admin.Username, false);
-                    return RedirectToAction("LandingPage", "Admin");
-                }
-                else
-                {
-                    ModelState.AddModelError("", "Invalid username and/or password");
-                }
+                FormsAuthentication.SetAuthCookie(admin.Username, false);
+                return RedirectToAction("LandingPage", "Admin");
+            }
+            else
+            {
+                ModelState.AddModelError("", "Invalid username and/or password");
             }
 
             return View();
@@ -134,6 +133,10 @@ namespace TechCareerFair.Controllers
             if (Session["userName"] != null)
             {
                 DAL.CareerFairDAL.CareerFairRepository LandingPageRepo = new DAL.CareerFairDAL.CareerFairRepository();
+
+                AdminRepository ar = new AdminRepository();
+                ViewBag.Admin = ar.SelectOne(1);
+
                 return View(LandingPageRepo.SelectAll());
             }
             else
@@ -876,37 +879,50 @@ namespace TechCareerFair.Controllers
 
         // POST: Admin/Create
         [HttpPost]
-        public ActionResult CreateApplicant(ApplicantViewModel applicant, HttpPostedFileBase fileUpload, FormCollection collection)
+        public async Task<ActionResult> CreateApplicant(ApplicantViewModel applicant, HttpPostedFileBase fileUpload, FormCollection collection)
         {
             if (Session["userName"] != null)
             {
                 if (ModelState.IsValid)
                 {
-                    TechCareerFair.DAL.FieldDAL.FieldRepository fr = new TechCareerFair.DAL.FieldDAL.FieldRepository();
-                    List<field> fields = fr.SelectAll().ToList();
-                    foreach (field f in fields)
+                    try
                     {
-                        bool isChecked = Convert.ToBoolean(collection[f.Name].Split(',')[0]);
-
-                        if (isChecked)
+                        TechCareerFair.DAL.FieldDAL.FieldRepository fr = new TechCareerFair.DAL.FieldDAL.FieldRepository();
+                        IEnumerable<field> iFields = fr.SelectAll();
+                        List<field> fields = iFields.ToList();
+                        ViewBag.AllFields = iFields;
+                        foreach (field f in fields)
                         {
-                            applicant.Fields.Add(f.Name);
+                            bool isChecked = Convert.ToBoolean(collection[f.Name].Split(',')[0]);
+
+                            if (isChecked)
+                            {
+                                applicant.Fields.Add(f.Name);
+                            }
                         }
+
+                        if(fileUpload != null)
+                        {
+                            applicant.Resume = DAL.DatabaseHelper.UploadFile(DataSettings.RESUME_DIRECTORY, fileUpload, Server);
+                        }
+
+                        ApplicantRepository applicantRepository = new ApplicantRepository();
+                        applicantRepository.Insert(applicantRepository.ToModel(applicant));
+
+                        EditUserViewModel user = new EditUserViewModel();
+                        user.Email = applicant.Email;
+                        user.Password = applicant.Password;
+                        user.ConfirmPassword = applicant.ConfirmPassword;
+
+                        await CreateUserAsync(user);
+
+                        return RedirectToAction("ListApplicants");
                     }
-
-                    applicant.Resume = UploadFile(DataSettings.RESUME_DIRECTORY, fileUpload);
-
-                    ApplicantRepository applicantRepository = new ApplicantRepository();
-                    applicantRepository.Insert(applicantRepository.ToModel(applicant));
-
-                    EditUserViewModel user = new EditUserViewModel();
-                    user.Email = applicant.Email;
-                    user.Password = applicant.Password;
-                    user.ConfirmPassword = applicant.ConfirmPassword;
-
-                    CreateUser(user);
-
-                    return RedirectToAction("ListApplicants");
+                    catch(ArgumentException e)
+                    {
+                        ViewBag.Error = e.Message;
+                        return View(applicant);
+                    }
                 }
                 else
                 {
@@ -940,39 +956,54 @@ namespace TechCareerFair.Controllers
 
         // POST: Admin/Create
         [HttpPost]
-        public ActionResult CreateBusiness(BusinessViewModel business, HttpPostedFileBase fileUpload, FormCollection collection)
+        public async Task<ActionResult> CreateBusiness(BusinessViewModel business, HttpPostedFileBase fileUpload, FormCollection collection)
         {
             if (Session["userName"] != null)
             {
                 if (ModelState.IsValid)
                 {
-                    TechCareerFair.DAL.FieldDAL.FieldRepository fr = new TechCareerFair.DAL.FieldDAL.FieldRepository();
-                    List<field> fields = fr.SelectAll().ToList();
-                    foreach (field f in fields)
+                    try
                     {
-                        bool isChecked = Convert.ToBoolean(collection[f.Name].Split(',')[0]);
+                        TechCareerFair.DAL.FieldDAL.FieldRepository fr = new TechCareerFair.DAL.FieldDAL.FieldRepository();
+                        IEnumerable<field> iFields = fr.SelectAll();
+                        List<field> fields = iFields.ToList();
+                        ViewBag.AllFields = iFields;
+                        ViewBag.States = _states;
 
-                        if (isChecked)
+                        foreach (field f in fields)
                         {
-                            business.Fields.Add(f.Name);
+                            bool isChecked = Convert.ToBoolean(collection[f.Name].Split(',')[0]);
+
+                            if (isChecked)
+                            {
+                                business.Fields.Add(f.Name);
+                            }
                         }
+
+                        business.State = collection["state"];
+
+                        if(fileUpload != null)
+                        {
+                            business.Photo = DAL.DatabaseHelper.UploadFile(DataSettings.BUSINESS_DIRECTORY, fileUpload, Server);
+                        }
+
+                        BusinessRepository br = new BusinessRepository();
+                        br.Insert(br.ToModel(business));
+
+                        EditUserViewModel user = new EditUserViewModel();
+                        user.Email = business.Email;
+                        user.Password = business.Password;
+                        user.ConfirmPassword = business.ConfirmPassword;
+
+                        await CreateUserAsync(user);
+
+                        return RedirectToAction("ListBusinesses");
                     }
-
-                    business.State = collection["state"];
-
-                    business.Photo = UploadFile(DataSettings.BUSINESS_DIRECTORY, fileUpload);
-
-                    BusinessRepository br = new BusinessRepository();
-                    br.Insert(br.ToModel(business));
-
-                    EditUserViewModel user = new EditUserViewModel();
-                    user.Email = business.Email;
-                    user.Password = business.Password;
-                    user.ConfirmPassword = business.ConfirmPassword;
-
-                    CreateUser(user);
-
-                    return RedirectToAction("ListBusinesses");
+                    catch (ArgumentException e)
+                    {
+                        ViewBag.Error = e.Message;
+                        return View(business);
+                    }
                 }
                 else
                 {
@@ -986,7 +1017,50 @@ namespace TechCareerFair.Controllers
 
         }
 
+        public ActionResult EditAdmin(int id)
+        {
+            if (Session["userName"] != null)
+            {
+                AdminRepository ar = new AdminRepository();
+                admin admin = ar.SelectOne(id);
 
+                return View(ar.ToViewModel(admin));
+            }
+            else
+            {
+                return RedirectToAction("Index");
+            }
+        }
+
+        [HttpPost]
+        public ActionResult EditAdmin(AdminViewModel admin)
+        {
+            if (Session["userName"] != null)
+            {
+                if (ModelState.IsValid)
+                {
+                    AdminRepository ar = new AdminRepository();
+                    ar.Update(ar.ToModel(admin));
+
+                    EditUserViewModel user = new EditUserViewModel();
+                    user.Email = admin.Username;
+                    user.Password = admin.Password;
+                    user.ConfirmPassword = admin.Password;
+
+                    EditUser(user, admin.OldUsername);
+
+                    return RedirectToAction("LandingPage");
+                }
+                else
+                {
+                    return View(admin);
+                }
+            }
+            else
+            {
+                return RedirectToAction("Index");
+            }
+        }
 
         // GET: Admin/Edit/5
         public ActionResult EditApplicant(int id)
@@ -1019,9 +1093,14 @@ namespace TechCareerFair.Controllers
             {
                 if (ModelState.IsValid)
                 {
+                    try
+                    { 
                     TechCareerFair.DAL.FieldDAL.FieldRepository fr = new TechCareerFair.DAL.FieldDAL.FieldRepository();
-                    List<field> fields = fr.SelectAll().ToList();
-                    foreach (field f in fields)
+                        IEnumerable<field> iFields = fr.SelectAll();
+                        List<field> fields = iFields.ToList();
+                        ViewBag.AllFields = iFields;
+                        ViewBag.Fields = applicant.Fields;
+                        foreach (field f in fields)
                     {
                         bool isChecked = Convert.ToBoolean(collection[f.Name].Split(',')[0]);
 
@@ -1046,7 +1125,7 @@ namespace TechCareerFair.Controllers
 
                     if (fileUpload != null)
                     {
-                        applicant.Resume = UploadFile(DataSettings.RESUME_DIRECTORY, fileUpload);
+                        applicant.Resume = DAL.DatabaseHelper.UploadFile(DataSettings.RESUME_DIRECTORY, fileUpload, Server);
                     }
 
                     ApplicantRepository applicantRepository = new ApplicantRepository();
@@ -1061,6 +1140,12 @@ namespace TechCareerFair.Controllers
 
                     return RedirectToAction("ListApplicants");
                 }
+                    catch (ArgumentException e)
+                {
+                    ViewBag.Error = e.Message;
+                    return View(applicant);
+                }
+            }
                 else
                 {
                     return View(applicant);
@@ -1106,47 +1191,61 @@ namespace TechCareerFair.Controllers
             {
                 if (ModelState.IsValid)
                 {
-                    TechCareerFair.DAL.FieldDAL.FieldRepository fr = new TechCareerFair.DAL.FieldDAL.FieldRepository();
-                    List<field> fields = fr.SelectAll().ToList();
-                    foreach (field f in fields)
+                    try
                     {
-                        bool isChecked = Convert.ToBoolean(collection[f.Name].Split(',')[0]);
+                        ViewBag.Positions = business.Positions;
+                        ViewBag.Fields = business.Fields;
+                        ViewBag.States = _states;
 
-                        if (!business.Fields.Contains(f.Name) && isChecked)
+                        TechCareerFair.DAL.FieldDAL.FieldRepository fr = new TechCareerFair.DAL.FieldDAL.FieldRepository();
+                        IEnumerable<field> iFields = fr.SelectAll();
+                        List<field> fields = iFields.ToList();
+                        ViewBag.AllFields = iFields;
+                        foreach (field f in fields)
                         {
-                            business.Fields.Add(f.Name);
+                            bool isChecked = Convert.ToBoolean(collection[f.Name].Split(',')[0]);
+
+                            if (!business.Fields.Contains(f.Name) && isChecked)
+                            {
+                                business.Fields.Add(f.Name);
+                            }
+                            else if (business.Fields.Contains(f.Name) && !isChecked)
+                            {
+                                business.Fields.Remove(f.Name);
+                            }
                         }
-                        else if (business.Fields.Contains(f.Name) && !isChecked)
+
+                        if (Convert.ToBoolean(collection["removeImage"].Split(',')[0]))
                         {
-                            business.Fields.Remove(f.Name);
+                            business.Photo = "";
+                            if ((System.IO.File.Exists(Server.MapPath("~") + business.Photo)))
+                            {
+                                System.IO.File.Delete(Server.MapPath("~") + business.Photo);
+                            }
                         }
+
+                        if (fileUpload != null)
+                        {
+                            business.Photo = DAL.DatabaseHelper.UploadFile(DataSettings.BUSINESS_DIRECTORY, fileUpload, Server);
+                        }
+
+                        BusinessRepository businessRepository = new BusinessRepository();
+                        businessRepository.Update(businessRepository.ToModel(business), Server.MapPath("~"));
+
+                        EditUserViewModel user = new EditUserViewModel();
+                        user.Email = business.Email;
+                        user.Password = business.Password;
+                        user.ConfirmPassword = business.Password;
+
+                        EditUser(user, business.OldEmail);
+
+                        return RedirectToAction("ListBusinesses");
                     }
-
-                    if (Convert.ToBoolean(collection["removeImage"].Split(',')[0]))
+                    catch(ArgumentException e)
                     {
-                        business.Photo = "";
-                        if ((System.IO.File.Exists(Server.MapPath("~") + business.Photo)))
-                        {
-                            System.IO.File.Delete(Server.MapPath("~") + business.Photo);
-                        }
+                        ViewBag.Error = e.Message;
+                        return View(business);
                     }
-
-                    if (fileUpload != null)
-                    {
-                        business.Photo = UploadFile(DataSettings.BUSINESS_DIRECTORY, fileUpload);
-                    }
-
-                    BusinessRepository businessRepository = new BusinessRepository();
-                    businessRepository.Update(businessRepository.ToModel(business), Server.MapPath("~"));
-
-                    EditUserViewModel user = new EditUserViewModel();
-                    user.Email = business.Email;
-                    user.Password = business.Password;
-                    user.ConfirmPassword = business.Password;
-
-                    EditUser(user, business.OldEmail);
-
-                    return RedirectToAction("ListBusinesses");
                 }
                 else
                 {
@@ -1402,25 +1501,9 @@ namespace TechCareerFair.Controllers
             }
 
         }
-        
-        [NonAction]
-        private string UploadFile(string directory, HttpPostedFileBase postedFile)
-        {
-            string pathName = "";
-
-            if (postedFile != null && postedFile.ContentLength > 0)
-            {
-                pathName = DateTime.Now.ToBinary().ToString() + Path.GetFileName(postedFile.FileName);
-                postedFile.SaveAs(Server.MapPath("~"+directory) + pathName);
-
-                pathName = directory + pathName;
-            }
-
-            return pathName;
-        }
 
         [NonAction]
-        private void CreateUser([Bind(Include = "Email, Password, ConfirmPassword")] EditUserViewModel user)
+        private async Task<bool> CreateUserAsync([Bind(Include = "Email, Password, ConfirmPassword")] EditUserViewModel user)
         {
             var passwordHasher = new Microsoft.AspNet.Identity.PasswordHasher();
             var db = new ApplicationDbContext();
@@ -1429,10 +1512,17 @@ namespace TechCareerFair.Controllers
             newUser.Email = user.Email;
             newUser.UserName = user.Email;
             newUser.PasswordHash = passwordHasher.HashPassword(user.Password);
-            newUser.SecurityStamp = Guid.NewGuid().ToString();
+            //newUser.SecurityStamp = Guid.NewGuid().ToString();
 
-            db.Users.Add(newUser);
-            db.SaveChanges();
+            ApplicationUserManager userManager = HttpContext.GetOwinContext().GetUserManager<ApplicationUserManager>();
+
+            var result = await userManager.CreateAsync(newUser, user.Password);
+            if(result.Succeeded)
+            {
+                //add new user to default role
+            }
+
+            return result.Succeeded;
         }
 
         [NonAction]
