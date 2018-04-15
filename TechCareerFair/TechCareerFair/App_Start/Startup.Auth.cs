@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading.Tasks;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin;
@@ -66,7 +67,8 @@ namespace TechCareerFair
             };
 
             app.UseFacebookAuthentication(facebookOptions);
-
+            var gProvider = new GoogleOAuth2AuthenticationProvider { OnAuthenticated = context => Task.FromResult(0) };
+            var gOptions = new GoogleOAuth2AuthenticationOptions { Provider = gProvider, SignInAsAuthenticationType = DefaultAuthenticationTypes.ExternalCookie };
             app.UseGoogleAuthentication(new GoogleOAuth2AuthenticationOptions()
             {
                 ClientId = "514477754818-a761lbmu5c25jvmp7baajmi3die5a41o.apps.googleusercontent.com",
