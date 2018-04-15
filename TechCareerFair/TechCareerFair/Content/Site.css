@@ -7,7 +7,7 @@
 .body-content {
     padding-left: 15px;
     padding-right: 15px;
-    min-height:670px;
+    min-height:800px;
     padding-top:170px;
     background-color:#eee;
     padding-bottom:40px;
@@ -201,7 +201,19 @@ li.main-navigation-links > a{
     }
 
 }
-    /*
+
+@media screen and (max-width:390px) {
+    .nav > li > a {
+        padding:10px 4px;
+    }
+}
+@media screen and (max-width:330px) {
+    .nav > li > a {
+        padding: 10px 1px;
+    }
+}
+
+/*
 ==========================================================
     Home Page
 ==========================================================
@@ -324,7 +336,189 @@ Register page
     }
 }
 
+/*
+==========================================================
+    Log In Page
+==========================================================
+*/
+.checkbox-login-main {
+    text-align: left;
+    width: 300px;
+    display: block;
+    margin: auto;
+    padding-top: 10px;
+    padding-bottom: 5px;
+}
 
+#socialLoginForm-other {
+    text-align: center;
+}
+
+.login-container {
+    padding: 20px;
+    background: #fff;
+    box-shadow: #999 0px 2px 8px;
+}
+
+form.form-horizontal {
+    text-align: center;
+}
+
+.form-horizontal .form-group {
+    margin: auto;
+}
+
+.form-horizontal .control-label {
+    padding-top: 15px;
+    margin-top: 0;
+    margin-bottom: 2px;
+    padding-left: 10px;
+    min-width: 300px;
+    text-align:left;
+}
+
+.login-form-group {
+    display:block;
+    width:280px;
+    margin:auto;
+    text-align:center;
+
+}
+
+.form-control {
+    margin: auto;
+    width: 300px;
+}
+
+.login-container h2 {
+    text-align: center;
+    width: 280px;
+    display: block;
+    margin: auto;
+    padding-bottom: 5px;
+}
+
+.login-container h4 {
+    text-align: center;
+    width: 280px;
+    display: block;
+    margin: auto;
+}
+
+p.btn-register-new-user {
+    text-align: center;
+    margin: 10px auto;
+    border: 0;
+    background: #008265;
+    padding: 10px 30px;
+    width: 280px;
+    margin: auto;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
+    transition: all 0.3s cubic-bezier(.25,.8,.25,1);
+}
+
+div#socialLoginList p {
+    margin-bottom:0px;
+}
+
+.form-group label {
+    text-align: left;
+}
+
+.btn-register-new-user a {
+    color: #fff;
+}
+
+.btn-register-new-user:hover {
+    box-shadow: 0 14px 28px rgba(0,0,0,0.25), 0 10px 10px rgba(0,0,0,0.22);
+    text-decoration: none;
+}
+
+
+.btn-log-in-main {
+    border: 0;
+    background: #fff;
+    padding: 10px 30px;
+    margin: 25px 0 25px 0;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
+    transition: all 0.3s cubic-bezier(.25,.8,.25,1);
+    width: 300px;
+}
+
+    .btn-log-in-main:hover {
+        box-shadow: 0 14px 28px rgba(0,0,0,0.25), 0 10px 10px rgba(0,0,0,0.22);
+    }
+
+button#Google {
+    border: 0;
+    background: #fff;
+    box-shadow: #999 0px 2px 6px;
+    padding: 10px 40px 10px 20px;
+    display: block;
+    margin-top: 0px;
+    margin: auto;
+    width: 300px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
+    transition: all 0.3s cubic-bezier(.25,.8,.25,1);
+}
+
+    button#Google:hover {
+        box-shadow: 0 14px 28px rgba(0,0,0,0.25), 0 10px 10px rgba(0,0,0,0.22);
+    }
+
+    button#Google > span:before {
+        display: inline-block;
+        content: "";
+        margin: 0 20px 0 0;
+        position: relative;
+        top: 5px;
+        width: 20px;
+        height: 20px;
+        background: transparent url(../../Content/Images/new-google-favicon-128.png) no-repeat;
+    }
+
+button#Facebook {
+    border: 0;
+    background: #3b5998;
+    color: #fff;
+    box-shadow: #999 0px 2px 6px;
+    padding: 10px 40px 10px 20px;
+    display: block;
+    margin: auto;
+    margin-top: 25px;
+    width: 300px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
+    transition: all 0.3s cubic-bezier(.25,.8,.25,1);
+}
+
+    button#Facebook:hover {
+        box-shadow: 0 14px 28px rgba(0,0,0,0.25), 0 10px 10px rgba(0,0,0,0.22);
+    }
+
+    button#Facebook > span:before {
+        display: inline-block;
+        content: "";
+        margin: 0 20px 0 0;
+        position: relative;
+        top: 5px;
+        width: 20px;
+        height: 20px;
+        background: transparent url(../../Content/Images/facebook-logo-favicon.png) no-repeat;
+    }
+
+@media screen and (max-width:420px) {
+    .form-horizontal.control-label,
+    button#Facebook,
+    button#Google,
+    .btn-log-in-main, 
+    p.btn-register-new-user, 
+    .login-container h4, 
+    .login-container h2,
+    .form-control {
+        width: 230px;
+    }
+
+}
 
 /*
 ==========================================================
