@@ -407,8 +407,8 @@ namespace TechCareerFair.DAL
 
         public void Remove(business business, string serverPath)
         {
+            //Remove(business.Positions);
             RemoveAll(business.BusinessID);
-            Remove(business.Positions);
             Remove(business.Zip, business.City, business.State, business.BusinessID);
 
             if ((System.IO.File.Exists(serverPath + business.Photo)))
