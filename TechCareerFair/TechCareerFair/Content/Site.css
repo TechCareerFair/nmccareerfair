@@ -7,7 +7,7 @@
 .body-content {
     padding-left: 15px;
     padding-right: 15px;
-    min-height:800px;
+    min-height:825px;
     padding-top:170px;
     background-color:#eee;
     padding-bottom:40px;
@@ -286,7 +286,71 @@ sidebar
     margin-top: 30px;
 }
 
+/*
+==========================================================
+    FAQ Page
+==========================================================
+*/
+.faq-section h2{
+    text-align:center;
+    padding-bottom:40px;
 
+}
+.answer {
+    margin: 10px 0 40px;
+    background-color: #fff;
+    padding: 10px 25px 25px;
+    box-shadow: #333 0px 2px 6px;
+}
+
+    .answer h2 {
+        text-align: center;
+        padding: 10px;
+        color: #333;
+    }
+
+.accordion {
+    background-color: #f3f3f3;
+    color: #444;
+    cursor: pointer;
+    padding: 18px;
+    width: 100%;
+    border: none;
+    text-align: center;
+    outline: none;
+    font-size: 15px;
+    margin-top:10px;
+    transition: 0.4s;
+    box-shadow:#333 0px 2px 6px;
+    border-bottom:2px solid transparent;
+}
+
+    .active, .accordion:hover {
+        border-bottom: 2px solid #008265;
+    }
+
+    .accordion:after {
+        content: '\002B';
+        color: #777;
+        font-weight: bold;
+        float: right;
+        margin-left: 5px;
+    }
+
+.active:after {
+    content: "\2212";
+}
+
+.panel {
+    padding: 0 18px;
+    background-color: white;
+    max-height: 0;
+    box-shadow: #333 0px 2px 6px;
+    overflow: hidden;
+    margin: -2px 0 10px 0;
+    border-radius: 0;
+    transition: max-height 0.2s ease-out;
+}
 
 /*
 ==========================================================
