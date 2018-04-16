@@ -424,13 +424,11 @@
     <Content Include="Views\Admin\EditAdmin.cshtml" />
     <Content Include="Views\ViewProfile\EditBusiness.cshtml" />
     <Content Include="Views\ViewProfile\EditApplicant.cshtml" />
-<<<<<<< HEAD
     <Content Include="Views\ViewProfile\ListPositions.cshtml" />
     <Content Include="Views\ViewProfile\CreatePosition.cshtml" />
     <Content Include="Views\ViewProfile\PositionDetails.cshtml" />
     <Content Include="Views\ViewProfile\EditPosition.cshtml" />
     <Content Include="Views\ViewProfile\DeletePosition.cshtml" />
-=======
     <Content Include="Views\IdentityRole\Create.cshtml" />
     <Content Include="Views\IdentityRole\Delete.cshtml" />
     <Content Include="Views\IdentityRole\Details.cshtml" />
@@ -439,7 +437,6 @@
     <Content Include="Views\Account\ViewUsersRoles.cshtml" />
     <Content Include="Views\Account\AddRoleToUser.cshtml" />
     <Content Include="Views\Error\AccessDenied.cshtml" />
->>>>>>> Paul
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
