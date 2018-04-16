@@ -25,9 +25,9 @@ namespace TechCareerFair.Models
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<admin>()
-                .Property(e => e.Password)
-                .IsFixedLength();
+            //modelBuilder.Entity<admin>()
+            //    .Property(e => e.Password)
+            //    .IsFixedLength();
 
             //modelBuilder.Entity<applicant>()
             //    .Property(e => e.Password)

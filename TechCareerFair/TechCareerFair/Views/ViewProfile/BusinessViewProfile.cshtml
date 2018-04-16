@@ -1,5 +1,5 @@
 ﻿@model TechCareerFair.Models.BusinessViewModel
-
+@using Microsoft.AspNet.Identity
 @{
     ViewBag.Title = "BusinessViewProfile";
     string socialMedia = ViewBag.SocialMedia;
@@ -180,10 +180,13 @@
             @Html.DisplayFor(model => model.LocationPreference)
         </dd>
     </dl>
-    <div class="form-group col-md-2">
-        <input type="button" value="Change Password" onclick="location.href='@Url.Action("ChangePassword", "Manage")'" class="btn btn-primary" />
-        <input type="button" value="Edit Profile" onclick="location.href='@Url.Action("EditBusiness", new { id = Model.BusinessID })'" class="btn btn-primary" />
-    </div>
+    @if (User.Identity.GetUserName() == Model.Email)
+    {
+        <div class="form-group col-md-2">
+            <input type="button" value="Change Password" onclick="location.href='@Url.Action("ChangePassword", "Manage")'" class="btn btn-primary" />
+            <input type="button" value="Edit Profile" onclick="location.href='@Url.Action("EditBusiness", new { id = Model.BusinessID })'" class="btn btn-primary" />
+        </div>
+    }
 </div>
 
 <style>

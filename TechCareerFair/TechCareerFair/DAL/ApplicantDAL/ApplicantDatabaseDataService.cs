@@ -78,6 +78,36 @@ namespace TechCareerFair.DAL
             return applicants;
         }
 
+        public bool ReadIsActive(string email)
+        {
+            bool isActive = false;
+            StringBuilder sb = new StringBuilder();
+            sb.Append("SELECT [Active]");
+            sb.Append("FROM [careerfair].[applicant]");
+            sb.Append("WHERE [Email] = '" + email + "'");
+
+            String sql = sb.ToString();
+            BusinessViewModel bus = new BusinessViewModel();
+
+            using (SqlConnection connection = new SqlConnection(DataSettings.CONNECTION_STRING))
+            {
+                connection.Open();
+
+                using (SqlCommand command = new SqlCommand(sql, connection))
+                {
+                    using (SqlDataReader reader = command.ExecuteReader())
+                    {
+                        while (reader.Read())
+                        {
+                            isActive = DatabaseHelper.CheckNullBool(reader, 0);
+                        }
+                    }
+                }
+            }
+
+            return isActive;
+        }
+
         private void InitApplicant(List<applicant> applicants, SqlConnection connection, int startRow, int numberOfRows)
         {
             StringBuilder sb = new StringBuilder();

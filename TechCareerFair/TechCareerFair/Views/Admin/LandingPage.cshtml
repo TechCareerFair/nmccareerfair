@@ -6,22 +6,26 @@
 
 <div class="container">
     <div class="row">
-        <div class="faq-edit">
+        @*<div class="faq-edit">
             <div class="lp-box">
                 <p class="admin-lp-title">Frequently Asked Questions</p>
                 <div class="card actionLink">@Html.ActionLink("Edit FAQ's", "FaqPage", "Admin")</div>
             </div>
-        </div>
+        </div>*@
 
         <div class="applicant-business-edit">
             <div class="lp-box">
-                <p class="admin-lp-title">Please Choose The Following Category To Edit</p>
-                <div class="selected-to-edit card">@Html.ActionLink("Applicants", "ListApplicants", "Admin")</div>
-                <div class="selected-to-edit card">@Html.ActionLink("Businesses", "ListBusinesses", "Admin")</div>
+                <p class="admin-lp-title">Site Administration</p>
+                <div class="selected-to-edit card">@Html.ActionLink("Manage Applicant Accounts", "ListApplicants", "Admin")</div>
+                <div class="selected-to-edit card">@Html.ActionLink("Manage Business Accounts", "ListBusinesses", "Admin")</div>
+                <div class="selected-to-edit card">@Html.ActionLink("Manage Available Account Roles", "Index", "IdentityRole")</div>
+                <div class="card actionLink">@Html.ActionLink("Manage FAQs", "FaqPage", "Admin")</div>
+                <div class="card actionLink">@Html.ActionLink("Manage Fields of Study/Business", "FieldOfStudy", "Admin")</div>
+                <div class="card actionLink">@Html.ActionLink("Manage Gallery", "Gallery", "Admin")</div>
             </div>
         </div>
-
-        <div class="field-of-study-edit">
+        <br/>
+        @*<div class="field-of-study-edit">
             <p class="admin-lp-title">Edit Field of Studies</p>
             <div class="card actionLink">@Html.ActionLink("Edit Field Of Studies", "FieldOfStudy", "Admin")</div>
         </div>
@@ -29,7 +33,7 @@
         <div class="gallery-edit">
             <p class="admin-lp-title">Edit Field of Studies</p>
             <div class="card actionLink">@Html.ActionLink("Edit Gallery Images", "Gallery", "Admin")</div>
-        </div>
+        </div>*@
 
         <table class="table">
             <tr>

@@ -13,6 +13,9 @@ using System.IO;
 using PagedList;
 using Microsoft.AspNet.Identity.Owin;
 using System.Threading.Tasks;
+using System.Text;
+using System.Net.Http;
+using TechCareerFair.CustomAttributes;
 
 namespace TechCareerFair.Controllers
 {
@@ -76,6 +79,7 @@ namespace TechCareerFair.Controllers
 
         // GET: Admin
         [HttpGet]
+        [AuthorizeOrRedirectAttribute(Roles = "Admin")]
         public ActionResult Index()
         {
             return View();
@@ -84,614 +88,426 @@ namespace TechCareerFair.Controllers
         //********************
         // Admin Login
         //********************
-        [HttpPost]
-        public ActionResult Index(admin admin)
-        {
-            if (ValidateAdmin(admin.Username, admin.Password))
-            {
-                FormsAuthentication.SetAuthCookie(admin.Username, false);
-                return RedirectToAction("LandingPage", "Admin");
-            }
-            else
-            {
-                ModelState.AddModelError("", "Invalid username and/or password");
-            }
+        //[HttpPost]
+        //public ActionResult Index(admin admin)
+        //{
+        //    if (ValidateAdmin(admin.Username, admin.Password))
+        //    {
+        //        FormsAuthentication.SetAuthCookie(admin.Username, false);
+        //        return RedirectToAction("LandingPage", "Admin");
+        //    }
+        //    else
+        //    {
+        //        ModelState.AddModelError("", "Invalid username and/or password");
+        //    }
 
-            return View();
-        }
+        //    return View();
+        //}
 
-        private bool ValidateAdmin(string userName, string password)
-        {
-            bool isValid = false;
+        //private bool ValidateAdmin(string userName, string password)
+        //{
+        //    bool isValid = false;
 
-            AdminRepository adminRepository = new AdminRepository();
-            admin selectAdmin = adminRepository.SelectOne(1);
+        //    AdminRepository adminRepository = new AdminRepository();
+        //    admin selectAdmin = adminRepository.SelectOne(1);
 
-            if (selectAdmin.Username == userName)
-            {
-                if (selectAdmin.Password.Trim() == password)
-                {
-                    Session["userID"] = selectAdmin.AdminID;
-                    Session["userName"] = selectAdmin.Username;
+        //    if (selectAdmin.Username == userName)
+        //    {
+        //        if (selectAdmin.Password.Trim() == password)
+        //        {
+        //            Session["userID"] = selectAdmin.AdminID;
+        //            Session["userName"] = selectAdmin.Username;
 
-                    isValid = true;
-                }
-            }
+        //            isValid = true;
+        //        }
+        //    }
 
-            return isValid;
-        }
+        //    return isValid;
+        //}
 
-        public ActionResult LogOut()
-        {
-            FormsAuthentication.SignOut();
-            Session.Abandon(); // it will clear the session at the end of request
-            return RedirectToAction("Index");
-        }
+        //public ActionResult LogOut()
+        //{
+        //    FormsAuthentication.SignOut();
+        //    Session.Abandon(); // it will clear the session at the end of request
+        //    return RedirectToAction("Index");
+        //}
 
+        [AuthorizeOrRedirectAttribute(Roles = "Admin")]
         public ActionResult LandingPage()
         {
-            if (Session["userName"] != null)
-            {
-                DAL.CareerFairDAL.CareerFairRepository LandingPageRepo = new DAL.CareerFairDAL.CareerFairRepository();
+            DAL.CareerFairDAL.CareerFairRepository LandingPageRepo = new DAL.CareerFairDAL.CareerFairRepository();
 
-                AdminRepository ar = new AdminRepository();
-                ViewBag.Admin = ar.SelectOne(1);
+            AdminRepository ar = new AdminRepository();
+            ViewBag.Admin = ar.SelectOne(1);
 
-                return View(LandingPageRepo.SelectAll());
-            }
-            else
-            {
-                return RedirectToAction("Index");
-            }
+            return View(LandingPageRepo.SelectAll());
 
         }
 
+        [AuthorizeOrRedirectAttribute(Roles = "Admin")]
         [HttpGet]
         public ActionResult LandingPageEdit(int id)
         {
-            if (Session["userName"] != null)
-            {
-                DAL.CareerFairDAL.CareerFairRepository AddressRepo = new DAL.CareerFairDAL.CareerFairRepository();
-                return View(AddressRepo.SelectOne(id));
-            }
-            else
-            {
-                return RedirectToAction("Index");
-            }
+            DAL.CareerFairDAL.CareerFairRepository AddressRepo = new DAL.CareerFairDAL.CareerFairRepository();
+            return View(AddressRepo.SelectOne(id));
+            
         }
 
+        [AuthorizeOrRedirectAttribute(Roles = "Admin")]
         [HttpPost]
         public ActionResult LandingPageEdit(int id, careerfair LandingPage)
         {
-            if (Session["userName"] != null)
+            try
             {
-                try
-                {
-                    DAL.CareerFairDAL.CareerFairRepository careerFairLandingPage = new DAL.CareerFairDAL.CareerFairRepository();
-                    careerFairLandingPage.Update(LandingPage);
+                DAL.CareerFairDAL.CareerFairRepository careerFairLandingPage = new DAL.CareerFairDAL.CareerFairRepository();
+                careerFairLandingPage.Update(LandingPage);
 
-                    return RedirectToAction("LandingPage");
-                }
-                catch
-                {
-                    return View();
-                }
+                return RedirectToAction("LandingPage");
             }
-            else
+            catch
             {
-                return RedirectToAction("Index");
+                return View();
             }
         }
 
 
         //FAQ//////////////////////////////////////
+        [AuthorizeOrRedirectAttribute(Roles = "Admin")]
         public ActionResult FaqPage()
         {
-            if (Session["userName"] != null)
-            {
-                DAL.FaqDAL.FAQRepository FaqRepo = new FAQRepository();
-                return View(FaqRepo.SelectAll());
-            }
-            else
-            {
-                return RedirectToAction("Index");
-            }
-
+            DAL.FaqDAL.FAQRepository FaqRepo = new FAQRepository();
+            return View(FaqRepo.SelectAll());
         }
 
+        [AuthorizeOrRedirectAttribute(Roles = "Admin")]
         public ActionResult FaqDetails(int id)
         {
-            if (Session["userName"] != null)
-            {
-                DAL.FaqDAL.FAQRepository FaqRepo = new FAQRepository();
-                faq _faq = FaqRepo.SelectOne(id);
-                return View(_faq);
-            }
-            else
-            {
-                return RedirectToAction("Index");
-            }
+            DAL.FaqDAL.FAQRepository FaqRepo = new FAQRepository();
+            faq _faq = FaqRepo.SelectOne(id);
+            return View(_faq);
         }
 
+        [AuthorizeOrRedirectAttribute(Roles = "Admin")]
         [HttpGet]
         public ActionResult FaqCreate()
         {
-            if (Session["userName"] != null)
-            {
-                return View();
-            }
-            else
-            {
-                return RedirectToAction("Index");
-            }
-
+            return View();
         }
 
+        [AuthorizeOrRedirectAttribute(Roles = "Admin")]
         [HttpPost]
         public ActionResult FaqCreate(faq _faq)
         {
-            if (Session["userName"] != null)
+            try
             {
-                try
-                {
-                    DAL.FaqDAL.FAQRepository FaqRepo = new FAQRepository();
-                    FaqRepo.Insert(_faq);
+                DAL.FaqDAL.FAQRepository FaqRepo = new FAQRepository();
+                FaqRepo.Insert(_faq);
 
-                    return RedirectToAction("FaqPage");
-                }
-                catch
-                {
-                    return View();
-                }
+                return RedirectToAction("FaqPage");
             }
-            else
+            catch
             {
-                return RedirectToAction("Index");
+                return View();
             }
-
         }
 
+        [AuthorizeOrRedirectAttribute(Roles = "Admin")]
         [HttpGet]
         public ActionResult FaqEdit(int id)
         {
-            if (Session["userName"] != null)
-            {
-                DAL.FaqDAL.FAQRepository FaqRepo = new FAQRepository();
+            DAL.FaqDAL.FAQRepository FaqRepo = new FAQRepository();
 
-                return View(FaqRepo.SelectOne(id));
-            }
-            else
-            {
-                return RedirectToAction("Index");
-            }
+            return View(FaqRepo.SelectOne(id));
 
         }
 
+        [AuthorizeOrRedirectAttribute(Roles = "Admin")]
         [HttpPost]
         public ActionResult FaqEdit(int id, faq _faq)
         {
-            if (Session["userName"] != null)
+            try
             {
-                try
-                {
-                    DAL.FaqDAL.FAQRepository FaqRepo = new FAQRepository();
-                    FaqRepo.Update(_faq);
+                DAL.FaqDAL.FAQRepository FaqRepo = new FAQRepository();
+                FaqRepo.Update(_faq);
 
-                    return RedirectToAction("FaqPage");
-                }
-                catch
-                {
-                    return View();
-                }
+                return RedirectToAction("FaqPage");
             }
-            else
+            catch
             {
-                return RedirectToAction("Index");
+                return View();
             }
-
         }
 
+        [AuthorizeOrRedirectAttribute(Roles = "Admin")]
         [HttpGet]
         public ActionResult FaqDelete(int id)
         {
-
-            if (Session["userName"] != null)
-            {
-                DAL.FaqDAL.FAQRepository FaqRepo = new FAQRepository();
-                return View(FaqRepo.SelectOne(id));
-            }
-            else
-            {
-                return RedirectToAction("Index");
-            }
+            DAL.FaqDAL.FAQRepository FaqRepo = new FAQRepository();
+            return View(FaqRepo.SelectOne(id));
 
         }
 
+        [AuthorizeOrRedirectAttribute(Roles = "Admin")]
         [HttpPost]
         public ActionResult FaqDelete(int id, faq _faq)
         {
-
-            if (Session["userName"] != null)
+            try
             {
-                try
-                {
-                    DAL.FaqDAL.FAQRepository FaqRepo = new FAQRepository();
-                    FaqRepo.Delete(id);
+                DAL.FaqDAL.FAQRepository FaqRepo = new FAQRepository();
+                FaqRepo.Delete(id);
 
-                    return RedirectToAction("FaqPage");
-                }
-                catch
-                {
-                    return View();
-                }
+                return RedirectToAction("FaqPage");
             }
-            else
+            catch
             {
-                return RedirectToAction("Index");
+                return View();
             }
         }
 
 
         //Field Of Study////////////////////////////////
+        [AuthorizeOrRedirectAttribute(Roles = "Admin")]
         public ActionResult FieldOfStudy()
         {
-            if (Session["userName"] != null)
-            {
-                DAL.FieldDAL.FieldRepository FieldOfStudyRepo = new DAL.FieldDAL.FieldRepository();
-                return View(FieldOfStudyRepo.SelectAll());
-            }
-            else
-            {
-                return RedirectToAction("Index");
-            }
-
+            DAL.FieldDAL.FieldRepository FieldOfStudyRepo = new DAL.FieldDAL.FieldRepository();
+            return View(FieldOfStudyRepo.SelectAll());
         }
+
+        [AuthorizeOrRedirectAttribute(Roles = "Admin")]
         [HttpGet]
         public ActionResult FieldOfStudyCreate()
         {
-            if (Session["userName"] != null)
-            {
-                return View();
-            }
-            else
-            {
-                return RedirectToAction("Index");
-            }  
+            return View();
         }
 
+        [AuthorizeOrRedirectAttribute(Roles = "Admin")]
         [HttpPost]
         public ActionResult FieldOfStudyCreate(field _field)
         {
-
-            if (Session["userName"] != null)
+            try
             {
-                try
-                {
-                    DAL.FieldDAL.FieldRepository FieldOfStudyRepo = new DAL.FieldDAL.FieldRepository();
-                    FieldOfStudyRepo.Insert(_field);
+                DAL.FieldDAL.FieldRepository FieldOfStudyRepo = new DAL.FieldDAL.FieldRepository();
+                FieldOfStudyRepo.Insert(_field);
 
-                    return RedirectToAction("FieldOfStudy");
-                }
-                catch
-                {
-                    return View();
-                }
+                return RedirectToAction("FieldOfStudy");
             }
-            else
+            catch
             {
-                return RedirectToAction("Index");
+                return View();
             }
         }
 
+        [AuthorizeOrRedirectAttribute(Roles = "Admin")]
         [HttpGet]
         public ActionResult FieldOfStudyEdit(int id)
         {
-            if (Session["userName"] != null)
-            {
-
-                DAL.FieldDAL.FieldRepository FieldOfStudyRepo = new DAL.FieldDAL.FieldRepository();
-                return View(FieldOfStudyRepo.SelectOne(id));
-            }
-            else
-            {
-                return RedirectToAction("Index");
-            }
+            DAL.FieldDAL.FieldRepository FieldOfStudyRepo = new DAL.FieldDAL.FieldRepository();
+            return View(FieldOfStudyRepo.SelectOne(id));
         }
 
+        [AuthorizeOrRedirectAttribute(Roles = "Admin")]
         [HttpPost]
         public ActionResult FieldOfStudyEdit(int id, field _field)
         {
-
-            if (Session["userName"] != null)
+            try
             {
-                try
-                {
-                    DAL.FieldDAL.FieldRepository FieldOfStudyRepo = new DAL.FieldDAL.FieldRepository();
-                    FieldOfStudyRepo.Update(_field);
+                DAL.FieldDAL.FieldRepository FieldOfStudyRepo = new DAL.FieldDAL.FieldRepository();
+                FieldOfStudyRepo.Update(_field);
 
-                    return RedirectToAction("FieldOfStudy");
-                }
-                catch
-                {
-                    return View();
-                }
+                return RedirectToAction("FieldOfStudy");
             }
-            else
+            catch
             {
-                return RedirectToAction("Index");
+                return View();
             }
         }
 
+        [AuthorizeOrRedirectAttribute(Roles = "Admin")]
         [HttpGet]
         public ActionResult FieldOfStudyDelete(int id)
         {
-
-            if (Session["userName"] != null)
-            {
-                DAL.FieldDAL.FieldRepository FieldOfStudyRepo = new DAL.FieldDAL.FieldRepository();
-                return View(FieldOfStudyRepo.SelectOne(id));
-            }
-            else
-            {
-                return RedirectToAction("Index");
-            }
-
+            DAL.FieldDAL.FieldRepository FieldOfStudyRepo = new DAL.FieldDAL.FieldRepository();
+            return View(FieldOfStudyRepo.SelectOne(id));
         }
 
+        [AuthorizeOrRedirectAttribute(Roles = "Admin")]
         [HttpPost]
         public ActionResult FieldOfStudyDelete(int id, field _field)
         {
-
-            if (Session["userName"] != null)
-            {
-                try
-                {
-                    DAL.FieldDAL.FieldRepository FieldOfStudyRepo = new DAL.FieldDAL.FieldRepository();
-                    FieldOfStudyRepo.Delete(id);
-
-                    return RedirectToAction("FieldOfStudy");
-                }
-                catch
-                {
-                    return View();
-                }
-            }
-            else
-            {
-                return RedirectToAction("Index");
-            }
-
-        }
-
-        public ActionResult FieldOfStudyDetails(int id)
-        {
-
-            if (Session["userName"] != null)
+            try
             {
                 DAL.FieldDAL.FieldRepository FieldOfStudyRepo = new DAL.FieldDAL.FieldRepository();
-                field _field = FieldOfStudyRepo.SelectOne(id);
+                FieldOfStudyRepo.Delete(id);
 
-                return View(_field);
+                return RedirectToAction("FieldOfStudy");
             }
-            else
+            catch
             {
-                return RedirectToAction("Index");
+                return View();
             }
+        }
+
+        [AuthorizeOrRedirectAttribute(Roles = "Admin")]
+        public ActionResult FieldOfStudyDetails(int id)
+        {
+            DAL.FieldDAL.FieldRepository FieldOfStudyRepo = new DAL.FieldDAL.FieldRepository();
+            field _field = FieldOfStudyRepo.SelectOne(id);
+
+            return View(_field);
         }
 
         //Gallery////////////////////////////////////
+        [AuthorizeOrRedirectAttribute(Roles = "Admin")]
         public ActionResult Gallery()
         {
-            if (Session["userName"] != null)
-            {
-                DAL.GalleryDAL.GalleryRepository GalleryRepo = new DAL.GalleryDAL.GalleryRepository();
-                return View(GalleryRepo.SelectAll());
-            }
-            else
-            {
-                return RedirectToAction("Index");
-            }
+            DAL.GalleryDAL.GalleryRepository GalleryRepo = new DAL.GalleryDAL.GalleryRepository();
+            return View(GalleryRepo.SelectAll());
         }
 
+        [AuthorizeOrRedirectAttribute(Roles = "Admin")]
         [HttpGet]
         public ActionResult GalleryEdit(int id)
         {
-            if (Session["userName"] != null)
-            {
-                return View();
-            }
-            else
-            {
-                return RedirectToAction("Index");
-            }
+            return View();
         }
 
+        [AuthorizeOrRedirectAttribute(Roles = "Admin")]
         [HttpPost]
         public ActionResult GalleryEdit(int id, gallery _gallery)
         {
-            if (Session["userName"] != null)
-            {
-                try
-                {
-                    DAL.GalleryDAL.GalleryRepository GalleryRepo = new DAL.GalleryDAL.GalleryRepository();
-                    GalleryRepo.Update(_gallery, Server.MapPath("~"));
-
-                    return RedirectToAction("FieldOfStudy");
-                }
-                catch
-                {
-                    return View();
-                }
-            }
-            else
-            {
-                return RedirectToAction("Index");
-            }
-        }
-
-        [HttpGet]
-        public ActionResult GalleryDelete(int id)
-        {
-            if (Session["userName"] != null)
+            try
             {
                 DAL.GalleryDAL.GalleryRepository GalleryRepo = new DAL.GalleryDAL.GalleryRepository();
-                return View(GalleryRepo.SelectOne(id));
-            }
-            else
-            {
-                return RedirectToAction("Index");
-            }
-        }
+                GalleryRepo.Update(_gallery, Server.MapPath("~"));
 
-        [HttpPost]
-        public ActionResult GalleryDelete(int id, gallery _gallery)
-        {
-
-            if (Session["userName"] != null)
-            {
-                try
-                {
-                    DAL.GalleryDAL.GalleryRepository GalleryRepo = new DAL.GalleryDAL.GalleryRepository();
-                    GalleryRepo.Delete(id, Server.MapPath("~"));
-
-                    return RedirectToAction("Gallery");
-                }
-                catch
-                {
-                    return View();
-                }
+                return RedirectToAction("FieldOfStudy");
             }
-            else
-            {
-                return RedirectToAction("Index");
-            }
-        }
-
-        [HttpGet]
-        public ActionResult GalleryCreate()
-        {
-            if (Session["userName"] != null)
+            catch
             {
                 return View();
             }
-            else
+        }
+
+        [AuthorizeOrRedirectAttribute(Roles = "Admin")]
+        [HttpGet]
+        public ActionResult GalleryDelete(int id)
+        {
+            DAL.GalleryDAL.GalleryRepository GalleryRepo = new DAL.GalleryDAL.GalleryRepository();
+            return View(GalleryRepo.SelectOne(id));
+        }
+
+        [AuthorizeOrRedirectAttribute(Roles = "Admin")]
+        [HttpPost]
+        public ActionResult GalleryDelete(int id, gallery _gallery)
+        {
+            try
             {
-                return RedirectToAction("Index");
+                DAL.GalleryDAL.GalleryRepository GalleryRepo = new DAL.GalleryDAL.GalleryRepository();
+                GalleryRepo.Delete(id, Server.MapPath("~"));
+
+                return RedirectToAction("Gallery");
+            }
+            catch
+            {
+                return View();
             }
         }
 
+        [AuthorizeOrRedirectAttribute(Roles = "Admin")]
+        [HttpGet]
+        public ActionResult GalleryCreate()
+        {
+            return View();
+        }
+
+        [AuthorizeOrRedirectAttribute(Roles = "Admin")]
         [HttpPost]
         public ActionResult GalleryCreate(gallery _gallery)
         {
-
-            if (Session["userName"] != null)
-            {
-                try
-                {
-                    DAL.GalleryDAL.GalleryRepository GalleryRepo = new DAL.GalleryDAL.GalleryRepository();
-                    GalleryRepo.Insert(_gallery);
-
-                    return RedirectToAction("Gallery");
-                }
-                catch
-                {
-                    return View();
-                }
-            }
-            else
-            {
-                return RedirectToAction("Index");
-            }
-        }
-        public ActionResult GalleryDetails(int id)
-        {
-
-            if (Session["userName"] != null)
+            try
             {
                 DAL.GalleryDAL.GalleryRepository GalleryRepo = new DAL.GalleryDAL.GalleryRepository();
-                gallery _gallery = GalleryRepo.SelectOne(id);
+                GalleryRepo.Insert(_gallery);
 
-                return View(_gallery);
+                return RedirectToAction("Gallery");
             }
-            else
+            catch
             {
-                return RedirectToAction("Index");
+                return View();
             }
+        }
+
+        [AuthorizeOrRedirectAttribute(Roles = "Admin")]
+        public ActionResult GalleryDetails(int id)
+        {
+            DAL.GalleryDAL.GalleryRepository GalleryRepo = new DAL.GalleryDAL.GalleryRepository();
+            gallery _gallery = GalleryRepo.SelectOne(id);
+
+            return View(_gallery);
         }
 
         //Applicants and Business////////////////////////////////////
+        [AuthorizeOrRedirectAttribute(Roles = "Admin")]
         public ActionResult ListApplicants(string sortOrder, string filter, string searchCriteria, int? page)
         {
-            if (Session["userName"] != null)
-            {
-                ViewBag.CurrentSort = sortOrder;
-                ViewBag.CurrentCriteria = searchCriteria;
-                ViewBag.CurrentFilter = filter;
+            ViewBag.CurrentSort = sortOrder;
+            ViewBag.CurrentCriteria = searchCriteria;
+            ViewBag.CurrentFilter = filter;
 
-                int pageSize = 30;
-                int pageNumber = (page ?? 1);
+            int pageSize = 30;
+            int pageNumber = (page ?? 1);
 
-                ApplicantRepository applicantRepository = new ApplicantRepository();
-                IEnumerable<ApplicantViewModel> apps = applicantRepository.SelectAllAsViewModel();
+            ApplicantRepository applicantRepository = new ApplicantRepository();
+            IEnumerable<ApplicantViewModel> apps = applicantRepository.SelectAllAsViewModel();
                 
-                apps = FilterApplicants(apps, filter, searchCriteria);
+            apps = FilterApplicants(apps, filter, searchCriteria);
 
-                switch (sortOrder)
-                {
-                    case "FirstName":
-                        apps = apps.OrderBy(a => a.FirstName);
-                        break;
-                    case "LastName":
-                        apps = apps.OrderBy(a => a.LastName);
-                        break;
-                    case "Active":
-                        apps = apps.OrderBy(a => a.Active);
-                        break;
-                    default:
-                        apps = apps.OrderBy(a => a.Email);
-                        break;
-                }
-
-                apps = apps.ToPagedList(pageNumber, pageSize);
-                return View(apps);
-            }
-            else
+            switch (sortOrder)
             {
-                return RedirectToAction("Index");
+                case "FirstName":
+                    apps = apps.OrderBy(a => a.FirstName);
+                    break;
+                case "LastName":
+                    apps = apps.OrderBy(a => a.LastName);
+                    break;
+                case "Active":
+                    apps = apps.OrderBy(a => a.Active);
+                    break;
+                default:
+                    apps = apps.OrderBy(a => a.Email);
+                    break;
             }
+
+            apps = apps.ToPagedList(pageNumber, pageSize);
+            return View(apps);
 
         }
 
+        [AuthorizeOrRedirectAttribute(Roles = "Admin")]
         [HttpPost]
         public ActionResult ListApplicants(string searchCriteria, string filter, int? page)
         {
-            if (Session["userName"] != null)
+            int pageSize = 30;
+            int pageNumber = (page ?? 1);
+
+            ViewBag.CurrentCriteria = searchCriteria;
+            ViewBag.CurrentFilter = filter;
+
+            ApplicantRepository ar = new ApplicantRepository();
+
+            IEnumerable<ApplicantViewModel> apps;
+            using (ar)
             {
-                int pageSize = 30;
-                int pageNumber = (page ?? 1);
-
-                ViewBag.CurrentCriteria = searchCriteria;
-                ViewBag.CurrentFilter = filter;
-
-                ApplicantRepository ar = new ApplicantRepository();
-
-                IEnumerable<ApplicantViewModel> apps;
-                using (ar)
-                {
-                    apps = ar.SelectAllAsViewModel() as IList<ApplicantViewModel>;
-                    apps = FilterApplicants(apps, filter, searchCriteria);
-                }
-
-                apps = apps.ToPagedList(pageNumber, pageSize);
-
-                return View(apps);
+                apps = ar.SelectAllAsViewModel() as IList<ApplicantViewModel>;
+                apps = FilterApplicants(apps, filter, searchCriteria);
             }
-            else
-            {
-                return RedirectToAction("Index");
-            }
+
+            apps = apps.ToPagedList(pageNumber, pageSize);
+
+            return View(apps);
         }
 
+        [AuthorizeOrRedirectAttribute(Roles = "Admin")]
         [NonAction]
         private IEnumerable<ApplicantViewModel> FilterApplicants(IEnumerable<ApplicantViewModel> applicants, string filter, string searchCriteria)
         {
@@ -715,85 +531,73 @@ namespace TechCareerFair.Controllers
             return applicants;
         }
 
+        [AuthorizeOrRedirectAttribute(Roles = "Admin")]
         public ActionResult ListBusinesses(string sortOrder, string filter, string searchCriteria, int? page)
         {
-            if (Session["userName"] != null)
-            {
-                ViewBag.CurrentSort = sortOrder;
-                ViewBag.CurrentCriteria = searchCriteria;
-                ViewBag.CurrentFilter = filter;
+            ViewBag.CurrentSort = sortOrder;
+            ViewBag.CurrentCriteria = searchCriteria;
+            ViewBag.CurrentFilter = filter;
 
-                int pageSize = 30;
-                int pageNumber = (page ?? 1);
+            int pageSize = 30;
+            int pageNumber = (page ?? 1);
 
-                BusinessRepository businessRepository = new BusinessRepository();
-                IEnumerable<BusinessViewModel> businesses = businessRepository.SelectAllAsViewModel();
-                FilterBusinesses(businesses, filter, searchCriteria);
+            BusinessRepository businessRepository = new BusinessRepository();
+            IEnumerable<BusinessViewModel> businesses = businessRepository.SelectAllAsViewModel();
+            FilterBusinesses(businesses, filter, searchCriteria);
                 
 
-                switch (sortOrder)
-                {
-                    case "BusinessName":
-                        businesses = businesses.OrderBy(b => b.BusinessName);
-                        break;
-                    case "ContactMe":
-                        businesses = businesses.OrderBy(b => b.ContactMe);
-                        break;
-                    case "PreferEmail":
-                        businesses = businesses.OrderBy(b => b.PreferEmail);
-                        break;
-                    case "Active":
-                        businesses = businesses.OrderBy(b => b.Active);
-                        break;
-                    case "Approved":
-                        businesses = businesses.OrderBy(b => b.Approved);
-                        break;
-                    default:
-                        businesses = businesses.OrderBy(b => b.Email);
-                        break;
-                }
-
-                businesses = businesses.ToPagedList(pageNumber, pageSize);
-                return View(businesses);
-            }
-            else
+            switch (sortOrder)
             {
-                return RedirectToAction("Index");
+                case "BusinessName":
+                    businesses = businesses.OrderBy(b => b.BusinessName);
+                    break;
+                case "ContactMe":
+                    businesses = businesses.OrderBy(b => b.ContactMe);
+                    break;
+                case "PreferEmail":
+                    businesses = businesses.OrderBy(b => b.PreferEmail);
+                    break;
+                case "Active":
+                    businesses = businesses.OrderBy(b => b.Active);
+                    break;
+                case "Approved":
+                    businesses = businesses.OrderBy(b => b.Approved);
+                    break;
+                default:
+                    businesses = businesses.OrderBy(b => b.Email);
+                    break;
             }
 
+            businesses = businesses.ToPagedList(pageNumber, pageSize);
+            return View(businesses);
         }
 
+        [AuthorizeOrRedirectAttribute(Roles = "Admin")]
         [HttpPost]
         public ActionResult ListBusinesses(string searchCriteria, string filter, int? page)
         {
-            if (Session["userName"] != null)
+            int pageSize = 5;
+            int pageNumber = (page ?? 1);
+
+            ViewBag.CurrentCriteria = searchCriteria;
+            ViewBag.CurrentFilter = filter;
+
+            BusinessRepository br = new BusinessRepository();
+
+            IEnumerable<BusinessViewModel> businesses;
+            using (br)
             {
-                int pageSize = 5;
-                int pageNumber = (page ?? 1);
-
-                ViewBag.CurrentCriteria = searchCriteria;
-                ViewBag.CurrentFilter = filter;
-
-                BusinessRepository br = new BusinessRepository();
-
-                IEnumerable<BusinessViewModel> businesses;
-                using (br)
-                {
-                    businesses = br.SelectAllAsViewModel() as IList<BusinessViewModel>;
-                }
-
-                FilterBusinesses(businesses, filter, searchCriteria);
-
-                businesses = businesses.ToPagedList(pageNumber, pageSize);
-
-                return View(businesses);
+                businesses = br.SelectAllAsViewModel() as IList<BusinessViewModel>;
             }
-            else
-            {
-                return RedirectToAction("Index");
-            }
+
+            FilterBusinesses(businesses, filter, searchCriteria);
+
+            businesses = businesses.ToPagedList(pageNumber, pageSize);
+
+            return View(businesses);
         }
 
+        [AuthorizeOrRedirectAttribute(Roles = "Admin")]
         [NonAction]
         private void FilterBusinesses(IEnumerable<BusinessViewModel> businesses, string filter, string searchCriteria)
         {
@@ -823,687 +627,528 @@ namespace TechCareerFair.Controllers
         }
 
         // GET: Admin/Details/5
+        [AuthorizeOrRedirectAttribute(Roles = "Admin")]
         public ActionResult ApplicantDetails(int id)
         {
-            if (Session["userName"] != null)
-            {
-                ApplicantRepository applicantRepository = new ApplicantRepository();
-                ApplicantViewModel applicant = applicantRepository.SelectOneAsViewModel(id);
+            ApplicantRepository applicantRepository = new ApplicantRepository();
+            ApplicantViewModel applicant = applicantRepository.SelectOneAsViewModel(id);
 
-                ViewBag.Fields = applicant.Fields;
+            ViewBag.Fields = applicant.Fields;
 
-                return View(applicant);
-            }
-            else
-            {
-                return RedirectToAction("Index");
-            }
-
+            return View(applicant);
         }
 
         // GET: Admin/Details/5
+        [AuthorizeOrRedirectAttribute(Roles = "Admin")]
         public ActionResult BusinessDetails(int id)
         {
-            if (Session["userName"] != null)
-            {
-                BusinessRepository businessRepository = new BusinessRepository();
-                BusinessViewModel business = businessRepository.SelectOneAsViewModel(id);
-                ViewBag.Fields = business.Fields;
-                ViewBag.Positions = business.Positions;
+            BusinessRepository businessRepository = new BusinessRepository();
+            BusinessViewModel business = businessRepository.SelectOneAsViewModel(id);
+            ViewBag.Fields = business.Fields;
+            ViewBag.Positions = business.Positions;
 
-                return View(business);
-            }
-            else
-            {
-                return RedirectToAction("Index");
-            }
-
+            return View(business);
         }
 
         // GET: Admin/Create
+        [AuthorizeOrRedirectAttribute(Roles = "Admin")]
         public ActionResult CreateApplicant()
         {
-            if (Session["userName"] != null)
-            {
-                TechCareerFair.DAL.FieldDAL.FieldRepository fr = new TechCareerFair.DAL.FieldDAL.FieldRepository();
-                ViewBag.AllFields = fr.SelectAll();
+            TechCareerFair.DAL.FieldDAL.FieldRepository fr = new TechCareerFair.DAL.FieldDAL.FieldRepository();
+            ViewBag.AllFields = fr.SelectAll();
 
-                return View();
-            }
-            else
-            {
-                return RedirectToAction("Index");
-            }
-
+            return View();
         }
 
         // POST: Admin/Create
+        [AuthorizeOrRedirectAttribute(Roles = "Admin")]
         [HttpPost]
         public async Task<ActionResult> CreateApplicant(ApplicantViewModel applicant, HttpPostedFileBase fileUpload, FormCollection collection)
         {
-            if (Session["userName"] != null)
+            if (ModelState.IsValid)
             {
-                if (ModelState.IsValid)
+                try
                 {
-                    try
-                    {
-                        TechCareerFair.DAL.FieldDAL.FieldRepository fr = new TechCareerFair.DAL.FieldDAL.FieldRepository();
-                        IEnumerable<field> iFields = fr.SelectAll();
-                        List<field> fields = iFields.ToList();
-                        ViewBag.AllFields = iFields;
-                        foreach (field f in fields)
-                        {
-                            bool isChecked = Convert.ToBoolean(collection[f.Name].Split(',')[0]);
-
-                            if (isChecked)
-                            {
-                                applicant.Fields.Add(f.Name);
-                            }
-                        }
-
-                        if(fileUpload != null)
-                        {
-                            applicant.Resume = DAL.DatabaseHelper.UploadFile(DataSettings.RESUME_DIRECTORY, fileUpload, Server);
-                        }
-
-                        ApplicantRepository applicantRepository = new ApplicantRepository();
-                        applicantRepository.Insert(applicantRepository.ToModel(applicant));
-
-                        EditUserViewModel user = new EditUserViewModel();
-                        user.Email = applicant.Email;
-                        user.Password = applicant.Password;
-                        user.ConfirmPassword = applicant.ConfirmPassword;
-
-                        await CreateUserAsync(user);
-
-                        return RedirectToAction("ListApplicants");
-                    }
-                    catch(ArgumentException e)
-                    {
-                        ViewBag.Error = e.Message;
-                        return View(applicant);
-                    }
-                }
-                else
-                {
-                    return View(applicant);
-                }
-            }
-            else
-            {
-                return RedirectToAction("Index");
-            }
-
-        }
-
-        // GET: Admin/Create
-        public ActionResult CreateBusiness()
-        {
-            if (Session["userName"] != null)
-            {
-                TechCareerFair.DAL.FieldDAL.FieldRepository fr = new TechCareerFair.DAL.FieldDAL.FieldRepository();
-                ViewBag.AllFields = fr.SelectAll();
-                ViewBag.States = _states;
-
-                return View();
-            }
-            else
-            {
-                return RedirectToAction("Index");
-            }
-
-        }
-
-        // POST: Admin/Create
-        [HttpPost]
-        public async Task<ActionResult> CreateBusiness(BusinessViewModel business, HttpPostedFileBase fileUpload, FormCollection collection)
-        {
-            if (Session["userName"] != null)
-            {
-                if (ModelState.IsValid)
-                {
-                    try
-                    {
-                        TechCareerFair.DAL.FieldDAL.FieldRepository fr = new TechCareerFair.DAL.FieldDAL.FieldRepository();
-                        IEnumerable<field> iFields = fr.SelectAll();
-                        List<field> fields = iFields.ToList();
-                        ViewBag.AllFields = iFields;
-                        ViewBag.States = _states;
-
-                        foreach (field f in fields)
-                        {
-                            bool isChecked = Convert.ToBoolean(collection[f.Name].Split(',')[0]);
-
-                            if (isChecked)
-                            {
-                                business.Fields.Add(f.Name);
-                            }
-                        }
-
-                        business.State = collection["state"];
-
-                        if(fileUpload != null)
-                        {
-                            business.Photo = DAL.DatabaseHelper.UploadFile(DataSettings.BUSINESS_DIRECTORY, fileUpload, Server);
-                        }
-
-                        BusinessRepository br = new BusinessRepository();
-                        br.Insert(br.ToModel(business));
-
-                        EditUserViewModel user = new EditUserViewModel();
-                        user.Email = business.Email;
-                        user.Password = business.Password;
-                        user.ConfirmPassword = business.ConfirmPassword;
-
-                        await CreateUserAsync(user);
-
-                        return RedirectToAction("ListBusinesses");
-                    }
-                    catch (ArgumentException e)
-                    {
-                        ViewBag.Error = e.Message;
-                        return View(business);
-                    }
-                }
-                else
-                {
-                    return View(business);
-                }
-            }
-            else
-            {
-                return RedirectToAction("Index");
-            }
-
-        }
-
-        public ActionResult EditAdmin(int id)
-        {
-            if (Session["userName"] != null)
-            {
-                AdminRepository ar = new AdminRepository();
-                admin admin = ar.SelectOne(id);
-
-                return View(ar.ToViewModel(admin));
-            }
-            else
-            {
-                return RedirectToAction("Index");
-            }
-        }
-
-        [HttpPost]
-        public ActionResult EditAdmin(AdminViewModel admin)
-        {
-            if (Session["userName"] != null)
-            {
-                if (ModelState.IsValid)
-                {
-                    AdminRepository ar = new AdminRepository();
-                    ar.Update(ar.ToModel(admin));
-
-                    EditUserViewModel user = new EditUserViewModel();
-                    user.Email = admin.Username;
-                    user.Password = admin.Password;
-                    user.ConfirmPassword = admin.Password;
-
-                    EditUser(user, admin.OldUsername);
-
-                    return RedirectToAction("LandingPage");
-                }
-                else
-                {
-                    return View(admin);
-                }
-            }
-            else
-            {
-                return RedirectToAction("Index");
-            }
-        }
-
-        // GET: Admin/Edit/5
-        public ActionResult EditApplicant(int id)
-        {
-            if (Session["userName"] != null)
-            {
-                ApplicantRepository applicantRepository = new ApplicantRepository();
-                TechCareerFair.DAL.FieldDAL.FieldRepository fr = new TechCareerFair.DAL.FieldDAL.FieldRepository();
-                ViewBag.AllFields = fr.SelectAll();
-
-                ApplicantViewModel applicant = applicantRepository.SelectOneAsViewModel(id);
-                ViewBag.Fields = applicant.Fields;
-                applicant.ConfirmPassword = applicant.Password;
-                applicant.OldEmail = applicant.Email;
-
-                return View(applicant);
-            }
-            else
-            {
-                return RedirectToAction("Index");
-            }
-
-        }
-
-        // POST: Admin/Edit/5
-        [HttpPost]
-        public ActionResult EditApplicant(ApplicantViewModel applicant, HttpPostedFileBase fileUpload, FormCollection collection)
-        {
-            if (Session["userName"] != null)
-            {
-                if (ModelState.IsValid)
-                {
-                    try
-                    { 
                     TechCareerFair.DAL.FieldDAL.FieldRepository fr = new TechCareerFair.DAL.FieldDAL.FieldRepository();
-                        IEnumerable<field> iFields = fr.SelectAll();
-                        List<field> fields = iFields.ToList();
-                        ViewBag.AllFields = iFields;
-                        ViewBag.Fields = applicant.Fields;
-                        foreach (field f in fields)
+                    IEnumerable<field> iFields = fr.SelectAll();
+                    List<field> fields = iFields.ToList();
+                    ViewBag.AllFields = iFields;
+                    foreach (field f in fields)
                     {
                         bool isChecked = Convert.ToBoolean(collection[f.Name].Split(',')[0]);
 
-                        if (!applicant.Fields.Contains(f.Name) && isChecked)
+                        if (isChecked)
                         {
                             applicant.Fields.Add(f.Name);
                         }
-                        else if (applicant.Fields.Contains(f.Name) && !isChecked)
-                        {
-                            applicant.Fields.Remove(f.Name);
-                        }
                     }
 
-                    if (Convert.ToBoolean(collection["removeResume"].Split(',')[0]))
-                    {
-                        applicant.Resume = "";
-                        if ((System.IO.File.Exists(Server.MapPath("~") + applicant.Resume)))
-                        {
-                            System.IO.File.Delete(Server.MapPath("~") + applicant.Resume);
-                        }
-                    }
-
-                    if (fileUpload != null)
+                    if(fileUpload != null)
                     {
                         applicant.Resume = DAL.DatabaseHelper.UploadFile(DataSettings.RESUME_DIRECTORY, fileUpload, Server);
                     }
 
                     ApplicantRepository applicantRepository = new ApplicantRepository();
-                    applicantRepository.Update(applicantRepository.ToModel(applicant), Server.MapPath("~"));
+                    applicantRepository.Insert(applicantRepository.ToModel(applicant));
 
                     EditUserViewModel user = new EditUserViewModel();
                     user.Email = applicant.Email;
                     user.Password = applicant.Password;
-                    user.ConfirmPassword = applicant.Password;
+                    user.ConfirmPassword = applicant.ConfirmPassword;
 
-                    EditUser(user, applicant.OldEmail);
+                    await CreateUserAsync(user, true);
 
                     return RedirectToAction("ListApplicants");
                 }
-                    catch (ArgumentException e)
+                catch(ArgumentException e)
                 {
                     ViewBag.Error = e.Message;
                     return View(applicant);
                 }
             }
-                else
-                {
-                    return View(applicant);
-                }
-            }
             else
             {
-                return RedirectToAction("Index");
+                return View(applicant);
             }
 
         }
 
-        // GET: Admin/Edit/5
-        public ActionResult EditBusiness(int id)
+        // GET: Admin/Create
+        [AuthorizeOrRedirectAttribute(Roles = "Admin")]
+        public ActionResult CreateBusiness()
         {
-            if (Session["userName"] != null)
-            {
-                BusinessRepository businessRepository = new BusinessRepository();
-                TechCareerFair.DAL.FieldDAL.FieldRepository fr = new TechCareerFair.DAL.FieldDAL.FieldRepository();
-                ViewBag.AllFields = fr.SelectAll();
+            TechCareerFair.DAL.FieldDAL.FieldRepository fr = new TechCareerFair.DAL.FieldDAL.FieldRepository();
+            ViewBag.AllFields = fr.SelectAll();
+            ViewBag.States = _states;
 
-                BusinessViewModel business = businessRepository.SelectOneAsViewModel(id);
-                ViewBag.Positions = business.Positions;
-                ViewBag.Fields = business.Fields;
-                ViewBag.States = _states;
-                business.ConfirmPassword = business.Password;
-                business.OldEmail = business.Email;
-
-                return View(business);
-            }
-            else
-            {
-                return RedirectToAction("Index");
-            }
-
+            return View();
         }
 
-        // POST: Admin/Edit/5
+        // POST: Admin/Create
+        [AuthorizeOrRedirectAttribute(Roles = "Admin")]
         [HttpPost]
-        public ActionResult EditBusiness(BusinessViewModel business, HttpPostedFileBase fileUpload, FormCollection collection)
+        public async Task<ActionResult> CreateBusiness(BusinessViewModel business, HttpPostedFileBase fileUpload, FormCollection collection)
         {
-            if (Session["userName"] != null)
+            if (ModelState.IsValid)
             {
-                if (ModelState.IsValid)
+                try
                 {
-                    try
+                    TechCareerFair.DAL.FieldDAL.FieldRepository fr = new TechCareerFair.DAL.FieldDAL.FieldRepository();
+                    IEnumerable<field> iFields = fr.SelectAll();
+                    List<field> fields = iFields.ToList();
+                    ViewBag.AllFields = iFields;
+                    ViewBag.States = _states;
+
+                    foreach (field f in fields)
                     {
-                        ViewBag.Positions = business.Positions;
-                        ViewBag.Fields = business.Fields;
-                        ViewBag.States = _states;
+                        bool isChecked = Convert.ToBoolean(collection[f.Name].Split(',')[0]);
 
-                        TechCareerFair.DAL.FieldDAL.FieldRepository fr = new TechCareerFair.DAL.FieldDAL.FieldRepository();
-                        IEnumerable<field> iFields = fr.SelectAll();
-                        List<field> fields = iFields.ToList();
-                        ViewBag.AllFields = iFields;
-                        foreach (field f in fields)
+                        if (isChecked)
                         {
-                            bool isChecked = Convert.ToBoolean(collection[f.Name].Split(',')[0]);
-
-                            if (!business.Fields.Contains(f.Name) && isChecked)
-                            {
-                                business.Fields.Add(f.Name);
-                            }
-                            else if (business.Fields.Contains(f.Name) && !isChecked)
-                            {
-                                business.Fields.Remove(f.Name);
-                            }
+                            business.Fields.Add(f.Name);
                         }
-
-                        if (Convert.ToBoolean(collection["removeImage"].Split(',')[0]))
-                        {
-                            business.Photo = "";
-                            if ((System.IO.File.Exists(Server.MapPath("~") + business.Photo)))
-                            {
-                                System.IO.File.Delete(Server.MapPath("~") + business.Photo);
-                            }
-                        }
-
-                        if (fileUpload != null)
-                        {
-                            business.Photo = DAL.DatabaseHelper.UploadFile(DataSettings.BUSINESS_DIRECTORY, fileUpload, Server);
-                        }
-
-                        BusinessRepository businessRepository = new BusinessRepository();
-                        businessRepository.Update(businessRepository.ToModel(business), Server.MapPath("~"));
-
-                        EditUserViewModel user = new EditUserViewModel();
-                        user.Email = business.Email;
-                        user.Password = business.Password;
-                        user.ConfirmPassword = business.Password;
-
-                        EditUser(user, business.OldEmail);
-
-                        return RedirectToAction("ListBusinesses");
                     }
-                    catch(ArgumentException e)
+
+                    business.State = collection["state"];
+
+                    if(fileUpload != null)
                     {
-                        ViewBag.Error = e.Message;
-                        return View(business);
+                        business.Photo = DAL.DatabaseHelper.UploadFile(DataSettings.BUSINESS_DIRECTORY, fileUpload, Server);
                     }
+
+                    BusinessRepository br = new BusinessRepository();
+                    br.Insert(br.ToModel(business));
+
+                    EditUserViewModel user = new EditUserViewModel();
+                    user.Email = business.Email;
+                    user.Password = business.Password;
+                    user.ConfirmPassword = business.ConfirmPassword;
+
+                    await CreateUserAsync(user, false);
+
+                    return RedirectToAction("ListBusinesses");
                 }
-                else
+                catch (ArgumentException e)
                 {
+                    ViewBag.Error = e.Message;
                     return View(business);
                 }
             }
             else
             {
-                return RedirectToAction("Index");
+                return View(business);
             }
-
+            
         }
 
-        public ActionResult ListPositions(int id)
+        [AuthorizeOrRedirectAttribute(Roles = "Admin")]
+        public ActionResult EditAdmin(int id)
         {
-            if (Session["userName"] != null)
-            {
-                TechCareerFair.DAL.PositionDAL.PositionRepository pr = new DAL.PositionDAL.PositionRepository();
-                List<position> positions = pr.SelectAll().ToList();
+            AdminRepository ar = new AdminRepository();
+            AdminViewModel admin = ar.SelectOneAsViewModel(id);
+            admin.OldUsername = admin.Username;
+            admin.ConfirmPassword = admin.Password;
 
-                BusinessRepository businessRepository = new BusinessRepository();
-                business business = businessRepository.SelectOne(id);
-                ViewBag.Business = business.BusinessName;
-                ViewBag.ID = id;
-
-                positions = positions.Where(p => p.Business == id).ToList();
-
-                return View(positions);
-            }
-            else
-            {
-                return RedirectToAction("Index");
-            }
+            return View(admin);
         }
 
-        // GET: Admin/Create
-        public ActionResult CreatePosition(int id)
-        {
-            if (Session["userName"] != null)
-            {
-                BusinessRepository br = new BusinessRepository();
-                business bus = br.SelectOne(id);
-                ViewBag.Business = bus.BusinessName;
-                ViewBag.ID = id;
-
-                position position = new position();
-                position.Business = id;
-
-                return View(position);
-            }
-            else
-            {
-                return RedirectToAction("Index");
-            }
-
-        }
-
-        // POST: Admin/Create
+        [AuthorizeOrRedirectAttribute(Roles = "Admin")]
         [HttpPost]
-        public ActionResult CreatePosition(position position)
+        public ActionResult EditAdmin(AdminViewModel admin)
         {
-            if (Session["userName"] != null)
+            if (ModelState.IsValid)
             {
-                TechCareerFair.DAL.PositionDAL.PositionRepository pr = new DAL.PositionDAL.PositionRepository();
-                pr.Insert(position);
+                AdminRepository ar = new AdminRepository();
+                ar.Update(ar.ToModel(admin));
 
-                return RedirectToAction("ListPositions", new { id = position.Business });
+                EditUserViewModel user = new EditUserViewModel();
+                user.Email = admin.Username;
+                user.Password = admin.Password;
+                user.ConfirmPassword = admin.Password;
+
+                EditUser(user, admin.OldUsername);
+
+                return RedirectToAction("LandingPage");
             }
             else
             {
-                return RedirectToAction("Index");
+                return View(admin);
             }
-
         }
 
-        // GET: Admin/Details/5
-        public ActionResult PositionDetails(int id)
+        // GET: Admin/Edit/5
+        [AuthorizeOrRedirectAttribute(Roles = "Admin")]
+        public ActionResult EditApplicant(int id)
         {
-            if (Session["userName"] != null)
-            {
-                TechCareerFair.DAL.PositionDAL.PositionRepository pr = new DAL.PositionDAL.PositionRepository();
-                position position = pr.SelectOne(id);
+            ApplicantRepository applicantRepository = new ApplicantRepository();
+            TechCareerFair.DAL.FieldDAL.FieldRepository fr = new TechCareerFair.DAL.FieldDAL.FieldRepository();
+            ViewBag.AllFields = fr.SelectAll();
 
-                BusinessRepository br = new BusinessRepository();
-                business bus = br.SelectOne(position.Business);
-                ViewBag.Business = bus.BusinessName;
+            ApplicantViewModel applicant = applicantRepository.SelectOneAsViewModel(id);
+            ViewBag.Fields = applicant.Fields;
+            applicant.ConfirmPassword = applicant.Password;
+            applicant.OldEmail = applicant.Email;
 
-                return View(position);
-            }
-            else
-            {
-                return RedirectToAction("Index");
-            }
-
+            return View(applicant);
         }
 
-        public ActionResult EditPosition(int id)
-        {
-            if (Session["userName"] != null)
-            {
-                TechCareerFair.DAL.PositionDAL.PositionRepository pr = new DAL.PositionDAL.PositionRepository();
-                position position = pr.SelectOne(id);
-
-                return View(position);
-            }
-            else
-            {
-                return RedirectToAction("Index");
-            }
-        }
-
+        // POST: Admin/Edit/5
+        [AuthorizeOrRedirectAttribute(Roles = "Admin")]
         [HttpPost]
-        public ActionResult EditPosition(position position)
+        public ActionResult EditApplicant(ApplicantViewModel applicant, HttpPostedFileBase fileUpload, FormCollection collection)
         {
-            if (Session["userName"] != null)
+            if (ModelState.IsValid)
             {
-                TechCareerFair.DAL.PositionDAL.PositionRepository pr = new DAL.PositionDAL.PositionRepository();
-                pr.Update(position);
+                try
+                { 
+                TechCareerFair.DAL.FieldDAL.FieldRepository fr = new TechCareerFair.DAL.FieldDAL.FieldRepository();
+                    IEnumerable<field> iFields = fr.SelectAll();
+                    List<field> fields = iFields.ToList();
+                    ViewBag.AllFields = iFields;
+                    ViewBag.Fields = applicant.Fields;
+                    foreach (field f in fields)
+                {
+                    bool isChecked = Convert.ToBoolean(collection[f.Name].Split(',')[0]);
 
-                return RedirectToAction("ListPositions", new { id = position.Business });
-            }
-            else
-            {
-                return RedirectToAction("Index");
-            }
-        }
+                    if (!applicant.Fields.Contains(f.Name) && isChecked)
+                    {
+                        applicant.Fields.Add(f.Name);
+                    }
+                    else if (applicant.Fields.Contains(f.Name) && !isChecked)
+                    {
+                        applicant.Fields.Remove(f.Name);
+                    }
+                }
 
-        // GET: Admin/Create
-        public ActionResult DeletePosition(int id)
-        {
-            if (Session["userName"] != null)
-            {
-                TechCareerFair.DAL.PositionDAL.PositionRepository pr = new DAL.PositionDAL.PositionRepository();
-                position position = pr.SelectOne(id);
+                if (Convert.ToBoolean(collection["removeResume"].Split(',')[0]))
+                {
+                    applicant.Resume = "";
+                    if ((System.IO.File.Exists(Server.MapPath("~") + applicant.Resume)))
+                    {
+                        System.IO.File.Delete(Server.MapPath("~") + applicant.Resume);
+                    }
+                }
 
-                BusinessRepository br = new BusinessRepository();
-                business bus = br.SelectOne(position.Business);
-                ViewBag.Business = bus.BusinessName;
+                if (fileUpload != null)
+                {
+                    applicant.Resume = DAL.DatabaseHelper.UploadFile(DataSettings.RESUME_DIRECTORY, fileUpload, Server);
+                }
 
-                return View(position);
-            }
-            else
-            {
-                return RedirectToAction("Index");
-            }
-
-        }
-
-        // POST: Admin/Create
-        [HttpPost]
-        public ActionResult DeletePosition(int id, FormCollection collection)
-        {
-            if (Session["userName"] != null)
-            {
-                TechCareerFair.DAL.PositionDAL.PositionRepository pr = new DAL.PositionDAL.PositionRepository();
-                position position = pr.SelectOne(id);
-                int businessID = position.Business;
-
-                pr.Delete(id);
-
-                return RedirectToAction("ListPositions", new { id = businessID });
-            }
-            else
-            {
-                return RedirectToAction("Index");
-            }
-
-        }
-
-        // GET: Admin/Delete/5
-        public ActionResult DeleteApplicant(int id)
-        {
-            if (Session["userName"] != null)
-            {
                 ApplicantRepository applicantRepository = new ApplicantRepository();
-                ApplicantViewModel applicant = applicantRepository.SelectOneAsViewModel(id);
-                ViewBag.Fields = applicant.Fields;
+                applicantRepository.Update(applicantRepository.ToModel(applicant), Server.MapPath("~"));
 
+                EditUserViewModel user = new EditUserViewModel();
+                user.Email = applicant.Email;
+                user.Password = applicant.Password;
+                user.ConfirmPassword = applicant.Password;
+
+                EditUser(user, applicant.OldEmail);
+
+                return RedirectToAction("ListApplicants");
+            }
+                catch (ArgumentException e)
+            {
+                ViewBag.Error = e.Message;
                 return View(applicant);
             }
+        }
             else
             {
-                return RedirectToAction("Index");
+                return View(applicant);
             }
-
         }
 
-        // POST: Admin/Delete/5
-        [HttpPost]
-        public ActionResult DeleteApplicant(int id, FormCollection collection)
+        // GET: Admin/Edit/5
+        [AuthorizeOrRedirectAttribute(Roles = "Admin")]
+        public ActionResult EditBusiness(int id)
         {
-            if (Session["userName"] != null)
+            BusinessRepository businessRepository = new BusinessRepository();
+            TechCareerFair.DAL.FieldDAL.FieldRepository fr = new TechCareerFair.DAL.FieldDAL.FieldRepository();
+            ViewBag.AllFields = fr.SelectAll();
+
+            BusinessViewModel business = businessRepository.SelectOneAsViewModel(id);
+            ViewBag.Positions = business.Positions;
+            ViewBag.Fields = business.Fields;
+            ViewBag.States = _states;
+            business.ConfirmPassword = business.Password;
+            business.OldEmail = business.Email;
+
+            return View(business);
+        }
+
+        // POST: Admin/Edit/5
+        [AuthorizeOrRedirectAttribute(Roles = "Admin")]
+        [HttpPost]
+        public ActionResult EditBusiness(BusinessViewModel business, HttpPostedFileBase fileUpload, FormCollection collection)
+        {
+            if (ModelState.IsValid)
             {
                 try
                 {
-                    ApplicantRepository applicantRepository = new ApplicantRepository();
-                    applicantRepository.Delete(id, Server.MapPath("~"));
+                    ViewBag.Positions = business.Positions;
+                    ViewBag.Fields = business.Fields;
+                    ViewBag.States = _states;
 
-                    return RedirectToAction("ListApplicants");
+                    TechCareerFair.DAL.FieldDAL.FieldRepository fr = new TechCareerFair.DAL.FieldDAL.FieldRepository();
+                    IEnumerable<field> iFields = fr.SelectAll();
+                    List<field> fields = iFields.ToList();
+                    ViewBag.AllFields = iFields;
+                    foreach (field f in fields)
+                    {
+                        bool isChecked = Convert.ToBoolean(collection[f.Name].Split(',')[0]);
+
+                        if (!business.Fields.Contains(f.Name) && isChecked)
+                        {
+                            business.Fields.Add(f.Name);
+                        }
+                        else if (business.Fields.Contains(f.Name) && !isChecked)
+                        {
+                            business.Fields.Remove(f.Name);
+                        }
+                    }
+
+                    if (Convert.ToBoolean(collection["removeImage"].Split(',')[0]))
+                    {
+                        business.Photo = "";
+                        if ((System.IO.File.Exists(Server.MapPath("~") + business.Photo)))
+                        {
+                            System.IO.File.Delete(Server.MapPath("~") + business.Photo);
+                        }
+                    }
+
+                    if (fileUpload != null)
+                    {
+                        business.Photo = DAL.DatabaseHelper.UploadFile(DataSettings.BUSINESS_DIRECTORY, fileUpload, Server);
+                    }
+
+                    BusinessRepository businessRepository = new BusinessRepository();
+                    businessRepository.Update(businessRepository.ToModel(business), Server.MapPath("~"));
+
+                    EditUserViewModel user = new EditUserViewModel();
+                    user.Email = business.Email;
+                    user.Password = business.Password;
+                    user.ConfirmPassword = business.Password;
+
+                    EditUser(user, business.OldEmail);
+
+                    return RedirectToAction("ListBusinesses");
                 }
-                catch
+                catch(ArgumentException e)
                 {
-                    return View();
+                    ViewBag.Error = e.Message;
+                    return View(business);
                 }
             }
             else
             {
-                return RedirectToAction("Index");
+                return View(business);
             }
+        }
 
+        [AuthorizeOrRedirectAttribute(Roles = "Admin")]
+        public ActionResult ListPositions(int id)
+        {
+            TechCareerFair.DAL.PositionDAL.PositionRepository pr = new DAL.PositionDAL.PositionRepository();
+            List<position> positions = pr.SelectAll().ToList();
+
+            BusinessRepository businessRepository = new BusinessRepository();
+            business business = businessRepository.SelectOne(id);
+            ViewBag.Business = business.BusinessName;
+            ViewBag.ID = id;
+
+            positions = positions.Where(p => p.Business == id).ToList();
+
+            return View(positions);
+        }
+
+        // GET: Admin/Create
+        [AuthorizeOrRedirectAttribute(Roles = "Admin")]
+        public ActionResult CreatePosition(int id)
+        {
+            BusinessRepository br = new BusinessRepository();
+            business bus = br.SelectOne(id);
+            ViewBag.Business = bus.BusinessName;
+            ViewBag.ID = id;
+
+            position position = new position();
+            position.Business = id;
+
+            return View(position);
+        }
+
+        // POST: Admin/Create
+        [AuthorizeOrRedirectAttribute(Roles = "Admin")]
+        [HttpPost]
+        public ActionResult CreatePosition(position position)
+        {
+            TechCareerFair.DAL.PositionDAL.PositionRepository pr = new DAL.PositionDAL.PositionRepository();
+            pr.Insert(position);
+
+            return RedirectToAction("ListPositions", new { id = position.Business });
+        }
+
+        // GET: Admin/Details/5
+        [AuthorizeOrRedirectAttribute(Roles = "Admin")]
+        public ActionResult PositionDetails(int id)
+        {
+            TechCareerFair.DAL.PositionDAL.PositionRepository pr = new DAL.PositionDAL.PositionRepository();
+            position position = pr.SelectOne(id);
+
+            BusinessRepository br = new BusinessRepository();
+            business bus = br.SelectOne(position.Business);
+            ViewBag.Business = bus.BusinessName;
+
+            return View(position);
+        }
+
+        [AuthorizeOrRedirectAttribute(Roles = "Admin")]
+        public ActionResult EditPosition(int id)
+        {
+            TechCareerFair.DAL.PositionDAL.PositionRepository pr = new DAL.PositionDAL.PositionRepository();
+            position position = pr.SelectOne(id);
+
+            return View(position);
+        }
+
+        [AuthorizeOrRedirectAttribute(Roles = "Admin")]
+        [HttpPost]
+        public ActionResult EditPosition(position position)
+        {
+            TechCareerFair.DAL.PositionDAL.PositionRepository pr = new DAL.PositionDAL.PositionRepository();
+            pr.Update(position);
+
+            return RedirectToAction("ListPositions", new { id = position.Business });
+        }
+
+        // GET: Admin/Create
+        [AuthorizeOrRedirectAttribute(Roles = "Admin")]
+        public ActionResult DeletePosition(int id)
+        {
+            TechCareerFair.DAL.PositionDAL.PositionRepository pr = new DAL.PositionDAL.PositionRepository();
+            position position = pr.SelectOne(id);
+
+            BusinessRepository br = new BusinessRepository();
+            business bus = br.SelectOne(position.Business);
+            ViewBag.Business = bus.BusinessName;
+
+            return View(position);
+        }
+
+        // POST: Admin/Create
+        [AuthorizeOrRedirectAttribute(Roles = "Admin")]
+        [HttpPost]
+        public ActionResult DeletePosition(int id, FormCollection collection)
+        {
+            TechCareerFair.DAL.PositionDAL.PositionRepository pr = new DAL.PositionDAL.PositionRepository();
+            position position = pr.SelectOne(id);
+            int businessID = position.Business;
+
+            pr.Delete(id);
+
+            return RedirectToAction("ListPositions", new { id = businessID });
         }
 
         // GET: Admin/Delete/5
+        [AuthorizeOrRedirectAttribute(Roles = "Admin")]
+        public ActionResult DeleteApplicant(int id)
+        {
+            ApplicantRepository applicantRepository = new ApplicantRepository();
+            ApplicantViewModel applicant = applicantRepository.SelectOneAsViewModel(id);
+            ViewBag.Fields = applicant.Fields;
+
+            return View(applicant);
+        }
+
+        // POST: Admin/Delete/5
+        [AuthorizeOrRedirectAttribute(Roles = "Admin")]
+        [HttpPost]
+        public ActionResult DeleteApplicant(int id, FormCollection collection)
+        {
+            try
+            {
+                ApplicantRepository applicantRepository = new ApplicantRepository();
+                applicantRepository.Delete(id, Server.MapPath("~"));
+
+                return RedirectToAction("ListApplicants");
+            }
+            catch
+            {
+                return View();
+            }
+        }
+
+        // GET: Admin/Delete/5
+        [AuthorizeOrRedirectAttribute(Roles = "Admin")]
         public ActionResult DeleteBusiness(int id)
         {
-            if (Session["userName"] != null)
-            {
                 BusinessRepository businessRepository = new BusinessRepository();
                 BusinessViewModel business = businessRepository.SelectOneAsViewModel(id);
                 ViewBag.Fields = business.Fields;
                 ViewBag.Positions = business.Positions;
 
                 return View(business);
-            }
-            else
-            {
-                return RedirectToAction("Index");
-            }
-
         }
 
         // POST: Admin/Delete/5
+        [AuthorizeOrRedirectAttribute(Roles = "Admin")]
         [HttpPost]
         public ActionResult DeleteBusiness(int id, FormCollection collection)
         {
-            if (Session["userName"] != null)
+            try
             {
-                try
-                {
-                    BusinessRepository businessRepository = new BusinessRepository();
-                    businessRepository.Delete(id, Server.MapPath("~"));
+                BusinessRepository businessRepository = new BusinessRepository();
+                businessRepository.Delete(id, Server.MapPath("~"));
 
-                    return RedirectToAction("ListBusinesses");
-                }
-                catch
-                {
-                    return View();
-                }
+                return RedirectToAction("ListBusinesses");
             }
-            else
+            catch
             {
-                return RedirectToAction("Index");
+                return View();
             }
-
         }
 
         [NonAction]
-        private async Task<bool> CreateUserAsync([Bind(Include = "Email, Password, ConfirmPassword")] EditUserViewModel user)
+        private async Task<bool> CreateUserAsync([Bind(Include = "Email, Password, ConfirmPassword")] EditUserViewModel user, bool isApplicant)
         {
             var passwordHasher = new Microsoft.AspNet.Identity.PasswordHasher();
             var db = new ApplicationDbContext();
@@ -1512,7 +1157,6 @@ namespace TechCareerFair.Controllers
             newUser.Email = user.Email;
             newUser.UserName = user.Email;
             newUser.PasswordHash = passwordHasher.HashPassword(user.Password);
-            //newUser.SecurityStamp = Guid.NewGuid().ToString();
 
             ApplicationUserManager userManager = HttpContext.GetOwinContext().GetUserManager<ApplicationUserManager>();
 
@@ -1520,6 +1164,18 @@ namespace TechCareerFair.Controllers
             if(result.Succeeded)
             {
                 //add new user to default role
+                string role = "Guest";
+
+                if(isApplicant)
+                {
+                    role = "Applicant";
+                }
+                else
+                {
+                    role = "Business";
+                }
+
+                await userManager.AddToRoleAsync(newUser.Id, role);
             }
 
             return result.Succeeded;
@@ -1543,5 +1199,56 @@ namespace TechCareerFair.Controllers
             db.SaveChanges();
             
         }
+
+        //[AuthorizeOrRedirectAttribute(Roles = "Admin")]
+        //public ActionResult CreateApplicantCSV()
+        //{
+        //    string csvFile = Server.MapPath("~" + "/App_Data/") + "applicants.csv";
+        //    char delim = ',';
+        //    ApplicantRepository ar = new ApplicantRepository();
+        //    List<applicant> applicants = ar.SelectAll().ToList();
+
+        //    using (StreamWriter writer = new StreamWriter(new FileStream(csvFile, FileMode.Create, FileAccess.Write)))
+        //    {
+        //        writer.WriteLine("ApplicantID,Email,FirstName,LastName,University,Alumni,Profile,SocialMedia,YearsExperience,Internship,Active");
+
+        //        StringBuilder sb = new StringBuilder();
+
+        //        foreach (applicant a in applicants)
+        //        {
+        //            if(a != null)
+        //            {
+        //                sb.Clear();
+        //                sb.Append(a.ApplicantID.ToString() + delim);
+        //                sb.Append(a.Email.Replace(",", string.Empty) + delim);
+        //                sb.Append(a.FirstName.Replace(",", string.Empty) + delim);
+        //                sb.Append(a.LastName.Replace(",", string.Empty) + delim);
+        //                sb.Append(a.University.Replace(",", string.Empty) + delim);
+        //                sb.Append(a.Alumni.ToString() + delim);
+        //                sb.Append(a.Profile.Replace(",", string.Empty) + delim);
+        //                sb.Append(a.SocialMedia.Replace(",", string.Empty) + delim);
+        //                sb.Append(a.YearsExperience.ToString() + delim);
+        //                sb.Append(a.Internship.ToString() + delim);
+        //                sb.Append(a.Active.ToString());
+
+        //                writer.WriteLine(sb.ToString());
+        //            }
+        //        }
+        //    }
+        //    string contentType = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
+        //    return File(csvFile, contentType, "applicants.csv");
+        //}
+
+        //[AuthorizeOrRedirectAttribute(Roles = "Admin")]
+        //public ActionResult CreateBusinessCSV()
+        //{
+        //    string csvFile = Server.MapPath("~" + "/App_Data/") + "businesses.csv";
+        //    BusinessRepository br = new BusinessRepository();
+
+        //    br.CreateBusinessCSV(csvFile);
+
+        //    string contentType = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
+        //    return File(csvFile, contentType, "businesses.csv");
+        //}
     }
 }
