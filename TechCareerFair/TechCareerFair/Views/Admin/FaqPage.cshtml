@@ -1,10 +1,10 @@
 ﻿@model IEnumerable<TechCareerFair.Models.faq>
 
 @{
-    ViewBag.Title = "FaqPage";
+    ViewBag.Title = "Admin - Manage FAQs";
 }
 
-<h2>FaqPage</h2>
+<h2>Admin - Manage FAQs</h2>
 
 <p>
     @Html.ActionLink("Create New", "FaqCreate")
@@ -49,3 +49,7 @@
 }
 
 </table>
+
+<p>
+    @Html.ActionLink("Return", "LandingPage")
+</p>

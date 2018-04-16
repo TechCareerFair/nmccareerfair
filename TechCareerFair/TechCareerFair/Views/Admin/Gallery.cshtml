@@ -1,8 +1,15 @@
 ﻿@model IEnumerable<TechCareerFair.Models.gallery>
 
+@{
+    ViewBag.Title = "Admin - Manage Gallery";
+}
+
+<h2>Admin - Manage Gallery</h2>
+
 <p>
     @Html.ActionLink("Create New", "GalleryCreate")
 </p>
+
 <table class="table">
     <tr>
         <th>
@@ -14,21 +21,31 @@
         <th></th>
     </tr>
 
-@foreach (var item in Model) {
-    <tr>
-        <td>
-            @Html.DisplayFor(modelItem => item.Directory)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Description)
-        </td>
-        <td>
-            @Html.ActionLink("Edit", "GalleryEdit", new { id=item.GalleryID }) |
-            @Html.ActionLink("Details", "GalleryDetails", new { id=item.GalleryID }) |
-            @Html.ActionLink("Delete", "GalleryDelete", new { id=item.GalleryID })
-        </td>
-    </tr>
-}
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @if(item.Directory.Contains("http"))
+                {
+                    <iframe class="hp-video" src="@item.Directory"
+                        data-toggle="lightbox" frameborder="1" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+                }
+                else
+                {
+                    <img src='@item.Directory' />
+                }
+                @Html.DisplayFor(modelItem => item.Directory)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Description)
+            </td>
+            <td>
+                @Html.ActionLink("Edit", "GalleryEdit", new { id = item.GalleryID }) |
+                @Html.ActionLink("Details", "GalleryDetails", new { id = item.GalleryID }) |
+                @Html.ActionLink("Delete", "GalleryDelete", new { id = item.GalleryID })
+            </td>
+        </tr>
+    }
 
 </table>
 

@@ -21,62 +21,6 @@ namespace TechCareerFair.Controllers
 {
     public class AdminController : Controller
     {
-        private List<SelectListItem> _states = new List<SelectListItem>()
-        {
-            new SelectListItem() {Text="Select a U.S. State", Value="NA"},
-            new SelectListItem() {Text="Alabama", Value="AL"},
-            new SelectListItem() { Text="Alaska", Value="AK"},
-            new SelectListItem() { Text="Arizona", Value="AZ"},
-            new SelectListItem() { Text="Arkansas", Value="AR"},
-            new SelectListItem() { Text="California", Value="CA"},
-            new SelectListItem() { Text="Colorado", Value="CO"},
-            new SelectListItem() { Text="Connecticut", Value="CT"},
-            new SelectListItem() { Text="District of Columbia", Value="DC"},
-            new SelectListItem() { Text="Delaware", Value="DE"},
-            new SelectListItem() { Text="Florida", Value="FL"},
-            new SelectListItem() { Text="Georgia", Value="GA"},
-            new SelectListItem() { Text="Hawaii", Value="HI"},
-            new SelectListItem() { Text="Idaho", Value="ID"},
-            new SelectListItem() { Text="Illinois", Value="IL"},
-            new SelectListItem() { Text="Indiana", Value="IN"},
-            new SelectListItem() { Text="Iowa", Value="IA"},
-            new SelectListItem() { Text="Kansas", Value="KS"},
-            new SelectListItem() { Text="Kentucky", Value="KY"},
-            new SelectListItem() { Text="Louisiana", Value="LA"},
-            new SelectListItem() { Text="Maine", Value="ME"},
-            new SelectListItem() { Text="Maryland", Value="MD"},
-            new SelectListItem() { Text="Massachusetts", Value="MA"},
-            new SelectListItem() { Text="Michigan", Value="MI"},
-            new SelectListItem() { Text="Minnesota", Value="MN"},
-            new SelectListItem() { Text="Mississippi", Value="MS"},
-            new SelectListItem() { Text="Missouri", Value="MO"},
-            new SelectListItem() { Text="Montana", Value="MT"},
-            new SelectListItem() { Text="Nebraska", Value="NE"},
-            new SelectListItem() { Text="Nevada", Value="NV"},
-            new SelectListItem() { Text="New Hampshire", Value="NH"},
-            new SelectListItem() { Text="New Jersey", Value="NJ"},
-            new SelectListItem() { Text="New Mexico", Value="NM"},
-            new SelectListItem() { Text="New York", Value="NY"},
-            new SelectListItem() { Text="North Carolina", Value="NC"},
-            new SelectListItem() { Text="North Dakota", Value="ND"},
-            new SelectListItem() { Text="Ohio", Value="OH"},
-            new SelectListItem() { Text="Oklahoma", Value="OK"},
-            new SelectListItem() { Text="Oregon", Value="OR"},
-            new SelectListItem() { Text="Pennsylvania", Value="PA"},
-            new SelectListItem() { Text="Rhode Island", Value="RI"},
-            new SelectListItem() { Text="South Carolina", Value="SC"},
-            new SelectListItem() { Text="South Dakota", Value="SD"},
-            new SelectListItem() { Text="Tennessee", Value="TN"},
-            new SelectListItem() { Text="Texas", Value="TX"},
-            new SelectListItem() { Text="Utah", Value="UT"},
-            new SelectListItem() { Text="Vermont", Value="VT"},
-            new SelectListItem() { Text="Virginia", Value="VA"},
-            new SelectListItem() { Text="Washington", Value="WA"},
-            new SelectListItem() { Text="West Virginia", Value="WV"},
-            new SelectListItem() { Text="Wisconsin", Value="WI"},
-            new SelectListItem() { Text="Wyoming", Value="WY"}
-        };
-
         // GET: Admin
         [HttpGet]
         [AuthorizeOrRedirectAttribute(Roles = "Admin")]
@@ -373,14 +317,28 @@ namespace TechCareerFair.Controllers
 
         [AuthorizeOrRedirectAttribute(Roles = "Admin")]
         [HttpPost]
-        public ActionResult GalleryEdit(int id, gallery _gallery)
+        public ActionResult GalleryEdit(gallery _gallery, HttpPostedFileBase fileUpload, FormCollection collection)
         {
             try
             {
+                if (Convert.ToBoolean(collection["removeImage"].Split(',')[0]))
+                {
+                    _gallery.Directory = "";
+                    if ((System.IO.File.Exists(Server.MapPath("~") + _gallery.Directory)))
+                    {
+                        System.IO.File.Delete(Server.MapPath("~") + _gallery.Directory);
+                    }
+                }
+
+                if (fileUpload != null)
+                {
+                    _gallery.Directory = DAL.DatabaseHelper.UploadFile(DataSettings.GALLERY_DIRECTORY, fileUpload, Server);
+                }
+
                 DAL.GalleryDAL.GalleryRepository GalleryRepo = new DAL.GalleryDAL.GalleryRepository();
                 GalleryRepo.Update(_gallery, Server.MapPath("~"));
 
-                return RedirectToAction("FieldOfStudy");
+                return RedirectToAction("Gallery");
             }
             catch
             {
@@ -422,10 +380,15 @@ namespace TechCareerFair.Controllers
 
         [AuthorizeOrRedirectAttribute(Roles = "Admin")]
         [HttpPost]
-        public ActionResult GalleryCreate(gallery _gallery)
+        public ActionResult GalleryCreate(gallery _gallery, HttpPostedFileBase fileUpload, FormCollection collection)
         {
             try
             {
+                if (fileUpload != null)
+                {
+                    _gallery.Directory = DAL.DatabaseHelper.UploadFile(DataSettings.GALLERY_DIRECTORY, fileUpload, Server);
+                }
+
                 DAL.GalleryDAL.GalleryRepository GalleryRepo = new DAL.GalleryDAL.GalleryRepository();
                 GalleryRepo.Insert(_gallery);
 
@@ -719,7 +682,7 @@ namespace TechCareerFair.Controllers
         {
             TechCareerFair.DAL.FieldDAL.FieldRepository fr = new TechCareerFair.DAL.FieldDAL.FieldRepository();
             ViewBag.AllFields = fr.SelectAll();
-            ViewBag.States = _states;
+            ViewBag.States = DataSettings.US_STATES;
 
             return View();
         }
@@ -737,7 +700,7 @@ namespace TechCareerFair.Controllers
                     IEnumerable<field> iFields = fr.SelectAll();
                     List<field> fields = iFields.ToList();
                     ViewBag.AllFields = iFields;
-                    ViewBag.States = _states;
+                    ViewBag.States = DataSettings.US_STATES;
 
                     foreach (field f in fields)
                     {
@@ -909,7 +872,7 @@ namespace TechCareerFair.Controllers
             BusinessViewModel business = businessRepository.SelectOneAsViewModel(id);
             ViewBag.Positions = business.Positions;
             ViewBag.Fields = business.Fields;
-            ViewBag.States = _states;
+            ViewBag.States = DataSettings.US_STATES;
             business.ConfirmPassword = business.Password;
             business.OldEmail = business.Email;
 
@@ -927,7 +890,7 @@ namespace TechCareerFair.Controllers
                 {
                     ViewBag.Positions = business.Positions;
                     ViewBag.Fields = business.Fields;
-                    ViewBag.States = _states;
+                    ViewBag.States = DataSettings.US_STATES;
 
                     TechCareerFair.DAL.FieldDAL.FieldRepository fr = new TechCareerFair.DAL.FieldDAL.FieldRepository();
                     IEnumerable<field> iFields = fr.SelectAll();

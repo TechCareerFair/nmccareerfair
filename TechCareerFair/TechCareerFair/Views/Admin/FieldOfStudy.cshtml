@@ -1,5 +1,10 @@
 ﻿@model IEnumerable<TechCareerFair.Models.field>
 
+@{
+    ViewBag.Title = "Admin - Manage Fields";
+}
+<h2>Admin - Manage Fields</h2>
+
 <p>
     @Html.ActionLink("Create New", "FieldOfStudyCreate")
 </p>
@@ -11,18 +16,19 @@
         <th></th>
     </tr>
 
-@foreach (var item in Model) {
-    <tr>
-        <td>
-            @Html.DisplayFor(modelItem => item.Name)
-        </td>
-        <td>
-            @Html.ActionLink("Edit", "FieldOfStudyEdit", new { id=item.FieldID }) |
-            @Html.ActionLink("Details", "FieldOfStudyDetails", new { id=item.FieldID }) |
-            @Html.ActionLink("Delete", "FieldOfStudyDelete", new { id=item.FieldID })
-        </td>
-    </tr>
-}
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Name)
+            </td>
+            <td>
+                @Html.ActionLink("Edit", "FieldOfStudyEdit", new { id = item.FieldID }) |
+                @Html.ActionLink("Details", "FieldOfStudyDetails", new { id = item.FieldID }) |
+                @Html.ActionLink("Delete", "FieldOfStudyDelete", new { id = item.FieldID })
+            </td>
+        </tr>
+    }
 
 </table>
 <p>

@@ -2,6 +2,18 @@
 @using System.Globalization;
 @{
     ViewBag.Title = "Home Page";
+
+    TechCareerFair.DAL.CareerFairDAL.CareerFairRepository careerFairRepo = new TechCareerFair.DAL.CareerFairDAL.CareerFairRepository();
+    TechCareerFair.Models.careerfair careerModel = careerFairRepo.SelectOne(1);
+    string phoneNumber = careerModel.Phone.ToString();
+    Console.Write(phoneNumber);
+
+    TechCareerFair.DAL.CareerFairDAL.CareerFairRepository GeoLocator = new TechCareerFair.DAL.CareerFairDAL.CareerFairRepository();
+    TechCareerFair.Models.careerfair careerFair = GeoLocator.SelectOne(1);
+    MapPoint points = careerFair.GeoCodeAddress();
+
+    var pointlat = points.Latitude;
+    var pointlong = points.Longitude;
 }
 
 <body>
@@ -29,7 +41,7 @@
                             <div class="col-sm-6 col-xs-12">
                                 <iframe class="hp-video" src="https://www.youtube.com/embed/FGRWLPkDRfs?rel=0"
                                         data-toggle="lightbox" frameborder="1" allow="autoplay; encrypted-media" allowfullscreen></iframe>
-                                <a class="btn-view-gallery" href="">View Gallery</a>
+                                @Html.ActionLink("View Gallery","Index","Gallery",null, new { @class = "btn-view-gallery" })
                             </div>
                         </div>
                     </div>
@@ -221,15 +233,6 @@
                                     <h3>Location</h3>
                                     <script>
                                         function initMap() {
-                                           @{
-                                                    TechCareerFair.DAL.CareerFairDAL.CareerFairRepository GeoLocator = new TechCareerFair.DAL.CareerFairDAL.CareerFairRepository();
-                                                    TechCareerFair.Models.careerfair careerFair = GeoLocator.SelectOne(1);
-                                                    MapPoint points = careerFair.GeoCodeAddress();
-
-                                                    var pointlat = points.Latitude;
-                                                    var pointlong = points.Longitude;
-
-                                                }
                                                 var uluru = { lat: @pointlat, lng: @pointlong };
                                             var map = new google.maps.Map(document.getElementById('sidebar-map'), {
                                                 zoom: 10,
@@ -257,38 +260,32 @@
                         <div class="row">
                             <div class="col-sm-3 col-xs-6 ">
                                 <div class="img-container-fp-links">
-                                    <a href=""><img src="~/Content/Images/engineer-tech.jpg" alt="Alternate Text" /></a>
+                                    <a href="https://www.nmc.edu/programs/academic-programs/engineering-technology/index.html"><img src="~/Content/Images/engineer-tech.jpg" alt="Alternate Text" /></a>
                                 </div>
                                 <h4>Robotics</h4>
                             </div>
                             <div class="col-sm-3 col-xs-6 ">
                                 <div class="img-container-fp-links">
-                                    <a href=""><img src="~/Content/Images/networking.jpg" alt="Alternate Text" /></a>
+                                    <a href="https://www.nmc.edu/programs/academic-programs/computer-studies/"><img src="~/Content/Images/networking.jpg" alt="Alternate Text" /></a>
                                 </div>
                                 <h4>Computer Information Technology</h4>
                             </div>
                             <div class="col-sm-3 col-xs-6 ">
                                 <div class="img-container-fp-links">
-                                    <a href=""><img src="~/Content/Images/Welding.jpg" alt="Alternate Text" /></a>
+                                    <a href="https://www.nmc.edu/programs/academic-programs/welding-technologies/index.html"><img src="~/Content/Images/Welding.jpg" alt="Alternate Text" /></a>
                                 </div>
                                 <h4>Welding</h4>
                             </div>
                             <div class="col-sm-3 col-xs-6 ">
                                 <div class="img-container-fp-links">
-                                    <a href=""><img src="~/Content/Images/vca-nmc.jpg" alt="Alternate Text" /></a>
+                                    <a href="https://www.nmc.edu/programs/academic-programs/visual-communications-commercial-art/index.html"><img src="~/Content/Images/vca-nmc.jpg" alt="Alternate Text" /></a>
                                 </div>
                                 <h4>Visual Communications</h4>
                             </div>
                         </div>
                     </div>
                 </div>
-                @{ 
-                    TechCareerFair.DAL.CareerFairDAL.CareerFairRepository careerFairRepo = new TechCareerFair.DAL.CareerFairDAL.CareerFairRepository();
-                    TechCareerFair.Models.careerfair careerModel = careerFairRepo.SelectOne(1);
-                    string phoneNumber = careerModel.Phone.ToString();
-                    Console.Write(phoneNumber);
-                }
-                <p style="margin-left:30px;">For any additional information about the Technology Career Fair call:<a href="tel:@phoneNumber"> @phoneNumber </a></p>
+                <p style="margin-left:30px;">For more information about the Technology Career Fair call:<a href="tel:@phoneNumber"> @phoneNumber </a></p>
             </div>
         </div>
 
