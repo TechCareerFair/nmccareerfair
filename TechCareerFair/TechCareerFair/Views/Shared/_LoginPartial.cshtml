@@ -7,12 +7,15 @@
 
 <ul class="nav navbar-nav navbar-right">
     <li>
-        @Html.ActionLink("Hello, " + User.Identity.GetUserName() + "!", "GetUserType", "ViewProfile", routeValues: null, htmlAttributes: new { title = "Manage" })
-    </li>
-    @if (User.IsInRole("Admin"))
+        @if (User.IsInRole("Admin"))
     {
-        <li class="user-login">@Html.ActionLink("Admin", "LandingPage", "Admin")</li>
-    }
+        @Html.ActionLink("Hello, Admin!", "LandingPage", "Admin", routeValues: null, htmlAttributes: new { title = "Manage" })
+}
+else
+{
+    @Html.ActionLink("Hello, " + User.Identity.GetUserName() + "!", "GetUserType", "ViewProfile", routeValues: null, htmlAttributes: new { title = "Manage" })
+}
+    </li>
     <li><a href="javascript:document.getElementById('logoutForm').submit()">Log off</a></li>
 </ul>
     }
@@ -22,10 +25,6 @@ else
     <ul class="nav navbar-nav navbar-right">
         <li class="user-login">@Html.ActionLink("Log in", "Index", "Account/Login")</li>
         <li class="user-login">@Html.ActionLink("Sign up", "RegisterIndex", "Account")</li>
-        @if(User.IsInRole("Admin"))
-        {
-            <li class="user-login">@Html.ActionLink("Admin", "LandingPage", "Admin")</li>
-        }
         @*<li>@Html.ActionLink("Register", "Register", "Account", routeValues: null, htmlAttributes: new { id = "registerLink" })</li>
     <li>@Html.ActionLink("Log in", "Login", "Account", routeValues: null, htmlAttributes: new { id = "loginLink" })</li>*@
     </ul>

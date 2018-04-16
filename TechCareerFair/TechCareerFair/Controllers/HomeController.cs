@@ -242,12 +242,9 @@ namespace TechCareerFair.Controllers
 
             }
 
+            business = business.Where(b => b.Approved);
 
             return business;
         }
-
-
-
-
     }
 }

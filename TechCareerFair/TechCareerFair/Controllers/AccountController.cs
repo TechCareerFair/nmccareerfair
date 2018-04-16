@@ -73,20 +73,24 @@ namespace TechCareerFair.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> Login(LoginViewModel model, string returnUrl)
         {
-            DAL.ApplicantDatabaseDataService aService = new DAL.ApplicantDatabaseDataService();
-            DAL.BusinessDatabaseDataService bService = new DAL.BusinessDatabaseDataService();
-            DAL.AdminDAL.AdminDatabaseDataService adService = new DAL.AdminDAL.AdminDatabaseDataService();
-
-            if(aService.ReadIsActive(model.Email) || bService.ReadIsActive(model.Email) || adService.ReadIsActive(model.Email))
+            bool aService = new DAL.ApplicantDatabaseDataService().ReadIsActive(model.Email);
+            bool bService = new DAL.BusinessDatabaseDataService().ReadIsActive(model.Email);
+            bool adService = new DAL.AdminDAL.AdminDatabaseDataService().ReadIsActive(model.Email);
+            string activeStatus = "";
+            
+            if (!ModelState.IsValid)
             {
-                if (!ModelState.IsValid)
-                {
-                    return View(model);
-                }
+                return View(model);
+            }
 
-                // This doesn't count login failures towards account lockout
-                // To enable password failures to trigger account lockout, change to shouldLockout: true
-                var result = await SignInManager.PasswordSignInAsync(model.Email, model.Password, model.RememberMe, shouldLockout: false);
+            // This doesn't count login failures towards account lockout
+            // To enable password failures to trigger account lockout, change to shouldLockout: true
+            var result = await SignInManager.PasswordSignInAsync(model.Email, model.Password, model.RememberMe, shouldLockout: false);
+            if (result == SignInStatus.Success && !aService && !bService && !adService)
+            {
+                result = SignInStatus.Failure;
+                activeStatus = "Your account is currently inactive.";
+            }
                 switch (result)
                 {
                     case SignInStatus.Success:
@@ -97,14 +101,9 @@ namespace TechCareerFair.Controllers
                         return RedirectToAction("SendCode", new { ReturnUrl = returnUrl, RememberMe = model.RememberMe });
                     case SignInStatus.Failure:
                     default:
-                        ModelState.AddModelError("", "Invalid login attempt.");
+                        ModelState.AddModelError("", "Invalid login attempt." + activeStatus);
                         return View(model);
                 }
-            }
-            else
-            {
-                return RedirectToAction("AccessDenied", "Error");
-            }
         }
 
         //
