@@ -1,0 +1,47 @@
+﻿@model IEnumerable<TechCareerFair.Models.position>
+
+@{
+    ViewBag.Title = "Manage Positions";
+}
+
+<h2>@ViewBag.Business</h2>
+<h4>Manage Positions</h4>
+
+<p>
+    @Html.ActionLink("Create New", "CreatePosition", new { id = ViewBag.ID }) | @Html.ActionLink("Return to Edit Business", "EditBusiness", new { id = ViewBag.ID })
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Name)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Internship)
+        </th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            @Html.HiddenFor(modelItem => item.Business)
+
+            <td>
+                @Html.DisplayFor(modelItem => item.Name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Internship)
+            </td>
+            <td>
+                @Html.ActionLink("Edit", "EditPosition", new { id = item.PositionID }) |
+                @Html.ActionLink("Details", "PositionDetails", new { id = item.PositionID }) |
+                @Html.ActionLink("Delete", "DeletePosition", new { id = item.PositionID })
+            </td>
+        </tr>
+    }
+
+</table>
+
+<p>
+    @Html.ActionLink("Return to Edit Business", "EditBusiness", new { id = ViewBag.ID })
+</p>

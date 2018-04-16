@@ -421,6 +421,11 @@
     <Content Include="Views\Admin\EditAdmin.cshtml" />
     <Content Include="Views\ViewProfile\EditBusiness.cshtml" />
     <Content Include="Views\ViewProfile\EditApplicant.cshtml" />
+    <Content Include="Views\ViewProfile\ListPositions.cshtml" />
+    <Content Include="Views\ViewProfile\CreatePosition.cshtml" />
+    <Content Include="Views\ViewProfile\PositionDetails.cshtml" />
+    <Content Include="Views\ViewProfile\EditPosition.cshtml" />
+    <Content Include="Views\ViewProfile\DeletePosition.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

@@ -68,13 +68,13 @@ namespace TechCareerFair.Controllers
             new SelectListItem() { Text="Wisconsin", Value="WI"},
             new SelectListItem() { Text="Wyoming", Value="WY"}
         };
-        
+
         public ActionResult GetUserType(ManageMessageId? message)
         {
             string userName = User.Identity.GetUserName();
 
             ApplicantRepository ar = new ApplicantRepository();
-            applicant applicant = ar.SelectAll().Where(a => a.Email == userName).FirstOrDefault();            
+            applicant applicant = ar.SelectAll().Where(a => a.Email == userName).FirstOrDefault();
 
             BusinessRepository br = new BusinessRepository();
             business business = br.SelectAll().Where(a => a.Email == userName).FirstOrDefault();
@@ -138,40 +138,40 @@ namespace TechCareerFair.Controllers
         {
             try
             {
-            TechCareerFair.DAL.FieldDAL.FieldRepository fr = new TechCareerFair.DAL.FieldDAL.FieldRepository();
-            List<field> fields = fr.SelectAll().ToList();
-            foreach (field f in fields)
-            {
-                bool isChecked = Convert.ToBoolean(collection[f.Name].Split(',')[0]);
-
-                if (!business.Fields.Contains(f.Name) && isChecked)
+                TechCareerFair.DAL.FieldDAL.FieldRepository fr = new TechCareerFair.DAL.FieldDAL.FieldRepository();
+                List<field> fields = fr.SelectAll().ToList();
+                foreach (field f in fields)
                 {
-                    business.Fields.Add(f.Name);
+                    bool isChecked = Convert.ToBoolean(collection[f.Name].Split(',')[0]);
+
+                    if (!business.Fields.Contains(f.Name) && isChecked)
+                    {
+                        business.Fields.Add(f.Name);
+                    }
+                    else if (business.Fields.Contains(f.Name) && !isChecked)
+                    {
+                        business.Fields.Remove(f.Name);
+                    }
                 }
-                else if (business.Fields.Contains(f.Name) && !isChecked)
+
+                if (Convert.ToBoolean(collection["removeImage"].Split(',')[0]))
                 {
-                    business.Fields.Remove(f.Name);
+                    business.Photo = "";
+                    if ((System.IO.File.Exists(Server.MapPath("~") + business.Photo)))
+                    {
+                        System.IO.File.Delete(Server.MapPath("~") + business.Photo);
+                    }
                 }
-            }
 
-            if (Convert.ToBoolean(collection["removeImage"].Split(',')[0]))
-            {
-                business.Photo = "";
-                if ((System.IO.File.Exists(Server.MapPath("~") + business.Photo)))
+                if (fileUpload != null)
                 {
-                    System.IO.File.Delete(Server.MapPath("~") + business.Photo);
+                    business.Photo = DAL.DatabaseHelper.UploadFile(DataSettings.BUSINESS_DIRECTORY, fileUpload, Server);
                 }
-            }
 
-            if (fileUpload != null)
-            {
-                business.Photo = DAL.DatabaseHelper.UploadFile(DataSettings.BUSINESS_DIRECTORY, fileUpload, Server);
-            }
+                BusinessRepository businessRepository = new BusinessRepository();
+                businessRepository.UpdateBusinessProfile(businessRepository.ToModel(business), Server.MapPath("~"));
 
-            BusinessRepository businessRepository = new BusinessRepository();
-            businessRepository.UpdateBusinessProfile(businessRepository.ToModel(business), Server.MapPath("~"));
-
-            return BusinessViewProfile(businessRepository.ToModel(business), null);
+                return BusinessViewProfile(businessRepository.ToModel(business), null);
 
             }
             catch (ArgumentException e)
@@ -179,6 +179,105 @@ namespace TechCareerFair.Controllers
                 ViewBag.Error = e.Message;
                 return View(business);
             }
+        }
+
+        public ActionResult ListPositions(int id)
+        {
+
+            TechCareerFair.DAL.PositionDAL.PositionRepository pr = new DAL.PositionDAL.PositionRepository();
+            List<position> positions = pr.SelectAll().ToList();
+
+            BusinessRepository businessRepository = new BusinessRepository();
+            business business = businessRepository.SelectOne(id);
+            ViewBag.Business = business.BusinessName;
+            ViewBag.ID = id;
+
+            positions = positions.Where(p => p.Business == id).ToList();
+
+            return View(positions);
+        }
+
+        // GET
+        public ActionResult CreatePosition(int id)
+        {
+            BusinessRepository br = new BusinessRepository();
+            business bus = br.SelectOne(id);
+            ViewBag.Business = bus.BusinessName;
+            ViewBag.ID = id;
+
+            position position = new position();
+            position.Business = id;
+
+            return View(position);
+        }
+
+        // POST
+        [HttpPost]
+        public ActionResult CreatePosition(position position)
+        {
+            TechCareerFair.DAL.PositionDAL.PositionRepository pr = new DAL.PositionDAL.PositionRepository();
+            pr.Insert(position);
+
+            return RedirectToAction("ListPositions", new { id = position.Business });
+
+        }
+
+        // GET
+        public ActionResult PositionDetails(int id)
+        {
+            TechCareerFair.DAL.PositionDAL.PositionRepository pr = new DAL.PositionDAL.PositionRepository();
+            position position = pr.SelectOne(id);
+
+            BusinessRepository br = new BusinessRepository();
+            business bus = br.SelectOne(position.Business);
+            ViewBag.Business = bus.BusinessName;
+
+            return View(position);
+        }
+
+        // GET
+        public ActionResult EditPosition(int id)
+        {
+            TechCareerFair.DAL.PositionDAL.PositionRepository pr = new DAL.PositionDAL.PositionRepository();
+            position position = pr.SelectOne(id);
+
+            return View(position);
+        }
+
+        // POST
+        [HttpPost]
+        public ActionResult EditPosition(position position)
+        {
+            TechCareerFair.DAL.PositionDAL.PositionRepository pr = new DAL.PositionDAL.PositionRepository();
+            pr.Update(position);
+
+            return RedirectToAction("ListPositions", new { id = position.Business });
+        }
+
+        // GET
+        public ActionResult DeletePosition(int id)
+        {
+            TechCareerFair.DAL.PositionDAL.PositionRepository pr = new DAL.PositionDAL.PositionRepository();
+            position position = pr.SelectOne(id);
+
+            BusinessRepository br = new BusinessRepository();
+            business bus = br.SelectOne(position.Business);
+            ViewBag.Business = bus.BusinessName;
+
+            return View(position);
+        }
+
+        // POST
+        [HttpPost]
+        public ActionResult DeletePosition(int id, FormCollection collection)
+        {
+            TechCareerFair.DAL.PositionDAL.PositionRepository pr = new DAL.PositionDAL.PositionRepository();
+            position position = pr.SelectOne(id);
+            int businessID = position.Business;
+
+            pr.Delete(id);
+
+            return RedirectToAction("ListPositions", new { id = businessID });
         }
 
         public ActionResult ApplicantViewProfile(applicant applicant, ManageMessageId? message)
