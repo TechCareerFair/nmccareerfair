@@ -312,7 +312,8 @@ namespace TechCareerFair.Controllers
         [HttpGet]
         public ActionResult GalleryEdit(int id)
         {
-            return View();
+            DAL.GalleryDAL.GalleryRepository GalleryRepo = new DAL.GalleryDAL.GalleryRepository();
+            return View(GalleryRepo.SelectOne(id));
         }
 
         [AuthorizeOrRedirectAttribute(Roles = "Admin")]
