@@ -35,8 +35,8 @@ namespace TechCareerFair.DAL.Business2FieldDAL
 
         public void Insert(business2field business2field)
         {
-            business2field.BusinessFieldID = NextIdValue();
-            _business2fields.Add(business2field);
+            //business2field.BusinessFieldID = NextIdValue();
+            //_business2fields.Add(business2field);
 
             _ds.Insert(business2field);
         }

@@ -35,8 +35,8 @@ namespace TechCareerFair.DAL.Applicant2FieldDAL
 
         public void Insert(applicant2field applicant2field)
         {
-            applicant2field.ApplicantFieldID = NextIdValue();
-            _applicant2fields.Add(applicant2field);
+            //applicant2field.ApplicantFieldID = NextIdValue();
+            //_applicant2fields.Add(applicant2field);
 
             _ds.Insert(applicant2field);
         }

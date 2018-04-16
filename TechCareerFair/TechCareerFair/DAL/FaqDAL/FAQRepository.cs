@@ -35,8 +35,8 @@ namespace TechCareerFair.DAL.FaqDAL
 
         public void Insert(faq faq)
         {
-            faq.FaqID = NextIdValue();
-            _faqs.Add(faq);
+            //faq.FaqID = NextIdValue();
+            //_faqs.Add(faq);
 
             _ds.Insert(faq);
         }

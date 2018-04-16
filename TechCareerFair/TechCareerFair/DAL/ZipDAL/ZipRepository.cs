@@ -35,8 +35,8 @@ namespace TechCareerFair.DAL.ZipDAL
 
         public void Insert(Zipcode zipcode)
         {
-            zipcode.ZipCodeID = NextIdValue();
-            _zipcodes.Add(zipcode);
+            //zipcode.ZipCodeID = NextIdValue();
+            //_zipcodes.Add(zipcode);
 
             _ds.Insert(zipcode);
         }

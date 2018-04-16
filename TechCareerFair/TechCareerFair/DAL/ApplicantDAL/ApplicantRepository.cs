@@ -37,7 +37,7 @@ namespace TechCareerFair.DAL
 
         public void Insert(applicant applicant)
         {
-            applicant.ApplicantID = NextIdValue();
+            //applicant.ApplicantID = NextIdValue();
             //_applicants.Add(applicant);
 
             _ds.Insert(applicant);

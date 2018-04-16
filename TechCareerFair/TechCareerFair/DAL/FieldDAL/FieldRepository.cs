@@ -35,8 +35,8 @@ namespace TechCareerFair.DAL.FieldDAL
 
         public void Insert(field field)
         {
-            field.FieldID = NextIdValue();
-            _fields.Add(field);
+            //field.FieldID = NextIdValue();
+            //_fields.Add(field);
 
             _ds.Insert(field);
         }

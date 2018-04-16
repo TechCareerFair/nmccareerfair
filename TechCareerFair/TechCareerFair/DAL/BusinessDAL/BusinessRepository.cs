@@ -38,7 +38,7 @@ namespace TechCareerFair.DAL
 
         public void Insert(business business)
         {
-            business.BusinessID = NextIdValue();
+            //business.BusinessID = NextIdValue();
             //_businesses.Add(business);
 
             _ds.Insert(business);

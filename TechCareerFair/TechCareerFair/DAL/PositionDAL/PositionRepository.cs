@@ -35,15 +35,15 @@ namespace TechCareerFair.DAL.PositionDAL
 
         public void Insert(position position)
         {
-            position.PositionID = NextIdValue();
-            _positions.Add(position);
+            //position.PositionID = NextIdValue();
+            //_positions.Add(position);
 
             _ds.Insert(position);
         }
 
         private int NextIdValue()
         {
-            int currentMaxId = _positions.OrderByDescending(p => p.PositionID).FirstOrDefault().PositionID;
+            int currentMaxId = (_positions == null ? _positions.OrderByDescending(p => p.PositionID).FirstOrDefault().PositionID : 0);
             return currentMaxId + 1;
         }
 

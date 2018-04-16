@@ -35,8 +35,8 @@ namespace TechCareerFair.DAL.GalleryDAL
 
         public void Insert(gallery gallery)
         {
-            gallery.GalleryID = NextIdValue();
-            _galleries.Add(gallery);
+            //gallery.GalleryID = NextIdValue();
+            //_galleries.Add(gallery);
 
             _ds.Insert(gallery);
         }
