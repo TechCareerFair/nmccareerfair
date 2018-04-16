@@ -70,6 +70,7 @@ namespace TechCareerFair.Models
         public bool Display { get; set; }
 
         [Display(Name = "Display Description")]
+        [StringLength(255, ErrorMessage = "Reached max length of 255 characters")]
         [DataType(DataType.MultilineText)]
         public string DisplayDescription { get; set; }
 
@@ -77,12 +78,14 @@ namespace TechCareerFair.Models
         public byte Attendees { get; set; }
 
         [Display(Name = "Business Description")]
+        [StringLength(255, ErrorMessage = "Reached max length of 255 characters")]
         [DataType(DataType.MultilineText)]
         public string BusinessDescription { get; set; }
 
         public string Website { get; set; }
 
         [Display(Name = "Social Media")]
+        [StringLength(255, ErrorMessage = "Reached max length of 255 characters")]
         public string SocialMedia { get; set; }
 
         public string Photo { get; set; }

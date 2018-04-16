@@ -42,9 +42,11 @@ namespace TechCareerFair.Models
         public bool Alumni { get; set; }
 
         [Display(Name = "Profile Description")]
+        [StringLength(255, ErrorMessage = "Reached max length of 255 characters")]
         public string Profile { get; set; }
 
         [Display(Name = "Social Media")]
+        [StringLength(255, ErrorMessage = "Reached max length of 255 characters")]
         public string SocialMedia { get; set; }
 
         public string Resume { get; set; }
