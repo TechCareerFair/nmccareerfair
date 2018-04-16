@@ -126,7 +126,7 @@ namespace TechCareerFair.Controllers
             ViewBag.Fields = business.Fields;
             ViewBag.States = _states;
 
-            if(User.Identity.GetUserName() == business.Email)
+            if (User.Identity.GetUserName() == business.Email)
             {
                 return View(business);
             }
@@ -141,58 +141,60 @@ namespace TechCareerFair.Controllers
         // Business
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult EditBusiness([Bind(Include = "BusinessID,Email,BusinessName,FirstName,LastName,Fields,Street,City,State,Zip,Phone,Alumni,NonProfit,Outlet,Display,DisplayDescription,Attendees,BusinessDescription,Website,SocialMedia,Photo,LocationPreference,ContactMe,PreferEmail")]BusinessViewModel business, HttpPostedFileBase fileUpload, FormCollection collection)
+        public ActionResult EditBusiness([Bind(Include = "BusinessID,Email,BusinessName,FirstName,LastName,Fields,Positions,Street,City,State,Zip,Phone,Alumni,NonProfit,Outlet,Display,DisplayDescription,Attendees,BusinessDescription,Website,SocialMedia,Photo,LocationPreference,ContactMe,PreferEmail")]BusinessViewModel business, HttpPostedFileBase fileUpload, FormCollection collection)
         {
-            if (User.Identity.GetUserName() == business.Email)
-            {
-                try
+                if (User.Identity.GetUserName() == business.Email)
                 {
-                    TechCareerFair.DAL.FieldDAL.FieldRepository fr = new TechCareerFair.DAL.FieldDAL.FieldRepository();
-                    List<field> fields = fr.SelectAll().ToList();
-                    foreach (field f in fields)
+                    try
                     {
-                        bool isChecked = Convert.ToBoolean(collection[f.Name].Split(',')[0]);
+                        ViewBag.Positions = business.Positions;
 
-                        if (!business.Fields.Contains(f.Name) && isChecked)
+                        TechCareerFair.DAL.FieldDAL.FieldRepository fr = new TechCareerFair.DAL.FieldDAL.FieldRepository();
+                        List<field> fields = fr.SelectAll().ToList();
+                        foreach (field f in fields)
                         {
-                            business.Fields.Add(f.Name);
+                            bool isChecked = Convert.ToBoolean(collection[f.Name].Split(',')[0]);
+
+                            if (!business.Fields.Contains(f.Name) && isChecked)
+                            {
+                                business.Fields.Add(f.Name);
+                            }
+                            else if (business.Fields.Contains(f.Name) && !isChecked)
+                            {
+                                business.Fields.Remove(f.Name);
+                            }
                         }
-                        else if (business.Fields.Contains(f.Name) && !isChecked)
+
+                        if (Convert.ToBoolean(collection["removeImage"].Split(',')[0]))
                         {
-                            business.Fields.Remove(f.Name);
+                            business.Photo = "";
+                            if ((System.IO.File.Exists(Server.MapPath("~") + business.Photo)))
+                            {
+                                System.IO.File.Delete(Server.MapPath("~") + business.Photo);
+                            }
                         }
+
+                        if (fileUpload != null)
+                        {
+                            business.Photo = DAL.DatabaseHelper.UploadFile(DataSettings.BUSINESS_DIRECTORY, fileUpload, Server);
+                        }
+
+                        BusinessRepository businessRepository = new BusinessRepository();
+                        businessRepository.UpdateBusinessProfile(businessRepository.ToModel(business), Server.MapPath("~"));
+
+                        return GetUserType(null);
+
                     }
-
-                    if (Convert.ToBoolean(collection["removeImage"].Split(',')[0]))
+                    catch (ArgumentException e)
                     {
-                        business.Photo = "";
-                        if ((System.IO.File.Exists(Server.MapPath("~") + business.Photo)))
-                        {
-                            System.IO.File.Delete(Server.MapPath("~") + business.Photo);
-                        }
+                        ViewBag.Error = e.Message;
+                        return View(business);
                     }
-
-                    if (fileUpload != null)
-                    {
-                        business.Photo = DAL.DatabaseHelper.UploadFile(DataSettings.BUSINESS_DIRECTORY, fileUpload, Server);
-                    }
-
-                    BusinessRepository businessRepository = new BusinessRepository();
-                    businessRepository.UpdateBusinessProfile(businessRepository.ToModel(business), Server.MapPath("~"));
-
-                    return BusinessViewProfile(businessRepository.ToModel(business), null);
-
                 }
-                catch (ArgumentException e)
+                else
                 {
-                    ViewBag.Error = e.Message;
-                    return View(business);
+                    return RedirectToAction("AccessDenied", "Error");
                 }
-            }
-            else
-            {
-                return RedirectToAction("AccessDenied", "Error");
-            }
         }
 
         public ActionResult ListPositions(int id)
@@ -320,7 +322,7 @@ namespace TechCareerFair.Controllers
             ApplicantViewModel applicant = applicantRepository.SelectOneAsViewModel(id);
             ViewBag.Fields = applicant.Fields;
 
-            if(User.Identity.GetUserName() == applicant.Email)
+            if (User.Identity.GetUserName() == applicant.Email)
             {
                 return View(applicant);
             }
@@ -375,7 +377,7 @@ namespace TechCareerFair.Controllers
 
                     //applicant = applicantRepository.SelectOne(id);
 
-                    return ApplicantViewProfile(applicantRepository.ToModel(applicant), null);
+                    return GetUserType(null);
                 }
                 catch (ArgumentException e)
                 {
