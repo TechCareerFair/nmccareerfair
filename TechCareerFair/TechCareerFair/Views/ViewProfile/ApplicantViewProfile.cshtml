@@ -1,5 +1,5 @@
 ﻿@model TechCareerFair.Models.ApplicantViewModel
-
+@using Microsoft.AspNet.Identity
 @{
     ViewBag.Title = "ApplicantViewProfile";
     string resume = Html.DisplayFor(model => model.Resume).ToHtmlString();
@@ -88,12 +88,15 @@
             <a href="@resume" class="btn btn-default">Download</a>
         </dd>
     </dl>
-    <div class="form-group col-md-2">
-        <input type="button" value="Change Password" onclick="location.href='@Url.Action("ChangePassword", "Manage")'" class="btn btn-primary" />
-        <input type="button" value="Edit Profile" onclick="location.href='@Url.Action("EditApplicant", new { id = Model.ApplicantID })'" class="btn btn-primary" />
-    </div>
-</div>
+    @if (User.Identity.GetUserName() == Model.Email)
+    {
+        <div class="form-group col-md-2">
+            <input type="button" value="Change Password" onclick="location.href='@Url.Action("ChangePassword", "Manage")'" class="btn btn-primary" />
+            <input type="button" value="Edit Profile" onclick="location.href='@Url.Action("EditApplicant", new { id = Model.ApplicantID })'" class="btn btn-primary" />
+        </div>
 
+    }
+</div>
 <style>
     .body-content {
         background-color: #edf9ef;

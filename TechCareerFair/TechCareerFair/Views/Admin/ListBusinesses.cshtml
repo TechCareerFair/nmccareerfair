@@ -46,6 +46,7 @@ Page @(pagedList.PageCount < pagedList.PageNumber ? 0 : pagedList.PageNumber) of
 <p>
     @Html.ActionLink("Create New", "CreateBusiness") | @Html.ActionLink("Return", "LandingPage")
 </p>
+
 <table class="table">
     <tr>
         <th>
@@ -70,8 +71,10 @@ Page @(pagedList.PageCount < pagedList.PageNumber ? 0 : pagedList.PageNumber) of
         <th>
             @Html.ActionLink(@Html.DisplayNameFor(model => model.Active).ToHtmlString(), "ListBusinesses", new { sortOrder = "Active", searchCriteria = criteria, filter = currentFilter })
         </th>
-        <th></th>
-    </tr>
+        <th>
+            <!--<button class="btn btn-info" type="button" id="downloadCSV" onclick="location.href='Url.Action("CreateBusinessCSV", "Admin")'">Download CSV</button>-->
+        </th>
+        </tr>
 
     @foreach (var item in Model)
     {
@@ -100,7 +103,8 @@ Page @(pagedList.PageCount < pagedList.PageNumber ? 0 : pagedList.PageNumber) of
             <td>
                 @Html.ActionLink("Edit", "EditBusiness", new { id = item.BusinessID }) |
                 @Html.ActionLink("Details", "BusinessDetails", new { id = item.BusinessID }) |
-                @Html.ActionLink("Delete", "DeleteBusiness", new { id = item.BusinessID })
+                @Html.ActionLink("Delete", "DeleteBusiness", new { id = item.BusinessID }) |
+                @Html.ActionLink("Roles", "ViewUsersRoles", "Account", new { userName = item.Email, accountType = "B" }, null)
             </td>
         </tr>
     }

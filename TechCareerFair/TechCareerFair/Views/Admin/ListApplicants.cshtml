@@ -23,33 +23,34 @@ Page @(pagedList.PageCount < pagedList.PageNumber ? 0 : pagedList.PageNumber) of
 
 @using (Html.BeginForm())
 {
-<div id="FilterSearch" class="form-horizontal">
+    <div id="FilterSearch" class="form-horizontal">
 
-    <div class="form-group">
-        @Html.Label("Search by Last Name", htmlAttributes: new { @class = "control-label col-md-2" })
-        @Html.TextBox("searchCriteria", null, new { @class = "form-control" })
+        <div class="form-group">
+            @Html.Label("Search by Last Name", htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.TextBox("searchCriteria", null, new { @class = "form-control" })
+        </div>
+
+        <div class="form-group">
+            @Html.Label("Filter by Account Status", htmlAttributes: new { @class = "control-label col-md-2" })
+            <select id="filter" name="filter" class="form-control">
+                <option value="None">None</option>
+                <option value="Active">Active</option>
+                <option value="Inactive">Inactive</option>
+            </select>
+        </div>
+
+        <div class="form-group">
+            <input type="submit" value="Find Applicants" class="btn col-md-2 col-md-offset-2" />
+            <input type="button" value="Reset Applicant List" onclick="location.href='@Url.Action("ListApplicants","Admin")'" class="btn col-md-2 col-md-offset-2" />
+        </div>
+
     </div>
-
-    <div class="form-group">
-        @Html.Label("Filter by Account Status", htmlAttributes: new { @class = "control-label col-md-2" })
-        <select id="filter" name="filter" class="form-control">
-            <option value="None">None</option>
-            <option value="Active">Active</option>
-            <option value="Inactive">Inactive</option>
-        </select>
-    </div>
-
-    <div class="form-group">
-        <input type="submit" value="Find Applicants" class="btn col-md-2 col-md-offset-2" />
-        <input type="button" value="Reset Applicant List" onclick="location.href='@Url.Action("ListApplicants","Admin")'" class="btn col-md-2 col-md-offset-2" />
-    </div>
-
-</div>
 }
 
 <p>
     @Html.ActionLink("Create New", "CreateApplicant") | @Html.ActionLink("Return", "LandingPage")
 </p>
+
 <table class="table">
     <tr>
         <th>
@@ -64,7 +65,9 @@ Page @(pagedList.PageCount < pagedList.PageNumber ? 0 : pagedList.PageNumber) of
         <th>
             @Html.ActionLink(@Html.DisplayNameFor(model => model.Active).ToHtmlString(), "ListApplicants", new { sortOrder = "Active", searchCriteria = criteria, filter = currentFilter })
         </th>
-        <th></th>
+        <th>
+            <!--@Html.ActionLink("Download CSV", "CreateApplicantCSV", null, htmlAttributes: new { @class = "btn btn-info" })-->
+        </th>
     </tr>
 
     @foreach (var item in Model)
@@ -85,7 +88,8 @@ Page @(pagedList.PageCount < pagedList.PageNumber ? 0 : pagedList.PageNumber) of
             <td>
                 @Html.ActionLink("Edit", "EditApplicant", new { id = item.ApplicantID }) |
                 @Html.ActionLink("Details", "ApplicantDetails", new { id = item.ApplicantID }) |
-                @Html.ActionLink("Delete", "DeleteApplicant", new { id = item.ApplicantID })
+                @Html.ActionLink("Delete", "DeleteApplicant", new { id = item.ApplicantID }) |
+                @Html.ActionLink("Roles", "ViewUsersRoles", "Account", new { userName = item.Email, accountType = "A" }, null)
             </td>
         </tr>
     }

@@ -205,11 +205,14 @@
     </Compile>
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\AdminController.cs" />
+    <Compile Include="Controllers\ErrorController.cs" />
     <Compile Include="Controllers\GalleryController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\IdentityRoleController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Controllers\UploadTestController.cs" />
     <Compile Include="Controllers\ViewProfileController.cs" />
+    <Compile Include="CustomAttributes\AuthorizeOrRedirectAttribute.cs" />
     <Compile Include="DAL\AdminDAL\AdminDatabaseDataService.cs" />
     <Compile Include="DAL\AdminDAL\AdminRepository.cs" />
     <Compile Include="DAL\AdminDAL\IAdminDataService.cs" />
@@ -421,6 +424,14 @@
     <Content Include="Views\Admin\EditAdmin.cshtml" />
     <Content Include="Views\ViewProfile\EditBusiness.cshtml" />
     <Content Include="Views\ViewProfile\EditApplicant.cshtml" />
+    <Content Include="Views\IdentityRole\Create.cshtml" />
+    <Content Include="Views\IdentityRole\Delete.cshtml" />
+    <Content Include="Views\IdentityRole\Details.cshtml" />
+    <Content Include="Views\IdentityRole\Edit.cshtml" />
+    <Content Include="Views\IdentityRole\Index.cshtml" />
+    <Content Include="Views\Account\ViewUsersRoles.cshtml" />
+    <Content Include="Views\Account\AddRoleToUser.cshtml" />
+    <Content Include="Views\Error\AccessDenied.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

@@ -42,8 +42,6 @@ namespace TechCareerFair.DAL.AdminDAL
             {
                 AdminID = a.AdminID,
                 Username = a.Username,
-                Password = a.Password,
-                ConfirmPassword = a.Password,
                 ContactEmail = a.ContactEmail
             };
         }
@@ -54,7 +52,6 @@ namespace TechCareerFair.DAL.AdminDAL
             {
                 AdminID = a.AdminID,
                 Username = a.Username,
-                Password = a.Password,
                 ContactEmail = a.ContactEmail
             };
         }
@@ -62,6 +59,16 @@ namespace TechCareerFair.DAL.AdminDAL
         public admin SelectOne(int id)
         {
             admin selectedAdmin = _admins.Where(a => a.AdminID == id).FirstOrDefault();
+
+            return selectedAdmin;
+        }
+
+        public AdminViewModel SelectOneAsViewModel(int id)
+        {
+            admin admin = _admins.Where(a => a.AdminID == id).FirstOrDefault();
+
+            AdminViewModel selectedAdmin = ToViewModel(admin);
+            GetAccountInfoByUserID(selectedAdmin);
 
             return selectedAdmin;
         }
@@ -74,6 +81,13 @@ namespace TechCareerFair.DAL.AdminDAL
             {
                 _ds.Update(admin);
             }
+        }
+
+        private void GetAccountInfoByUserID(AdminViewModel admin)
+        {
+            AdminViewModel accountInfo = _ds.GetAccountInfoBy(admin.Username);
+
+            admin.Password = accountInfo.Password;
         }
     }
 }
