@@ -199,6 +199,9 @@ namespace TechCareerFair.Models
             Fields = new List<string>();
             Positions = new List<position>();
             Attendees = 0;
+            City = "";
+            State = "";
+            Zip = "";
         }
 
         [Required]

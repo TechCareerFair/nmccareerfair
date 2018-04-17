@@ -66,7 +66,7 @@ Page @(pagedList.PageCount < pagedList.PageNumber ? 0 : pagedList.PageNumber) of
             @Html.ActionLink(@Html.DisplayNameFor(model => model.Active).ToHtmlString(), "ListApplicants", new { sortOrder = "Active", searchCriteria = criteria, filter = currentFilter })
         </th>
         <th>
-            <!--@Html.ActionLink("Download CSV", "CreateApplicantCSV", null, htmlAttributes: new { @class = "btn btn-info" })-->
+            <button class="btn btn-info" type="button" id="downloadCSV" onclick="location.href='@Url.Action("CreateApplicantCSV", "Admin")'">Download CSV</button>
         </th>
     </tr>
 

@@ -1,0 +1,24 @@
+BusinessID,Email,BusinessName,ListedPositions,FirstName,LastName,City,State,Street,Zip,Phone,Alumni,NonProfit,Outlet,Display,DisplayDescription,Attendees,BusinessDescription,Website,SocialMedia,LocationPreference,ContactMe,PreferEmail,Approved,Active
+40,hello@mymail.com,Bus Test,0,My,Name,,,,,,False,False,False,False,,0,,,,,False,False,False,False
+41,myTest@example.com,New bus name,0,Paul,Piechocki,,,,,,False,False,False,False,,1,,,,,False,False,True,True
+42,testbus@mail.com,ABCNetworking,0,My,Name,,,,,,False,False,False,False,,5,,,,,False,False,True,True
+43,Business@mail.com,RealBusiness,0,Business,Real,,,,,,False,False,False,False,,0,,,,,False,False,True,True
+44,RealBusiness@NotFake.com,A Real Business,0,Nota,Person,,,2315 Place Rd.,,1234567891,False,False,False,False,,0,N/a,N/a,N/a,,True,True,True,True
+46,Abus@gmail.com,Abus,2,Evan,Friis,,,123 Fake St.,,5555555555,True,True,True,True,Posters Electric sign,4,We sell things for people that need them.,www.abusinessforpeoplethatneedthings.com,www.facebook.com,Corner,True,True,True,True
+50,manyTests@mail.com,New bus name,0,Paul,Piechocki,,,,,,False,False,False,False,,0,,,,,False,False,False,False
+51,creativemail@gmail.com,CreativeDesign,0,Rusell,Powell,,,234 Second Ave,,231-993-4567,False,False,False,False,,0,Graphic design,www.creativedesign.com,facebook.com,,True,True,True,True
+54,business@gmail.com,business,5,Evan,Friis,Fakerton Hills,SC,123 Fake St.,49686,5555555555,True,False,True,True,display description,4,description,www.google.com,www.facebook.com,near outlet,True,True,False,True
+55,business1@gmail.com,business1,0,Bob,Evans,Fakerton Hills,MI,231 Fake St.,49686,5555555555,False,False,False,False,,0,description,www.google.com,www.facebook.com,,True,True,False,True
+56,business2@gmail.com,business2,0,Solid,Snake,Fakerton Hills,MI,321 Fake St.,49686,5555555555,False,False,False,False,,0,description,www.google.com,www.facebook.com,,True,True,False,True
+57,business3@gmail.com,business3,0,Heisenberg,Heisenberg,Fakerton Hills,MD,456 Fake St.,49630,5555555555,False,False,False,False,,0,description,www.google.com,www.facebook.com,,True,True,False,True
+58,business4@gmail.com,business4,0,Frank,Miller,,NA,,,,False,False,False,False,,0,,,,,False,False,False,True
+59,business5@gmail.com,business5,0,Henry,Ford,Fakeville,MI,678 Fake St.,49630,5555555555,False,False,False,False,,0,description,www.google.com,www.facebook.com,,True,True,False,True
+60,business6@gmail.com,business6,0,George,the Monkey,Fakerton Hills,MA,999 Fake St.,49630,5555555555,False,False,False,False,,0,description,www.google.com,www.facebook.com,,False,True,False,True
+61,business7@gmail.com,business7,0,Joe,Smoe,Fakeville,AL,666 Fake St.,49630,5555555555,False,False,False,False,,0,description,www.google.com,www.facebook.com,,False,True,False,True
+62,business8@gmail.com,business8,0,Gail,Smith,,NA,,,,False,False,False,False,,0,,,,,False,False,False,True
+63,business9@gmail.com,business9,0,Tiffany,Smith,Fakeville,AL,444 Fake St.,49630,5555555555,False,False,False,False,,0,description,www.google.com,www.facebook.com,,False,True,False,True
+64,Moe@moe.com,Moe's Bar,0,Moe,Sislack,Springfield,AL,1234 Fake St.,12345,5555555555,False,False,False,False,,0,moes bar,www.google.com,www.facebook.com,,True,False,False,True
+65,mr.plow@gmail.com,Mr. Plow,0,Homer,Simpson,,NA,,,,False,False,False,False,,0,,,,,False,False,False,True
+66,kBurger@gmail.com,Krusty Burger,0,Herschel,Krustofsky,Springfield,AL,12345 Fake St.,49630,5555555555,False,False,False,False,,0,krusty burger,www.google.com,www.facebook.com,,False,True,False,True
+67,leftorium@gmail.com,The Leftorium,0,Ned,Flanders,Springfield,AK,333 Fake St.,49630,555555555,False,False,False,False,,0,we sell things for left handed people,www.google.com,www.facebook.com,,False,True,False,True
+68,businessNewMail@test.com,New b,0,Fname,Lname,,NA,,,,False,False,False,False,,0,,,,,False,False,False,False

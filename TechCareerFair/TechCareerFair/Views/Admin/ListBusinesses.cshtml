@@ -72,7 +72,7 @@ Page @(pagedList.PageCount < pagedList.PageNumber ? 0 : pagedList.PageNumber) of
             @Html.ActionLink(@Html.DisplayNameFor(model => model.Active).ToHtmlString(), "ListBusinesses", new { sortOrder = "Active", searchCriteria = criteria, filter = currentFilter })
         </th>
         <th>
-            <!--<button class="btn btn-info" type="button" id="downloadCSV" onclick="location.href='Url.Action("CreateBusinessCSV", "Admin")'">Download CSV</button>-->
+            <button class="btn btn-info" type="button" id="downloadCSV" onclick="location.href='@Url.Action("CreateBusinessCSV", "Admin")'">Download CSV</button>
         </th>
         </tr>
 

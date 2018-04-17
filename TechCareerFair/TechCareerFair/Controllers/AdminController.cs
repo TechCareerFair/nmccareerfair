@@ -418,7 +418,7 @@ namespace TechCareerFair.Controllers
             ViewBag.CurrentCriteria = searchCriteria;
             ViewBag.CurrentFilter = filter;
 
-            int pageSize = 30;
+            int pageSize = 15;
             int pageNumber = (page ?? 1);
 
             ApplicantRepository applicantRepository = new ApplicantRepository();
@@ -451,7 +451,7 @@ namespace TechCareerFair.Controllers
         [HttpPost]
         public ActionResult ListApplicants(string searchCriteria, string filter, int? page)
         {
-            int pageSize = 30;
+            int pageSize = 15;
             int pageNumber = (page ?? 1);
 
             ViewBag.CurrentCriteria = searchCriteria;
@@ -502,7 +502,7 @@ namespace TechCareerFair.Controllers
             ViewBag.CurrentCriteria = searchCriteria;
             ViewBag.CurrentFilter = filter;
 
-            int pageSize = 30;
+            int pageSize = 15;
             int pageNumber = (page ?? 1);
 
             BusinessRepository businessRepository = new BusinessRepository();
@@ -540,7 +540,7 @@ namespace TechCareerFair.Controllers
         [HttpPost]
         public ActionResult ListBusinesses(string searchCriteria, string filter, int? page)
         {
-            int pageSize = 5;
+            int pageSize = 15;
             int pageNumber = (page ?? 1);
 
             ViewBag.CurrentCriteria = searchCriteria;
@@ -1164,55 +1164,30 @@ namespace TechCareerFair.Controllers
             
         }
 
-        //[AuthorizeOrRedirectAttribute(Roles = "Admin")]
-        //public ActionResult CreateApplicantCSV()
-        //{
-        //    string csvFile = Server.MapPath("~" + "/App_Data/") + "applicants.csv";
-        //    char delim = ',';
-        //    ApplicantRepository ar = new ApplicantRepository();
-        //    List<applicant> applicants = ar.SelectAll().ToList();
+        [AuthorizeOrRedirectAttribute(Roles = "Admin")]
+        public ActionResult CreateApplicantCSV()
+        {
+            string fileName = "accounts.csv";
+            string csvFile = Server.MapPath("~" + "/App_Data/") + fileName;
+            ApplicantRepository ar = new ApplicantRepository();
 
-        //    using (StreamWriter writer = new StreamWriter(new FileStream(csvFile, FileMode.Create, FileAccess.Write)))
-        //    {
-        //        writer.WriteLine("ApplicantID,Email,FirstName,LastName,University,Alumni,Profile,SocialMedia,YearsExperience,Internship,Active");
+            ar.CreateApplicantCSV(csvFile);
 
-        //        StringBuilder sb = new StringBuilder();
+            string contentType = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
+            return File(csvFile, contentType, fileName);
+        }
 
-        //        foreach (applicant a in applicants)
-        //        {
-        //            if(a != null)
-        //            {
-        //                sb.Clear();
-        //                sb.Append(a.ApplicantID.ToString() + delim);
-        //                sb.Append(a.Email.Replace(",", string.Empty) + delim);
-        //                sb.Append(a.FirstName.Replace(",", string.Empty) + delim);
-        //                sb.Append(a.LastName.Replace(",", string.Empty) + delim);
-        //                sb.Append(a.University.Replace(",", string.Empty) + delim);
-        //                sb.Append(a.Alumni.ToString() + delim);
-        //                sb.Append(a.Profile.Replace(",", string.Empty) + delim);
-        //                sb.Append(a.SocialMedia.Replace(",", string.Empty) + delim);
-        //                sb.Append(a.YearsExperience.ToString() + delim);
-        //                sb.Append(a.Internship.ToString() + delim);
-        //                sb.Append(a.Active.ToString());
+        [AuthorizeOrRedirectAttribute(Roles = "Admin")]
+        public ActionResult CreateBusinessCSV()
+        {
+            string fileName = "accounts.csv";
+            string csvFile = Server.MapPath("~" + "/App_Data/") + fileName;
+            BusinessRepository br = new BusinessRepository();
 
-        //                writer.WriteLine(sb.ToString());
-        //            }
-        //        }
-        //    }
-        //    string contentType = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
-        //    return File(csvFile, contentType, "applicants.csv");
-        //}
+            br.CreateBusinessCSV(csvFile);
 
-        //[AuthorizeOrRedirectAttribute(Roles = "Admin")]
-        //public ActionResult CreateBusinessCSV()
-        //{
-        //    string csvFile = Server.MapPath("~" + "/App_Data/") + "businesses.csv";
-        //    BusinessRepository br = new BusinessRepository();
-
-        //    br.CreateBusinessCSV(csvFile);
-
-        //    string contentType = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
-        //    return File(csvFile, contentType, "businesses.csv");
-        //}
+            string contentType = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
+            return File(csvFile, contentType, fileName);
+        }
     }
 }

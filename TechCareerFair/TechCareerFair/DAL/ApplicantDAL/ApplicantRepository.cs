@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
+using System.IO;
 using System.Linq;
 using System.Web;
 using TechCareerFair.Models;
@@ -152,6 +153,32 @@ namespace TechCareerFair.DAL
             GetAccountInfoByUserID(selectedApplicant);
 
             return selectedApplicant;
+        }
+
+        private string ApplicantToCSV(applicant a)
+        {
+            string formatted = string.Format("{0},{1},{2},{3},{4},{5},{6},{7},{8},{9},{10}",
+                a.ApplicantID.ToString(), a.Email.Replace(",", string.Empty), a.FirstName.Replace(",", string.Empty), a.LastName.Replace(",", string.Empty),
+                a.University.Replace(",", string.Empty), a.Alumni.ToString(), a.Profile.Replace(",", string.Empty), 
+                a.SocialMedia.Replace(",", string.Empty), a.YearsExperience.ToString(), a.Internship.ToString(), a.Active.ToString());
+
+            return formatted;
+        }
+
+        public void CreateApplicantCSV(string csvFile)
+        {
+            //Server.MapPath("~" + "/App_Data/")
+            ApplicantRepository ar = new ApplicantRepository();
+            List<applicant> applicants = ar.SelectAll().ToList();
+
+            using (StreamWriter writer = new StreamWriter(new FileStream(csvFile, FileMode.Create, FileAccess.Write)))
+            {
+                writer.WriteLine("ApplicantID,Email,FirstName,LastName,University,Alumni,Profile,SocialMedia,YearsExperience,Internship,Active");
+                foreach (applicant a in applicants)
+                {
+                    writer.WriteLine(ar.ApplicantToCSV(a));
+                }
+            }
         }
 
         public void Update(applicant applicant, string serverPath)
