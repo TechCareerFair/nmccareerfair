@@ -40,6 +40,37 @@ namespace TechCareerFair.Controllers
 
         }
 
+        public ActionResult GetSearchUserType(int id, bool isApplicant, ManageMessageId? message)
+        {
+            applicant applicant = null;
+            business business = null;
+            if (isApplicant)
+            {
+                ApplicantRepository ar = new ApplicantRepository();
+                applicant = ar.SelectOne(id);
+            }
+            else
+            {
+                BusinessRepository br = new BusinessRepository();
+                business = br.SelectOne(id);
+            }
+
+            if (applicant != null)
+            {
+                return ApplicantViewProfile(applicant, message);
+            }
+            else if (business != null)
+            {
+                return BusinessSearchViewProfile(business, message);
+            }
+            else
+            {
+                return View("Error");
+            }
+
+
+        }
+
         public ActionResult BusinessViewProfile(business business, ManageMessageId? message)
         {
             BusinessRepository businessRepository = new BusinessRepository();
@@ -55,6 +86,24 @@ namespace TechCareerFair.Controllers
                 : "";
 
             return View("BusinessViewProfile", businessVM);
+
+        }
+
+        public ActionResult BusinessSearchViewProfile(business business, ManageMessageId? message)
+        {
+            BusinessRepository businessRepository = new BusinessRepository();
+            BusinessViewModel businessVM = businessRepository.ToViewModel(business);
+            ViewBag.Fields = business.Fields;
+            ViewBag.Positions = business.Positions;
+            ViewBag.SocialMedia = business.SocialMedia;
+            ViewBag.Website = business.Website;
+
+            ViewBag.StatusMessage =
+                message == ManageMessageId.ChangePasswordSuccess ? "Your password has been changed."
+                : message == ManageMessageId.Error ? "An error has occurred."
+                : "";
+
+            return View("BusinessSearchViewProfile", businessVM);
 
         }
 
