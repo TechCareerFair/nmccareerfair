@@ -35,6 +35,7 @@ namespace TechCareerFair.Models
 
         [Required]
         [StringLength(50)]
+        [Display(Name = "Business Name")]
         public string BusinessName { get; set; }
 
         [Required]
@@ -44,7 +45,7 @@ namespace TechCareerFair.Models
 
         [Required]
         [StringLength(50)]
-        [Display(Name = "LastName")]
+        [Display(Name = "Last Name")]
         public string LastName { get; set; }
 
         [StringLength(50)]
@@ -63,14 +64,16 @@ namespace TechCareerFair.Models
         [StringLength(20)]
         public string Phone { get; set; }
 
+        [Display(Name = "Is the business run by an NMC alumni?")]
         public bool Alumni { get; set; }
 
+        [Display(Name = "Is your business a not-for-profit?")]
         public bool NonProfit { get; set; }
 
-        [Display(Name ="Does Your Display Require Power?")]
+        [Display(Name ="Does your display require a power outlet?")]
         public bool Outlet { get; set; }
 
-        [Display(Name = "Do You Have A Display?")]
+        [Display(Name = "Do you have a display?")]
         public bool Display { get; set; }
 
         [Display(Name = "Display Description")]
@@ -79,6 +82,7 @@ namespace TechCareerFair.Models
         public string DisplayDescription { get; set; }
 
         [Range(0, 100)]
+        [Display(Name = "How many people will be attending from the business?")]
         public byte Attendees { get; set; }
 
         [Display(Name = "Business Description")]
@@ -100,7 +104,7 @@ namespace TechCareerFair.Models
         [Display(Name = "Contact Me")]
         public bool ContactMe { get; set; }
 
-        [Display(Name = "Contact Me By Email")]
+        [Display(Name = "Only contact me by email")]
         public bool PreferEmail { get; set; }
 
         public bool Approved { get; set; }

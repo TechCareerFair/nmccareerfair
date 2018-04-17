@@ -40,28 +40,30 @@ namespace TechCareerFair.Controllers
 
         }
 
-        public ActionResult GetSearchUserType(int id, bool isApplicant, ManageMessageId? message)
+        public ActionResult GetSearchUserType(int id, bool isApplicant)
         {
+            BusinessRepository br = null;
             applicant applicant = null;
             business business = null;
             if (isApplicant)
             {
                 ApplicantRepository ar = new ApplicantRepository();
+                br = new BusinessRepository();
                 applicant = ar.SelectOne(id);
             }
             else
             {
-                BusinessRepository br = new BusinessRepository();
+                br = new BusinessRepository();
                 business = br.SelectOne(id);
             }
 
-            if (applicant != null)
+            if (applicant != null && User.IsInRole("Business") && (br.CheckApproved(User.Identity.GetUserName()) || User.IsInRole("Admin")))
             {
-                return ApplicantViewProfile(applicant, message);
+                return ApplicantViewProfile(applicant, null);
             }
-            else if (business != null)
+            else if (business != null && User.IsInRole("Applicant"))
             {
-                return BusinessSearchViewProfile(business, message);
+                return BusinessSearchViewProfile(business);
             }
             else
             {
@@ -89,7 +91,7 @@ namespace TechCareerFair.Controllers
 
         }
 
-        public ActionResult BusinessSearchViewProfile(business business, ManageMessageId? message)
+        public ActionResult BusinessSearchViewProfile(business business)
         {
             BusinessRepository businessRepository = new BusinessRepository();
             BusinessViewModel businessVM = businessRepository.ToViewModel(business);
@@ -97,11 +99,6 @@ namespace TechCareerFair.Controllers
             ViewBag.Positions = business.Positions;
             ViewBag.SocialMedia = business.SocialMedia;
             ViewBag.Website = business.Website;
-
-            ViewBag.StatusMessage =
-                message == ManageMessageId.ChangePasswordSuccess ? "Your password has been changed."
-                : message == ManageMessageId.Error ? "An error has occurred."
-                : "";
 
             return View("BusinessSearchViewProfile", businessVM);
 

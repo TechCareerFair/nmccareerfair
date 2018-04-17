@@ -98,6 +98,7 @@ namespace TechCareerFair.Controllers
         }
 
         [AuthorizeOrRedirectAttribute(Roles = "Admin")]
+        [ValidateAntiForgeryToken]
         [HttpPost]
         public ActionResult LandingPageEdit(int id, careerfair LandingPage)
         {
@@ -139,6 +140,7 @@ namespace TechCareerFair.Controllers
         }
 
         [AuthorizeOrRedirectAttribute(Roles = "Admin")]
+        [ValidateAntiForgeryToken]
         [HttpPost]
         public ActionResult FaqCreate(faq _faq)
         {
@@ -166,6 +168,7 @@ namespace TechCareerFair.Controllers
         }
 
         [AuthorizeOrRedirectAttribute(Roles = "Admin")]
+        [ValidateAntiForgeryToken]
         [HttpPost]
         public ActionResult FaqEdit(int id, faq _faq)
         {
@@ -192,6 +195,7 @@ namespace TechCareerFair.Controllers
         }
 
         [AuthorizeOrRedirectAttribute(Roles = "Admin")]
+        [ValidateAntiForgeryToken]
         [HttpPost]
         public ActionResult FaqDelete(int id, faq _faq)
         {
@@ -225,6 +229,7 @@ namespace TechCareerFair.Controllers
         }
 
         [AuthorizeOrRedirectAttribute(Roles = "Admin")]
+        [ValidateAntiForgeryToken]
         [HttpPost]
         public ActionResult FieldOfStudyCreate(field _field)
         {
@@ -250,6 +255,7 @@ namespace TechCareerFair.Controllers
         }
 
         [AuthorizeOrRedirectAttribute(Roles = "Admin")]
+        [ValidateAntiForgeryToken]
         [HttpPost]
         public ActionResult FieldOfStudyEdit(int id, field _field)
         {
@@ -275,6 +281,7 @@ namespace TechCareerFair.Controllers
         }
 
         [AuthorizeOrRedirectAttribute(Roles = "Admin")]
+        [ValidateAntiForgeryToken]
         [HttpPost]
         public ActionResult FieldOfStudyDelete(int id, field _field)
         {
@@ -317,6 +324,7 @@ namespace TechCareerFair.Controllers
         }
 
         [AuthorizeOrRedirectAttribute(Roles = "Admin")]
+        [ValidateAntiForgeryToken]
         [HttpPost]
         public ActionResult GalleryEdit(gallery _gallery, HttpPostedFileBase fileUpload, FormCollection collection)
         {
@@ -356,6 +364,7 @@ namespace TechCareerFair.Controllers
         }
 
         [AuthorizeOrRedirectAttribute(Roles = "Admin")]
+        [ValidateAntiForgeryToken]
         [HttpPost]
         public ActionResult GalleryDelete(int id, gallery _gallery)
         {
@@ -380,6 +389,7 @@ namespace TechCareerFair.Controllers
         }
 
         [AuthorizeOrRedirectAttribute(Roles = "Admin")]
+        [ValidateAntiForgeryToken]
         [HttpPost]
         public ActionResult GalleryCreate(gallery _gallery, HttpPostedFileBase fileUpload, FormCollection collection)
         {
@@ -448,6 +458,7 @@ namespace TechCareerFair.Controllers
         }
 
         [AuthorizeOrRedirectAttribute(Roles = "Admin")]
+        [ValidateAntiForgeryToken]
         [HttpPost]
         public ActionResult ListApplicants(string searchCriteria, string filter, int? page)
         {
@@ -537,6 +548,7 @@ namespace TechCareerFair.Controllers
         }
 
         [AuthorizeOrRedirectAttribute(Roles = "Admin")]
+        [ValidateAntiForgeryToken]
         [HttpPost]
         public ActionResult ListBusinesses(string searchCriteria, string filter, int? page)
         {
@@ -626,6 +638,7 @@ namespace TechCareerFair.Controllers
 
         // POST: Admin/Create
         [AuthorizeOrRedirectAttribute(Roles = "Admin")]
+        [ValidateAntiForgeryToken]
         [HttpPost]
         public async Task<ActionResult> CreateApplicant(ApplicantViewModel applicant, HttpPostedFileBase fileUpload, FormCollection collection)
         {
@@ -690,6 +703,7 @@ namespace TechCareerFair.Controllers
 
         // POST: Admin/Create
         [AuthorizeOrRedirectAttribute(Roles = "Admin")]
+        [ValidateAntiForgeryToken]
         [HttpPost]
         public async Task<ActionResult> CreateBusiness(BusinessViewModel business, HttpPostedFileBase fileUpload, FormCollection collection)
         {
@@ -757,6 +771,7 @@ namespace TechCareerFair.Controllers
         }
 
         [AuthorizeOrRedirectAttribute(Roles = "Admin")]
+        [ValidateAntiForgeryToken]
         [HttpPost]
         public ActionResult EditAdmin(AdminViewModel admin)
         {
@@ -798,6 +813,7 @@ namespace TechCareerFair.Controllers
 
         // POST: Admin/Edit/5
         [AuthorizeOrRedirectAttribute(Roles = "Admin")]
+        [ValidateAntiForgeryToken]
         [HttpPost]
         public ActionResult EditApplicant(ApplicantViewModel applicant, HttpPostedFileBase fileUpload, FormCollection collection)
         {
@@ -882,6 +898,7 @@ namespace TechCareerFair.Controllers
 
         // POST: Admin/Edit/5
         [AuthorizeOrRedirectAttribute(Roles = "Admin")]
+        [ValidateAntiForgeryToken]
         [HttpPost]
         public ActionResult EditBusiness(BusinessViewModel business, HttpPostedFileBase fileUpload, FormCollection collection)
         {
@@ -982,6 +999,7 @@ namespace TechCareerFair.Controllers
 
         // POST: Admin/Create
         [AuthorizeOrRedirectAttribute(Roles = "Admin")]
+        [ValidateAntiForgeryToken]
         [HttpPost]
         public ActionResult CreatePosition(position position)
         {
@@ -1015,6 +1033,7 @@ namespace TechCareerFair.Controllers
         }
 
         [AuthorizeOrRedirectAttribute(Roles = "Admin")]
+        [ValidateAntiForgeryToken]
         [HttpPost]
         public ActionResult EditPosition(position position)
         {
@@ -1040,6 +1059,7 @@ namespace TechCareerFair.Controllers
 
         // POST: Admin/Create
         [AuthorizeOrRedirectAttribute(Roles = "Admin")]
+        [ValidateAntiForgeryToken]
         [HttpPost]
         public ActionResult DeletePosition(int id, FormCollection collection)
         {
@@ -1065,6 +1085,7 @@ namespace TechCareerFair.Controllers
 
         // POST: Admin/Delete/5
         [AuthorizeOrRedirectAttribute(Roles = "Admin")]
+        [ValidateAntiForgeryToken]
         [HttpPost]
         public ActionResult DeleteApplicant(int id, FormCollection collection)
         {
@@ -1095,6 +1116,7 @@ namespace TechCareerFair.Controllers
 
         // POST: Admin/Delete/5
         [AuthorizeOrRedirectAttribute(Roles = "Admin")]
+        [ValidateAntiForgeryToken]
         [HttpPost]
         public ActionResult DeleteBusiness(int id, FormCollection collection)
         {

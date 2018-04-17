@@ -30,15 +30,19 @@ namespace TechCareerFair.Models
 
         [Required]
         [StringLength(50)]
+        [Display(Name = "First Name")]
         public string FirstName { get; set; }
 
         [Required]
         [StringLength(50)]
+        [Display(Name = "Last Name")]
         public string LastName { get; set; }
 
         [StringLength(50)]
+        [Display(Name = "Current or previous university")]
         public string University { get; set; }
 
+        [Display(Name = "Graduated from a college or university")]
         public bool Alumni { get; set; }
 
         [Display(Name = "Profile Description")]
@@ -54,7 +58,8 @@ namespace TechCareerFair.Models
         [Display(Name = "Years of Experience")]
         [Range(0, 100)]
         public byte? YearsExperience { get; set; }
-        
+
+        [Display(Name = "Looking for Internship")]
         public bool Internship { get; set; }
 
         public bool Active { get; set; }

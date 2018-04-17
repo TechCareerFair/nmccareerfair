@@ -25,6 +25,7 @@ namespace TechCareerFair.Models
 
         public string Website { get; set; }
 
+        [Display(Name = "Internship Available")]
         public bool Internship { get; set; }
     }
 }

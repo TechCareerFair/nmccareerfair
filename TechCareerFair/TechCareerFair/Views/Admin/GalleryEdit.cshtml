@@ -12,6 +12,15 @@
         @Html.HiddenFor(model => model.GalleryID)
 
         <div class="form-group">
+            @if(Model.Directory.Contains("http"))
+            {
+                <iframe class="hp-video" src="@Model.Directory"
+                    data-toggle="lightbox" frameborder="1" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+            }
+            else
+            {
+                <img src='@Model.Directory' />
+            }
             @Html.LabelFor(model => model.Directory, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
                 <input class="form-control" type="file" id="fileUpload" name="fileUpload" /> @Html.CheckBox("removeImage") <span>Remove (if Photo)</span>

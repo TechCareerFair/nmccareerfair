@@ -9,6 +9,15 @@
         </dt>
 
         <dd>
+            @if(Model.Directory.Contains("http"))
+            {
+                <iframe class="hp-video" src="@Model.Directory"
+                    data-toggle="lightbox" frameborder="1" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+            }
+            else
+            {
+                <img src='@Model.Directory' />
+            }
             @Html.DisplayFor(model => model.Directory)
         </dd>
 
