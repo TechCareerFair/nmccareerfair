@@ -120,7 +120,7 @@
             }
             @if (!User.IsInRole("Business") && !User.IsInRole("Applicant"))
             {
-                <li class="main-navigation-links">@Html.ActionLink("Search", "Index", "Account/Login")</li>
+                <li class="footer-navigation-links">@Html.ActionLink("Search", "Index", "Account/Login")</li>
                 <span class="spacer-footer">|</span>
             }
             <li class="footer-navigation-links">@Html.ActionLink("Gallery", "Index", "Gallery")</li>
