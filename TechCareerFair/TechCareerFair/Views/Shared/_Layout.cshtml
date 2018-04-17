@@ -1,4 +1,25 @@
-﻿<!DOCTYPE html>
+﻿@using Microsoft.AspNet.Identity
+@{
+    TechCareerFair.DAL.CareerFairDAL.CareerFairRepository Date = new TechCareerFair.DAL.CareerFairDAL.CareerFairRepository();
+    TechCareerFair.Models.careerfair careerfairDate = Date.SelectOne(1);
+    DateTime date = careerfairDate.Date;
+
+    int dayof = date.Day;
+    string timeofday = date.ToString("h:mm tt");
+
+    bool isApproved = false;
+    if (User.IsInRole("Business") && !User.IsInRole("Admin"))
+    {
+        TechCareerFair.DAL.BusinessRepository service = new TechCareerFair.DAL.BusinessRepository();
+        isApproved = service.CheckApproved(User.Identity.GetUserName());
+    }
+    else if (User.IsInRole("Admin"))
+    {
+        isApproved = true;
+    }
+}
+
+<!DOCTYPE html>
 <html>
 <head>
     <meta charset="utf-8" />
@@ -49,25 +70,31 @@
             </div>
         </div>
 
-            <div class="navbar-header">
-                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                </button>
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
 
-            </div>
-            <div class="navbar-collapse collapse">
-                <ul class="top-nav nav navbar-nav text-center">
-                    <li class="main-navigation-links">@Html.ActionLink("Home", "Index", "Home")</li>
-                    <li class="main-navigation-links">@Html.ActionLink("Applicant", "SearchApp", "Home")</li>
-                    <li class="main-navigation-links">@Html.ActionLink("Business", "SearchBus", "Home")</li>
-                    <li class="main-navigation-links">@Html.ActionLink("Gallery", "Index", "Gallery")</li>
-                    <li class="main-navigation-links">@Html.ActionLink("FAQ", "Faq", "Home")</li>
-                    <li class="main-navigation-links">@Html.ActionLink("About Us", "About", "Home")</li>
-                </ul>
-            </div>
         </div>
+        <div class="navbar-collapse collapse">
+            <ul class="top-nav nav navbar-nav text-center">
+                <li class="main-navigation-links">@Html.ActionLink("Home", "Index", "Home")</li>
+                 @if (User.IsInRole("Applicant"))
+                {
+                    <li class="main-navigation-links">@Html.ActionLink("Business", "SearchBus", "Home")</li>
+                }
+                 @if (User.IsInRole("Business") && isApproved)
+                 {
+                    <li class="main-navigation-links">@Html.ActionLink("Business", "SearchBus", "Home")</li>
+                 }
+                <li class="main-navigation-links">@Html.ActionLink("Gallery", "Index", "Gallery")</li>
+                <li class="main-navigation-links">@Html.ActionLink("FAQ", "Faq", "Home")</li>
+                <li class="main-navigation-links">@Html.ActionLink("About Us", "About", "Home")</li>
+            </ul>
+        </div>
+    </div>
 
     <div class="body-content">
         @RenderBody()
@@ -77,10 +104,16 @@
         <ul class="footer-menu">
             <li class="footer-navigation-links">@Html.ActionLink("Home", "Index", "Home")</li>
             <span class="spacer-footer">|</span>
-            <li class="footer-navigation-links">@Html.ActionLink("Applicant", "Applicant", "Home")</li>
-            <span class="spacer-footer">|</span>
-            <li class="footer-navigation-links">@Html.ActionLink("Business", "Business", "Home")</li>
-            <span class="spacer-footer">|</span>
+             @if (User.IsInRole("Business") && isApproved)
+            {
+                <li class="footer-navigation-links">@Html.ActionLink("Applicant", "SearchApp", "Home")</li>
+                <span class="spacer-footer">|</span>
+            }
+            @if (User.IsInRole("Applicant"))
+            {
+                <li class="footer-navigation-links">@Html.ActionLink("Business", "SearchBus", "Home")</li>
+                <span class="spacer-footer">|</span>
+            }
             <li class="footer-navigation-links">@Html.ActionLink("Gallery", "Index", "Gallery")</li>
             <span class="spacer-footer">|</span>
             <li class="footer-navigation-links">@Html.ActionLink("FAQ", "Faq", "Home")</li>
@@ -109,18 +142,6 @@
         });
     </script>
     <script>
-
-        @{
-            TechCareerFair.DAL.CareerFairDAL.CareerFairRepository Date = new TechCareerFair.DAL.CareerFairDAL.CareerFairRepository();
-            TechCareerFair.Models.careerfair careerfairDate = Date.SelectOne(1);
-            DateTime date = careerfairDate.Date;
-
-            int dayof = date.Day;
-            string timeofday = date.ToString("h:mm tt");
-
-        }
-
-
         $(function () {
             $('[data-toggle="tooltip"]').tooltip()
         })
@@ -138,12 +159,12 @@
 </body>
 </html>
 
-<style>    .tooltip.top .tooltip-inner {
+<style>
+    .tooltip.top .tooltip-inner {
         background-color: red;
     }
 
     .tooltip.top .tooltip-arrow {
         border-top-color: red;
     }
-
 </style>
