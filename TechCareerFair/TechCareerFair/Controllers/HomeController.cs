@@ -7,6 +7,8 @@ using TechCareerFair.DAL.CareerFairDAL;
 using TechCareerFair.DAL.FaqDAL;
 using TechCareerFair.Models;
 using PagedList;
+using TechCareerFair.CustomAttributes;
+using Microsoft.AspNet.Identity;
 
 namespace TechCareerFair.Controllers
 {
@@ -41,82 +43,98 @@ namespace TechCareerFair.Controllers
         }
 
         //GET/Home/SearchApp
+        [AuthorizeOrRedirectAttribute(Roles = "Business")]
         public ActionResult SearchApp(string sortOrder, string searchCriteria, int? page)
         {
-
-            TechCareerFair.DAL.ApplicantRepository applicantRepository = new TechCareerFair.DAL.ApplicantRepository();
-            TechCareerFair.DAL.FieldDAL.FieldRepository fieldRepo = new TechCareerFair.DAL.FieldDAL.FieldRepository();
-
-            IEnumerable<ApplicantViewModel> apps = applicantRepository.SelectAllAsViewModel();
-            ViewBag.AllFields = fieldRepo.SelectAll();
-
-            ViewBag.CurrentSort = sortOrder;
-            ViewBag.CurrentCriteria = searchCriteria;
-
-            int pageSize = 30;
-            int pageNumber = (page ?? 1);
-
-            apps = FilterApplicants(apps, null, searchCriteria);
-
-            switch (sortOrder)
+            DAL.BusinessRepository br = new DAL.BusinessRepository();
+            if(User.IsInRole("Admin") || br.CheckApproved(User.Identity.GetUserName()))
             {
-                case "FirstName":
-                    apps = apps.OrderBy(a => a.FirstName);
-                    break;
-                case "LastName":
-                    apps = apps.OrderBy(a => a.LastName);
-                    break;
+                TechCareerFair.DAL.ApplicantRepository applicantRepository = new TechCareerFair.DAL.ApplicantRepository();
+                TechCareerFair.DAL.FieldDAL.FieldRepository fieldRepo = new TechCareerFair.DAL.FieldDAL.FieldRepository();
 
-                default:                  
-                    break;
+                IEnumerable<ApplicantViewModel> apps = applicantRepository.SelectAllAsViewModel();
+                ViewBag.AllFields = fieldRepo.SelectAll();
+
+                ViewBag.CurrentSort = sortOrder;
+                ViewBag.CurrentCriteria = searchCriteria;
+
+                int pageSize = 30;
+                int pageNumber = (page ?? 1);
+
+                apps = FilterApplicants(apps, null, searchCriteria);
+
+                switch (sortOrder)
+                {
+                    case "FirstName":
+                        apps = apps.OrderBy(a => a.FirstName);
+                        break;
+                    case "LastName":
+                        apps = apps.OrderBy(a => a.LastName);
+                        break;
+
+                    default:
+                        break;
+                }
+
+                apps = apps.ToPagedList(pageNumber, pageSize);
+                return View(apps);
             }
-
-            apps = apps.ToPagedList(pageNumber, pageSize);
-            return View(apps);
+            else
+            {
+                return RedirectToAction("AccessDenied", "Error");
+            }
         }
+        [AuthorizeOrRedirectAttribute(Roles = "Business")]
         [HttpPost]
         public ActionResult SearchApp(string searchCriteria, int? page, ApplicantViewModel applicant, FormCollection collection)
         {
-
-            int pageSize = 30;
-            int pageNumber = (page ?? 1);
-
-            ViewBag.CurrentCriteria = searchCriteria;
-
-
-
-            TechCareerFair.DAL.ApplicantRepository ar = new TechCareerFair.DAL.ApplicantRepository();
-            TechCareerFair.DAL.FieldDAL.FieldRepository fieldRepo = new TechCareerFair.DAL.FieldDAL.FieldRepository();
-            IEnumerable<ApplicantViewModel> apps;
-
-            List<string> fieldsSelected = new List<string>();
-
-            List<field> fields = fieldRepo.SelectAll().ToList();
-
-            foreach (field f in fields)
+            DAL.BusinessRepository br = new DAL.BusinessRepository();
+            if (User.IsInRole("Admin") || br.CheckApproved(User.Identity.GetUserName()))
             {
-                bool isChecked = Convert.ToBoolean(collection[f.Name].Split(',')[0]);
+                int pageSize = 30;
+                int pageNumber = (page ?? 1);
 
-                if (isChecked)
+                ViewBag.CurrentCriteria = searchCriteria;
+
+
+
+                TechCareerFair.DAL.ApplicantRepository ar = new TechCareerFair.DAL.ApplicantRepository();
+                TechCareerFair.DAL.FieldDAL.FieldRepository fieldRepo = new TechCareerFair.DAL.FieldDAL.FieldRepository();
+                IEnumerable<ApplicantViewModel> apps;
+
+                List<string> fieldsSelected = new List<string>();
+
+                List<field> fields = fieldRepo.SelectAll().ToList();
+
+                foreach (field f in fields)
                 {
-                    fieldsSelected.Add(f.Name);
+                    bool isChecked = Convert.ToBoolean(collection[f.Name].Split(',')[0]);
+
+                    if (isChecked)
+                    {
+                        fieldsSelected.Add(f.Name);
+                    }
                 }
+
+                ViewBag.AllFields = fields;
+                ViewBag.Fields = fieldsSelected;
+
+
+                using (ar)
+                {
+                    apps = ar.SelectAllAsViewModel() as IList<ApplicantViewModel>;
+                    apps = FilterApplicants(apps, fieldsSelected, searchCriteria);
+                }
+
+                apps = apps.ToPagedList(pageNumber, pageSize);
+
+
+                return View(apps);
             }
-
-            ViewBag.AllFields = fields;
-            ViewBag.Fields = fieldsSelected;
-
-
-            using (ar)
+            else
             {
-                apps = ar.SelectAllAsViewModel() as IList<ApplicantViewModel>;
-                apps = FilterApplicants(apps, fieldsSelected, searchCriteria);
+                return RedirectToAction("AccessDenied", "Error");
             }
-
-            apps = apps.ToPagedList(pageNumber, pageSize);
-
-
-            return View(apps);
         }       
   
         [NonAction]
@@ -144,6 +162,7 @@ namespace TechCareerFair.Controllers
 
         //Search Business
         //GET/Home/SearchBus
+        [AuthorizeOrRedirectAttribute(Roles = "Applicant")]
         public ActionResult SearchBus(string sortOrder,string searchCriteria, int? page)
         {
 
@@ -180,6 +199,7 @@ namespace TechCareerFair.Controllers
             companies = companies.ToPagedList(pageNumber, pageSize);
             return View(companies);
         }
+        [AuthorizeOrRedirectAttribute(Roles = "Applicant")]
         [HttpPost]
         public ActionResult SearchBus(string searchCriteria, int? page, BusinessViewModel business, FormCollection collection)
         {

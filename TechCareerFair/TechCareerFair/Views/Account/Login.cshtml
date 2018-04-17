@@ -2,6 +2,8 @@
 @model LoginViewModel
 @{
     ViewBag.Title = "Log in";
+    TechCareerFair.DAL.AdminDAL.AdminRepository ar = new TechCareerFair.DAL.AdminDAL.AdminRepository();
+    string supportEmail = ar.SelectOne(1).ContactEmail;
 }
 
 <div class="row">
@@ -13,7 +15,7 @@
                 <div id="socialLoginForm">
                     <div id="loginForm">
                         @using (Html.BeginForm("Login", "Account", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
-                        {
+    {
                     @Html.AntiForgeryToken()
                     <h4>Log in with an existing account</h4>
                     <hr />
@@ -57,6 +59,9 @@
     <p>
         @Html.ActionLink("Forgot your password?", "ForgotPassword")
     </p>*@
+                    <p>
+                        Contact support for assistance at <a href="mailto:@supportEmail">@supportEmail</a>
+                    </p>
 }
                     </div>
                 </div>

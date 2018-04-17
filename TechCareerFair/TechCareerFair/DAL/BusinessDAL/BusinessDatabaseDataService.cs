@@ -104,6 +104,36 @@ namespace TechCareerFair.DAL
             return isActive;
         }
 
+        public bool ReadIsApproved(string email)
+        {
+            bool isApproved = false;
+            StringBuilder sb = new StringBuilder();
+            sb.Append("SELECT [Approved]");
+            sb.Append("FROM [careerfair].[business]");
+            sb.Append("WHERE [Email] = '" + email + "'");
+
+            String sql = sb.ToString();
+            BusinessViewModel bus = new BusinessViewModel();
+
+            using (SqlConnection connection = new SqlConnection(DataSettings.CONNECTION_STRING))
+            {
+                connection.Open();
+
+                using (SqlCommand command = new SqlCommand(sql, connection))
+                {
+                    using (SqlDataReader reader = command.ExecuteReader())
+                    {
+                        while (reader.Read())
+                        {
+                            isApproved = DatabaseHelper.CheckNullBool(reader, 0);
+                        }
+                    }
+                }
+            }
+
+            return isApproved;
+        }
+
         private void InitBusiness(SqlConnection connection, List<business> businesses, int startRow, int numberOfRows)
         {
             StringBuilder sb = new StringBuilder();

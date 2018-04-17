@@ -211,6 +211,15 @@ namespace TechCareerFair.DAL
             return selectedBusiness;
         }
 
+        public bool CheckApproved(string email)
+        {
+            bool isApproved = false;
+            BusinessDatabaseDataService service = new BusinessDatabaseDataService();
+            isApproved = service.ReadIsApproved(email);
+
+            return isApproved;
+        }
+
         public void Update(business business, string serverPath)
         {
             var oldBusiness = _businesses.Where(b => b.BusinessID == business.BusinessID).FirstOrDefault();
