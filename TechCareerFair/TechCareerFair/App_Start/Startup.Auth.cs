@@ -7,6 +7,8 @@ using Microsoft.Owin.Security.Cookies;
 using Microsoft.Owin.Security.Facebook;
 using Microsoft.Owin.Security.Google;
 using Owin;
+using Owin.Security.Providers.LinkedIn;
+using Owin.Security.Providers.Yahoo;
 using TechCareerFair.Models;
 
 namespace TechCareerFair
@@ -55,25 +57,35 @@ namespace TechCareerFair
             //    clientSecret: "");
 
             //app.UseTwitterAuthentication(
-            //   consumerKey: "",
-            //   consumerSecret: "");
+             //  consumerKey: "MmB1lal6cGkHUzcXo0fqhhOwD",
+              // consumerSecret: "	sJPh7us5fAR7QsjZgz3h6gUC107N4WL7LYBrCugCrDbHffekIX");
 
-            var facebookOptions = new FacebookAuthenticationOptions()
+           // var facebookOptions = new FacebookAuthenticationOptions()
+            //{
+               // AppId = "364846563994378",
+               // AppSecret = "f26a0cabce9d9272734be06847747553",
+               // UserInformationEndpoint = "https://graph.facebook.com/v2.8/me?fields=id,name,email,first_name,last_name",
+               // Scope = { "email" }
+            //};
+
+            app.UseFacebookAuthentication(new FacebookAuthenticationOptions()
             {
                 AppId = "364846563994378",
                 AppSecret = "f26a0cabce9d9272734be06847747553",
-                UserInformationEndpoint = "https://graph.facebook.com/v2.8/me?fields=id,name,email,first_name,last_name",
-                Scope = { "email" }
-            };
+            });
 
-            app.UseFacebookAuthentication(facebookOptions);
-            var gProvider = new GoogleOAuth2AuthenticationProvider { OnAuthenticated = context => Task.FromResult(0) };
-            var gOptions = new GoogleOAuth2AuthenticationOptions { Provider = gProvider, SignInAsAuthenticationType = DefaultAuthenticationTypes.ExternalCookie };
+            //var gProvider = new GoogleOAuth2AuthenticationProvider { OnAuthenticated = context => Task.FromResult(0) };
+           // var gOptions = new GoogleOAuth2AuthenticationOptions { Provider = gProvider, SignInAsAuthenticationType = DefaultAuthenticationTypes.ExternalCookie };
             app.UseGoogleAuthentication(new GoogleOAuth2AuthenticationOptions()
             {
                 ClientId = "514477754818-a761lbmu5c25jvmp7baajmi3die5a41o.apps.googleusercontent.com",
                 ClientSecret = "t5c7KbIul097s0JQH2PGZLOm"
-        });
+            });
+            //app.UseLinkedInAuthentication( new LinkedInAuthenticationOptions()
+            //{
+               // ClientId = "86lcyi8hwtnxkg",
+                //ClientSecret = "1Hq8DRQNEhF56imD"
+           // });
         }
     }
 }
