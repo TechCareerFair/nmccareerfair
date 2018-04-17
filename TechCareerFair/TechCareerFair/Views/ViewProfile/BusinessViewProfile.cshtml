@@ -18,7 +18,7 @@
 </div>
 
 
-<div>
+<div class="container">
     @*general business profile info*@
     <dl class="dl-horizontal col-md-5">
         <dt>
@@ -85,6 +85,19 @@
                 </p>
             </dd>
         }
+        
+
+    </dl>
+
+    @*tech career fair related info*@
+    <dl class="dl-horizontal col-md-5">
+        <dt>
+            @Html.DisplayNameFor(model => model.BusinessDescription)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.BusinessDescription)
+        </dd>
         <dt>
             @Html.DisplayNameFor(model => model.Alumni)
         </dt>
@@ -100,31 +113,19 @@
         <dd>
             @Html.DisplayFor(model => model.NonProfit)
         </dd>
-
-    </dl>
-
-    @*tech career fair related info*@
-    <dl class="dl-horizontal col-md-5">
-        <dt>
-            @Html.DisplayNameFor(model => model.BusinessDescription)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.BusinessDescription)
-        </dd>
         <dt>
             @Html.DisplayNameFor(model => model.Website)
         </dt>
 
         <dd>
             @if (!website.IsEmpty() && !website.Contains("http") && !website.Contains("https"))
-            {
-                website = "<a href='http://" + website + "'>" + website + "</a>";
-            }
-            else
-            {
-                @Html.DisplayFor(model => model.Website)
-            }
+        {
+            website = "<a href='http://" + website + "'>" + website + "</a>";
+        }
+        else
+        {
+            @Html.DisplayFor(model => model.Website)
+    }
             @Html.Raw(website)
         </dd>
         <dt>
@@ -132,13 +133,13 @@
         </dt>
         <dd>
             @if (!socialMedia.IsEmpty() && !socialMedia.Contains("http") && !socialMedia.Contains("https"))
-            {
-                socialMedia = "<a href='http://" + socialMedia + "'>" + socialMedia + "</a>";
-            }
-            else
-            {
-                @Html.DisplayFor(model => model.SocialMedia)
-            }
+        {
+            socialMedia = "<a href='http://" + socialMedia + "'>" + socialMedia + "</a>";
+        }
+        else
+        {
+            @Html.DisplayFor(model => model.SocialMedia)
+    }
             @Html.Raw(socialMedia)
         </dd>
         <dt>
