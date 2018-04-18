@@ -58,7 +58,7 @@ namespace TechCareerFair.Controllers
                 ViewBag.CurrentSort = sortOrder;
                 ViewBag.CurrentCriteria = searchCriteria;
 
-                int pageSize = 30;
+                int pageSize = 15;
                 int pageNumber = (page ?? 1);
 
                 apps = FilterApplicants(apps, null, searchCriteria);
@@ -91,7 +91,7 @@ namespace TechCareerFair.Controllers
             DAL.BusinessRepository br = new DAL.BusinessRepository();
             if (User.IsInRole("Admin") || br.CheckApproved(User.Identity.GetUserName()))
             {
-                int pageSize = 30;
+                int pageSize = 15;
                 int pageNumber = (page ?? 1);
 
                 ViewBag.CurrentCriteria = searchCriteria;
@@ -141,7 +141,7 @@ namespace TechCareerFair.Controllers
         private IEnumerable<ApplicantViewModel> FilterApplicants(IEnumerable<ApplicantViewModel> applicants, List<string> fields, string searchCriteria)
         {
            
-            if (searchCriteria != null)
+            if (searchCriteria != null && searchCriteria != "")
             {
                 applicants = applicants.Where(a => a.LastName.ToUpper().Contains(searchCriteria.ToUpper()));
 
@@ -176,7 +176,7 @@ namespace TechCareerFair.Controllers
             ViewBag.CurrentCriteria = searchCriteria;
             
 
-            int pageSize = 30;
+            int pageSize = 15;
             int pageNumber = (page ?? 1);
 
             companies = FilterBusinesses(companies,null, searchCriteria);
@@ -204,7 +204,7 @@ namespace TechCareerFair.Controllers
         public ActionResult SearchBus(string searchCriteria, int? page, BusinessViewModel business, FormCollection collection)
         {
 
-            int pageSize = 30;
+            int pageSize = 15;
             int pageNumber = (page ?? 1);
 
             ViewBag.CurrentCriteria = searchCriteria;
@@ -248,7 +248,7 @@ namespace TechCareerFair.Controllers
         private IEnumerable<BusinessViewModel> FilterBusinesses(IEnumerable<BusinessViewModel> business, List<string> fields, string searchCriteria)
         {
 
-            if (searchCriteria != null)
+            if (searchCriteria != null && searchCriteria != "")
             {
                 business = business.Where(b => b.BusinessName.ToUpper().Contains(searchCriteria.ToUpper()));
 

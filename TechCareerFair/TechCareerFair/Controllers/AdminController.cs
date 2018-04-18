@@ -458,7 +458,6 @@ namespace TechCareerFair.Controllers
         }
 
         [AuthorizeOrRedirectAttribute(Roles = "Admin")]
-        [ValidateAntiForgeryToken]
         [HttpPost]
         public ActionResult ListApplicants(string searchCriteria, string filter, int? page)
         {
@@ -486,7 +485,7 @@ namespace TechCareerFair.Controllers
         [NonAction]
         private IEnumerable<ApplicantViewModel> FilterApplicants(IEnumerable<ApplicantViewModel> applicants, string filter, string searchCriteria)
         {
-            if (searchCriteria != null)
+            if (searchCriteria != null && searchCriteria != "")
             {
                 applicants = applicants.Where(a => a.LastName.ToUpper().Contains(searchCriteria.ToUpper()));
             }
@@ -518,7 +517,7 @@ namespace TechCareerFair.Controllers
 
             BusinessRepository businessRepository = new BusinessRepository();
             IEnumerable<BusinessViewModel> businesses = businessRepository.SelectAllAsViewModel();
-            FilterBusinesses(businesses, filter, searchCriteria);
+            businesses = FilterBusinesses(businesses, filter, searchCriteria);
                 
 
             switch (sortOrder)
@@ -548,7 +547,6 @@ namespace TechCareerFair.Controllers
         }
 
         [AuthorizeOrRedirectAttribute(Roles = "Admin")]
-        [ValidateAntiForgeryToken]
         [HttpPost]
         public ActionResult ListBusinesses(string searchCriteria, string filter, int? page)
         {
@@ -566,7 +564,7 @@ namespace TechCareerFair.Controllers
                 businesses = br.SelectAllAsViewModel() as IList<BusinessViewModel>;
             }
 
-            FilterBusinesses(businesses, filter, searchCriteria);
+            businesses = FilterBusinesses(businesses, filter, searchCriteria);
 
             businesses = businesses.ToPagedList(pageNumber, pageSize);
 
@@ -575,9 +573,9 @@ namespace TechCareerFair.Controllers
 
         [AuthorizeOrRedirectAttribute(Roles = "Admin")]
         [NonAction]
-        private void FilterBusinesses(IEnumerable<BusinessViewModel> businesses, string filter, string searchCriteria)
+        private IEnumerable<BusinessViewModel> FilterBusinesses(IEnumerable<BusinessViewModel> businesses, string filter, string searchCriteria)
         {
-            if (searchCriteria != null)
+            if (searchCriteria != null && searchCriteria != "")
             {
                 businesses = businesses.Where(b => b.BusinessName.ToUpper().Contains(searchCriteria.ToUpper()));
             }
@@ -600,6 +598,8 @@ namespace TechCareerFair.Controllers
                         break;
                 }
             }
+
+            return businesses;
         }
 
         // GET: Admin/Details/5

@@ -83,11 +83,11 @@
                 <li class="main-navigation-links">@Html.ActionLink("Home", "Index", "Home")</li>
                  @if (User.IsInRole("Applicant"))
                 {
-                    <li class="main-navigation-links">@Html.ActionLink("Business", "SearchBus", "Home")</li>
+                    <li class="main-navigation-links">@Html.ActionLink("Businesses", "SearchBus", "Home")</li>
                 }
                  @if (User.IsInRole("Business") && isApproved)
                  {
-                    <li class="main-navigation-links">@Html.ActionLink("Applicant", "SearchApp", "Home")</li>
+                    <li class="main-navigation-links">@Html.ActionLink("Applicants", "SearchApp", "Home")</li>
                  }
                  @if (!User.IsInRole("Business") && !User.IsInRole("Applicant"))
                  {
@@ -108,14 +108,14 @@
         <ul class="footer-menu">
             <li class="footer-navigation-links">@Html.ActionLink("Home", "Index", "Home")</li>
             <span class="spacer-footer">|</span>
-             @if (User.IsInRole("Business") && isApproved)
-            {
-                <li class="footer-navigation-links">@Html.ActionLink("Applicant", "SearchApp", "Home")</li>
-                <span class="spacer-footer">|</span>
-            }
             @if (User.IsInRole("Applicant"))
             {
-                <li class="footer-navigation-links">@Html.ActionLink("Business", "SearchBus", "Home")</li>
+                <li class="footer-navigation-links">@Html.ActionLink("Businesses", "SearchBus", "Home")</li>
+                <span class="spacer-footer">|</span>
+            }
+             @if (User.IsInRole("Business") && isApproved)
+            {
+                <li class="footer-navigation-links">@Html.ActionLink("Applicants", "SearchApp", "Home")</li>
                 <span class="spacer-footer">|</span>
             }
             @if (!User.IsInRole("Business") && !User.IsInRole("Applicant"))
