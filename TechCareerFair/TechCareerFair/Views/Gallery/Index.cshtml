@@ -8,12 +8,22 @@
     <div class="video gallery">
         <h2>Video Gallery</h2>
         <!--youtube link-->
-        <div class="youtube-link">
-            <div class="responsive">
-                <iframe width="560" height="315" src="https://www.youtube.com/embed/FGRWLPkDRfs?autoplay=0"
-                        data-toggle="lightbox" frameborder="1" allow="autoplay; encrypted-media" allowfullscreen></iframe>
-            </div>
-        </div>
+        @foreach (var item in Model)
+            {
+            if (item.Directory.Contains("http"))
+            {
+                <tr>
+                    <td>
+                        <div class="youtube-link">
+                            <div class="responsive">
+                                <iframe width="560" height="315" src="@item.Directory"
+                                        data-toggle="lightbox" frameborder="1" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+                            </div>
+                        </div>
+                    </td>
+                </tr>
+            }
+        }
     </div>
     <div class="photo gallery">
         <h3>Photo Gallery</h3>
@@ -50,11 +60,14 @@
         <table>
             @foreach (var item in Model)
         {
-            <tr>
-                <td>
-                    <img id="img-size" src=@Html.DisplayFor(modelitem => item.Directory) alt="Gallery Photos" />
-                </td>
-            </tr>
+                if(!item.Directory.Contains("http"))
+                {
+                    <tr>
+                        <td>
+                            <img id="img-size" src="@item.Directory" alt="Gallery Photos" />
+                        </td>
+                    </tr>
+                }
     }
         </table>
 
