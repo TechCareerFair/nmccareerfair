@@ -154,7 +154,9 @@ namespace TechCareerFair.Controllers
                     applicants = applicants.Where(a => a.Fields.Contains(f));
                 }
                 
-            }          
+            }
+
+            applicants = applicants.Where(a => a.Active);
 
             return applicants;
         }
@@ -262,6 +264,7 @@ namespace TechCareerFair.Controllers
 
             }
 
+            business = business.Where(b => b.Active);
             business = business.Where(b => b.Approved);
 
             return business;
