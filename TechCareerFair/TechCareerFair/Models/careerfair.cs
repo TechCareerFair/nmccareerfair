@@ -22,11 +22,13 @@ namespace TechCareerFair.Models
         public string Phone { get; set; }
 
         [Column(TypeName = "datetime2")]
+        [Display(Name = "Date (dd/mm/yyyy hh:mm:ss meridiem)")]
         public DateTime Date { get; set; }
 
         [StringLength(50)]
         public string Address { get; set; }
 
+        [DataType(DataType.MultilineText)]
         public string About { get; set; }
 
         public MapPoint GeoCodeAddress()

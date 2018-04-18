@@ -23,14 +23,9 @@ namespace TechCareerFair.Models
 
         public int BusinessID { get; set; }
 
-        /*[Required]
-        [StringLength(64)]
-        public string Password { get; set; }
-
         [Required]
-        [StringLength(320)]
-        public string Email { get; set; }*/
-
+        [EmailAddress]
+        [Display(Name = "Email")]
         public string Email { get; set; }
 
         [Required]
@@ -70,7 +65,7 @@ namespace TechCareerFair.Models
         [Display(Name = "Is your business a not-for-profit?")]
         public bool NonProfit { get; set; }
 
-        [Display(Name ="Does your display require a power outlet?")]
+        [Display(Name = "Does your display require a power outlet?")]
         public bool Outlet { get; set; }
 
         [Display(Name = "Do you have a display?")]
@@ -90,15 +85,18 @@ namespace TechCareerFair.Models
         [DataType(DataType.MultilineText)]
         public string BusinessDescription { get; set; }
 
+        [Url]
         public string Website { get; set; }
 
         [Display(Name = "Social Media")]
+        [Url]
         [StringLength(255, ErrorMessage = "Reached max length of 255 characters")]
         public string SocialMedia { get; set; }
 
         public string Photo { get; set; }
 
         [Display(Name = "Location Preference")]
+        [StringLength(255, ErrorMessage = "Reached max length of 255 characters")]
         public string LocationPreference { get; set; }
 
         [Display(Name = "Contact Me")]

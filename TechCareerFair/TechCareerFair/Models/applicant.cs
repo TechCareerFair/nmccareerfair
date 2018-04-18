@@ -18,14 +18,9 @@ namespace TechCareerFair.Models
 
         public int ApplicantID { get; set; }
 
-        /*[Required]
-        [StringLength(64)]
-        public string Password { get; set; }*/
-
-        /*[Required]
-        [StringLength(320)]
-        public string Email { get; set; }*/
-
+        [Required]
+        [EmailAddress]
+        [Display(Name = "Email")]
         public string Email { get; set; }
 
         [Required]
@@ -46,10 +41,12 @@ namespace TechCareerFair.Models
         public bool Alumni { get; set; }
 
         [Display(Name = "Profile Description")]
+        [DataType(DataType.MultilineText)]
         [StringLength(255, ErrorMessage = "Reached max length of 255 characters")]
         public string Profile { get; set; }
 
         [Display(Name = "Social Media")]
+        [Url]
         [StringLength(255, ErrorMessage = "Reached max length of 255 characters")]
         public string SocialMedia { get; set; }
 

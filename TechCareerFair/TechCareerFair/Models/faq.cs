@@ -16,11 +16,14 @@ namespace TechCareerFair.Models
         public int FaqID { get; set; }
 
         [Required]
+        [DataType(DataType.MultilineText)]
         public string Question { get; set; }
 
         [Required]
+        [DataType(DataType.MultilineText)]
         public string Answer { get; set; }
 
+        [Url]
         public string Website { get; set; }
 
         public bool IsApplicantQ { get; set; }
