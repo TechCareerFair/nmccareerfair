@@ -334,6 +334,8 @@
     </Content>
     <None Include="Connected Services\ASPSMSX2\aspsmsx2.wsdl" />
     <Content Include="Connected Services\ASPSMSX2\TechCareerFair.ASPSMSX2.vouchers.datasource" />
+    <None Include="Properties\PublishProfiles\TechCareerFair - Web Deploy.pubxml" />
+    <None Include="Properties\PublishProfiles\TestTechCareerFairTest - Web Deploy.pubxml" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>

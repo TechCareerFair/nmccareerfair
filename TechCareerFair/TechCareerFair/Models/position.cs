@@ -21,11 +21,12 @@ namespace TechCareerFair.Models
         [StringLength(50)]
         public string Name { get; set; }
 
+        [StringLength(255, ErrorMessage = "Reached max length of 255 characters")]
         public string Description { get; set; }
 
+        [Url]
         public string Website { get; set; }
-
-        [Display(Name = "Internship Available")]
+        
         public bool Internship { get; set; }
     }
 }
