@@ -1,11 +1,10 @@
 ﻿@model IEnumerable<TechCareerFair.Models.gallery>
-
-@{
+ @{ 
     ViewBag.Title = "Gallery";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-<body>
 
+<body>
     <div class="video gallery">
         <h2>Video Gallery</h2>
         <!--youtube link-->
@@ -18,8 +17,8 @@
     </div>
     <div class="photo gallery">
         <h3>Photo Gallery</h3>
-    <!--photo gallery-->
-    <div class="responsive">
+        <!--photo gallery-->
+        @*<div class="responsive">
                 <div class="column">
                     <a target="_blank" href="~/Content/Images/IT Caeer Fair2015.1.jpg" data-toggle="lightbox">
                         <img src="~/Content/Images/IT Caeer Fair2015.1.jpg" width="152" height="93">
@@ -47,8 +46,22 @@
                     </a>
                 </div>
             </div>
-        </div>
-    @*@Html.ActionLink("Create New", "Create")
+        </div>*@
+        <table>
+            @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    <img id="img-size" src=@Html.DisplayFor(modelitem => item.Directory) alt="Gallery Photos" />
+                </td>
+            </tr>
+    }
+        </table>
+
+       
+
+
+        @*@Html.ActionLink("Create New", "Create")   <img id="img-size" src='@Url.Action("Index", "Gallery", new {id = item.GalleryID})' alt="Gallery Photos" />
         </p>-->
         <table class="table">
             <tr>
@@ -62,7 +75,7 @@
             </tr>@foreach (var item in Model)
             {
             <tr>
-                //@Html.DisplayFor(modelItem => item.Directory)
+                @Html.DisplayFor(modelItem => item.Directory)
 
                 <td>
                     @Html.DisplayFor(modelItem => item.Description)
@@ -75,11 +88,12 @@
             </tr>
             }
         </table>*@
-    <div class="clearfix"></div>
-    <div style="padding:6px;"></div>
+        <div class="clearfix"></div>
+        <div style="padding:6px;"></div>
 </body>
 <!--CSS-->
 <style>
+
     .youtube-link {
         position: relative;
         padding-bottom: 35.25%;
