@@ -3,7 +3,7 @@
 @{
     ViewBag.Title = "Business";
 }
-
+<script src='https://www.google.com/recaptcha/api.js' sync defer></script>
 <body>
     <div class="container">
 
@@ -11,7 +11,7 @@
         {
             @Html.AntiForgeryToken()
 
-            <div class="col-md-6 col-md-offset-2" style="background-color: lightgray; border-radius: 5px; padding: 15px;">
+            <div class="col-md-8 col-md-offset-2" style="background-color: lightgray; border-radius: 5px; padding: 15px;">
 
                 <h2>Business Sign Up</h2>
                 <h3>@ViewBag.Error</h3>
@@ -121,10 +121,10 @@
                             @Html.ValidationMessageFor(model => model.SocialMedia, "", new { @class = "text-danger" })
                         </div>
                     </div>
-
+                    <br />
                     <div class="form-group">
                         @Html.LabelFor(model => model.Photo, htmlAttributes: new { @class = "control-label col-md-6" })
-                        <div class="col-md-10">
+                        <div class="col-md-12">
                             <input class="form-control" type="file" id="fileUpload" name="fileUpload" /> <br />
                             @Html.ValidationMessageFor(model => model.Photo, "", new { @class = "text-danger" })
                         </div>
@@ -144,7 +144,7 @@
 
                     <div class="form-group">
                         @Html.LabelFor(model => model.Street, htmlAttributes: new { @class = "control-label col-md-6" })
-                        <div class="col-md-10">
+                        <div class="col-md-12">
                             @Html.EditorFor(model => model.Street, new { htmlAttributes = new { @class = "form-control" } })
                             @Html.ValidationMessageFor(model => model.Street, "", new { @class = "text-danger" })
                         </div>
@@ -152,7 +152,7 @@
 
                     <div class="form-group">
                         @Html.LabelFor(model => model.City, htmlAttributes: new { @class = "control-label col-md-6" })
-                        <div class="col-md-10">
+                        <div class="col-md-12">
                             @Html.EditorFor(model => model.City, new { htmlAttributes = new { @class = "form-control" } })
                             @Html.ValidationMessageFor(model => model.City, "", new { @class = "text-danger" })
                         </div>
@@ -160,7 +160,7 @@
 
                     <div class="form-group">
                         @Html.LabelFor(model => model.State, htmlAttributes: new { @class = "control-label col-md-6" })
-                        <div class="col-md-10">
+                        <div class="col-md-12">
                             @Html.DropDownListFor(model => model.State, (List<SelectListItem>)ViewBag.States, htmlAttributes: new { @class = "form-control" })
                             @Html.ValidationMessageFor(model => model.State, "", new { @class = "text-danger" })
                         </div>
@@ -168,7 +168,7 @@
 
                     <div class="form-group">
                         @Html.LabelFor(model => model.Zip, htmlAttributes: new { @class = "control-label col-md-6" })
-                        <div class="col-md-10">
+                        <div class="col-md-12">
                             @Html.EditorFor(model => model.Zip, new { htmlAttributes = new { @class = "form-control" } })
                             @Html.ValidationMessageFor(model => model.Zip, "", new { @class = "text-danger" })
                         </div>
@@ -189,6 +189,7 @@
 
                     <div class="col-md-12">
                         <h3>Fields Of Work</h3>
+                        <br />
                         @foreach (var x in ViewBag.Fields)
                         {
                             <input class="" type="checkbox" id="@x.Name" name="fields" value="@x.Name">
@@ -200,10 +201,11 @@
                             foreach (var y in ViewBag.ErrCheckFields)
                             {
                                 <script>
-                            document.getElementById("@y").checked = true;
+                                document.getElementById("@y").checked = true;
                                 </script>
                             }
                         }
+                        <br />
                     </div>
 
                     <div class="form-group">
@@ -230,6 +232,8 @@
                 </div>
 
                 <div class="form-group col-sm-12">
+                    <div class="g-recaptcha" data-sitekey="6LcumlMUAAAAAKZBJOBbaqSr4gZecbfS5c6e_rsz"></div> <br />
+
                     <input type="reset" class="col-sm-3 btn btn-default" value="Reset" />
                     <input type="submit" class="col-sm-3 col-sm-offset-1 btn btn-default" value="Submit" />
                 </div>

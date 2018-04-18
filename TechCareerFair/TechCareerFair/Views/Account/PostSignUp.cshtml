@@ -1,7 +1,14 @@
 ﻿<body>
+    <script>
+        setTimeout(function ()
+        {
+            window.location.href = "/Home/Index"
+        }, 5000);
+    </script>
     <div class="container">
         <div class="col-md-10 col-md-offset-2" style="padding: 15px;">
-            <p>Thank you, @ViewBag.FullName, for signing up!</p>
+            <p>Thank you, @ViewBag.FullName, for signing up!</p> <br />
+            <p>You will be automatically redirected to the homepage after 5 seconds, or you can @Html.ActionLink("click here", "Index", "Home") to go now.</p>
         </div>
     </div>
 </body>
