@@ -57,20 +57,20 @@
                 </div>
             </div>
         </div>*@
-        <table>
             @foreach (var item in Model)
-        {
+            {
                 if(!item.Directory.Contains("http"))
                 {
-                    <tr>
-                        <td>
-                            <img id="img-size" src="@item.Directory" alt="@item.Description" />
-                        </td>
-                    </tr>
+                    <div class="responsive">
+                        <div class="column">
+                            <a target="_blank" href="" data-toggle="lightbox">
+                                <img src="@item.Directory" alt ="@item.Description" width="152" height="93">
+                            </a>
+                        </div>
+                    </div>
                 }
-    }
-        </table>
-
+            }
+        </div>
        
 
 
