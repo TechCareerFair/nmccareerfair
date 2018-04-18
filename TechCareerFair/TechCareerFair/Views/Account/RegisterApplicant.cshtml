@@ -1,9 +1,8 @@
 ﻿@model TechCareerFair.Models.ApplicantViewModel
-
 @{
     ViewBag.Title = "Applicant";
 }
-
+<script src='https://www.google.com/recaptcha/api.js' sync defer></script>
 <body>
     <div class="container">
 
@@ -13,7 +12,7 @@
             @Html.AntiForgeryToken()
 
             <!--To Do: Create css class for grey box about this div-->
-            <div class="col-md-6 col-md-offset-2" style="background-color: lightgray; border-radius: 5px; padding: 15px;" onload="showHideInputForms('optionalInfo1', 'optionalInfo2')">
+            <div class="col-md-8 col-md-offset-2" style="background-color: lightgray; border-radius: 5px; padding: 15px;" onload="showHideInputForms('optionalInfo1', 'optionalInfo2')">
 
                 <h2>Applicant Sign Up</h2>
                 <h3>@ViewBag.Error</h3>
@@ -77,7 +76,7 @@
                     <br />
                 </div>
 
-                <div id="optionalInfo1" style="display: none">
+                <div id="optionalInfo1" class="col-lg-12" style="display: none">
                     <h4>Optinal Information - 1</h4>
 
                     <div class="form-group">
@@ -120,7 +119,7 @@
                     <br />
                 </div>
 
-                <div id="optionalInfo2" style="display: none">
+                <div id="optionalInfo2" class="col-lg-12" style="display: none">
 
                     <h4>Optinal Information - 2</h4>
 
@@ -139,28 +138,35 @@
                             @Html.ValidationMessageFor(model => model.Internship, "", new { @class = "text-danger" })
                         </div>
                     </div>
-
+                    <br />
                     <div class="form-group">
                         @Html.LabelFor(model => model.Resume, htmlAttributes: new { @class = "control-label col-md-2" })
-                        <div class="col-md-10">
+                        <div class="col-md-12">
                             <input class="form-control" type="file" id="fileUpload" name="fileUpload" />
                             @Html.ValidationMessageFor(model => model.Resume, "", new { @class = "text-danger" })
                         </div>
                     </div>
 
-                    <div class="form-group">
-                        @Html.LabelFor(model => model.Fields, htmlAttributes: new { @class = "control-label col-md-2" })
-                        <div class="col-md-10">
-                            @if (ViewBag.Fields != null)
-        {
-            for (int i = 0; i < ViewBag.Fields.Count; i++)
-            {
-                string name = ViewBag.Fields[i].Name;
-                    @Html.CheckBox(name, false) <span>@name </span>
-                    <br />
-}
-}
-                        </div>
+                    <div class="col-md-12">
+                        <br />
+                        <h3>Fields Of Work</h3>
+                        <br />
+                        @foreach (var x in ViewBag.Fields)
+                        {
+                            <input class="" type="checkbox" id="@x.Name" name="fields" value="@x.Name">
+                            <label for="fields">@x.Name</label>
+                            <br />
+                        }
+                        @if (ViewBag.ErrCheckFields != null)
+                        {
+                            foreach (var y in ViewBag.ErrCheckFields)
+                            {
+                                <script>
+                                document.getElementById("@y").checked = true;
+                                </script>
+                            }
+                        }
+                        <br />
                     </div>
 
                     <br />
@@ -172,6 +178,8 @@
                 </div>
 
                 <div class="form-group col-sm-12">
+                    <div id="recaptcha" class="g-recaptcha" data-sitekey="6LcumlMUAAAAAKZBJOBbaqSr4gZecbfS5c6e_rsz"></div> <br />
+
                     <input type="reset" class="col-sm-3 btn btn-default" value="Reset" />
                     <input type="submit" class="col-sm-3 col-sm-offset-1 btn btn-default" value="Submit" />
                 </div>

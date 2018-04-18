@@ -3,10 +3,12 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
 using System.Linq;
+using System.Net;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
+using System.Web.Script.Serialization;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
 using Microsoft.AspNet.Identity.Owin;
@@ -648,49 +650,52 @@ namespace TechCareerFair.Controllers
             List<field> fields = Fds.Read();
 
             ViewBag.Fields = fields;
+            ViewBag.ErrCheckFields = model.Fields;
             ViewBag.States = DAL.DataSettings.US_STATES;
 
-            if (ModelState.IsValid)
+            if (IsValidCaptcha())
             {
-                var user = new ApplicationUser { UserName = model.Email, Email = model.Email };
-                var result = await UserManager.CreateAsync(user, model.Password);
-                if (result.Succeeded)
+                if (ModelState.IsValid)
                 {
-                    try
+                    var user = new ApplicationUser { UserName = model.Email, Email = model.Email };
+                    var result = await UserManager.CreateAsync(user, model.Password);
+                    if (result.Succeeded)
                     {
-                        UserManager.AddToRole(user.Id, "Applicant");
-                    await SignInManager.SignInAsync(user, isPersistent: false, rememberBrowser: false);
+                        try
+                        {
+                            UserManager.AddToRole(user.Id, "Applicant");
+                            await SignInManager.SignInAsync(user, isPersistent: false, rememberBrowser: false);
 
-                    // For more information on how to enable account confirmation and password reset please visit https://go.microsoft.com/fwlink/?LinkID=320771
-                    // Send an email with this link
-                    // string code = await UserManager.GenerateEmailConfirmationTokenAsync(user.Id);
-                    // var callbackUrl = Url.Action("ConfirmEmail", "Account", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);
-                    // await UserManager.SendEmailAsync(user.Id, "Confirm your account", "Please confirm your account by clicking <a href=\"" + callbackUrl + "\">here</a>");
+                            // For more information on how to enable account confirmation and password reset please visit https://go.microsoft.com/fwlink/?LinkID=320771
+                            // Send an email with this link
+                            // string code = await UserManager.GenerateEmailConfirmationTokenAsync(user.Id);
+                            // var callbackUrl = Url.Action("ConfirmEmail", "Account", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);
+                            // await UserManager.SendEmailAsync(user.Id, "Confirm your account", "Please confirm your account by clicking <a href=\"" + callbackUrl + "\">here</a>");
 
-                    if (fileUpload != null)
-                    {
-                        model.Resume = DAL.DatabaseHelper.UploadFile(DAL.DataSettings.RESUME_DIRECTORY, fileUpload, Server);
+                            if (fileUpload != null)
+                            {
+                                model.Resume = DAL.DatabaseHelper.UploadFile(DAL.DataSettings.RESUME_DIRECTORY, fileUpload, Server);
+                            }
+                            DAL.ApplicantRepository ar = new DAL.ApplicantRepository();
+                            List<applicant> applicants = ar.SelectAll().ToList();
+
+                            model.Active = true;
+                            ar.Insert(ar.ToModel(model));
+
+                            LoginViewModel loginModel = new LoginViewModel();
+                            loginModel.Email = model.Email;
+
+                            return RedirectToAction("LoginFromRegistration", "Account", loginModel);
+                        }
+                        catch (ArgumentException e)
+                        {
+                            ViewBag.Error = e.Message;
+                            return View();
+                        }
                     }
-                    DAL.ApplicantRepository ar = new DAL.ApplicantRepository();
-                    List<applicant> applicants = ar.SelectAll().ToList();
-
-                    model.Active = true;
-                    ar.Insert(ar.ToModel(model));
-
-                    LoginViewModel loginModel = new LoginViewModel();
-                    loginModel.Email = model.Email;
-
-                    return RedirectToAction("LoginFromRegistration", "Account", loginModel);
-                }
-                    catch (ArgumentException e)
-                {
-                    ViewBag.Error = e.Message;
-                    return View();
+                    AddErrors(result);
                 }
             }
-                AddErrors(result);
-            }
-
             // If we got this far, something failed, redisplay form
             return View();
         }
@@ -723,55 +728,92 @@ namespace TechCareerFair.Controllers
             List<field> fields = Fds.Read();
 
             ViewBag.Fields = fields;
+            ViewBag.ErrCheckFields = model.Fields;
             ViewBag.States = DAL.DataSettings.US_STATES;
 
-            if (ModelState.IsValid)
+            if (IsValidCaptcha())
             {
-                var user = new ApplicationUser { UserName = model.Email, Email = model.Email };
-                var result = await UserManager.CreateAsync(user, model.Password);
-                if (result.Succeeded)
+                if (ModelState.IsValid)
                 {
-                    try {
-                        UserManager.AddToRole(user.Id, "Business");
-                        await SignInManager.SignInAsync(user, isPersistent: false, rememberBrowser: false);
-
-                    // For more information on how to enable account confirmation and password reset please visit https://go.microsoft.com/fwlink/?LinkID=320771
-                    // Send an email with this link
-                    // string code = await UserManager.GenerateEmailConfirmationTokenAsync(user.Id);
-                    // var callbackUrl = Url.Action("ConfirmEmail", "Account", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);
-                    // await UserManager.SendEmailAsync(user.Id, "Confirm your account", "Please confirm your account by clicking <a href=\"" + callbackUrl + "\">here</a>");
-
-                    if (fileUpload != null)
+                    var user = new ApplicationUser { UserName = model.Email, Email = model.Email };
+                    var result = await UserManager.CreateAsync(user, model.Password);
+                    if (result.Succeeded)
                     {
-                        model.Photo = DAL.DatabaseHelper.UploadFile(DAL.DataSettings.BUSINESS_DIRECTORY, fileUpload, Server);
+                        try
+                        {
+                            UserManager.AddToRole(user.Id, "Business");
+                            await SignInManager.SignInAsync(user, isPersistent: false, rememberBrowser: false);
+
+                            // For more information on how to enable account confirmation and password reset please visit https://go.microsoft.com/fwlink/?LinkID=320771
+                            // Send an email with this link
+                            // string code = await UserManager.GenerateEmailConfirmationTokenAsync(user.Id);
+                            // var callbackUrl = Url.Action("ConfirmEmail", "Account", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);
+                            // await UserManager.SendEmailAsync(user.Id, "Confirm your account", "Please confirm your account by clicking <a href=\"" + callbackUrl + "\">here</a>");
+
+                            if (fileUpload != null)
+                            {
+                                model.Photo = DAL.DatabaseHelper.UploadFile(DAL.DataSettings.BUSINESS_DIRECTORY, fileUpload, Server);
+                            }
+                            DAL.BusinessRepository br = new DAL.BusinessRepository();
+                            List<business> businesses = br.SelectAll().ToList();
+
+                            model.Approved = false;
+                            model.Active = true;
+                            br.Insert(br.ToModel(model));
+
+                            LoginViewModel loginModel = new LoginViewModel();
+                            loginModel.Email = model.Email;
+
+                            return RedirectToAction("LoginFromRegistration", "Account", loginModel);
+                        }
+                        catch (ArgumentException e)
+                        {
+                            ViewBag.Error = e.Message;
+                            return View();
+                        }
                     }
-                    DAL.BusinessRepository br = new DAL.BusinessRepository();
-                    List<business> businesses = br.SelectAll().ToList();
-
-                    model.Approved = false;
-                    model.Active = true;
-                    br.Insert(br.ToModel(model));
-
-                    LoginViewModel loginModel = new LoginViewModel();
-                    loginModel.Email = model.Email;
-
-                    return RedirectToAction("LoginFromRegistration", "Account", loginModel);
-                }
-                    catch (ArgumentException e)
-                {
-                    ViewBag.Error = e.Message;
-                    return View();
+                    AddErrors(result);
                 }
             }
-                AddErrors(result);
-            }
-
             // If we got this far, something failed, redisplay form
             return View();
+        }
+        
+        private class CaptchaResult
+        {
+            public string success { get; set; }
+        }
+
+        public bool IsValidCaptcha()
+        {
+            //More on how this works at: https://theprogressiveviews.blogspot.com/2016/08/google-recaptcha-with-server-side.html 
+
+            string responce = Request["g-recaptcha-response"];
+            string secretKey = "6LcumlMUAAAAAOMAUWGdHMX972thSUuSkQe61tc0";
+            var request = (HttpWebRequest)WebRequest.Create("https://www.google.com/recaptcha/api/siteverify?secret=+" + secretKey + "&response=" + responce);
+
+            using (WebResponse wResponse = request.GetResponse())
+            {
+                using (StreamReader readStream = new StreamReader(wResponse.GetResponseStream()))
+                {
+                    string jsonResponse = readStream.ReadToEnd();
+                    JavaScriptSerializer js = new JavaScriptSerializer();
+
+                    CaptchaResult data = js.Deserialize<CaptchaResult>(jsonResponse);
+
+                    if (Convert.ToBoolean(data.success))
+                    {
+                        return true;
+                    }
+                }
+            }
+
+            return false;
         }
 
         public ActionResult PostSignUp()
         {
+            ViewBag.FullName = TempData["FullName"].ToString();
             return View("PostSignUp");
         }
 
