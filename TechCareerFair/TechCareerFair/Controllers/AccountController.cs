@@ -697,6 +697,7 @@ namespace TechCareerFair.Controllers
                 }
             }
             // If we got this far, something failed, redisplay form
+            ViewBag.ErrCaptcha = "Please verify the Captcha";
             return View();
         }
 
@@ -776,6 +777,7 @@ namespace TechCareerFair.Controllers
                 }
             }
             // If we got this far, something failed, redisplay form
+            ViewBag.ErrCaptcha = "Please verify the Captcha";
             return View();
         }
         
