@@ -10,6 +10,7 @@ using Owin;
 using Owin.Security.Providers.LinkedIn;
 using Owin.Security.Providers.Yahoo;
 using TechCareerFair.Models;
+using static TechCareerFair.Controllers.AccountController;
 
 namespace TechCareerFair
 {
@@ -50,29 +51,27 @@ namespace TechCareerFair
             // Once you check this option, your second step of verification during the login process will be remembered on the device where you logged in from.
             // This is similar to the RememberMe option when you log in.
             app.UseTwoFactorRememberBrowserCookie(DefaultAuthenticationTypes.TwoFactorRememberBrowserCookie);
-
+            app.UseExternalSignInCookie(DefaultAuthenticationTypes.ExternalCookie);
             // Uncomment the following lines to enable logging in with third party login providers
             //app.UseMicrosoftAccountAuthentication(
             //    clientId: "",
             //    clientSecret: "");
 
             //app.UseTwitterAuthentication(
-             //  consumerKey: "MmB1lal6cGkHUzcXo0fqhhOwD",
-              // consumerSecret: "	sJPh7us5fAR7QsjZgz3h6gUC107N4WL7LYBrCugCrDbHffekIX");
+            //consumerKey: "MmB1lal6cGkHUzcXo0fqhhOwD",
+            //consumerSecret: "	sJPh7us5fAR7QsjZgz3h6gUC107N4WL7LYBrCugCrDbHffekIX");
 
-           // var facebookOptions = new FacebookAuthenticationOptions()
-            //{
-               // AppId = "364846563994378",
-               // AppSecret = "f26a0cabce9d9272734be06847747553",
-               // UserInformationEndpoint = "https://graph.facebook.com/v2.8/me?fields=id,name,email,first_name,last_name",
-               // Scope = { "email" }
-            //};
-
-            app.UseFacebookAuthentication(new FacebookAuthenticationOptions()
+            var facebookOptions = new FacebookAuthenticationOptions()
             {
                 AppId = "364846563994378",
                 AppSecret = "f26a0cabce9d9272734be06847747553",
-            });
+                UserInformationEndpoint = "https://graph.facebook.com/v2.8/me?fields=id,name,email,first_name,last_name",
+                Scope = { "email" },
+                BackchannelHttpHandler = new FacebookBackChannelHandler(),
+                CallbackPath = new PathString("/oauth-redirect/facebook")
+            };
+
+            app.UseFacebookAuthentication(facebookOptions);
 
             //var gProvider = new GoogleOAuth2AuthenticationProvider { OnAuthenticated = context => Task.FromResult(0) };
            // var gOptions = new GoogleOAuth2AuthenticationOptions { Provider = gProvider, SignInAsAuthenticationType = DefaultAuthenticationTypes.ExternalCookie };
@@ -82,10 +81,10 @@ namespace TechCareerFair
                 ClientSecret = "t5c7KbIul097s0JQH2PGZLOm"
             });
             //app.UseLinkedInAuthentication( new LinkedInAuthenticationOptions()
-            //{
+           // {
                // ClientId = "86lcyi8hwtnxkg",
-                //ClientSecret = "1Hq8DRQNEhF56imD"
-           // });
+               // ClientSecret = "1Hq8DRQNEhF56imD"
+            //});
         }
     }
 }

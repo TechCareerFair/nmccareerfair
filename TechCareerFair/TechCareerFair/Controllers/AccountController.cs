@@ -4,6 +4,7 @@ using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Net;
+using System.Net.Http;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using System.Web;
@@ -19,6 +20,7 @@ using TechCareerFair.Models;
 
 namespace TechCareerFair.Controllers
 {
+    //https://stackoverflow.com/questions/40540678/externalloginconfirmation-returns-null-after-facebook-succesful-login?rq=1
     [Authorize]
     public class AccountController : Controller
     {
@@ -257,6 +259,7 @@ namespace TechCareerFair.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult ExternalLogin(string provider, string returnUrl)
         {
+            ControllerContext.HttpContext.Session.RemoveAll();
             // Request a redirect to the external login provider
             return new ChallengeResult(provider, Url.Action("ExternalLoginCallback", "Account", new { ReturnUrl = returnUrl }));
         }
@@ -322,7 +325,8 @@ namespace TechCareerFair.Controllers
                     // If the user does not have an account, then prompt the user to create an account
                     ViewBag.ReturnUrl = returnUrl;
                     ViewBag.LoginProvider = loginInfo.Login.LoginProvider;
-                    return View("ExternalLoginConfirmation", new ExternalLoginConfirmationViewModel { Email = loginInfo.Email });
+                    return View("RegisterIndex", new ExternalLoginConfirmationViewModel { Email = loginInfo.Email });
+                    //return View("ExternalLoginConfirmation", new ExternalLoginConfirmationViewModel { Email = loginInfo.Email });
             }
         }
 
@@ -380,6 +384,22 @@ namespace TechCareerFair.Controllers
         public ActionResult ExternalLoginFailure()
         {
             return View();
+        }
+
+        public class FacebookBackChannelHandler : HttpClientHandler
+        {
+            protected override async System.Threading.Tasks.Task<HttpResponseMessage> SendAsync(
+                HttpRequestMessage request,
+                System.Threading.CancellationToken cancellationToken)
+            {
+                // Replace the RequestUri so it's not malformed
+                if (!request.RequestUri.AbsolutePath.Contains("/oauth"))
+                {
+                    request.RequestUri = new Uri(request.RequestUri.AbsoluteUri.Replace("?access_token", "&access_token"));
+                }
+
+                return await base.SendAsync(request, cancellationToken);
+            }
         }
 
         protected override void Dispose(bool disposing)
