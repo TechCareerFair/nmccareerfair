@@ -705,7 +705,9 @@ namespace TechCareerFair.Controllers
                             LoginViewModel loginModel = new LoginViewModel();
                             loginModel.Email = model.Email;
 
-                            return RedirectToAction("LoginFromRegistration", "Account", loginModel);
+                            TempData["FullName"] = model.FirstName + " " + model.LastName;
+
+                            return RedirectToAction("PostSignUp");
                         }
                         catch (ArgumentException e)
                         {
@@ -785,7 +787,9 @@ namespace TechCareerFair.Controllers
                             LoginViewModel loginModel = new LoginViewModel();
                             loginModel.Email = model.Email;
 
-                            return RedirectToAction("LoginFromRegistration", "Account", loginModel);
+                            TempData["FullName"] = model.FirstName + " " + model.LastName;
+
+                            return RedirectToAction("PostSignUp");
                         }
                         catch (ArgumentException e)
                         {
