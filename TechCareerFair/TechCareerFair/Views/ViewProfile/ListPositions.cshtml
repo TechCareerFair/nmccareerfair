@@ -33,9 +33,9 @@
                 @Html.DisplayFor(modelItem => item.Internship)
             </td>
             <td>
-                @Html.ActionLink("Edit", "EditPosition", new { id = item.PositionID }) |
-                @Html.ActionLink("Details", "PositionDetails", new { id = item.PositionID }) |
-                @Html.ActionLink("Delete", "DeletePosition", new { id = item.PositionID })
+                @Html.ActionLink("Edit", "EditPosition", new { id = item.PositionID, businessEmail = ViewBag.BusinessEmail }) |
+                @Html.ActionLink("Details", "PositionDetails", new { id = item.PositionID, businessEmail = ViewBag.BusinessEmail }) |
+                @Html.ActionLink("Delete", "DeletePosition", new { id = item.PositionID, businessEmail = ViewBag.BusinessEmail })
             </td>
         </tr>
     }

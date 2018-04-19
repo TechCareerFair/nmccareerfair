@@ -190,18 +190,25 @@ namespace TechCareerFair.Controllers
 
         public ActionResult ListPositions(int id)
         {
-
-            TechCareerFair.DAL.PositionDAL.PositionRepository pr = new DAL.PositionDAL.PositionRepository();
-            List<position> positions = pr.SelectAll().ToList();
-
             BusinessRepository businessRepository = new BusinessRepository();
             business business = businessRepository.SelectOne(id);
-            ViewBag.Business = business.BusinessName;
-            ViewBag.ID = id;
+            if (business.Email == User.Identity.GetUserName())
+            {
+                TechCareerFair.DAL.PositionDAL.PositionRepository pr = new DAL.PositionDAL.PositionRepository();
+                List<position> positions = pr.SelectAll().ToList();
 
-            positions = positions.Where(p => p.Business == id).ToList();
+                ViewBag.BusinessEmail = business.Email;
+                ViewBag.Business = business.BusinessName;
+                ViewBag.ID = id;
 
-            return View(positions);
+                positions = positions.Where(p => p.Business == id).ToList();
+
+                return View(positions);
+            }
+            else
+            {
+                return RedirectToAction("AccessDenied", "Error");
+            }
         }
 
         // GET
@@ -209,82 +216,136 @@ namespace TechCareerFair.Controllers
         {
             BusinessRepository br = new BusinessRepository();
             business bus = br.SelectOne(id);
-            ViewBag.Business = bus.BusinessName;
-            ViewBag.ID = id;
 
-            position position = new position();
-            position.Business = id;
+            if(bus.Email == User.Identity.GetUserName())
+            {
+                ViewBag.Business = bus.BusinessName;
+                ViewBag.BusinessEmail = bus.Email;
+                ViewBag.ID = id;
 
-            return View(position);
+                position position = new position();
+                position.Business = id;
+
+                return View(position);
+            }
+            else
+            {
+                return RedirectToAction("AccessDenied", "Error");
+            }
         }
 
         // POST
         [HttpPost]
-        public ActionResult CreatePosition(position position)
+        public ActionResult CreatePosition(position position, string businessEmail)
         {
-            TechCareerFair.DAL.PositionDAL.PositionRepository pr = new DAL.PositionDAL.PositionRepository();
-            pr.Insert(position);
+            if (businessEmail == User.Identity.GetUserName())
+            {
+                TechCareerFair.DAL.PositionDAL.PositionRepository pr = new DAL.PositionDAL.PositionRepository();
+                pr.Insert(position);
 
-            return RedirectToAction("ListPositions", new { id = position.Business });
-
+                return RedirectToAction("ListPositions", new { id = position.Business });
+            }
+            else
+            {
+                return RedirectToAction("AccessDenied", "Error");
+            }
         }
 
         // GET
-        public ActionResult PositionDetails(int id)
+        public ActionResult PositionDetails(int id, string businessEmail)
         {
-            TechCareerFair.DAL.PositionDAL.PositionRepository pr = new DAL.PositionDAL.PositionRepository();
-            position position = pr.SelectOne(id);
+            if (businessEmail == User.Identity.GetUserName())
+            {
+                TechCareerFair.DAL.PositionDAL.PositionRepository pr = new DAL.PositionDAL.PositionRepository();
+                position position = pr.SelectOne(id);
 
-            BusinessRepository br = new BusinessRepository();
-            business bus = br.SelectOne(position.Business);
-            ViewBag.Business = bus.BusinessName;
+                BusinessRepository br = new BusinessRepository();
+                business bus = br.SelectOne(position.Business);
+                ViewBag.Business = bus.BusinessName;
+                ViewBag.BusinessEmail = bus.Email;
 
-            return View(position);
+                return View(position);
+            }
+            else
+            {
+                return RedirectToAction("AccessDenied", "Error");
+            }
         }
 
         // GET
-        public ActionResult EditPosition(int id)
+        public ActionResult EditPosition(int id, string businessEmail)
         {
-            TechCareerFair.DAL.PositionDAL.PositionRepository pr = new DAL.PositionDAL.PositionRepository();
-            position position = pr.SelectOne(id);
+            if (businessEmail == User.Identity.GetUserName())
+            {
+                ViewBag.BusinessEmail = businessEmail;
+                TechCareerFair.DAL.PositionDAL.PositionRepository pr = new DAL.PositionDAL.PositionRepository();
+                position position = pr.SelectOne(id);
 
-            return View(position);
+                return View(position);
+            }
+            else
+            {
+                return RedirectToAction("AccessDenied", "Error");
+            }
         }
 
         // POST
         [HttpPost]
-        public ActionResult EditPosition(position position)
+        public ActionResult EditPosition(position position, string businessEmail)
         {
-            TechCareerFair.DAL.PositionDAL.PositionRepository pr = new DAL.PositionDAL.PositionRepository();
-            pr.Update(position);
+            if (businessEmail == User.Identity.GetUserName())
+            {
+                ViewBag.BusinessEmail = businessEmail;
+                TechCareerFair.DAL.PositionDAL.PositionRepository pr = new DAL.PositionDAL.PositionRepository();
+                pr.Update(position);
 
-            return RedirectToAction("ListPositions", new { id = position.Business });
+                return RedirectToAction("ListPositions", new { id = position.Business });
+            }
+            else
+            {
+                return RedirectToAction("AccessDenied", "Error");
+            }
         }
 
         // GET
-        public ActionResult DeletePosition(int id)
+        public ActionResult DeletePosition(int id, string businessEmail)
         {
-            TechCareerFair.DAL.PositionDAL.PositionRepository pr = new DAL.PositionDAL.PositionRepository();
-            position position = pr.SelectOne(id);
+            if (businessEmail == User.Identity.GetUserName())
+            {
+                TechCareerFair.DAL.PositionDAL.PositionRepository pr = new DAL.PositionDAL.PositionRepository();
+                position position = pr.SelectOne(id);
 
-            BusinessRepository br = new BusinessRepository();
-            business bus = br.SelectOne(position.Business);
-            ViewBag.Business = bus.BusinessName;
+                BusinessRepository br = new BusinessRepository();
+                business bus = br.SelectOne(position.Business);
+                ViewBag.Business = bus.BusinessName;
+                ViewBag.BusinessEmail = bus.Email;
 
-            return View(position);
+                return View(position);
+            }
+            else
+            {
+                return RedirectToAction("AccessDenied", "Error");
+            }
         }
 
         // POST
         [HttpPost]
-        public ActionResult DeletePosition(int id, FormCollection collection)
+        public ActionResult DeletePosition(int id, FormCollection collection, string businessEmail)
         {
-            TechCareerFair.DAL.PositionDAL.PositionRepository pr = new DAL.PositionDAL.PositionRepository();
-            position position = pr.SelectOne(id);
-            int businessID = position.Business;
+            if (businessEmail == User.Identity.GetUserName())
+            {
+                TechCareerFair.DAL.PositionDAL.PositionRepository pr = new DAL.PositionDAL.PositionRepository();
+                position position = pr.SelectOne(id);
+                int businessID = position.Business;
 
-            pr.Delete(id);
+                pr.Delete(id);
 
-            return RedirectToAction("ListPositions", new { id = businessID });
+                return RedirectToAction("ListPositions", new { id = businessID });
+            }
+            else
+            {
+                return RedirectToAction("AccessDenied", "Error");
+            }
         }
 
         public ActionResult ApplicantViewProfile(applicant applicant, ManageMessageId? message)

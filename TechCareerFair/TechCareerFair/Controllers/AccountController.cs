@@ -356,6 +356,7 @@ namespace TechCareerFair.Controllers
                         await SignInManager.SignInAsync(user, isPersistent: false, rememberBrowser: false);
                         return RedirectToLocal(returnUrl);
                     }
+                    UserManager.AddToRole(user.Id, "Guest");
                 }
                 AddErrors(result);
             }

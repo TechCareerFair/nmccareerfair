@@ -45,7 +45,7 @@
     </dl>
 </div>
 <p>
-    @Html.ActionLink("Edit", "EditPosition", new { id = Model.PositionID }) |
-    @Html.ActionLink("Delete", "DeletePosition", new { id = Model.PositionID }) |
+    @Html.ActionLink("Edit", "EditPosition", new { id = Model.PositionID, businessEmail = ViewBag.BusinessEmail }) |
+    @Html.ActionLink("Delete", "DeletePosition", new { id = Model.PositionID, businessEmail = ViewBag.BusinessEmail }) |
     @Html.ActionLink("Back to List", "ListPositions", new { id = Model.Business })
 </p>

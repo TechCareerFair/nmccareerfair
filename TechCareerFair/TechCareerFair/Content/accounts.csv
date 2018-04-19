@@ -1,0 +1,22 @@
+ApplicantID,Email,FirstName,LastName,University,Alumni,Profile,SocialMedia,YearsExperience,Internship,Active
+89,piechop@mail.nmc,Paul,Piechocki,,False,,,0,False,True
+95,NewTest@email.com,first,last,,False,,,0,False,True
+100,RealEmail@mail.com,Normal,Person,,False,,,0,False,True
+104,Mail8456@mail.com,Joe,Man,,False,,,0,False,True
+109,NotAEmail@mail.com,Moe,Person,,False,,,0,False,True
+113,maildemo2@yahoo.com,Kevin,Lang,Northwestern Michigan College,True,Looking for job in the IT field,facebook.com,3,False,True
+118,Semanm10@gmail.com,Michael,Seman,,False,,,0,False,True
+119,evanfriis@gmail.com,Bob,Evans,Northwestern Michigan College,False,description here,http://www.facebook.com,4,False,True
+120,piechop@mail.nmc.edu,FName,Lname,,False,,,0,False,False
+121,Mail123@mail.com,Mark,Name,,False,,,0,False,True
+122,George@mail.com,George,Man,,False,,,0,False,True
+123,Captcha@mail2.com,Captcha,Test,,False,,,0,False,True
+124,TestAgain@mail.com,Test,Test,,False,,,0,False,True
+125,MoreTests@mail.com,Test,Test,,False,,,0,False,True
+126,Test3@mail.com,Mark,Test,,False,,,0,False,True
+127,Test4@mail.com,Test,Testtest,,False,,,0,False,True
+128,newtestcaptcha@mail.com,Me,Too,,False,,,0,False,True
+129,newAdminCreate@mail.com,Me,You,,False,,,0,False,False
+130,TestMail@mail.com,Guy,Person,,False,,,0,False,True
+131,Sprint5@mail.com,Guy,Person,,False,,,0,False,True
+132,evanfriis@mail.com,Evan,Friis,,False,,,0,False,True

@@ -1190,7 +1190,7 @@ namespace TechCareerFair.Controllers
         public ActionResult CreateApplicantCSV()
         {
             string fileName = "accounts.csv";
-            string csvFile = Server.MapPath("~" + "/App_Data/") + fileName;
+            string csvFile = Server.MapPath("~" + "/Content/") + fileName;
             ApplicantRepository ar = new ApplicantRepository();
 
             ar.CreateApplicantCSV(csvFile);
@@ -1203,7 +1203,7 @@ namespace TechCareerFair.Controllers
         public ActionResult CreateBusinessCSV()
         {
             string fileName = "accounts.csv";
-            string csvFile = Server.MapPath("~" + "/App_Data/") + fileName;
+            string csvFile = Server.MapPath("~" + "/Content/") + fileName;
             BusinessRepository br = new BusinessRepository();
 
             br.CreateBusinessCSV(csvFile);
