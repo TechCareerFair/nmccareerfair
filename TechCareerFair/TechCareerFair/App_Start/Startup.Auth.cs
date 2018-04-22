@@ -51,40 +51,66 @@ namespace TechCareerFair
             // Once you check this option, your second step of verification during the login process will be remembered on the device where you logged in from.
             // This is similar to the RememberMe option when you log in.
             app.UseTwoFactorRememberBrowserCookie(DefaultAuthenticationTypes.TwoFactorRememberBrowserCookie);
-            app.UseExternalSignInCookie(DefaultAuthenticationTypes.ExternalCookie);
             // Uncomment the following lines to enable logging in with third party login providers
             //app.UseMicrosoftAccountAuthentication(
             //    clientId: "",
             //    clientSecret: "");
 
-            //app.UseTwitterAuthentication(
-            //consumerKey: "MmB1lal6cGkHUzcXo0fqhhOwD",
-            //consumerSecret: "	sJPh7us5fAR7QsjZgz3h6gUC107N4WL7LYBrCugCrDbHffekIX");
+              //app.UseTwitterAuthentication(new TwitterAuthenticationExtensions()
+              //{ consumerKey: "MmB1lal6cGkHUzcXo0fqhhOwD",
+              //consumerSecret: "	sJPh7us5fAR7QsjZgz3h6gUC107N4WL7LYBrCugCrDbHffekIX",
+              // BackchannelCertificateValidator = new Microsoft.Owin.Security.CertificateSubjectKeyIdentifierValidator(new[]
+              //    {
 
-            var facebookOptions = new FacebookAuthenticationOptions()
-            {
-                AppId = "364846563994378",
-                AppSecret = "f26a0cabce9d9272734be06847747553",
-                UserInformationEndpoint = "https://graph.facebook.com/v2.8/me?fields=id,name,email,first_name,last_name",
-                Scope = { "email" },
-                BackchannelHttpHandler = new FacebookBackChannelHandler(),
-                CallbackPath = new PathString("/oauth-redirect/facebook")
-            };
+              //      "A5EF0B11CEC04103A34A659048B21CE0572D7D47", // VeriSign Class 3 Secure Server CA - G2
+              //      "0D445C165344C1827E1D20AB25F40163D8BE79A5", // VeriSign Class 3 Secure Server CA - G3
+              //      "7FD365A7C2DDECBBF03009F34339FA02AF333133", // VeriSign Class 3 Public Primary CA - G5
+              //      "39A55D933676616E73A761DFA16A7E59CDE66FAD", // Symantec Class 3 Secure Server CA - G4
+              //      "‎add53f6680fe66e383cbac3e60922e3b4c412bed", // Symantec Class 3 EV SSL CA - G3
+              //      "4eb6d578499b1ccf5f581ead56be3d9b6744a5e5", // VeriSign Class 3 Primary CA - G5
+              //      "5168FF90AF0207753CCCD9656462A212B859723B", // DigiCert SHA2 High Assurance Server C‎A 
+              //      "B13EC36903F8BF4701D498261A0802EF63642BC3"  // DigiCert High Assurance EV Root CA
+              //    })
+              //});
 
-            app.UseFacebookAuthentication(facebookOptions);
+            //var facebookOptions = new Microsoft.Owin.Security.Facebook.FacebookAuthenticationOptions()
+            //{
+            //    AppId = "364846563994378",
+            //    AppSecret = "f26a0cabce9d9272734be06847747553",
+            //    UserInformationEndpoint = "https://graph.facebook.com/v2.8/me?fields=id,name,email,first_name,last_name",
+            //    BackchannelHttpHandler = new FacebookBackChannelHandler(),
+            //    CallbackPath = new PathString("/oauth-redirect/facebook")
+            //};
+            //facebookOptions.Scope.Add("email");
+            //app.UseFacebookAuthentication(facebookOptions);
 
             //var gProvider = new GoogleOAuth2AuthenticationProvider { OnAuthenticated = context => Task.FromResult(0) };
-           // var gOptions = new GoogleOAuth2AuthenticationOptions { Provider = gProvider, SignInAsAuthenticationType = DefaultAuthenticationTypes.ExternalCookie };
+            //var gOptions = new GoogleOAuth2AuthenticationOptions { Provider = gProvider, SignInAsAuthenticationType = DefaultAuthenticationTypes.ExternalCookie };
             app.UseGoogleAuthentication(new GoogleOAuth2AuthenticationOptions()
             {
                 ClientId = "514477754818-a761lbmu5c25jvmp7baajmi3die5a41o.apps.googleusercontent.com",
-                ClientSecret = "t5c7KbIul097s0JQH2PGZLOm"
+                ClientSecret = "t5c7KbIul097s0JQH2PGZLOm",
+                CallbackPath = new PathString("/signin-google")
             });
-            //app.UseLinkedInAuthentication( new LinkedInAuthenticationOptions()
-           // {
-               // ClientId = "86lcyi8hwtnxkg",
-               // ClientSecret = "1Hq8DRQNEhF56imD"
-            //});
+            var linkedInOptions = new LinkedInAuthenticationOptions();
+
+            linkedInOptions.ClientId = "86lcyi8hwtnxkg";
+            linkedInOptions.ClientSecret = "1Hq8DRQNEhF56imD";
+
+            linkedInOptions.Scope.Add("r_emailaddress");
+
+            linkedInOptions.Provider = new LinkedInAuthenticationProvider()
+            {
+                OnAuthenticated = async context =>
+                {
+                    context.Identity.AddClaim(new System.Security.Claims.Claim("LinkedIn_AccessToken", context.AccessToken));
+                }
+            };
+
+            linkedInOptions.SignInAsAuthenticationType = DefaultAuthenticationTypes.ExternalCookie;
+
+            app.UseLinkedInAuthentication(linkedInOptions);
+
         }
     }
 }
