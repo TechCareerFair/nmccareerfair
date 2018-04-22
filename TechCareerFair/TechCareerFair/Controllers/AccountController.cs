@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using Facebook;
 using System.Globalization;
 using System.IO;
 using System.Linq;
@@ -259,6 +260,7 @@ namespace TechCareerFair.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult ExternalLogin(string provider, string returnUrl)
         {
+            Session["Workaround"] = 0;
             ControllerContext.HttpContext.Session.RemoveAll();
             // Request a redirect to the external login provider
             return new ChallengeResult(provider, Url.Action("ExternalLoginCallback", "Account", new { ReturnUrl = returnUrl }));
@@ -302,30 +304,33 @@ namespace TechCareerFair.Controllers
         //
         // GET: /Account/ExternalLoginCallback
         [AllowAnonymous]
-        public async Task<ActionResult> ExternalLoginCallback(string returnUrl)
+        public async Task<ActionResult> ExternalLoginCallback(LoginViewModel model,string returnUrl)
         {
+            bool aService = new DAL.ApplicantDatabaseDataService().ReadIsActive(model.Email);
+            bool bService = new DAL.BusinessDatabaseDataService().ReadIsActive(model.Email);
             var loginInfo = await AuthenticationManager.GetExternalLoginInfoAsync();
             if (loginInfo == null)
             {
-                return RedirectToAction("Login");
+                return RedirectToAction("RegisterIndex", "Account");
             }
-
-            // Sign in the user with this external login provider if the user already has a login
+            //Sign in the user with this external login provider if the user already has a login
             var result = await SignInManager.ExternalSignInAsync(loginInfo, isPersistent: false);
+             if (result == SignInStatus.Success && aService && bService)
+            {
+                return RedirectToLocal(returnUrl);
+            }
             switch (result)
             {
-                case SignInStatus.Success:
-                    return RedirectToLocal(returnUrl);
                 case SignInStatus.LockedOut:
                     return View("Lockout");
                 case SignInStatus.RequiresVerification:
                     return RedirectToAction("SendCode", new { ReturnUrl = returnUrl, RememberMe = false });
                 case SignInStatus.Failure:
                 default:
-                    // If the user does not have an account, then prompt the user to create an account
+                    //If the user does not have an account, then prompt the user to create an account
                     ViewBag.ReturnUrl = returnUrl;
                     ViewBag.LoginProvider = loginInfo.Login.LoginProvider;
-                    return View("RegisterIndex", new ExternalLoginConfirmationViewModel { Email = loginInfo.Email });
+                    return RedirectToAction("RegisterIndex", "Account");
                     //return View("ExternalLoginConfirmation", new ExternalLoginConfirmationViewModel { Email = loginInfo.Email });
             }
         }
@@ -360,13 +365,17 @@ namespace TechCareerFair.Controllers
                         await SignInManager.SignInAsync(user, isPersistent: false, rememberBrowser: false);
                         return RedirectToLocal(returnUrl);
                     }
-                    UserManager.AddToRole(user.Id, "Guest");
                 }
                 AddErrors(result);
             }
 
             ViewBag.ReturnUrl = returnUrl;
             return View(model);
+        }
+        [AllowAnonymous]
+        public ActionResult ExternalLoginCallbackRedirect(string returnUrl)
+        {
+            return RedirectPermanent("/Account/ExternalLoginCallback");
         }
 
         //
@@ -706,9 +715,7 @@ namespace TechCareerFair.Controllers
                             LoginViewModel loginModel = new LoginViewModel();
                             loginModel.Email = model.Email;
 
-                            TempData["FullName"] = model.FirstName + " " + model.LastName;
-
-                            return RedirectToAction("PostSignUp");
+                            return RedirectToAction("LoginFromRegistration", "Account", loginModel);
                         }
                         catch (ArgumentException e)
                         {
@@ -720,7 +727,6 @@ namespace TechCareerFair.Controllers
                 }
             }
             // If we got this far, something failed, redisplay form
-            ViewBag.ErrCaptcha = "Please verify the Captcha";
             return View();
         }
 
@@ -788,9 +794,7 @@ namespace TechCareerFair.Controllers
                             LoginViewModel loginModel = new LoginViewModel();
                             loginModel.Email = model.Email;
 
-                            TempData["FullName"] = model.FirstName + " " + model.LastName;
-
-                            return RedirectToAction("PostSignUp");
+                            return RedirectToAction("LoginFromRegistration", "Account", loginModel);
                         }
                         catch (ArgumentException e)
                         {
@@ -802,7 +806,6 @@ namespace TechCareerFair.Controllers
                 }
             }
             // If we got this far, something failed, redisplay form
-            ViewBag.ErrCaptcha = "Please verify the Captcha";
             return View();
         }
         
