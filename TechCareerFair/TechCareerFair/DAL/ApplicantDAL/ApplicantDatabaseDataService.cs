@@ -31,6 +31,88 @@ namespace TechCareerFair.DAL
             return applicants;
         }
 
+        public applicant Read(int id)
+        {
+            applicant applicant = null;
+            using (SqlConnection connection = new SqlConnection(DataSettings.CONNECTION_STRING))
+            {
+                connection.Open();
+
+                StringBuilder sb = new StringBuilder();
+                sb.Append("SELECT [ApplicantID],[Email],[FirstName],[LastName],[University],[Alumni],[Profile],[SocialMedia],[Resume],[YearsExperience],[Internship],[Active]");
+                sb.Append("FROM [careerfair].[applicant]");
+                sb.Append("WHERE [ApplicantID] = '"+id+"'");
+                String sql = sb.ToString();
+
+                using (SqlCommand command = new SqlCommand(sql, connection))
+                {
+                    using (SqlDataReader reader = command.ExecuteReader())
+                    {
+                        while (reader.Read())
+                        {
+                            applicant = new applicant();
+
+                            applicant.ApplicantID = DatabaseHelper.CheckNullInt(reader, 0);
+                            applicant.Email = DatabaseHelper.CheckNullString(reader, 1);
+                            applicant.FirstName = DatabaseHelper.CheckNullString(reader, 2);
+                            applicant.LastName = DatabaseHelper.CheckNullString(reader, 3);
+                            applicant.University = DatabaseHelper.CheckNullString(reader, 4);
+                            applicant.Alumni = DatabaseHelper.CheckNullBool(reader, 5);
+                            applicant.Profile = DatabaseHelper.CheckNullString(reader, 6);
+                            applicant.SocialMedia = DatabaseHelper.CheckNullString(reader, 7);
+                            applicant.Resume = DatabaseHelper.CheckNullString(reader, 8);
+                            applicant.YearsExperience = DatabaseHelper.CheckNullByte(reader, 9);
+                            applicant.Internship = DatabaseHelper.CheckNullBool(reader, 10);
+                            applicant.Active = DatabaseHelper.CheckNullBool(reader, 11);
+                        }
+                    }
+                }
+                AddFields(applicant, connection);
+            }
+            return applicant;
+        }
+
+        public applicant Read(string email)
+        {
+            applicant applicant = null;
+            using (SqlConnection connection = new SqlConnection(DataSettings.CONNECTION_STRING))
+            {
+                connection.Open();
+
+                StringBuilder sb = new StringBuilder();
+                sb.Append("SELECT [ApplicantID],[Email],[FirstName],[LastName],[University],[Alumni],[Profile],[SocialMedia],[Resume],[YearsExperience],[Internship],[Active]");
+                sb.Append("FROM [careerfair].[applicant]");
+                sb.Append("WHERE [Email] = '" + email + "'");
+                String sql = sb.ToString();
+
+                using (SqlCommand command = new SqlCommand(sql, connection))
+                {
+                    using (SqlDataReader reader = command.ExecuteReader())
+                    {
+                        while (reader.Read())
+                        {
+                            applicant = new applicant();
+
+                            applicant.ApplicantID = DatabaseHelper.CheckNullInt(reader, 0);
+                            applicant.Email = DatabaseHelper.CheckNullString(reader, 1);
+                            applicant.FirstName = DatabaseHelper.CheckNullString(reader, 2);
+                            applicant.LastName = DatabaseHelper.CheckNullString(reader, 3);
+                            applicant.University = DatabaseHelper.CheckNullString(reader, 4);
+                            applicant.Alumni = DatabaseHelper.CheckNullBool(reader, 5);
+                            applicant.Profile = DatabaseHelper.CheckNullString(reader, 6);
+                            applicant.SocialMedia = DatabaseHelper.CheckNullString(reader, 7);
+                            applicant.Resume = DatabaseHelper.CheckNullString(reader, 8);
+                            applicant.YearsExperience = DatabaseHelper.CheckNullByte(reader, 9);
+                            applicant.Internship = DatabaseHelper.CheckNullBool(reader, 10);
+                            applicant.Active = DatabaseHelper.CheckNullBool(reader, 11);
+                        }
+                    }
+                }
+                AddFields(applicant, connection);
+            }
+            return applicant;
+        }
+
         public List<applicant> Read(int startRow, int numberOfRows)
         {
             List<applicant> applicants = new List<applicant>();

@@ -21,7 +21,7 @@ namespace TechCareerFair.Controllers
             if(User.IsInRole("Applicant"))
             {
                 ApplicantRepository ar = new ApplicantRepository();
-                applicant applicant = ar.SelectAll().Where(a => a.Email == userName).FirstOrDefault();
+                applicant applicant = ar.SelectOne(userName);
 
                 if (applicant != null)
                 {
@@ -35,7 +35,7 @@ namespace TechCareerFair.Controllers
             else if(User.IsInRole("Business"))
             {
                 BusinessRepository br = new BusinessRepository();
-                business business = br.SelectAll().Where(a => a.Email == userName).FirstOrDefault();
+                business business = br.SelectOne(userName);
 
                 if (business != null)
                 {
@@ -203,14 +203,11 @@ namespace TechCareerFair.Controllers
             business business = businessRepository.SelectOne(id);
             if (business.Email == User.Identity.GetUserName())
             {
-                TechCareerFair.DAL.PositionDAL.PositionRepository pr = new DAL.PositionDAL.PositionRepository();
-                List<position> positions = pr.SelectAll().ToList();
-
                 ViewBag.BusinessEmail = business.Email;
                 ViewBag.Business = business.BusinessName;
                 ViewBag.ID = id;
 
-                positions = positions.Where(p => p.Business == id).ToList();
+                List<position> positions = business.Positions;
 
                 return View(positions);
             }

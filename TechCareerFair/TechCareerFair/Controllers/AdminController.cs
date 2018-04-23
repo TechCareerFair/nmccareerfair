@@ -970,14 +970,13 @@ namespace TechCareerFair.Controllers
         public ActionResult ListPositions(int id)
         {
             TechCareerFair.DAL.PositionDAL.PositionRepository pr = new DAL.PositionDAL.PositionRepository();
-            List<position> positions = pr.SelectAll().ToList();
-
+            
             BusinessRepository businessRepository = new BusinessRepository();
             business business = businessRepository.SelectOne(id);
             ViewBag.Business = business.BusinessName;
             ViewBag.ID = id;
 
-            positions = positions.Where(p => p.Business == id).ToList();
+            List<position> positions = business.Positions;
 
             return View(positions);
         }

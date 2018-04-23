@@ -29,6 +29,114 @@ namespace TechCareerFair.DAL
             return businesses;
         }
 
+        public business Read(int id)
+        {
+            business business = null;
+            using (SqlConnection connection = new SqlConnection(DataSettings.CONNECTION_STRING))
+            {
+                connection.Open();
+
+                StringBuilder sb = new StringBuilder();
+                sb.Append("SELECT [BusinessID],[Email],[BusinessName],[FirstName],[LastName],[Street],[Phone],[Alumni],[NonProfit],[Outlet],[Display],[DisplayDescription],[Attendees],[BusinessDescription],[Website],[SocialMedia],[Photo],[LocationPreference],[ContactMe],[Approved],[Active],[PreferEmail]");
+                sb.Append("FROM [careerfair].[business]");
+                sb.Append("WHERE [BusinessID] = '" + id+"'");
+                String sql = sb.ToString();
+
+                using (SqlCommand command = new SqlCommand(sql, connection))
+                {
+                    using (SqlDataReader reader = command.ExecuteReader())
+                    {
+                        while (reader.Read())
+                        {
+                            business = new business();
+
+                            business.BusinessID = DatabaseHelper.CheckNullInt(reader, 0);
+                            business.Email = DatabaseHelper.CheckNullString(reader, 1);
+                            business.BusinessName = DatabaseHelper.CheckNullString(reader, 2);
+                            business.FirstName = DatabaseHelper.CheckNullString(reader, 3);
+                            business.LastName = DatabaseHelper.CheckNullString(reader, 4);
+                            business.Street = DatabaseHelper.CheckNullString(reader, 5);
+                            business.Phone = DatabaseHelper.CheckNullString(reader, 6);
+                            business.Alumni = DatabaseHelper.CheckNullBool(reader, 7);
+                            business.NonProfit = DatabaseHelper.CheckNullBool(reader, 8);
+                            business.Outlet = DatabaseHelper.CheckNullBool(reader, 9);
+                            business.Display = DatabaseHelper.CheckNullBool(reader, 10);
+                            business.DisplayDescription = DatabaseHelper.CheckNullString(reader, 11);
+                            business.Attendees = DatabaseHelper.CheckNullByte(reader, 12);
+                            business.BusinessDescription = DatabaseHelper.CheckNullString(reader, 13);
+                            business.Website = DatabaseHelper.CheckNullString(reader, 14);
+                            business.SocialMedia = DatabaseHelper.CheckNullString(reader, 15);
+                            business.Photo = DatabaseHelper.CheckNullString(reader, 16);
+                            business.LocationPreference = DatabaseHelper.CheckNullString(reader, 17);
+                            business.ContactMe = DatabaseHelper.CheckNullBool(reader, 18);
+                            business.Approved = DatabaseHelper.CheckNullBool(reader, 19);
+                            business.Active = DatabaseHelper.CheckNullBool(reader, 20);
+                            business.PreferEmail = DatabaseHelper.CheckNullBool(reader, 21);
+                        }
+                    }
+                        AddFields(business, connection);
+                        AddPositions(business, connection);
+                        AddZip(business, connection);
+                }
+            }
+
+            return business;
+        }
+
+        public business Read(string email)
+        {
+            business business = null;
+            using (SqlConnection connection = new SqlConnection(DataSettings.CONNECTION_STRING))
+            {
+                connection.Open();
+
+                StringBuilder sb = new StringBuilder();
+                sb.Append("SELECT [BusinessID],[Email],[BusinessName],[FirstName],[LastName],[Street],[Phone],[Alumni],[NonProfit],[Outlet],[Display],[DisplayDescription],[Attendees],[BusinessDescription],[Website],[SocialMedia],[Photo],[LocationPreference],[ContactMe],[Approved],[Active],[PreferEmail]");
+                sb.Append("FROM [careerfair].[business]");
+                sb.Append("WHERE [Email] = '" + email + "'");
+                String sql = sb.ToString();
+
+                using (SqlCommand command = new SqlCommand(sql, connection))
+                {
+                    using (SqlDataReader reader = command.ExecuteReader())
+                    {
+                        while (reader.Read())
+                        {
+                            business = new business();
+
+                            business.BusinessID = DatabaseHelper.CheckNullInt(reader, 0);
+                            business.Email = DatabaseHelper.CheckNullString(reader, 1);
+                            business.BusinessName = DatabaseHelper.CheckNullString(reader, 2);
+                            business.FirstName = DatabaseHelper.CheckNullString(reader, 3);
+                            business.LastName = DatabaseHelper.CheckNullString(reader, 4);
+                            business.Street = DatabaseHelper.CheckNullString(reader, 5);
+                            business.Phone = DatabaseHelper.CheckNullString(reader, 6);
+                            business.Alumni = DatabaseHelper.CheckNullBool(reader, 7);
+                            business.NonProfit = DatabaseHelper.CheckNullBool(reader, 8);
+                            business.Outlet = DatabaseHelper.CheckNullBool(reader, 9);
+                            business.Display = DatabaseHelper.CheckNullBool(reader, 10);
+                            business.DisplayDescription = DatabaseHelper.CheckNullString(reader, 11);
+                            business.Attendees = DatabaseHelper.CheckNullByte(reader, 12);
+                            business.BusinessDescription = DatabaseHelper.CheckNullString(reader, 13);
+                            business.Website = DatabaseHelper.CheckNullString(reader, 14);
+                            business.SocialMedia = DatabaseHelper.CheckNullString(reader, 15);
+                            business.Photo = DatabaseHelper.CheckNullString(reader, 16);
+                            business.LocationPreference = DatabaseHelper.CheckNullString(reader, 17);
+                            business.ContactMe = DatabaseHelper.CheckNullBool(reader, 18);
+                            business.Approved = DatabaseHelper.CheckNullBool(reader, 19);
+                            business.Active = DatabaseHelper.CheckNullBool(reader, 20);
+                            business.PreferEmail = DatabaseHelper.CheckNullBool(reader, 21);
+                        }
+                    }
+                    AddFields(business, connection);
+                    AddPositions(business, connection);
+                    AddZip(business, connection);
+                }
+            }
+
+            return business;
+        }
+
         public List<business> Read(int startRow, int numberOfRows)
         {
             List<business> businesses = new List<business>();
@@ -265,7 +373,7 @@ namespace TechCareerFair.DAL
         private void AddPositions(business bus, SqlConnection connection)
         {
             StringBuilder sb = new StringBuilder();
-            sb.Append("SELECT [Name], [Description], [Website], [Internship]");
+            sb.Append("SELECT [PositionID], [Name], [Description], [Website], [Internship]");
             sb.Append("FROM [careerfair].[position]");
             sb.Append("WHERE [careerfair].[position].[Business] = " + bus.BusinessID);
             String sql = sb.ToString();
@@ -278,10 +386,11 @@ namespace TechCareerFair.DAL
                     {
                         position pos = new position();
 
-                        pos.Name = DatabaseHelper.CheckNullString(reader, 0);
-                        pos.Description = DatabaseHelper.CheckNullString(reader, 1);
-                        pos.Website = DatabaseHelper.CheckNullString(reader, 2);
-                        pos.Internship = DatabaseHelper.CheckNullBool(reader, 3);
+                        pos.PositionID = DatabaseHelper.CheckNullInt(reader, 0);
+                        pos.Name = DatabaseHelper.CheckNullString(reader, 1);
+                        pos.Description = DatabaseHelper.CheckNullString(reader, 2);
+                        pos.Website = DatabaseHelper.CheckNullString(reader, 3);
+                        pos.Internship = DatabaseHelper.CheckNullBool(reader, 4);
 
                         bus.Positions.Add(pos);
                     }

@@ -167,7 +167,6 @@ namespace TechCareerFair.Controllers
         [AuthorizeOrRedirectAttribute(Roles = "Applicant")]
         public ActionResult SearchBus(string sortOrder,string searchCriteria, int? page)
         {
-
             TechCareerFair.DAL.BusinessRepository businessRepository = new TechCareerFair.DAL.BusinessRepository();
             TechCareerFair.DAL.FieldDAL.FieldRepository fieldRepo = new TechCareerFair.DAL.FieldDAL.FieldRepository();
 
@@ -181,7 +180,7 @@ namespace TechCareerFair.Controllers
             int pageSize = 15;
             int pageNumber = (page ?? 1);
 
-            companies = FilterBusinesses(companies,null, searchCriteria);
+            companies = FilterBusinesses(companies,null, false, searchCriteria);
 
             switch (sortOrder)
             {
@@ -210,7 +209,8 @@ namespace TechCareerFair.Controllers
             int pageNumber = (page ?? 1);
 
             ViewBag.CurrentCriteria = searchCriteria;
-        
+            bool intern = Convert.ToBoolean(collection["internship"].Split(',')[0]);
+            ViewBag.InternFilter = intern;
 
             TechCareerFair.DAL.BusinessRepository businessRepo = new TechCareerFair.DAL.BusinessRepository();
             TechCareerFair.DAL.FieldDAL.FieldRepository fieldRepo = new TechCareerFair.DAL.FieldDAL.FieldRepository();
@@ -237,7 +237,7 @@ namespace TechCareerFair.Controllers
             using (businessRepo)
             {
                 bus= businessRepo.SelectAllAsViewModel() as IList<BusinessViewModel>;
-                bus = FilterBusinesses(bus, fieldsSelected, searchCriteria);
+                bus = FilterBusinesses(bus, fieldsSelected, intern, searchCriteria);
             }
 
             bus = bus.ToPagedList(pageNumber, pageSize);
@@ -247,7 +247,7 @@ namespace TechCareerFair.Controllers
 
        
         [NonAction]
-        private IEnumerable<BusinessViewModel> FilterBusinesses(IEnumerable<BusinessViewModel> business, List<string> fields, string searchCriteria)
+        private IEnumerable<BusinessViewModel> FilterBusinesses(IEnumerable<BusinessViewModel> business, List<string> fields, bool intern, string searchCriteria)
         {
 
             if (searchCriteria != null && searchCriteria != "")
@@ -262,6 +262,11 @@ namespace TechCareerFair.Controllers
                     business = business.Where(b => b.Fields.Contains(f));
                 }
 
+            }
+
+            if(intern)
+            {
+                business = business.Where(b => b.Positions.Any(p => p.Internship));
             }
 
             business = business.Where(b => b.Active);

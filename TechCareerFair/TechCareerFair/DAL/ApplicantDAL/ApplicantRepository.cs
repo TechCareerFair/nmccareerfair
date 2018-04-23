@@ -26,7 +26,7 @@ namespace TechCareerFair.DAL
 
         public void Delete(int id, string serverPath)
         {
-            var applicant = SelectAll().Where(g => g.ApplicantID == id).FirstOrDefault();
+            var applicant = _ds.Read(id);
 
             if (applicant != null)
             {
@@ -141,14 +141,21 @@ namespace TechCareerFair.DAL
 
         public applicant SelectOne(int id)
         {
-            applicant selectedApplicant = SelectAll().Where(a => a.ApplicantID == id).FirstOrDefault();
+            applicant selectedApplicant = _ds.Read(id);
+
+            return selectedApplicant;
+        }
+
+        public applicant SelectOne(string email)
+        {
+            applicant selectedApplicant = _ds.Read(email);
 
             return selectedApplicant;
         }
 
         public ApplicantViewModel SelectOneAsViewModel(int id)
         {
-            applicant app = SelectAll().Where(a => a.ApplicantID == id).FirstOrDefault();
+            applicant app = _ds.Read(id);
 
             ApplicantViewModel selectedApplicant = ToViewModel(app);
             GetAccountInfoByUserID(selectedApplicant);
@@ -184,7 +191,7 @@ namespace TechCareerFair.DAL
 
         public void Update(applicant applicant, string serverPath)
         {
-            var oldApplicant = SelectAll().Where(a => a.ApplicantID == applicant.ApplicantID).FirstOrDefault();
+            var oldApplicant = _ds.Read(applicant.ApplicantID);
 
             if (oldApplicant != null)
             {
@@ -196,7 +203,7 @@ namespace TechCareerFair.DAL
         
         public void UpdateApplicantProfile(applicant applicant, string serverPath)
         {
-            var oldApplicant = SelectAll().Where(a => a.ApplicantID == applicant.ApplicantID).FirstOrDefault();
+            var oldApplicant = _ds.Read(applicant.ApplicantID);
 
             if (oldApplicant != null)
             {

@@ -26,7 +26,7 @@ namespace TechCareerFair.DAL
 
         public void Delete(int id, string serverPath)
         {
-            var business = SelectAll().Where(g => g.BusinessID == id).FirstOrDefault();
+            var business = SelectOne(id);
 
             if (business != null)
             {
@@ -196,14 +196,21 @@ namespace TechCareerFair.DAL
 
         public business SelectOne(int id)
         {
-            business selectedBusiness = SelectAll().Where(b => b.BusinessID == id).FirstOrDefault();
+            business selectedBusiness = _ds.Read(id);
+
+            return selectedBusiness;
+        }
+
+        public business SelectOne(string email)
+        {
+            business selectedBusiness = _ds.Read(email);
 
             return selectedBusiness;
         }
 
         public BusinessViewModel SelectOneAsViewModel(int id)
         {
-            business bus = SelectAll().Where(b => b.BusinessID == id).FirstOrDefault();
+            business bus = SelectOne(id);
 
             BusinessViewModel selectedBusiness = ToViewModel(bus);
             GetAccountInfoByUserID(selectedBusiness);
@@ -222,7 +229,7 @@ namespace TechCareerFair.DAL
 
         public void Update(business business, string serverPath)
         {
-            var oldBusiness = SelectAll().Where(b => b.BusinessID == business.BusinessID).FirstOrDefault();
+            var oldBusiness = SelectOne(business.BusinessID);
 
             if (oldBusiness != null)
             {
@@ -234,7 +241,7 @@ namespace TechCareerFair.DAL
 
         public void UpdateBusinessProfile(business business, string serverPath)
         {
-            var oldBusiness = SelectAll().Where(b => b.BusinessID == business.BusinessID).FirstOrDefault();
+            var oldBusiness = SelectOne(business.BusinessID);
 
             if (oldBusiness != null)
             {
@@ -246,7 +253,7 @@ namespace TechCareerFair.DAL
 
         public void UpdateBusinessProfile(BusinessViewModel business, string serverPath)
         {
-            var oldBusiness = SelectAll().Where(b => b.BusinessID == business.BusinessID).FirstOrDefault();
+            var oldBusiness = SelectOne(business.BusinessID);
 
             if (oldBusiness != null)
             {

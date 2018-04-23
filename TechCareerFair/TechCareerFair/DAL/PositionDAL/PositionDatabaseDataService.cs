@@ -16,6 +16,41 @@ namespace TechCareerFair.DAL.PositionDAL
             //throw new NotImplementedException();
         }
 
+        public position Read(int id)
+        {
+            position position = new position();
+
+            using (SqlConnection connection = new SqlConnection(DataSettings.CONNECTION_STRING))
+            {
+                connection.Open();
+
+                StringBuilder sb = new StringBuilder();
+                sb.Append("SELECT [PositionID],[Business],[Name],[Description],[Website],[Internship]");
+                sb.Append("FROM [careerfair].[position]");
+                sb.Append("WHERE [PositionID] = '"+id+"'");
+                String sql = sb.ToString();
+
+                using (SqlCommand command = new SqlCommand(sql, connection))
+                {
+                    using (SqlDataReader reader = command.ExecuteReader())
+                    {
+                        while (reader.Read())
+                        {
+                            position = new position();
+
+                            position.PositionID = DatabaseHelper.CheckNullInt(reader, 0);
+                            position.Business = DatabaseHelper.CheckNullInt(reader, 1);
+                            position.Name = DatabaseHelper.CheckNullString(reader, 2);
+                            position.Description = DatabaseHelper.CheckNullString(reader, 3);
+                            position.Website = DatabaseHelper.CheckNullString(reader, 4);
+                            position.Internship = DatabaseHelper.CheckNullBool(reader, 5);
+                        }
+                    }
+                }
+            }
+            return position;
+        }
+
         public List<position> Read()
         {
             List<position> positions = new List<position>();
