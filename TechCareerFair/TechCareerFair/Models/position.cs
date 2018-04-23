@@ -28,5 +28,13 @@ namespace TechCareerFair.Models
         public string Website { get; set; }
         
         public bool Internship { get; set; }
+
+        public string IsInternship
+        {
+            get
+            {
+                return (Internship ? "Yes" : "No");
+            }
+        }
     }
 }

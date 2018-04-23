@@ -79,13 +79,20 @@
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.Internship)
+            @Html.DisplayFor(model => model.IsInternship)
         </dd>
         <dt>
             @Html.DisplayNameFor(model => model.Resume)
         </dt>
         <dd>
-            <a href="@resume" class="btn btn-default">Download</a>
+            @if(Model.Resume != "")
+            {
+                <a href="@resume" class="btn btn-default">Download</a>
+            }
+            else
+            {
+                <span>No resume is available for download.</span>
+            }
         </dd>
     </dl>
     @if (User.Identity.GetUserName() == Model.Email)

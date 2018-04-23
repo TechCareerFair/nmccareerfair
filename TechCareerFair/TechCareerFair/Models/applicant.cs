@@ -59,6 +59,14 @@ namespace TechCareerFair.Models
         [Display(Name = "Looking for Internship")]
         public bool Internship { get; set; }
 
+        public string IsInternship
+        {
+            get
+            {
+                return (Internship ? "Yes" : "No");
+            }
+        }
+
         public bool Active { get; set; }
         
         [Display(Name = "Fields of Interest")]

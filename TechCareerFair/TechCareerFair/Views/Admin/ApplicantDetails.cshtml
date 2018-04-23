@@ -98,7 +98,15 @@
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.Resume) <a href="@resume" class="btn btn-default">Download</a>
+            @Html.DisplayFor(model => model.Resume)
+            @if(Model.Resume != "")
+            {
+                <a href="@resume" class="btn btn-default">Download</a>
+            }
+            else
+            {
+                <span>This applicant has not uploaded a resume.</span>
+            }
         </dd>
 
         <dt>

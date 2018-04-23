@@ -73,8 +73,39 @@ namespace TechCareerFair.DAL.FieldDAL
             }
         }
 
+        public void RemoveAllLinkingFields(int fieldID)
+        {
+            using (SqlConnection connection = new SqlConnection(DataSettings.CONNECTION_STRING))
+            {
+                connection.Open();
+                StringBuilder sb = new StringBuilder();
+                sb.Append("DELETE FROM [careerfair].[applicant2field]");
+                sb.Append("WHERE [Field] = " + fieldID);
+                String sql = sb.ToString();
+
+                using (SqlCommand command = new SqlCommand(sql, connection))
+                {
+                    command.CommandType = System.Data.CommandType.Text;
+                    command.ExecuteNonQuery();
+                }
+
+                sb.Clear();
+                sb.Append("DELETE FROM [careerfair].[business2field]");
+                sb.Append("WHERE [Field] = " + fieldID);
+                sql = sb.ToString();
+
+                using (SqlCommand command = new SqlCommand(sql, connection))
+                {
+                    command.CommandType = System.Data.CommandType.Text;
+                    command.ExecuteNonQuery();
+                }
+            }
+        }
+
         public void Remove(field field)
         {
+            RemoveAllLinkingFields(field.FieldID);
+
             using (SqlConnection connection = new SqlConnection(DataSettings.CONNECTION_STRING))
             {
                 connection.Open();

@@ -193,6 +193,14 @@ namespace TechCareerFair.Models
         [Display(Name = "Looking for Internship")]
         public bool Internship { get; set; }
 
+        public string IsInternship
+        {
+            get
+            {
+                return (Internship ? "Yes" : "No");
+            }
+        }
+
         public bool Active { get; set; }
 
         [Display(Name = "Fields of Interest")]
@@ -298,6 +306,7 @@ namespace TechCareerFair.Models
         [StringLength(255, ErrorMessage = "Reached max length of 255 characters")]
         public string SocialMedia { get; set; }
 
+        [Display(Name = "Business Logo")]
         public string Photo { get; set; }
 
         [Display(Name = "Location Preference")]
