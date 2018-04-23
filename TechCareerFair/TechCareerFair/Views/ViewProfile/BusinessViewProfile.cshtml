@@ -1,7 +1,7 @@
 ﻿@model TechCareerFair.Models.BusinessViewModel
 @using Microsoft.AspNet.Identity
 @{
-    ViewBag.Title = "BusinessViewProfile";
+    ViewBag.Title = "View Business Profile";
     string socialMedia = ViewBag.SocialMedia;
     string website = ViewBag.Website;
 }
@@ -44,7 +44,7 @@
             @Html.DisplayFor(model => model.Email)
         </dd>
         <dt>
-            @Html.DisplayNameFor(model => model.FirstName)
+            <strong>Representative:</strong>
         </dt>
 
         <dd>
@@ -121,12 +121,13 @@
             @if (!website.IsEmpty() && !website.Contains("http") && !website.Contains("https"))
         {
             website = "<a href='http://" + website + "'>" + website + "</a>";
+                @Html.Raw(website)
         }
         else
         {
             @Html.DisplayFor(model => model.Website)
     }
-            @Html.Raw(website)
+            
         </dd>
         <dt>
             @Html.DisplayNameFor(model => model.SocialMedia)
@@ -135,12 +136,13 @@
             @if (!socialMedia.IsEmpty() && !socialMedia.Contains("http") && !socialMedia.Contains("https"))
         {
             socialMedia = "<a href='http://" + socialMedia + "'>" + socialMedia + "</a>";
+                @Html.Raw(socialMedia)
         }
         else
         {
             @Html.DisplayFor(model => model.SocialMedia)
     }
-            @Html.Raw(socialMedia)
+            
         </dd>
         <dt>
             @Html.DisplayNameFor(model => model.Outlet)

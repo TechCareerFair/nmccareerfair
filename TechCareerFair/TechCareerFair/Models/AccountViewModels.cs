@@ -275,7 +275,7 @@ namespace TechCareerFair.Models
         [Display(Name = "Is the business run by an NMC alumni?")]
         public bool Alumni { get; set; }
 
-        [Display(Name = "Is your business a not-for-profit?")]
+        [Display(Name = "Is the business a not-for-profit?")]
         public bool NonProfit { get; set; }
 
         [Display(Name = "Does your display require a power outlet?")]

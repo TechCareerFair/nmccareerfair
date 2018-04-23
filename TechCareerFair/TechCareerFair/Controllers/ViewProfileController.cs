@@ -18,36 +18,49 @@ namespace TechCareerFair.Controllers
         {
             string userName = User.Identity.GetUserName();
 
-            ApplicantRepository ar = new ApplicantRepository();
-            applicant applicant = ar.SelectAll().Where(a => a.Email == userName).FirstOrDefault();
-
-            BusinessRepository br = new BusinessRepository();
-            business business = br.SelectAll().Where(a => a.Email == userName).FirstOrDefault();
-
-            if (applicant != null)
+            if(User.IsInRole("Applicant"))
             {
-                return ApplicantViewProfile(applicant, message);
+                ApplicantRepository ar = new ApplicantRepository();
+                applicant applicant = ar.SelectAll().Where(a => a.Email == userName).FirstOrDefault();
+
+                if (applicant != null)
+                {
+                    return ApplicantViewProfile(ar.ToViewModel(applicant), message);
+                }
+                else
+                {
+                    return View("Error");
+                }
             }
-            else if (business != null)
+            else if(User.IsInRole("Business"))
             {
-                return BusinessViewProfile(business, message);
+                BusinessRepository br = new BusinessRepository();
+                business business = br.SelectAll().Where(a => a.Email == userName).FirstOrDefault();
+
+                if (business != null)
+                {
+                    return BusinessViewProfile(br.ToViewModel(business), message);
+                }
+                else
+                {
+                    return View("Error");
+                }
             }
             else
             {
                 return View("Error");
             }
-
-
         }
 
         public ActionResult GetSearchUserType(int id, bool isApplicant)
         {
+            ApplicantRepository ar = null;
             BusinessRepository br = null;
             applicant applicant = null;
             business business = null;
             if (isApplicant)
             {
-                ApplicantRepository ar = new ApplicantRepository();
+                ar = new ApplicantRepository();
                 br = new BusinessRepository();
                 applicant = ar.SelectOne(id);
             }
@@ -59,11 +72,11 @@ namespace TechCareerFair.Controllers
 
             if (applicant != null && User.IsInRole("Business") && (br.CheckApproved(User.Identity.GetUserName()) || User.IsInRole("Admin")))
             {
-                return ApplicantViewProfile(applicant, null);
+                return ApplicantViewProfile(ar.ToViewModel(applicant), null);
             }
             else if (business != null && User.IsInRole("Applicant"))
             {
-                return BusinessSearchViewProfile(business);
+                return BusinessSearchViewProfile(br.ToViewModel(business));
             }
             else
             {
@@ -73,10 +86,8 @@ namespace TechCareerFair.Controllers
 
         }
 
-        public ActionResult BusinessViewProfile(business business, ManageMessageId? message)
+        public ActionResult BusinessViewProfile(BusinessViewModel business, ManageMessageId? message)
         {
-            BusinessRepository businessRepository = new BusinessRepository();
-            BusinessViewModel businessVM = businessRepository.ToViewModel(business);
             ViewBag.Fields = business.Fields;
             ViewBag.Positions = business.Positions;
             ViewBag.SocialMedia = business.SocialMedia;
@@ -87,20 +98,18 @@ namespace TechCareerFair.Controllers
                 : message == ManageMessageId.Error ? "An error has occurred."
                 : "";
 
-            return View("BusinessViewProfile", businessVM);
+            return View("BusinessViewProfile", business);
 
         }
 
-        public ActionResult BusinessSearchViewProfile(business business)
-        {
-            BusinessRepository businessRepository = new BusinessRepository();
-            BusinessViewModel businessVM = businessRepository.ToViewModel(business);
+        public ActionResult BusinessSearchViewProfile(BusinessViewModel business)
+        { 
             ViewBag.Fields = business.Fields;
             ViewBag.Positions = business.Positions;
             ViewBag.SocialMedia = business.SocialMedia;
             ViewBag.Website = business.Website;
 
-            return View("BusinessSearchViewProfile", businessVM);
+            return View("BusinessSearchViewProfile", business);
 
         }
 
@@ -171,7 +180,7 @@ namespace TechCareerFair.Controllers
                         }
 
                         BusinessRepository businessRepository = new BusinessRepository();
-                        businessRepository.UpdateBusinessProfile(businessRepository.ToModel(business), Server.MapPath("~"));
+                        businessRepository.UpdateBusinessProfile(business, Server.MapPath("~"));
 
                         return GetUserType(null);
 
@@ -348,10 +357,8 @@ namespace TechCareerFair.Controllers
             }
         }
 
-        public ActionResult ApplicantViewProfile(applicant applicant, ManageMessageId? message)
+        public ActionResult ApplicantViewProfile(ApplicantViewModel applicant, ManageMessageId? message)
         {
-            ApplicantRepository applicantRepository = new ApplicantRepository();
-            ApplicantViewModel applicantVM = applicantRepository.ToViewModel(applicant);
             ViewBag.Fields = applicant.Fields;
             ViewBag.SocialMedia = applicant.SocialMedia;
 
@@ -360,7 +367,7 @@ namespace TechCareerFair.Controllers
                 : message == ManageMessageId.Error ? "An error has occurred."
                 : "";
 
-            return View("ApplicantViewProfile", applicantVM);
+            return View("ApplicantViewProfile", applicant);
         }
 
         // GET: ViewProfile/Edit

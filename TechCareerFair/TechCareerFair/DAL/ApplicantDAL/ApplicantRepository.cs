@@ -11,11 +11,10 @@ namespace TechCareerFair.DAL
     public class ApplicantRepository : IApplicantRepository, IDisposable
     {
         private ApplicantDatabaseDataService _ds = new ApplicantDatabaseDataService();
-        private IList<applicant> _applicants;
 
         public ApplicantRepository()
         {
-            _applicants = _ds.Read();
+            
         }
 
         private void GetAccountInfoByUserID(ApplicantViewModel app)
@@ -27,11 +26,11 @@ namespace TechCareerFair.DAL
 
         public void Delete(int id, string serverPath)
         {
-            var applicant = _applicants.Where(g => g.ApplicantID == id).FirstOrDefault();
+            var applicant = SelectAll().Where(g => g.ApplicantID == id).FirstOrDefault();
 
             if (applicant != null)
             {
-                //_applicants.Remove(applicant);
+                //SelectAll().Remove(applicant);
                 _ds.Remove(applicant, serverPath);
             }
         }
@@ -46,7 +45,7 @@ namespace TechCareerFair.DAL
 
         private int NextIdValue()
         {
-            int currentMaxId = _applicants.OrderByDescending(a => a.ApplicantID).FirstOrDefault().ApplicantID;
+            int currentMaxId = SelectAll().OrderByDescending(a => a.ApplicantID).FirstOrDefault().ApplicantID;
             return currentMaxId + 1;
         }
 
@@ -116,7 +115,7 @@ namespace TechCareerFair.DAL
 
         public IList<applicant> SelectAll()
         {
-            return _applicants;
+            return _ds.Read(); ;
         }
 
         public IEnumerable<applicant> SelectRange(int startRow, int numberOfRows)
@@ -127,7 +126,9 @@ namespace TechCareerFair.DAL
         public IList<ApplicantViewModel> SelectAllAsViewModel()
         {
             List<ApplicantViewModel> applicants = new List<ApplicantViewModel>();
-            foreach(applicant a in _applicants)
+            IEnumerable<applicant> apps = SelectAll();
+
+            foreach(applicant a in apps)
             {
                 ApplicantViewModel avm = ToViewModel(a);
                 GetAccountInfoByUserID(avm);
@@ -140,14 +141,14 @@ namespace TechCareerFair.DAL
 
         public applicant SelectOne(int id)
         {
-            applicant selectedApplicant = _applicants.Where(a => a.ApplicantID == id).FirstOrDefault();
+            applicant selectedApplicant = SelectAll().Where(a => a.ApplicantID == id).FirstOrDefault();
 
             return selectedApplicant;
         }
 
         public ApplicantViewModel SelectOneAsViewModel(int id)
         {
-            applicant app = _applicants.Where(a => a.ApplicantID == id).FirstOrDefault();
+            applicant app = SelectAll().Where(a => a.ApplicantID == id).FirstOrDefault();
 
             ApplicantViewModel selectedApplicant = ToViewModel(app);
             GetAccountInfoByUserID(selectedApplicant);
@@ -183,7 +184,7 @@ namespace TechCareerFair.DAL
 
         public void Update(applicant applicant, string serverPath)
         {
-            var oldApplicant = _applicants.Where(a => a.ApplicantID == applicant.ApplicantID).FirstOrDefault();
+            var oldApplicant = SelectAll().Where(a => a.ApplicantID == applicant.ApplicantID).FirstOrDefault();
 
             if (oldApplicant != null)
             {
@@ -195,7 +196,7 @@ namespace TechCareerFair.DAL
         
         public void UpdateApplicantProfile(applicant applicant, string serverPath)
         {
-            var oldApplicant = _applicants.Where(a => a.ApplicantID == applicant.ApplicantID).FirstOrDefault();
+            var oldApplicant = SelectAll().Where(a => a.ApplicantID == applicant.ApplicantID).FirstOrDefault();
 
             if (oldApplicant != null)
             {
@@ -208,7 +209,6 @@ namespace TechCareerFair.DAL
         public void Dispose()
         {
             _ds = null;
-            _applicants = null;
         }
     }
 }

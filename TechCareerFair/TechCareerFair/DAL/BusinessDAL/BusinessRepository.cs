@@ -10,12 +10,11 @@ namespace TechCareerFair.DAL
 {
     public class BusinessRepository : IBusinessRepository, IDisposable
     {
-        private IEnumerable<business> _businesses;
         private BusinessDatabaseDataService _ds = new BusinessDatabaseDataService();
 
         public BusinessRepository()
         {
-            _businesses = _ds.Read();
+            
         }
 
         public void GetAccountInfoByUserID(BusinessViewModel bus)
@@ -27,7 +26,7 @@ namespace TechCareerFair.DAL
 
         public void Delete(int id, string serverPath)
         {
-            var business = _businesses.Where(g => g.BusinessID == id).FirstOrDefault();
+            var business = SelectAll().Where(g => g.BusinessID == id).FirstOrDefault();
 
             if (business != null)
             {
@@ -46,7 +45,7 @@ namespace TechCareerFair.DAL
 
         private int NextIdValue()
         {
-            int currentMaxId = _businesses.OrderByDescending(b => b.BusinessID).FirstOrDefault().BusinessID;
+            int currentMaxId = SelectAll().OrderByDescending(b => b.BusinessID).FirstOrDefault().BusinessID;
             return currentMaxId + 1;
         }
 
@@ -172,7 +171,7 @@ namespace TechCareerFair.DAL
 
         public IEnumerable<business> SelectAll()
         {
-            return _businesses;
+            return _ds.Read(); ;
         }
 
         public IEnumerable<business> SelectRange(int startRow, int numberOfRows)
@@ -183,7 +182,8 @@ namespace TechCareerFair.DAL
         public IList<BusinessViewModel> SelectAllAsViewModel()
         {
             List<BusinessViewModel> bvms = new List<BusinessViewModel>();
-            foreach (business b in _businesses)
+            IEnumerable<business> businesses = SelectAll();
+            foreach (business b in businesses)
             {
                 BusinessViewModel bvm = ToViewModel(b);
                 GetAccountInfoByUserID(bvm);
@@ -196,14 +196,14 @@ namespace TechCareerFair.DAL
 
         public business SelectOne(int id)
         {
-            business selectedBusiness = _businesses.Where(b => b.BusinessID == id).FirstOrDefault();
+            business selectedBusiness = SelectAll().Where(b => b.BusinessID == id).FirstOrDefault();
 
             return selectedBusiness;
         }
 
         public BusinessViewModel SelectOneAsViewModel(int id)
         {
-            business bus = _businesses.Where(b => b.BusinessID == id).FirstOrDefault();
+            business bus = SelectAll().Where(b => b.BusinessID == id).FirstOrDefault();
 
             BusinessViewModel selectedBusiness = ToViewModel(bus);
             GetAccountInfoByUserID(selectedBusiness);
@@ -222,7 +222,7 @@ namespace TechCareerFair.DAL
 
         public void Update(business business, string serverPath)
         {
-            var oldBusiness = _businesses.Where(b => b.BusinessID == business.BusinessID).FirstOrDefault();
+            var oldBusiness = SelectAll().Where(b => b.BusinessID == business.BusinessID).FirstOrDefault();
 
             if (oldBusiness != null)
             {
@@ -234,13 +234,25 @@ namespace TechCareerFair.DAL
 
         public void UpdateBusinessProfile(business business, string serverPath)
         {
-            var oldBusiness = _businesses.Where(b => b.BusinessID == business.BusinessID).FirstOrDefault();
+            var oldBusiness = SelectAll().Where(b => b.BusinessID == business.BusinessID).FirstOrDefault();
 
             if (oldBusiness != null)
             {
                 //_businesses.Remove(oldBusiness);
                 //_businesses.Add(business);
                 _ds.UpdateBusinessProfile(business, serverPath, oldBusiness.Photo);
+            }
+        }
+
+        public void UpdateBusinessProfile(BusinessViewModel business, string serverPath)
+        {
+            var oldBusiness = SelectAll().Where(b => b.BusinessID == business.BusinessID).FirstOrDefault();
+
+            if (oldBusiness != null)
+            {
+                //_businesses.Remove(oldBusiness);
+                //_businesses.Add(business);
+                _ds.UpdateBusinessProfile(ToModel(business), serverPath, oldBusiness.Photo);
             }
         }
 
@@ -289,7 +301,6 @@ namespace TechCareerFair.DAL
         public void Dispose()
         {
             _ds = null;
-            _businesses = null;
         }
     }
 }

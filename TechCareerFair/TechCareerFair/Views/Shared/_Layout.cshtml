@@ -130,12 +130,13 @@
                 if(User.IsInRole("Business") && !isApproved)
                 {
                     <li class="footer-navigation-links"><a href="">Waiting for Admin approval</a></li>
+                    <span class="spacer-footer">|</span>
                 }
                 else if(!User.IsInRole("Business"))
                 {
                     <li class="footer-navigation-links">@Html.ActionLink("Search", "Index", "Account/Login")</li>
+                    <span class="spacer-footer">|</span>
                 }
-                <span class="spacer-footer">|</span>
             }
             <li class="footer-navigation-links">@Html.ActionLink("Gallery", "Index", "Gallery")</li>
             <span class="spacer-footer">|</span>
