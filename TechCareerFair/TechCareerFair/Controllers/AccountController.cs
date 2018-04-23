@@ -314,7 +314,7 @@ namespace TechCareerFair.Controllers
             }
             //Sign in the user with this external login provider if the user already has a login
             var result = await SignInManager.ExternalSignInAsync(loginInfo, isPersistent: false);
-             if (result == SignInStatus.Success && aService && bService)
+             if (result == SignInStatus.Success || aService || bService)
             {
                 return RedirectToLocal(returnUrl);
             }
