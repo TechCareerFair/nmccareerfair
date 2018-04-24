@@ -39,7 +39,7 @@ namespace TechCareerFair.DAL.PositionDAL
 
         public IEnumerable<position> SelectAll()
         {
-            return SelectAll();
+            return _ds.Read();
         }
 
         public position SelectOne(int id)

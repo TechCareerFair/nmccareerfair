@@ -80,7 +80,7 @@
 
 </style>
 
-<h2>Search a Business</h2>
+<h2>Search Businesses</h2>
 <br/>
 
 Page @(pagedList.PageCount < pagedList.PageNumber ? 0 : pagedList.PageNumber) of @pagedList.PageCount
@@ -128,35 +128,38 @@ Page @(pagedList.PageCount < pagedList.PageNumber ? 0 : pagedList.PageNumber) of
    }  
 
 <br/>   
-        <table class="table">
-            <tr>
+<table class="table">
+    <tr>
 
-                <th>
-                    @Html.DisplayNameFor(model => model.BusinessName)
-                </th>
+        <th>
+            @Html.ActionLink(@Html.DisplayNameFor(model => model.BusinessName).ToHtmlString(), "SearchBus", new { sortOrder = "BusinessName", searchCriteria = criteria, filter = currentFilter }, new { style = "color:white; text-decoration: underline" })
+        </th>
 
 
-                <th>
-                    @Html.DisplayNameFor(model => model.Website)
-                </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Website)
+        </th>
 
-                <th>
-                    @Html.DisplayNameFor(model => model.Phone)
-                </th>
-               
+        <th>
+            @Html.DisplayNameFor(model => model.Phone)
+        </th>
 
-                <th></th>
-            </tr>
 
-            @foreach (var item in Model)
-            {
+        <th></th>
+    </tr>
+
+    @if (Model.Count() > 0)
+    {
+        foreach (var item in Model)
+        {
             <tr>
 
                 <td>
-                    @Html.DisplayFor(modelItem => item.BusinessName )
+                    @Html.DisplayFor(modelItem => item.BusinessName)
 
-                    @if (item.Photo != null && item.Photo != "") {
-                    <img src='@Html.DisplayFor(modelItem => item.Photo)' .ToHtmlString() width="45" height="45" style="margin-left:15px" />
+                    @if (item.Photo != null && item.Photo != "")
+                    {
+                        <img src='@Html.DisplayFor(modelItem => item.Photo)' .ToHtmlString() width="45" height="45" style="margin-left:15px" />
 
                     }
                 </td>
@@ -170,12 +173,17 @@ Page @(pagedList.PageCount < pagedList.PageNumber ? 0 : pagedList.PageNumber) of
                     @Html.DisplayFor(modelItem => item.Phone)
                 </td>
 
-              
+
                 <td>
                     @Html.ActionLink("Details", "GetSearchUserType", "ViewProfile", new { id = item.BusinessID, isApplicant = false }, null)
                 </td>
 
             </tr>
-            }
+        }
+    }
+    else
+    {
+        <tr><td><span>No results found.</span></td><td></td><td></td><td></td></tr>
+    }
 
-        </table>
+</table>

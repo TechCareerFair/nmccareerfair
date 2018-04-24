@@ -54,38 +54,48 @@
             @Html.DisplayNameFor(model => model.Fields)
         </dt>
         <dd></dd>
-        @foreach (string field in ViewBag.Fields)
+        @if(ViewBag.Fields.Count > 0)
         {
-            <dd>
-                @field
-            </dd>
+            foreach (string field in ViewBag.Fields)
+            {
+                <dd>
+                    @field
+                </dd>
+            }
+        }
+        else
+        {
+            <dd><span>No fields listed</span></dd>
         }
 
         <dt>
             @Html.DisplayNameFor(model => model.Positions)
         </dt>
         <dd></dd>
-        @foreach (TechCareerFair.Models.position position in ViewBag.Positions)
+        @if (ViewBag.Positions.Count > 0)
         {
-            string fullSite = position.Website;
+            foreach (TechCareerFair.Models.position position in ViewBag.Positions)
+            {
             <dd>
-                @if (!fullSite.IsEmpty() && !fullSite.Contains("http") && !fullSite.Contains("https"))
-                {
-                    fullSite = "<a href='http://" + fullSite + "'>" + position.Name + "</a>";
-                }
-                else
-                {
-                    fullSite = position.Name;
-                }
-
                 <p>
-                    Name: @fullSite <br />
+                    Name: @if(!position.Website.IsEmpty())
+                            {
+                                <a href='@position.Website'>@position.Name</a>
+                            }
+                            else
+                            {
+                                @position.Name;
+                            } <br />
                     Description: @position.Description <br />
-                    Is Internship: @position.IsInternship.ToString()
+                    Is Internship: @position.Internship.ToString()
                 </p>
             </dd>
+            }
         }
-        
+        else
+        {
+            <dd><span>No listed job positions</span></dd>
+        }
 
     </dl>
 

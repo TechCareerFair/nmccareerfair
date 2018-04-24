@@ -54,12 +54,19 @@
             @Html.DisplayNameFor(model => model.Fields)
         </dt>
         <dd></dd>
-        @foreach (string field in ViewBag.Fields)
-    {
-        <dd>
-            @field
-        </dd>
-}
+        @if(ViewBag.Fields.Count > 0)
+        {
+            foreach (string field in ViewBag.Fields)
+            {
+                <dd>
+                    @field
+                </dd>
+            }
+        }
+        else
+        {
+            <dd><span>No fields listed</span></dd>
+        }
 
         <dt>
             @Html.DisplayNameFor(model => model.University)

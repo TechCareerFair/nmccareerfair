@@ -63,7 +63,7 @@
 </style>
 
 
-<h2>Search An Applicant</h2>
+<h2>Search Applicants</h2>
 
 Page @(pagedList.PageCount < pagedList.PageNumber ? 0 : pagedList.PageNumber) of @pagedList.PageCount
 @Html.PagedListPager(pagedList, page => Url.Action("SearchApp", new { page, filter = currentFilter, sortOrder = ViewBag.CurrentSort, searchCriteria = criteria }))
@@ -109,10 +109,10 @@ Page @(pagedList.PageCount < pagedList.PageNumber ? 0 : pagedList.PageNumber) of
     <tr>
 
         <th>
-            @Html.ActionLink(@Html.DisplayNameFor(model => model.FirstName).ToHtmlString(), "SearchApp", new { sortOrder = "FirstName", searchCriteria = criteria, filter = currentFilter}, new { style = "color:white; text-decoration: underline" })
+            @Html.ActionLink(@Html.DisplayNameFor(model => model.FirstName).ToHtmlString(), "SearchApp", new { sortOrder = "FirstName", searchCriteria = criteria, filter = currentFilter }, new { style = "color:white; text-decoration: underline" })
         </th>
         <th>
-            @Html.ActionLink(@Html.DisplayNameFor(model => model.LastName).ToHtmlString(), "SearchApp", new { sortOrder = "LastName", searchCriteria = criteria, filter = currentFilter }, new { style="color:white; text-decoration:underline"})
+            @Html.ActionLink(@Html.DisplayNameFor(model => model.LastName).ToHtmlString(), "SearchApp", new { sortOrder = "LastName", searchCriteria = criteria, filter = currentFilter }, new { style = "color:white; text-decoration:underline" })
         </th>
         <th>
             @Html.DisplayNameFor(model => model.Fields)
@@ -123,34 +123,41 @@ Page @(pagedList.PageCount < pagedList.PageNumber ? 0 : pagedList.PageNumber) of
         <th></th>
     </tr>
 
-    @foreach (var item in Model)
+    @if (Model.Count() > 0)
     {
-    <tr>
+        foreach (var item in Model)
+        {
+            <tr>
 
-        <td>
-            @Html.DisplayFor(modelItem => item.FirstName)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.LastName)
-        </td>
-        <td>
-            @*@Html.DisplayFor(modelItem => item.Fields)*@
-            @foreach(var f in item.Fields)
-            {
-                string print = f + ". ";
-                @print;
-            }
+                <td>
+                    @Html.DisplayFor(modelItem => item.FirstName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.LastName)
+                </td>
+                <td>
+                    @*@Html.DisplayFor(modelItem => item.Fields)*@
+                    @foreach (var f in item.Fields)
+                    {
+                        string print = f + ". ";
+                        @print;
+                    }
 
 
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Email)
-        </td>
-        <td>
-            @Html.ActionLink("Details","GetSearchUserType", "ViewProfile", new { id=item.ApplicantID, isApplicant = true },null)
-        </td>
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Email)
+                </td>
+                <td>
+                    @Html.ActionLink("Details", "GetSearchUserType", "ViewProfile", new { id = item.ApplicantID, isApplicant = true }, null)
+                </td>
 
-    </tr>
+            </tr>
+        }
+    }
+    else
+    {
+        <tr><td><span>No results found.</span></td><td></td><td></td><td></td><td></td></tr>
     }
 
 </table>

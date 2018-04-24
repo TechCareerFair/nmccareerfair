@@ -112,7 +112,8 @@ namespace TechCareerFair.Models
 
         [Display(Name = "Fields of Business")]
         public List<string> Fields { get; set; }
-        
+
+        [Display(Name = "Job Positions")]
         public List<position> Positions { get; set; }
     }
 }

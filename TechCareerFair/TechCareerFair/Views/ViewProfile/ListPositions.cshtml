@@ -21,23 +21,30 @@
         <th></th>
     </tr>
 
-    @foreach (var item in Model)
+    @if (Model.Count() > 0)
     {
-        <tr>
-            @Html.HiddenFor(modelItem => item.Business)
+        foreach (var item in Model)
+        {
+            <tr>
+                @Html.HiddenFor(modelItem => item.Business)
 
-            <td>
-                @Html.DisplayFor(modelItem => item.Name)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.IsInternship)
-            </td>
-            <td>
-                @Html.ActionLink("Edit", "EditPosition", new { id = item.PositionID, businessEmail = ViewBag.BusinessEmail }) |
-                @Html.ActionLink("Details", "PositionDetails", new { id = item.PositionID, businessEmail = ViewBag.BusinessEmail }) |
-                @Html.ActionLink("Delete", "DeletePosition", new { id = item.PositionID, businessEmail = ViewBag.BusinessEmail })
-            </td>
-        </tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.IsInternship)
+                </td>
+                <td>
+                    @Html.ActionLink("Edit", "EditPosition", new { id = item.PositionID, businessEmail = ViewBag.BusinessEmail }) |
+                    @Html.ActionLink("Details", "PositionDetails", new { id = item.PositionID, businessEmail = ViewBag.BusinessEmail }) |
+                    @Html.ActionLink("Delete", "DeletePosition", new { id = item.PositionID, businessEmail = ViewBag.BusinessEmail })
+                </td>
+            </tr>
+        }
+    }
+    else
+    {
+        <tr><td><span>No positions found.</span></td><td></td><td></td></tr>
     }
 
 </table>

@@ -16,13 +16,13 @@
     <hr />
     <dl class="dl-horizontal">
 
-        <dt>
+        @*<dt>
             @Html.DisplayNameFor(model => model.Password)
         </dt>
 
         <dd>
             @Html.DisplayFor(model => model.Password)
-        </dd>
+        </dd>*@
 
         <dt>
             @Html.DisplayNameFor(model => model.Email)
@@ -60,37 +60,48 @@
             @Html.DisplayNameFor(model => model.Fields)
         </dt>
         <dd></dd>
-        @foreach (string field in ViewBag.Fields)
-    {
-        <dd>
-            @field
-        </dd>
-}
+        @if(ViewBag.Fields.Count > 0)
+        {
+            foreach (string field in ViewBag.Fields)
+            {
+                <dd>
+                    @field
+                </dd>
+            }
+        }
+        else
+        {
+            <dd><span>No fields listed</span></dd>
+        }
 
         <dt>
             @Html.DisplayNameFor(model => model.Positions)
         </dt>
         <dd></dd>
-        @foreach (TechCareerFair.Models.position position in ViewBag.Positions)
-    {
-        string fullSite = position.Website;
-        <dd>
-            @if (!fullSite.IsEmpty() && !fullSite.Contains("http") && !fullSite.Contains("https"))
+        @if (ViewBag.Positions.Count > 0)
         {
-            fullSite = "<a href='http://" + fullSite + "'>" + position.Name + "</a>";
+            foreach (TechCareerFair.Models.position position in ViewBag.Positions)
+            {
+            <dd>
+                <p>
+                    Name: @if(!position.Website.IsEmpty())
+                            {
+                                <a href='@position.Website'>@position.Name</a>
+                            }
+                            else
+                            {
+                                @position.Name;
+                            } <br />
+                    Description: @position.Description <br />
+                    Is Internship: @position.Internship.ToString()
+                </p>
+            </dd>
+            }
         }
         else
         {
-            fullSite = position.Name;
+            <dd><span>No listed job positions</span></dd>
         }
-
-            <p>
-                Name: @fullSite <br />
-                Description: @position.Description <br />
-                Is Internship: @position.Internship.ToString()
-            </p>
-        </dd>
-}
 
         <dt>
             @Html.DisplayNameFor(model => model.Street)
