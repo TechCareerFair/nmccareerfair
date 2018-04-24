@@ -3,149 +3,109 @@
     ViewBag.Title = "Business Search Results";
 }
 
-<div>
     <h4>Business Details</h4>
     <hr />
-    <dl class="dl-horizontal">
-        <dt>
-            @Html.DisplayNameFor(model => model.Email)
-        </dt>
+    <div class="container">
+        <div class="col-md-6">
+            <h2>@Html.DisplayFor(model => model.BusinessName)</h2>
 
-        <dd>
-            @Html.DisplayFor(model => model.Email)
-        </dd>
+            <img src="@Html.DisplayFor(model => model.Photo)" alt="Business Photo" height="150" width="200" />
+        </div>
+        @*general business profile info*@
+        <dl class="dl-horizontal col-md-5">
+            <dt>
+                @Html.DisplayNameFor(model => model.Street)
+            </dt>
+            <dd>
+                @Html.DisplayFor(model => model.Street)
+            </dd>
+            <dd>
+                @Html.DisplayFor(model => model.City) @Html.DisplayFor(model => model.State), @Html.DisplayFor(model => model.Zip)
+            </dd>
+            <dt>
+                @Html.DisplayNameFor(model => model.Phone)
+            </dt>
+            <dd>
+                @Html.DisplayFor(model => model.Phone)
+            </dd>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.BusinessName)
-        </dt>
+            <dt>
+                @Html.DisplayNameFor(model => model.Email)
+            </dt>
+            <dd>
+                @Html.DisplayFor(model => model.Email)
+            </dd>
+            <dt>
+                <strong>Representative:</strong>
+            </dt>
 
-        <dd>
-            @Html.DisplayFor(model => model.BusinessName)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.FirstName)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.FirstName)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.LastName)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.LastName)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.Fields)
-        </dt>
-        <dd></dd>
-        @foreach (string field in ViewBag.Fields)
+            <dd>
+                @Html.DisplayFor(model => model.FirstName) @Html.DisplayFor(model => model.LastName)
+            </dd>
+            <dt>
+                @Html.DisplayNameFor(model => model.Fields)
+            </dt>
+            <dd></dd>
+            @foreach (string field in ViewBag.Fields)
         {
             <dd>
                 @field
             </dd>
-        }
+    }
 
-        <dt>
-            @Html.DisplayNameFor(model => model.Positions)
-        </dt>
-        <dd></dd>
-        @foreach (TechCareerFair.Models.position position in ViewBag.Positions)
+            <dt>
+                @Html.DisplayNameFor(model => model.Positions)
+            </dt>
+            <dd></dd>
+            @foreach (TechCareerFair.Models.position position in ViewBag.Positions)
         {
             string fullSite = position.Website;
             <dd>
                 @if (!fullSite.IsEmpty() && !fullSite.Contains("http") && !fullSite.Contains("https"))
-                {
-                    fullSite = "<a href='http://" + fullSite + "'>" + position.Name + "</a>";
-                }
-                else
-                {
-                    fullSite = position.Name;
-                }
+            {
+                fullSite = "<a href='http://" + fullSite + "'>" + position.Name + "</a>";
+            }
+            else
+            {
+                fullSite = position.Name;
+            }
 
                 <p>
-                    Name: @Html.Raw(fullSite) <br />
+                    Name: @fullSite <br />
                     Description: @position.Description <br />
                     Is Internship: @position.IsInternship.ToString()
                 </p>
             </dd>
-        }
-
-        <dt>
-            @Html.DisplayNameFor(model => model.Street)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Street)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.City)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.City)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.State)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.State)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.Zip)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Zip)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.Phone)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Phone)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.BusinessDescription)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.BusinessDescription)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.Website)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Website)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.SocialMedia)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.SocialMedia)
-        </dd>
-
-        <dd>
-            <img src="@Html.DisplayFor(model => model.Photo)" alt="Business Photo" height="150" width="200" />
-        </dd>
+    }
 
 
-    </dl>
-</div>
-<p>
-    @Html.ActionLink("Back to List", "SearchBus", "Home")
-</p>
+        </dl>
+
+        @*tech career fair related info*@
+        <dl class="dl-horizontal col-md-5">
+            <dt>
+                @Html.DisplayNameFor(model => model.BusinessDescription)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.BusinessDescription)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.Website)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.Website)
+            </dd>
+            <dt>
+                @Html.DisplayNameFor(model => model.SocialMedia)
+            </dt>
+            <dd>
+                @Html.DisplayFor(model => model.SocialMedia)
+            </dd>
+        </dl>
+    </div>
+    <p>
+        @Html.ActionLink("Back to List", "SearchBus", "Home")
+    </p>

@@ -79,7 +79,7 @@
                 }
 
                 <p>
-                    Name: @Html.Raw(fullSite) <br />
+                    Name: @fullSite <br />
                     Description: @position.Description <br />
                     Is Internship: @position.IsInternship.ToString()
                 </p>
@@ -121,7 +121,7 @@
             @if (!website.IsEmpty() && !website.Contains("http") && !website.Contains("https"))
         {
             website = "<a href='http://" + website + "'>" + website + "</a>";
-                @Html.Raw(website)
+                @website
         }
         else
         {
@@ -136,7 +136,7 @@
             @if (!socialMedia.IsEmpty() && !socialMedia.Contains("http") && !socialMedia.Contains("https"))
         {
             socialMedia = "<a href='http://" + socialMedia + "'>" + socialMedia + "</a>";
-                @Html.Raw(socialMedia)
+                @socialMedia
         }
         else
         {

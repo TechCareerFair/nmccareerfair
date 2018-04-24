@@ -12,21 +12,21 @@
         @Html.HiddenFor(model => model.GalleryID)
 
         <div class="form-group">
-            @if(Model.Directory.Contains("http"))
-            {
-                <iframe height="150" width="200" src="@Model.Directory"
-                    data-toggle="lightbox" frameborder="1" allow="autoplay; encrypted-media" allowfullscreen></iframe>
-            }
-            else
-            {
-                <img src='@Model.Directory' height="150" width="200"/>
-            }
-            @Html.LabelFor(model => model.Directory, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                <input class="form-control" type="file" id="fileUpload" name="fileUpload" /> 
-                @if (Model.Directory != null && Model.Directory != "")
+            <div class="col-md-2">@Html.LabelFor(model => model.Directory, htmlAttributes: new { @class = "control-label" }) <strong>(Embedded link if video)</strong></div>
+            <div class="col-md-5">
+                @if(Model.Directory.Contains("http"))
                 {
-                    @Html.CheckBox("removeImage") <span>Remove (if Photo)</span>
+                    <iframe style="float:left;" height="150" width="200" src="@Model.Directory"
+                        data-toggle="lightbox" frameborder="1" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+                }
+                else
+                {
+                    <img src='@Model.Directory' style="float:left;" height="150" width="200"/>
+                }
+                <input class="form-control" type="file" id="fileUpload" name="fileUpload" /> 
+                @if (Model.Directory != null && Model.Directory != "" && !Model.Directory.Contains("http"))
+                {
+                    <span>&nbsp;</span> @Html.CheckBox("removeImage") <span>Remove (if Photo)</span>
                 }
                 @Html.EditorFor(model => model.Directory, new { htmlAttributes = new { @class = "form-control" } })
                 @Html.ValidationMessageFor(model => model.Directory, "", new { @class = "text-danger" })
