@@ -114,7 +114,11 @@
     <div class="form-group">
         @Html.LabelFor(model => model.Resume, htmlAttributes: new { @class = "control-label col-md-2" })
         <div class="col-md-10">
-            <input class="form-control" type="file" id="fileUpload" name="fileUpload" /> @Html.CheckBox("removeResume") <span>Remove</span>
+            <input class="form-control" type="file" id="fileUpload" name="fileUpload" /> 
+            @if(Model.Resume != null && Model.Resume != "")
+            {
+               @Html.CheckBox("removeResume") <span>Remove Resume</span>
+            }
             @Html.DisplayFor(model => model.Resume)
             @Html.EditorFor(model => model.Resume, new { htmlAttributes = new { @class = "hidden" } })
             @Html.ValidationMessageFor(model => model.Resume, "", new { @class = "text-danger" })

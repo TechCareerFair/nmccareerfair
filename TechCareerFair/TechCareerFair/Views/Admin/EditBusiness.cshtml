@@ -243,8 +243,12 @@
     <div class="form-group">
         @Html.LabelFor(model => model.Photo, htmlAttributes: new { @class = "control-label col-md-2" })
         <div class="col-md-10">
-            <input class="form-control" type="file" id="fileUpload" name="fileUpload" /> @Html.CheckBox("removeImage") <span>Remove</span>
-            <img src='@Html.DisplayFor(model => model.Photo).ToHtmlString()' />
+            <input class="form-control" type="file" id="fileUpload" name="fileUpload" /> 
+            @if(Model.Photo != null && Model.Photo != "")
+            {
+                @Html.CheckBox("removeImage") <span>Remove</span>
+                <img src='@Html.DisplayFor(model => model.Photo).ToHtmlString()' height="150" width="200"/>
+            }
             @Html.EditorFor(model => model.Photo, new { htmlAttributes = new { @class = "hidden" } })
             @Html.ValidationMessageFor(model => model.Photo, "", new { @class = "text-danger" })
             <span class="text-danger">@ViewBag.Error</span>
