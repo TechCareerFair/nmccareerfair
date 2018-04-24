@@ -21,11 +21,45 @@
     .body-content {
         background-color: #edf9ef;
     }
-
   
     .form-group.applicant-field label {
         height: 150px;
     }
+    .form-group.app-btn input {
+        background-color: #008265;
+        font-size: 20px;
+        color: #fff;
+        box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
+        transition: all 0.3s cubic-bezier(.25,.8,.25,1);
+    }
+
+        .form-group.app-btn input:hover {
+            box-shadow: 0 14px 28px rgba(0,0,0,0.25), 0 10px 10px rgba(0,0,0,0.22);
+        }
+
+    .table {
+        width: 100%;
+    }
+
+    table, th, td {
+        border: 1px solid black;
+        border-collapse: collapse;
+    }
+
+    th {
+        text-align: center;
+        padding: 15px;
+        background-color: #008265;
+        color: #fff;
+    }
+
+    td {
+        padding: 15px;
+        text-align: left;
+    }
+
+
+
 </style>
 
 
@@ -61,26 +95,24 @@ Page @(pagedList.PageCount < pagedList.PageNumber ? 0 : pagedList.PageNumber) of
             </div>
 
         </div>
+      <br/>
 
-        <div class="form-group">
+        <div class="form-group app-btn">
             <input type="submit" value="Find Applicants" class="btn col-md-2 col-md-offset-2" />
             <input type="button" value="Reset List" onclick="location.href='@Url.Action("SearchApp","Home")'" class="btn col-md-2 col-md-offset-2" />
         </div>
 
     </div>
 }
-
 <br/>
-
-
 <table class="table">
     <tr>
 
         <th>
-            @Html.ActionLink(@Html.DisplayNameFor(model => model.FirstName).ToHtmlString(), "SearchApp", new { sortOrder = "FirstName", searchCriteria = criteria, filter = currentFilter })
+            @Html.ActionLink(@Html.DisplayNameFor(model => model.FirstName).ToHtmlString(), "SearchApp", new { sortOrder = "FirstName", searchCriteria = criteria, filter = currentFilter}, new { style = "color:white; text-decoration: underline" })
         </th>
         <th>
-            @Html.ActionLink(@Html.DisplayNameFor(model => model.LastName).ToHtmlString(), "SearchApp", new { sortOrder = "LastName", searchCriteria = criteria, filter = currentFilter })
+            @Html.ActionLink(@Html.DisplayNameFor(model => model.LastName).ToHtmlString(), "SearchApp", new { sortOrder = "LastName", searchCriteria = criteria, filter = currentFilter }, new { style="color:white; text-decoration:underline"})
         </th>
         <th>
             @Html.DisplayNameFor(model => model.Fields)
