@@ -550,7 +550,9 @@ sidebar
         border-radius: 0;
         transition: max-height 0.2s ease-out;
     }
-
+button#LinkedIn {
+    display: none;
+}
 /*
 ==========================================================
 search page
