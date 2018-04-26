@@ -19,7 +19,7 @@
 
 <style>
 
-  
+
     table, th, td {
         border: 1px solid black;
         border-collapse: collapse;
@@ -36,16 +36,10 @@
         padding: 15px;
         text-align: left;
     }
-
-
-
 </style>
 
 
 <h2>Search Applicants</h2>
-
-Page @(pagedList.PageCount < pagedList.PageNumber ? 0 : pagedList.PageNumber) of @pagedList.PageCount
-@Html.PagedListPager(pagedList, page => Url.Action("SearchApp", new { page, filter = currentFilter, sortOrder = ViewBag.CurrentSort, searchCriteria = criteria }))
 
 @using (Html.BeginForm(new { page = 1, filter = currentFilter, sortOrder = ViewBag.CurrentSort, searchCriteria = criteria }))
 {
@@ -56,25 +50,25 @@ Page @(pagedList.PageCount < pagedList.PageNumber ? 0 : pagedList.PageNumber) of
             @Html.TextBox("searchCriteria", null, new { @class = "form-control" })
         </div>
 
-    
+
         <div class="form-group applicant-field">
 
             @Html.Label("Fields of Study", htmlAttributes: new { @class = "control-label col-md-2 no-padding max-width-200" })
             <div class="app-search-field">
-                @if(ViewBag.AllFields != null)
+                @if (ViewBag.AllFields != null)
                 {
                     for (int i = 0; i < ViewBag.AllFields.Count; i++)
                     {
                         string name = ViewBag.AllFields[i].Name;
                         bool contains = (ViewBag.Fields != null ? ViewBag.Fields.Contains(name) : false);
                         @Html.CheckBox(name, contains)<span>@name</span>
-                        <br/>
+                        <br />
                     }
                 }
             </div>
 
         </div>
-      <br/>
+        <br />
 
         <div class="form-group">
             <input type="submit" value="Find Applicants" class="btn-theme" />
@@ -83,7 +77,8 @@ Page @(pagedList.PageCount < pagedList.PageNumber ? 0 : pagedList.PageNumber) of
 
     </div>
 }
-<br/>
+
+@Html.PagedListPager(pagedList, page => Url.Action("SearchApp", new { page, filter = currentFilter, sortOrder = ViewBag.CurrentSort, searchCriteria = criteria }))
 <table class="table">
     <tr>
 
@@ -140,5 +135,4 @@ Page @(pagedList.PageCount < pagedList.PageNumber ? 0 : pagedList.PageNumber) of
     }
 
 </table>
-
-
+Page @(pagedList.PageCount < pagedList.PageNumber ? 0 : pagedList.PageNumber) of @pagedList.PageCount
