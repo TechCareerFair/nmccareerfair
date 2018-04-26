@@ -138,7 +138,9 @@ li.user-login a {
 a.nmc-home {
     display: block;
     color: #fff;
-    margin: 15px 0px;
+    position: relative;
+    margin: 15px;
+    top: 4px;
 }
 a.nmc-home:hover {
     color:#eee;
@@ -550,26 +552,36 @@ sidebar
         border-radius: 0;
         transition: max-height 0.2s ease-out;
     }
-
+button#LinkedIn {
+    display: none;
+}
 /*
 ==========================================================
 search page
 ==========================================================
 */
+
+.form-group.applicant-field {
+    padding-top: 20px;
+    padding-bottom:20px;
+}
 div#FilterSearch {
     padding: 20px;
 }
 label.control-label.col-md-2.no-padding {
     padding: 0px;
 }
+strong.control-label.col-md-2.no-padding {
+    padding: 0px;
+}
 input#searchCriteria {
-    margin: 0 10px;
+    margin: 0px;
 }
 .form-group.last-name-search {
     margin-bottom: 20px!important;
 }
 .form-group.applicant-field label {
-    height: 150px;
+    height: 275px;
 }
 .fields-check-box {
     margin-bottom: 30px;
@@ -880,6 +892,7 @@ dd {
     margin: auto;
     background: #fff;
     box-shadow: 0px 2px 6px #333;
+    padding:20px;
 }
 
 .name {

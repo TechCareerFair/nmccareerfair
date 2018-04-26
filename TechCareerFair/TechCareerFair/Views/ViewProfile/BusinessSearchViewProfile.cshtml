@@ -4,113 +4,116 @@
 }
 
     <h4>Business Details</h4>
-    <hr />
     <div class="container">
-        <div class="col-md-6">
-            <h2>@Html.DisplayFor(model => model.BusinessName)</h2>
+        <div class="profile-wrapper">
+            <div class="container">
+                <div class="col-md-12">
+                    <h2>@Html.DisplayFor(model => model.BusinessName)</h2>
 
-            <img src="@Html.DisplayFor(model => model.Photo)" alt="Business Photo" height="150" width="200" />
-        </div>
-        @*general business profile info*@
-        <dl class="dl-horizontal col-md-5">
-            <dt>
-                @Html.DisplayNameFor(model => model.Street)
-            </dt>
-            <dd>
-                @Html.DisplayFor(model => model.Street)
-            </dd>
-            <dd>
-                @Html.DisplayFor(model => model.City) @Html.DisplayFor(model => model.State), @Html.DisplayFor(model => model.Zip)
-            </dd>
-            <dt>
-                @Html.DisplayNameFor(model => model.Phone)
-            </dt>
-            <dd>
-                @Html.DisplayFor(model => model.Phone)
-            </dd>
-
-            <dt>
-                @Html.DisplayNameFor(model => model.Email)
-            </dt>
-            <dd>
-                @Html.DisplayFor(model => model.Email)
-            </dd>
-            <dt>
-                <strong>Representative</strong>
-            </dt>
-
-            <dd>
-                @Html.DisplayFor(model => model.FirstName) @Html.DisplayFor(model => model.LastName)
-            </dd>
-            <dt>
-                @Html.DisplayNameFor(model => model.Fields)
-            </dt>
-            <dd></dd>
-            @if(ViewBag.Fields.Count > 0)
-            {
-                foreach (string field in ViewBag.Fields)
-                {
+                    <img src="@Html.DisplayFor(model => model.Photo)" alt="Business Photo" height="150" width="200" />
+                </div>
+                @*general business profile info*@
+                <dl class="dl-horizontal col-md-12">
+                    <dt>
+                        @Html.DisplayNameFor(model => model.Street)
+                    </dt>
                     <dd>
-                        @field
+                        @Html.DisplayFor(model => model.Street)
                     </dd>
+                    <dd>
+                        @Html.DisplayFor(model => model.City) @Html.DisplayFor(model => model.State), @Html.DisplayFor(model => model.Zip)
+                    </dd>
+                    <dt>
+                        @Html.DisplayNameFor(model => model.Phone)
+                    </dt>
+                    <dd>
+                        @Html.DisplayFor(model => model.Phone)
+                    </dd>
+
+                    <dt>
+                        @Html.DisplayNameFor(model => model.Email)
+                    </dt>
+                    <dd>
+                        @Html.DisplayFor(model => model.Email)
+                    </dd>
+                    <dt>
+                        <strong>Representative</strong>
+                    </dt>
+
+                    <dd>
+                        @Html.DisplayFor(model => model.FirstName) @Html.DisplayFor(model => model.LastName)
+                    </dd>
+                    <dt>
+                        @Html.DisplayNameFor(model => model.Fields)
+                    </dt>
+                    <dd></dd>
+                    @if (ViewBag.Fields.Count > 0)
+                {
+                    foreach (string field in ViewBag.Fields)
+                    {
+                        <dd>
+                            @field
+                        </dd>
                 }
             }
             else
             {
                 <dd><span>No fields listed</span></dd>
-            }
+        }
 
-            <dt>
-                @Html.DisplayNameFor(model => model.Positions)
-            </dt>
-            <dd></dd>
-            @if (ViewBag.Positions.Count > 0)
-            {
-            foreach (TechCareerFair.Models.position position in ViewBag.Positions)
-            {
-            <dd>
-                <p>
-                    Name: @if (!position.Website.IsEmpty())
+                    <dt>
+                        @Html.DisplayNameFor(model => model.Positions)
+                    </dt>
+                    <dd></dd>
+                    @if (ViewBag.Positions.Count > 0)
+                {
+                    foreach (TechCareerFair.Models.position position in ViewBag.Positions)
                     {
+                        <dd>
+                            <p>
+                                Name: @if (!position.Website.IsEmpty())
+                            {
                                 <a href='@position.Website'>@position.Name</a>
-                    }
-                    else
-                    {
-                                @position.Name;
+                        }
+                        else
+                        {
+                            @position.Name;
                     }<br />
-                    Description: @position.Description <br />
-                    Is Internship: @position.IsInternship.ToString()
-                </p>
-            </dd>
-            }
+                                Description: @position.Description <br />
+                                Is Internship: @position.IsInternship.ToString()
+                            </p>
+                        </dd>
+                }
             }
             else
             {
                 <dd><span>No listed job positions</span></dd>
-            }
-            <dt>
-                @Html.DisplayNameFor(model => model.BusinessDescription)
-            </dt>
+        }
+                    <dt>
+                        @Html.DisplayNameFor(model => model.BusinessDescription)
+                    </dt>
 
-            <dd>
-                @Html.DisplayFor(model => model.BusinessDescription)
-            </dd>
+                    <dd>
+                        @Html.DisplayFor(model => model.BusinessDescription)
+                    </dd>
 
-            <dt>
-                @Html.DisplayNameFor(model => model.Website)
-            </dt>
+                    <dt>
+                        @Html.DisplayNameFor(model => model.Website)
+                    </dt>
 
-            <dd>
-                @Html.DisplayFor(model => model.Website)
-            </dd>
-            <dt>
-                @Html.DisplayNameFor(model => model.SocialMedia)
-            </dt>
-            <dd>
-                @Html.DisplayFor(model => model.SocialMedia)
-            </dd>
-        </dl>
+                    <dd>
+                        @Html.DisplayFor(model => model.Website)
+                    </dd>
+                    <dt>
+                        @Html.DisplayNameFor(model => model.SocialMedia)
+                    </dt>
+                    <dd>
+                        @Html.DisplayFor(model => model.SocialMedia)
+                    </dd>
+                </dl>
+            </div>
+            <p>
+                @Html.ActionLink("Back to List", "SearchBus", "Home")
+            </p>
+            </div>
     </div>
-    <p>
-        @Html.ActionLink("Back to List", "SearchBus", "Home")
-    </p>
