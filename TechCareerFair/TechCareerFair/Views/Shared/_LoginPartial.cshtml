@@ -6,17 +6,17 @@
         @Html.AntiForgeryToken()
 
 <ul class="nav navbar-nav navbar-right">
-    <li>
+    <li class="user-login">
         @if (User.IsInRole("Admin"))
     {
-        @Html.ActionLink("Hello, Admin!", "LandingPage", "Admin", routeValues: null, htmlAttributes: new { title = "Manage" })
+        @Html.ActionLink("Hello, Admin!", "LandingPage", "Admin", routeValues: null, htmlAttributes: new { title = "Manage", @class="signed-out" })
 }
 else
 {
-    @Html.ActionLink("Hello, " + User.Identity.GetUserName() + "!", "GetUserType", "ViewProfile", routeValues: null, htmlAttributes: new { title = "Manage" })
+    @Html.ActionLink("Hello, " + User.Identity.GetUserName() + "!", "GetUserType", "ViewProfile", routeValues: null, htmlAttributes: new { title = "Manage",@class="signed-in" })
 }
     </li>
-    <li><a href="javascript:document.getElementById('logoutForm').submit()">Log off</a></li>
+    <li class="user-login"><a href="javascript:document.getElementById('logoutForm').submit()">Log off</a></li>
 </ul>
     }
     }

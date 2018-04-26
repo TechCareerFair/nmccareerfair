@@ -7,10 +7,11 @@
 }
 
 <p class="text-success">@ViewBag.StatusMessage</p>
-
+<div class="container">
+    <div class="profile-wrapper">
 <div>
-    <h2 class="col-md-6">@Html.DisplayFor(model => model.BusinessName)</h2>
-    <dl class="col-md-6">
+    <h2 class="name">@Html.DisplayFor(model => model.BusinessName)</h2>
+    <dl class="business-photo-profile name">
         <dd>
             <img src="@Html.DisplayFor(model => model.Photo)" alt="Business Photo" height="150" width="200" />
         </dd>
@@ -20,7 +21,7 @@
 
 <div class="container">
     @*general business profile info*@
-    <dl class="dl-horizontal col-md-5">
+    <dl class="dl-horizontal col-md-12">
         <dt>
             @Html.DisplayNameFor(model => model.Street)
         </dt>
@@ -44,7 +45,7 @@
             @Html.DisplayFor(model => model.Email)
         </dd>
         <dt>
-            <strong>Representative</strong>
+            <strong>Representative:</strong>
         </dt>
 
         <dd>
@@ -54,53 +55,43 @@
             @Html.DisplayNameFor(model => model.Fields)
         </dt>
         <dd></dd>
-        @if(ViewBag.Fields.Count > 0)
+        @foreach (string field in ViewBag.Fields)
         {
-            foreach (string field in ViewBag.Fields)
-            {
-                <dd>
-                    @field
-                </dd>
-            }
-        }
-        else
-        {
-            <dd><span>No fields listed</span></dd>
+            <dd>
+                @field
+            </dd>
         }
 
         <dt>
             @Html.DisplayNameFor(model => model.Positions)
         </dt>
         <dd></dd>
-        @if (ViewBag.Positions.Count > 0)
+        @foreach (TechCareerFair.Models.position position in ViewBag.Positions)
         {
-            foreach (TechCareerFair.Models.position position in ViewBag.Positions)
-            {
+            string fullSite = position.Website;
             <dd>
+                @if (!fullSite.IsEmpty() && !fullSite.Contains("http") && !fullSite.Contains("https"))
+                {
+                    fullSite = "<a href='http://" + fullSite + "'>" + position.Name + "</a>";
+                }
+                else
+                {
+                    fullSite = position.Name;
+                }
+
                 <p>
-                    Name: @if(!position.Website.IsEmpty())
-                            {
-                                <a href='@position.Website'>@position.Name</a>
-                            }
-                            else
-                            {
-                                @position.Name;
-                            } <br />
+                    Name: @Html.Raw(fullSite) <br />
                     Description: @position.Description <br />
-                    Is Internship: @position.Internship.ToString()
+                    Is Internship: @position.IsInternship.ToString()
                 </p>
             </dd>
-            }
         }
-        else
-        {
-            <dd><span>No listed job positions</span></dd>
-        }
+        
 
     </dl>
 
     @*tech career fair related info*@
-    <dl class="dl-horizontal col-md-5">
+    <dl class="dl-horizontal col-md-12">
         <dt>
             @Html.DisplayNameFor(model => model.BusinessDescription)
         </dt>
@@ -131,7 +122,7 @@
             @if (!website.IsEmpty() && !website.Contains("http") && !website.Contains("https"))
         {
             website = "<a href='http://" + website + "'>" + website + "</a>";
-                @website
+                @Html.Raw(website)
         }
         else
         {
@@ -146,7 +137,7 @@
             @if (!socialMedia.IsEmpty() && !socialMedia.Contains("http") && !socialMedia.Contains("https"))
         {
             socialMedia = "<a href='http://" + socialMedia + "'>" + socialMedia + "</a>";
-                @socialMedia
+                @Html.Raw(socialMedia)
         }
         else
         {
@@ -196,9 +187,11 @@
     @if (User.Identity.GetUserName() == Model.Email)
     {
         <div class="form-group col-md-2">
-            <input type="button" value="Change Password" onclick="location.href='@Url.Action("ChangePassword", "Manage")'" class="btn btn-primary" />
-            <input type="button" value="Edit Profile" onclick="location.href='@Url.Action("EditBusiness", new { id = Model.BusinessID })'" class="btn btn-primary" />
+            <input type="button" value="Change Password" onclick="location.href='@Url.Action("ChangePassword", "Manage")'" class="btn-theme" />
+            <input type="button" value="Edit Profile" onclick="location.href='@Url.Action("EditBusiness", new { id = Model.BusinessID })'" class="btn-theme" />
         </div>
     }
+</div>
+        </div>
 </div>
 

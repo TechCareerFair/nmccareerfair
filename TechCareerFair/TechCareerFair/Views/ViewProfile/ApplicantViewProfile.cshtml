@@ -9,106 +9,96 @@
 
 <p class="text-success">@ViewBag.StatusMessage</p>
 
-<h2>@Html.DisplayFor(model => model.FirstName) @Html.DisplayFor(model => model.LastName)</h2>
-
 <div class="container">
-    @*general applicant info*@
-    <dl class="dl-horizontal col-md-5">
-        <dt>
-            @Html.DisplayNameFor(model => model.Email)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.Email)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.SocialMedia)
-        </dt>
-        <dd>
-            @if (!socialMedia.IsEmpty() && !socialMedia.Contains("http") && !socialMedia.Contains("https"))
-            {
-                socialMedia = "<a href='http://" + socialMedia + "'>" + socialMedia + "</a>";
+    <div class="profile-wrapper">
+        <h2 class="name">@Html.DisplayFor(model => model.FirstName) @Html.DisplayFor(model => model.LastName)</h2>
+        <div class="container">
+            @*general applicant info*@
+            <dl class="dl-horizontal col-md-12">
+                <dt>
+                    @Html.DisplayNameFor(model => model.Email)
+                </dt>
+                <dd>
+                    @Html.DisplayFor(model => model.Email)
+                </dd>
+                <dt>
+                    @Html.DisplayNameFor(model => model.SocialMedia)
+                </dt>
+                <dd>
+                    @if (!socialMedia.IsEmpty() && !socialMedia.Contains("http") && !socialMedia.Contains("https"))
+                {
+                    socialMedia = "<a href='http://" + socialMedia + "'>" + socialMedia + "</a>";
+                }
+                else
+                {
+                    @Html.DisplayFor(model => model.SocialMedia)
             }
-            else
-            {
-                @Html.DisplayFor(model => model.SocialMedia)
-            }
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.Profile)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.Profile)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.Fields)
-        </dt>
-        @if(ViewBag.Fields.Count > 0)
-        {
-            foreach (string field in ViewBag.Fields)
+                    @Html.Raw(socialMedia)
+                </dd>
+                <dt>
+                    @Html.DisplayNameFor(model => model.Profile)
+                </dt>
+                <dd>
+                    @Html.DisplayFor(model => model.Profile)
+                </dd>
+                <dt>
+                    @Html.DisplayNameFor(model => model.Fields)
+                </dt>
+                @foreach (string field in ViewBag.Fields)
             {
                 <dd>
                     @field
                 </dd>
-            }
         }
-        else
-        {
-            <dd><span>No fields listed</span></dd>
-        }
-
-
-    </dl>
-    @*education / experience info*@
-    <dl class="dl-horizontal col-md-5">
-        <dt>
-            @Html.DisplayNameFor(model => model.University)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.University)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.Alumni)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Alumni)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.YearsExperience)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.YearsExperience)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.Internship)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.IsInternship)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.Resume)
-        </dt>
-        <dd>
-            @if(Model.Resume != "")
-            {
-                <a href="@resume" class="btn btn-default">Download</a>
+            </dl>
+            @*education / experience info*@
+            <dl class="dl-horizontal col-md-12">
+                <dt>
+                    @Html.DisplayNameFor(model => model.University)
+                </dt>
+                <dd>
+                    @Html.DisplayFor(model => model.University)
+                </dd>
+                <dt>
+                    @Html.DisplayNameFor(model => model.Alumni)
+                </dt>
+                <dd>
+                    @Html.DisplayFor(model => model.Alumni)
+                </dd>
+                <dt>
+                    @Html.DisplayNameFor(model => model.YearsExperience)
+                </dt>
+                <dd>
+                    @Html.DisplayFor(model => model.YearsExperience)
+                </dd>
+                <dt>
+                    @Html.DisplayNameFor(model => model.Internship)
+                </dt>
+                <dd>
+                    @Html.DisplayFor(model => model.IsInternship)
+                </dd>
+                <dt>
+                    @Html.DisplayNameFor(model => model.Resume)
+                </dt>
+                <dd>
+                    @if (Model.Resume != "")
+                {
+                    <a href="@resume" class="download-resume-btn">Download Resume</a>
             }
             else
             {
                 <span>No resume is available for download.</span>
-            }
-        </dd>
-    </dl>
-    @if (User.Identity.GetUserName() == Model.Email)
-    {
-        <div class="form-group col-md-2">
-            <input type="button" value="Change Password" onclick="location.href='@Url.Action("ChangePassword", "Manage")'" class="btn btn-primary" />
-            <input type="button" value="Edit Profile" onclick="location.href='@Url.Action("EditApplicant", new { id = Model.ApplicantID })'" class="btn btn-primary" />
-        </div>
+        }
+                </dd>
+            </dl>
+            @if (User.Identity.GetUserName() == Model.Email)
+        {
+            <div class="form-group">
+                <input type="button" value="Change Password" onclick="location.href='@Url.Action("ChangePassword", "Manage")'" class="btn-theme" />
+                <input type="button" value="Edit Profile" onclick="location.href='@Url.Action("EditApplicant", new { id = Model.ApplicantID })'" class="btn-theme" />
+            </div>
 
     }
+        </div>
+    </div>
 </div>
-

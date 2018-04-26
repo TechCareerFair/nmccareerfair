@@ -17,7 +17,7 @@
         <div class="form-group">
             @Html.LabelFor(model => model.Email, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.EditorFor(model => model.Email, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.EditorFor(model => model.Email, new { htmlAttributes = new { @class = "form-control edit applicant" } })
                 @Html.ValidationMessageFor(model => model.Email, "", new { @class = "text-danger" })
             </div>
         </div>
@@ -25,7 +25,7 @@
         <div class="form-group">
             @Html.LabelFor(model => model.FirstName, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.EditorFor(model => model.FirstName, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.EditorFor(model => model.FirstName, new { htmlAttributes = new { @class = "form-control edit applicant" } })
                 @Html.ValidationMessageFor(model => model.FirstName, "", new { @class = "text-danger" })
             </div>
         </div>
@@ -33,7 +33,7 @@
         <div class="form-group">
             @Html.LabelFor(model => model.LastName, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.EditorFor(model => model.LastName, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.EditorFor(model => model.LastName, new { htmlAttributes = new { @class = "form-control edit applicant" } })
                 @Html.ValidationMessageFor(model => model.LastName, "", new { @class = "text-danger" })
             </div>
         </div>
@@ -57,7 +57,7 @@
         <div class="form-group">
             @Html.LabelFor(model => model.University, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.EditorFor(model => model.University, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.EditorFor(model => model.University, new { htmlAttributes = new { @class = "form-control edit applicant" } })
                 @Html.ValidationMessageFor(model => model.University, "", new { @class = "text-danger" })
             </div>
         </div>
@@ -75,7 +75,7 @@
         <div class="form-group">
             @Html.LabelFor(model => model.Profile, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.EditorFor(model => model.Profile, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.EditorFor(model => model.Profile, new { htmlAttributes = new { @class = "form-control edit applicant" } })
                 @Html.ValidationMessageFor(model => model.Profile, "", new { @class = "text-danger" })
             </div>
         </div>
@@ -83,7 +83,7 @@
         <div class="form-group">
             @Html.LabelFor(model => model.SocialMedia, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.EditorFor(model => model.SocialMedia, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.EditorFor(model => model.SocialMedia, new { htmlAttributes = new { @class = "form-control edit applicant" } })
                 @Html.ValidationMessageFor(model => model.SocialMedia, "", new { @class = "text-danger" })
             </div>
         </div>
@@ -91,12 +91,7 @@
         <div class="form-group">
             @Html.LabelFor(model => model.Resume, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                <input class="form-control" type="file" id="fileUpload" name="fileUpload" />
-                @if(Model.Resume != null && Model.Resume != "")
-                {
-                    @Html.CheckBox("removeResume") <span>Remove Resume</span>
-                }
-                
+                <input class="form-control edit applicant" type="file" id="fileUpload" name="fileUpload" /> @Html.CheckBox("removeResume") <span>Remove Resume</span>
                 @*@Html.DisplayFor(model => model.Resume)*@
                 @Html.EditorFor(model => model.Resume, new { htmlAttributes = new { @class = "hidden" } })
                 @Html.ValidationMessageFor(model => model.Resume, "", new { @class = "text-danger" })
@@ -107,7 +102,7 @@
         <div class="form-group">
             @Html.LabelFor(model => model.YearsExperience, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.EditorFor(model => model.YearsExperience, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.EditorFor(model => model.YearsExperience, new { htmlAttributes = new { @class = "form-control edit applicant" } })
                 @Html.ValidationMessageFor(model => model.YearsExperience, "", new { @class = "text-danger" })
             </div>
         </div>
@@ -124,14 +119,14 @@
 
         <div class="form-group">
             <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="Save" class="btn btn-default" />
+                <input type="submit" value="Save" class="btn-theme" />
             </div>
         </div>
     </div>
 }
 
 <div>
-    @Html.ActionLink("Back to Profile", "GetUserType", new { id = Model.ApplicantID })
+    @Html.ActionLink("Back to Profile", "GetUserType", new { id = Model.ApplicantID})
 </div>
 
 @section Scripts {

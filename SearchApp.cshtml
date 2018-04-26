@@ -1,0 +1,119 @@
+﻿@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+@model IEnumerable<TechCareerFair.Models.ApplicantViewModel>
+
+
+
+@using PagedList;
+@using PagedList.Mvc;
+
+@{
+    ViewBag.Title = "Home - Seach Applicant Information";
+    var pagedList = (IPagedList)Model;
+    var criteria = ViewBag.CurrentCriteria;
+    var currentFilter = ViewBag.CurrentFilter;
+}
+<div class="container">
+    <h2>Search An Applicant</h2>
+
+    Page @(pagedList.PageCount < pagedList.PageNumber ? 0 : pagedList.PageNumber) of @pagedList.PageCount
+    @Html.PagedListPager(pagedList, page => Url.Action("SearchApp", new { page, filter = currentFilter, sortOrder = ViewBag.CurrentSort, searchCriteria = criteria }))
+
+    @using (Html.BeginForm(new { page = 1, filter = currentFilter, sortOrder = ViewBag.CurrentSort, searchCriteria = criteria }))
+    {
+
+
+        <div id="FilterSearch" class="form-horizontal search-container">
+
+            <div class="form-group last-name-search">
+                @Html.Label("Search by Last Name", htmlAttributes: new { @class = "control-label col-md-2 no-padding max-width-200" })
+                @Html.TextBox("searchCriteria", null, new { @class = "form-control" })
+            </div>
+
+
+            <div class="form-group applicant-field">
+
+                @Html.Label("Fields of Study", htmlAttributes: new { @class = "control-label col-md-2 no-padding max-width-200" })
+                <div class="fields-check-box">
+                    @if (ViewBag.AllFields != null)
+                    {
+                        for (int i = 0; i < ViewBag.AllFields.Count; i++)
+                        {
+                            string name = ViewBag.AllFields[i].Name;
+                            bool contains = (ViewBag.Fields != null ? ViewBag.Fields.Contains(name) : false);
+                            @Html.CheckBox(name, contains)<span>@name</span>
+                            <br />
+                        }
+                    }
+                </div>
+
+            </div>
+
+            <div class="form-group">
+                <input type="submit" value="Find Applicants" class="btn-theme" />
+                <input type="button" value="Reset List" onclick="location.href='@Url.Action("SearchApp","Home")'" class="btn-theme" />
+            </div>
+
+        </div>
+
+
+    }
+
+    <br />
+
+
+</div>
+<div class="container">
+    <table class="table">
+        <tr>
+
+            <th class="fname-search">
+                @Html.ActionLink(@Html.DisplayNameFor(model => model.FirstName).ToHtmlString(), "SearchApp", new { sortOrder = "FirstName", searchCriteria = criteria, filter = currentFilter })
+            </th>
+            <th class="lname-search">
+                @Html.ActionLink(@Html.DisplayNameFor(model => model.LastName).ToHtmlString(), "SearchApp", new { sortOrder = "LastName", searchCriteria = criteria, filter = currentFilter })
+            </th>
+            <th class="fields-search">
+                @Html.DisplayNameFor(model => model.Fields)
+            </th>
+            <th class="email-search">
+                @Html.DisplayNameFor(model => model.Email)
+            </th>
+            <th></th>
+        </tr>
+
+        @foreach (var item in Model)
+        {
+            <tr>
+
+                <td>
+                    @Html.DisplayFor(modelItem => item.FirstName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.LastName)
+                </td>
+                <td class="fields-search">
+                    @*@Html.DisplayFor(modelItem => item.Fields)*@
+                    @foreach (var f in item.Fields)
+                    {
+                        string print = f + ". ";
+                        @Html.Raw(print);
+                    }
+
+
+                </td>
+                <td class="email-search">
+                    @Html.DisplayFor(modelItem => item.Email)
+                </td>
+                <td>
+                    @Html.ActionLink("Details", "GetSearchUserType", "ViewProfile", new { id = item.ApplicantID, isApplicant = true }, null)
+                </td>
+
+            </tr>
+        }
+
+    </table>
+</div>
