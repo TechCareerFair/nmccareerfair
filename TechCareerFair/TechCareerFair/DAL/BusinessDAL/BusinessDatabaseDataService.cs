@@ -137,6 +137,86 @@ namespace TechCareerFair.DAL
             return business;
         }
 
+        public List<business> ReadForAdmin()
+        {
+            List<business> businesses = new List<business>();
+            using (SqlConnection connection = new SqlConnection(DataSettings.CONNECTION_STRING))
+            {
+                connection.Open();
+
+                StringBuilder sb = new StringBuilder();
+                sb.Append("SELECT [BusinessID],[Email],[BusinessName],[Phone],[ContactMe],[Approved],[Active],[PreferEmail]");
+                sb.Append("FROM [careerfair].[business]");
+                String sql = sb.ToString();
+
+                using (SqlCommand command = new SqlCommand(sql, connection))
+                {
+                    using (SqlDataReader reader = command.ExecuteReader())
+                    {
+                        while (reader.Read())
+                        {
+                            business business = new business();
+
+                            business.BusinessID = DatabaseHelper.CheckNullInt(reader, 0);
+                            business.Email = DatabaseHelper.CheckNullString(reader, 1);
+                            business.BusinessName = DatabaseHelper.CheckNullString(reader, 2);
+                            business.Phone = DatabaseHelper.CheckNullString(reader, 3);
+                            business.ContactMe = DatabaseHelper.CheckNullBool(reader, 4);
+                            business.Approved = DatabaseHelper.CheckNullBool(reader, 5);
+                            business.Active = DatabaseHelper.CheckNullBool(reader, 6);
+                            business.PreferEmail = DatabaseHelper.CheckNullBool(reader, 7);
+
+                            businesses.Add(business);
+                        }
+                    }
+                }
+            }
+
+            return businesses;
+        }
+
+        public List<business> ReadForSearch()
+        {
+            List<business> businesses = new List<business>();
+            using (SqlConnection connection = new SqlConnection(DataSettings.CONNECTION_STRING))
+            {
+                connection.Open();
+
+                StringBuilder sb = new StringBuilder();
+                sb.Append("SELECT [BusinessID],[Email],[BusinessName],[Website],[Phone],[Approved],[Active]");
+                sb.Append("FROM [careerfair].[business]");
+                String sql = sb.ToString();
+
+                using (SqlCommand command = new SqlCommand(sql, connection))
+                {
+                    using (SqlDataReader reader = command.ExecuteReader())
+                    {
+                        while (reader.Read())
+                        {
+                            business business = new business();
+
+                            business.BusinessID = DatabaseHelper.CheckNullInt(reader, 0);
+                            business.Email = DatabaseHelper.CheckNullString(reader, 1);
+                            business.BusinessName = DatabaseHelper.CheckNullString(reader, 2);
+                            business.Website = DatabaseHelper.CheckNullString(reader, 3);
+                            business.Phone = DatabaseHelper.CheckNullString(reader, 4);
+                            business.Approved = DatabaseHelper.CheckNullBool(reader, 5);
+                            business.Active = DatabaseHelper.CheckNullBool(reader, 6);
+
+                            businesses.Add(business);
+                        }
+                    }
+                    foreach (business b in businesses)
+                    {
+                        AddFields(b, connection);
+                        AddPositions(b, connection);
+                    }
+                }
+            }
+
+            return businesses;
+        }
+
         public List<business> Read(int startRow, int numberOfRows)
         {
             List<business> businesses = new List<business>();

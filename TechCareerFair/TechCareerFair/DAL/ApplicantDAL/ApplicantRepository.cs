@@ -115,7 +115,49 @@ namespace TechCareerFair.DAL
 
         public IList<applicant> SelectAll()
         {
-            return _ds.Read(); ;
+            return _ds.Read();
+        }
+
+        public IList<applicant> SelectAllSearchList()
+        {
+            return _ds.ReadForSearch();
+        }
+
+        public IList<ApplicantViewModel> SelectAllSearchListAsViewModel()
+        {
+            List<ApplicantViewModel> applicants = new List<ApplicantViewModel>();
+            IEnumerable<applicant> apps = SelectAllSearchList();
+
+            foreach (applicant a in apps)
+            {
+                ApplicantViewModel avm = ToViewModel(a);
+                GetAccountInfoByUserID(avm);
+
+                applicants.Add(avm);
+            }
+
+            return applicants;
+        }
+
+        public IList<applicant> SelectAllAdminList()
+        {
+            return _ds.ReadForAdmin();
+        }
+
+        public IList<ApplicantViewModel> SelectAllAdminListAsViewModel()
+        {
+            List<ApplicantViewModel> applicants = new List<ApplicantViewModel>();
+            IEnumerable<applicant> apps = SelectAllAdminList();
+
+            foreach (applicant a in apps)
+            {
+                ApplicantViewModel avm = ToViewModel(a);
+                GetAccountInfoByUserID(avm);
+
+                applicants.Add(avm);
+            }
+
+            return applicants;
         }
 
         public IEnumerable<applicant> SelectRange(int startRow, int numberOfRows)

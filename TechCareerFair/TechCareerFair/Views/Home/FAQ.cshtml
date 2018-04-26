@@ -27,7 +27,14 @@
                         if (faq.IsApplicantQ)
                         {
                             <button class="accordion">@faq.Question</button>
-                            <div class="panel"><p>@faq.Answer</p></div>
+                            if(faq.Website != "")
+                            {
+                                <div class="panel"><p><a href="@faq.Website">@faq.Answer</a></p></div>
+                            }
+                            else
+                            {
+                                <div class="panel"><p>@faq.Answer</p></div>
+                            }
                         }
                     }
 
@@ -44,7 +51,14 @@
                         if (!faq.IsApplicantQ)
                         {
                             <button class="accordion">@faq.Question</button>
-                            <div class="panel"><p>@faq.Answer</p></div>
+                            if(faq.Website != "")
+                            {
+                                <div class="panel"><p><a href="@faq.Website">@faq.Answer</a></p></div>
+                            }
+                            else
+                            {
+                                <div class="panel"><p>@faq.Answer</p></div>
+                            }
                         }
                     }
 

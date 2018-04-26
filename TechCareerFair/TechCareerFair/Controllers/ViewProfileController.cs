@@ -165,7 +165,7 @@ namespace TechCareerFair.Controllers
                             }
                         }
 
-                        if (Convert.ToBoolean(collection["removeImage"].Split(',')[0]))
+                        if (collection["removeImage"] != null && Convert.ToBoolean(collection["removeImage"].Split(',')[0]))
                         {
                             business.Photo = "";
                             if ((System.IO.File.Exists(Server.MapPath("~") + business.Photo)))
@@ -414,7 +414,7 @@ namespace TechCareerFair.Controllers
                         }
                     }
 
-                    if (Convert.ToBoolean(collection["removeResume"].Split(',')[0]))
+                    if (collection["removeResume"] != null && Convert.ToBoolean(collection["removeResume"].Split(',')[0]))
                     {
                         applicant.Resume = "";
                         if ((System.IO.File.Exists(Server.MapPath("~") + applicant.Resume)))

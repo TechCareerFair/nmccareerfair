@@ -171,7 +171,47 @@ namespace TechCareerFair.DAL
 
         public IEnumerable<business> SelectAll()
         {
-            return _ds.Read(); ;
+            return _ds.Read();
+        }
+
+        public IEnumerable<business> SelectAllSearchList()
+        {
+            return _ds.ReadForSearch();
+        }
+
+        public IList<BusinessViewModel> SelectAllSearchListAsViewModel()
+        {
+            List<BusinessViewModel> bvms = new List<BusinessViewModel>();
+            IEnumerable<business> businesses = SelectAllSearchList();
+            foreach (business b in businesses)
+            {
+                BusinessViewModel bvm = ToViewModel(b);
+                GetAccountInfoByUserID(bvm);
+
+                bvms.Add(bvm);
+            }
+
+            return bvms;
+        }
+
+        public IEnumerable<business> SelectAllAdminList()
+        {
+            return _ds.ReadForAdmin();
+        }
+
+        public IList<BusinessViewModel> SelectAllAdminListAsViewModel()
+        {
+            List<BusinessViewModel> bvms = new List<BusinessViewModel>();
+            IEnumerable<business> businesses = SelectAllAdminList();
+            foreach (business b in businesses)
+            {
+                BusinessViewModel bvm = ToViewModel(b);
+                GetAccountInfoByUserID(bvm);
+
+                bvms.Add(bvm);
+            }
+
+            return bvms;
         }
 
         public IEnumerable<business> SelectRange(int startRow, int numberOfRows)

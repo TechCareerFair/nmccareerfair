@@ -26,6 +26,7 @@ namespace TechCareerFair.Models
         [Url]
         public string Website { get; set; }
 
+        [Display(Name = "This FAQ is for an applicant")]
         public bool IsApplicantQ { get; set; }
     }
 }

@@ -1,10 +1,10 @@
 ﻿@model TechCareerFair.Models.faq
 
 @{
-    ViewBag.Title = "FaqEdit";
+    ViewBag.Title = "Edit FAQ";
 }
 
-<h2>FaqEdit</h2>
+<h2>Edit FAQ</h2>
 
 
 @using (Html.BeginForm())
@@ -12,7 +12,7 @@
     @Html.AntiForgeryToken()
     
     <div class="form-horizontal">
-        <h4>faq</h4>
+        <h4>FAQ</h4>
         <hr />
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
         @Html.HiddenFor(model => model.FaqID)

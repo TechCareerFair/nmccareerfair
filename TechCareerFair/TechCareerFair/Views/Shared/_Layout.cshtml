@@ -97,7 +97,7 @@
                      }
                      else if(!User.IsInRole("Business"))
                      {
-                         <li class="main-navigation-links">@Html.ActionLink("Search", "Index", "Account/Login")</li>
+                         <li class="main-navigation-links">@Html.ActionLink("Search", "Index", "Account/Login", new { searchValidation = "You must be logged in to search."}, null)</li>
                      }
                  }
                 <li class="main-navigation-links">@Html.ActionLink("Gallery", "Index", "Gallery")</li>
@@ -134,7 +134,7 @@
                 }
                 else if(!User.IsInRole("Business"))
                 {
-                    <li class="footer-navigation-links">@Html.ActionLink("Search", "Index", "Account/Login")</li>
+                    <li class="footer-navigation-links">@Html.ActionLink("Search", "Index", "Account/Login", new { searchValidation = "You must be logged in to search." }, null)</li>
                     <span class="spacer-footer">|</span>
                 }
             }

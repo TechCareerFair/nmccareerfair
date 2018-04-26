@@ -31,6 +31,78 @@ namespace TechCareerFair.DAL
             return applicants;
         }
 
+        public List<applicant> ReadForAdmin()
+        {
+            List<applicant> applicants = new List<applicant>();
+            using (SqlConnection connection = new SqlConnection(DataSettings.CONNECTION_STRING))
+            {
+                connection.Open();
+
+                StringBuilder sb = new StringBuilder();
+                sb.Append("SELECT [ApplicantID],[Email],[FirstName],[LastName],[Active]");
+                sb.Append("FROM [careerfair].[applicant]");
+                String sql = sb.ToString();
+
+                using (SqlCommand command = new SqlCommand(sql, connection))
+                {
+                    using (SqlDataReader reader = command.ExecuteReader())
+                    {
+                        while (reader.Read())
+                        {
+                            applicant applicant = new applicant();
+
+                            applicant.ApplicantID = DatabaseHelper.CheckNullInt(reader, 0);
+                            applicant.Email = DatabaseHelper.CheckNullString(reader, 1);
+                            applicant.FirstName = DatabaseHelper.CheckNullString(reader, 2);
+                            applicant.LastName = DatabaseHelper.CheckNullString(reader, 3);
+                            applicant.Active = DatabaseHelper.CheckNullBool(reader, 4);
+
+                            applicants.Add(applicant);
+                        }
+                    }
+                }
+            }
+            return applicants;
+        }
+
+        public List<applicant> ReadForSearch()
+        {
+            List<applicant> applicants = new List<applicant>();
+            using (SqlConnection connection = new SqlConnection(DataSettings.CONNECTION_STRING))
+            {
+                connection.Open();
+
+                StringBuilder sb = new StringBuilder();
+                sb.Append("SELECT [ApplicantID],[Email],[FirstName],[LastName],[Active]");
+                sb.Append("FROM [careerfair].[applicant]");
+                String sql = sb.ToString();
+
+                using (SqlCommand command = new SqlCommand(sql, connection))
+                {
+                    using (SqlDataReader reader = command.ExecuteReader())
+                    {
+                        while (reader.Read())
+                        {
+                            applicant applicant = new applicant();
+
+                            applicant.ApplicantID = DatabaseHelper.CheckNullInt(reader, 0);
+                            applicant.Email = DatabaseHelper.CheckNullString(reader, 1);
+                            applicant.FirstName = DatabaseHelper.CheckNullString(reader, 2);
+                            applicant.LastName = DatabaseHelper.CheckNullString(reader, 3);
+                            applicant.Active = DatabaseHelper.CheckNullBool(reader, 4);
+
+                            applicants.Add(applicant);
+                        }
+                    }
+                }
+                foreach (applicant applicant in applicants)
+                {
+                    AddFields(applicant, connection);
+                }
+            }
+            return applicants;
+        }
+
         public applicant Read(int id)
         {
             applicant applicant = null;

@@ -52,7 +52,7 @@ namespace TechCareerFair.Controllers
                 TechCareerFair.DAL.ApplicantRepository applicantRepository = new TechCareerFair.DAL.ApplicantRepository();
                 TechCareerFair.DAL.FieldDAL.FieldRepository fieldRepo = new TechCareerFair.DAL.FieldDAL.FieldRepository();
 
-                IEnumerable<ApplicantViewModel> apps = applicantRepository.SelectAllAsViewModel();
+                IEnumerable<ApplicantViewModel> apps = applicantRepository.SelectAllSearchListAsViewModel();
                 ViewBag.AllFields = fieldRepo.SelectAll();
 
                 ViewBag.CurrentSort = sortOrder;
@@ -122,7 +122,7 @@ namespace TechCareerFair.Controllers
 
                 using (ar)
                 {
-                    apps = ar.SelectAllAsViewModel() as IList<ApplicantViewModel>;
+                    apps = ar.SelectAllSearchListAsViewModel();
                     apps = FilterApplicants(apps, fieldsSelected, searchCriteria);
                 }
 
@@ -170,7 +170,7 @@ namespace TechCareerFair.Controllers
             TechCareerFair.DAL.BusinessRepository businessRepository = new TechCareerFair.DAL.BusinessRepository();
             TechCareerFair.DAL.FieldDAL.FieldRepository fieldRepo = new TechCareerFair.DAL.FieldDAL.FieldRepository();
 
-            IEnumerable<BusinessViewModel> companies = businessRepository.SelectAllAsViewModel();
+            IEnumerable<BusinessViewModel> companies = businessRepository.SelectAllSearchListAsViewModel();
             ViewBag.AllFields = fieldRepo.SelectAll();
 
             ViewBag.CurrentSort = sortOrder;
@@ -236,7 +236,7 @@ namespace TechCareerFair.Controllers
 
             using (businessRepo)
             {
-                bus= businessRepo.SelectAllAsViewModel() as IList<BusinessViewModel>;
+                bus= businessRepo.SelectAllSearchListAsViewModel() as IList<BusinessViewModel>;
                 bus = FilterBusinesses(bus, fieldsSelected, intern, searchCriteria);
             }
 

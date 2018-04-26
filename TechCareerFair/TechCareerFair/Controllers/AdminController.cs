@@ -432,7 +432,7 @@ namespace TechCareerFair.Controllers
             int pageNumber = (page ?? 1);
 
             ApplicantRepository applicantRepository = new ApplicantRepository();
-            IEnumerable<ApplicantViewModel> apps = applicantRepository.SelectAllAsViewModel();
+            IEnumerable<ApplicantViewModel> apps = applicantRepository.SelectAllAdminListAsViewModel();
                 
             apps = FilterApplicants(apps, filter, searchCriteria);
 
@@ -472,7 +472,7 @@ namespace TechCareerFair.Controllers
             IEnumerable<ApplicantViewModel> apps;
             using (ar)
             {
-                apps = ar.SelectAllAsViewModel() as IList<ApplicantViewModel>;
+                apps = ar.SelectAllAdminListAsViewModel() as IList<ApplicantViewModel>;
                 apps = FilterApplicants(apps, filter, searchCriteria);
             }
 
@@ -516,7 +516,7 @@ namespace TechCareerFair.Controllers
             int pageNumber = (page ?? 1);
 
             BusinessRepository businessRepository = new BusinessRepository();
-            IEnumerable<BusinessViewModel> businesses = businessRepository.SelectAllAsViewModel();
+            IEnumerable<BusinessViewModel> businesses = businessRepository.SelectAllAdminListAsViewModel();
             businesses = FilterBusinesses(businesses, filter, searchCriteria);
                 
 
@@ -561,7 +561,7 @@ namespace TechCareerFair.Controllers
             IEnumerable<BusinessViewModel> businesses;
             using (br)
             {
-                businesses = br.SelectAllAsViewModel() as IList<BusinessViewModel>;
+                businesses = br.SelectAllAdminListAsViewModel() as IList<BusinessViewModel>;
             }
 
             businesses = FilterBusinesses(businesses, filter, searchCriteria);

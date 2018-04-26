@@ -64,8 +64,9 @@ namespace TechCareerFair.Controllers
         //
         // GET: /Account/Login
         [AllowAnonymous]
-        public ActionResult Login(string returnUrl)
+        public ActionResult Login(string returnUrl, string searchValidation = "")
         {
+            ViewBag.SearchValidation = searchValidation;
             ViewBag.ReturnUrl = returnUrl;
             return View();
         }
