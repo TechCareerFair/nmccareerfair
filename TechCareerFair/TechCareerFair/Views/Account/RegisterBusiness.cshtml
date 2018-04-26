@@ -11,7 +11,7 @@
         {
             @Html.AntiForgeryToken()
 
-            <div class="col-md-8 col-md-offset-2" style="background-color: lightgray; border-radius: 5px; padding: 15px;">
+            <div class="col-md-8 col-md-offset-2" style="background-color: #fff; padding: 15px; box-shadow:#333 0px 2px 6px; margin-bottom:60px;margin-top:60px;">
 
                 <h2>Business Sign Up</h2>
                 <h3>@ViewBag.Error</h3>
@@ -32,7 +32,7 @@
                         @Html.LabelFor(model => model.BusinessName, htmlAttributes: new { @class = "control-label col-md-6" })
                         <div class="col-md-12">
                             @Html.ValidationMessageFor(model => model.BusinessName, "", new { @class = "text-danger" })
-                            @Html.EditorFor(model => model.BusinessName, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.EditorFor(model => model.BusinessName, new { htmlAttributes = new { @class = "form-control edit business-form" } })
                         </div>
                     </div>
 
@@ -40,7 +40,7 @@
                         @Html.LabelFor(model => model.Email, htmlAttributes: new { @class = "control-label col-md-6" })
                         <div class="col-md-12">
                             @Html.ValidationMessageFor(model => model.Email, "", new { @class = "text-danger" })
-                            @Html.EditorFor(model => model.Email, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.EditorFor(model => model.Email, new { htmlAttributes = new { @class = "form-control edit business-form" } })
                         </div>
                     </div>
 
@@ -48,7 +48,7 @@
                         @Html.LabelFor(model => model.Password, htmlAttributes: new { @class = "control-label col-md-6" })
                         <div class="col-md-12">
                             @Html.ValidationMessageFor(model => model.Password, "", new { @class = "text-danger" })
-                            @Html.EditorFor(model => model.Password, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.EditorFor(model => model.Password, new { htmlAttributes = new { @class = "form-control edit business-form" } })
                         </div>
                     </div>
 
@@ -57,7 +57,7 @@
                             @Html.LabelFor(model => model.ConfirmPassword, htmlAttributes: new { @class = "control-label col-md-6" })
                             <div class="col-md-12">
                                 @Html.ValidationMessageFor(model => model.ConfirmPassword, "", new { @class = "text-danger" })
-                                @Html.EditorFor(model => model.ConfirmPassword, new { htmlAttributes = new { @class = "form-control", @type = "password" } })
+                                @Html.EditorFor(model => model.ConfirmPassword, new { htmlAttributes = new { @class = "form-control edit business-form", @type = "password" } })
                             </div>
                         </div>
                     </div>
@@ -66,7 +66,7 @@
                         @Html.LabelFor(model => model.FirstName, htmlAttributes: new { @class = "control-label col-md-6" })
                         <div class="col-md-12">
                             @Html.ValidationMessageFor(model => model.FirstName, "", new { @class = "text-danger" })
-                            @Html.EditorFor(model => model.FirstName, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.EditorFor(model => model.FirstName, new { htmlAttributes = new { @class = "form-control edit business-form" } })
                         </div>
                     </div>
 
@@ -74,13 +74,13 @@
                         @Html.LabelFor(model => model.LastName, htmlAttributes: new { @class = "control-label col-md-6" })
                         <div class="col-md-12">
                             @Html.ValidationMessageFor(model => model.LastName, "", new { @class = "text-danger" })
-                            @Html.EditorFor(model => model.LastName, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.EditorFor(model => model.LastName, new { htmlAttributes = new { @class = "form-control edit business-form" } })
                         </div>
                     </div>
                     <br />
                     <div class="form-group col-sm-12">
                         <hr />
-                        <input type="button" class="col-sm-3 col-sm-offset-4 btn btn-default" value="Next " onclick="showHideInputForms('requiredInfo', 'optionalInfo1')" />
+                        <input type="button" class="col-sm-3 col-sm-offset-4 btn-theme" value="Next " onclick="showHideInputForms('requiredInfo', 'optionalInfo1')" />
                     </div>
                     <br />
                 </div>
@@ -93,7 +93,7 @@
                         @Html.LabelFor(model => model.Phone, htmlAttributes: new { @class = "control-label col-md-6" })
                         <div class="col-md-12">
                             @Html.ValidationMessageFor(model => model.Phone, "", new { @class = "text-danger" })
-                            @Html.EditorFor(model => model.Phone, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.EditorFor(model => model.Phone, new { htmlAttributes = new { @class = "form-control edit business-form" } })
                         </div>
                     </div>
 
@@ -101,7 +101,7 @@
                         @Html.LabelFor(model => model.BusinessDescription, htmlAttributes: new { @class = "control-label col-md-6" })
                         <div class="col-md-12">
                             @Html.ValidationMessageFor(model => model.BusinessDescription, "", new { @class = "text-danger" })
-                            @Html.EditorFor(model => model.BusinessDescription, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.EditorFor(model => model.BusinessDescription, new { htmlAttributes = new { @class = "form-control edit business-form" } })
                         </div>
                     </div>
 
@@ -109,7 +109,7 @@
                         @Html.LabelFor(model => model.Website, htmlAttributes: new { @class = "control-label col-md-6" })
                         <div class="col-md-12">
                             @Html.ValidationMessageFor(model => model.Website, "", new { @class = "text-danger" })
-                            @Html.EditorFor(model => model.Website, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.EditorFor(model => model.Website, new { htmlAttributes = new { @class = "form-control edit business-form" } })
                         </div>
                     </div>
 
@@ -117,7 +117,7 @@
                         @Html.LabelFor(model => model.SocialMedia, htmlAttributes: new { @class = "control-label col-md-6" })
                         <div class="col-md-12">
                             @Html.ValidationMessageFor(model => model.SocialMedia, "", new { @class = "text-danger" })
-                            @Html.EditorFor(model => model.SocialMedia, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.EditorFor(model => model.SocialMedia, new { htmlAttributes = new { @class = "form-control edit business-form" } })
                         </div>
                     </div>
                     <br />
@@ -131,8 +131,8 @@
                     <br />
                     <div class="form-group col-sm-12">
                         <hr />
-                        <input type="button" class="col-sm-3 btn btn-default" value="Back" onclick="showHideInputForms('requiredInfo', 'optionalInfo1')" />
-                        <input type="button" class="col-sm-3 col-sm-offset-1 btn btn-default" value="Next" onclick="showHideInputForms('optionalInfo1', 'optionalInfo2')" />
+                        <input type="button" class="col-sm-3 btn btn-theme" value="Back" onclick="showHideInputForms('requiredInfo', 'optionalInfo1')" />
+                        <input type="button" class="col-sm-3 col-sm-offset-1 btn btn-theme" value="Next" onclick="showHideInputForms('optionalInfo1', 'optionalInfo2')" />
                     </div>
                     <br />
                 </div>
@@ -145,7 +145,7 @@
                         @Html.LabelFor(model => model.Street, htmlAttributes: new { @class = "control-label col-md-6" })
                         <div class="col-md-12">
                             @Html.ValidationMessageFor(model => model.Street, "", new { @class = "text-danger" })
-                            @Html.EditorFor(model => model.Street, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.EditorFor(model => model.Street, new { htmlAttributes = new { @class = "form-control edit business-form" } })
                         </div>
                     </div>
 
@@ -153,7 +153,7 @@
                         @Html.LabelFor(model => model.City, htmlAttributes: new { @class = "control-label col-md-6" })
                         <div class="col-md-12">
                             @Html.ValidationMessageFor(model => model.City, "", new { @class = "text-danger" })
-                            @Html.EditorFor(model => model.City, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.EditorFor(model => model.City, new { htmlAttributes = new { @class = "form-control edit business-form" } })
                         </div>
                     </div>
 
@@ -169,15 +169,15 @@
                         @Html.LabelFor(model => model.Zip, htmlAttributes: new { @class = "control-label col-md-6" })
                         <div class="col-md-12">
                             @Html.ValidationMessageFor(model => model.Zip, "", new { @class = "text-danger" })
-                            @Html.EditorFor(model => model.Zip, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.EditorFor(model => model.Zip, new { htmlAttributes = new { @class = "form-control edit business-form" } })
                         </div>
                     </div>
 
                     <br />
                     <div class="form-group col-sm-12">
                         <hr />
-                        <input type="button" class="col-sm-3 btn btn-default" value="Back" onclick="showHideInputForms('optionalInfo1', 'optionalInfo2')" />
-                        <input type="button" class="col-sm-3 col-sm-offset-1 btn btn-default" value="Next" onclick="showHideInputForms('optionalInfo2', 'optionalInfo3')" />
+                        <input type="button" class="col-sm-3 btn-theme" value="Back" onclick="showHideInputForms('optionalInfo1', 'optionalInfo2')" />
+                        <input type="button" class="col-sm-3 col-sm-offset-1 btn-theme" value="Next" onclick="showHideInputForms('optionalInfo2', 'optionalInfo3')" />
                     </div>
                     <br />
                 </div>
@@ -225,7 +225,7 @@
                     <br />
                     <div class="form-group col-sm-12">
                         <hr />
-                        <input type="button" class="col-sm-3 btn btn-default" value="Back" onclick="showHideInputForms('optionalInfo2', 'optionalInfo3')" />
+                        <input type="button" class="col-sm-3 btn-theme" value="Back" onclick="showHideInputForms('optionalInfo2', 'optionalInfo3')" />
                     </div>
                     <br />
                 </div>
@@ -234,8 +234,8 @@
                     <label class="text-danger">@ViewBag.ErrCaptcha</label>
                     <div class="g-recaptcha" data-sitekey="6LcumlMUAAAAAKZBJOBbaqSr4gZecbfS5c6e_rsz"></div> <br />
 
-                    <input type="reset" class="col-sm-3 btn btn-default" value="Reset" />
-                    <input type="submit" class="col-sm-3 col-sm-offset-1 btn btn-default" value="Submit" />
+                    <input type="reset" class="col-sm-3 btn-theme" value="Reset" />
+                    <input type="submit" class="col-sm-3 col-sm-offset-1 btn-theme" value="Submit" />
                 </div>
             </div>
 
