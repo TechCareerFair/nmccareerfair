@@ -125,7 +125,7 @@
                         @Html.LabelFor(model => model.Photo, htmlAttributes: new { @class = "control-label col-md-6" })
                         <div class="col-md-12">
                             @Html.ValidationMessageFor(model => model.Photo, "", new { @class = "text-danger" })
-                            <input class="form-control" type="file" id="fileUpload" name="fileUpload" /> <br />
+                            <input class="form-control edit business-form" type="file" id="fileUpload" name="fileUpload" /> <br />
                         </div>
                     </div>
                     <br />
@@ -161,7 +161,7 @@
                         @Html.LabelFor(model => model.State, htmlAttributes: new { @class = "control-label col-md-6" })
                         <div class="col-md-12">
                             @Html.ValidationMessageFor(model => model.State, "", new { @class = "text-danger" })
-                            @Html.DropDownListFor(model => model.State, (List<SelectListItem>)ViewBag.States, htmlAttributes: new { @class = "form-control" })
+                            @Html.DropDownListFor(model => model.State, (List<SelectListItem>)ViewBag.States, htmlAttributes: new { @class = "form-control edit business-form" })
                         </div>
                     </div>
 
@@ -191,7 +191,7 @@
                         <br />
                         @foreach (var x in ViewBag.Fields)
                         {
-                            <input class="" type="checkbox" id="@x.Name" name="fields" value="@x.Name">
+                            <input class="edit business-form" type="checkbox" id="@x.Name" name="fields" value="@x.Name">
                             <label for="fields">@x.Name</label>
                             <br />
                         }
@@ -211,7 +211,7 @@
                         @Html.LabelFor(model => model.ContactMe, htmlAttributes: new { @class = "control-label col-md-6" })
                         <div class="col-md-12">
                             @Html.ValidationMessageFor(model => model.ContactMe, "", new { @class = "text-danger" })
-                            @Html.EditorFor(model => model.ContactMe, new { htmlAttributes = new { @class = "form-control checkbox" } })
+                            @Html.EditorFor(model => model.ContactMe, new { htmlAttributes = new { @class = "form-control checkbox edit business-form" } })
                         </div>
                     </div>
 
@@ -219,7 +219,7 @@
                         @Html.LabelFor(model => model.PreferEmail, htmlAttributes: new { @class = "control-label col-md-6" })
                         <div class="col-md-12">
                             @Html.ValidationMessageFor(model => model.PreferEmail, "", new { @class = "text-danger" })
-                            @Html.EditorFor(model => model.PreferEmail, new { htmlAttributes = new { @class = "form-control checkbox" } })
+                            @Html.EditorFor(model => model.PreferEmail, new { htmlAttributes = new { @class = "form-control checkbox edit business-form" } })
                         </div>
                     </div>
                     <br />
