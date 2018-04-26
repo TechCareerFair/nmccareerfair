@@ -60,7 +60,7 @@ Page @(pagedList.PageCount < pagedList.PageNumber ? 0 : pagedList.PageNumber) of
         <div class="form-group applicant-field">
 
             @Html.Label("Fields of Study", htmlAttributes: new { @class = "control-label col-md-2 no-padding max-width-200" })
-            <div class="col=md-10">
+            <div class="app-search-field">
                 @if(ViewBag.AllFields != null)
                 {
                     for (int i = 0; i < ViewBag.AllFields.Count; i++)
