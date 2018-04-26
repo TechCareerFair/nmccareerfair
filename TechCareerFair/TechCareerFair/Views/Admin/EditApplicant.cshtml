@@ -17,6 +17,7 @@
     
 <div class="form-horizontal">
     <h4>Applicant Account</h4>
+    <span class="text-danger">@ViewBag.Error</span>
     <hr />
     @Html.ValidationSummary(true, "", new { @class = "text-danger" })
     @Html.HiddenFor(model => model.ApplicantID)
@@ -114,15 +115,14 @@
     <div class="form-group">
         @Html.LabelFor(model => model.Resume, htmlAttributes: new { @class = "control-label col-md-2" })
         <div class="col-md-10">
-            <input class="form-control" type="file" id="fileUpload" name="fileUpload" /> 
-            @if(Model.Resume != null && Model.Resume != "")
+            <input class="form-control" type="file" id="fileUpload" name="fileUpload" />
+            @if (Model.Resume != null && Model.Resume != "")
             {
-               @Html.CheckBox("removeResume") <span>Remove Resume</span>
+                @Html.CheckBox("removeResume") <span>Remove Resume</span>
             }
             @Html.DisplayFor(model => model.Resume)
             @Html.EditorFor(model => model.Resume, new { htmlAttributes = new { @class = "hidden" } })
             @Html.ValidationMessageFor(model => model.Resume, "", new { @class = "text-danger" })
-            <span class="text-danger">@ViewBag.Error</span>
         </div>
     </div>
 

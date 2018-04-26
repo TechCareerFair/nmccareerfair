@@ -1,5 +1,8 @@
 ﻿@model TechCareerFair.Models.gallery
 
+@{ 
+    ViewBag.Title = "Edit Media";
+}
 
 @using (Html.BeginForm("GalleryEdit", "Admin", FormMethod.Post, new { enctype = "multipart/form-data" }))
 {

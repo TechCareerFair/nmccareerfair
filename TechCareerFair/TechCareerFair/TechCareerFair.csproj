@@ -231,6 +231,7 @@
     <Compile Include="DAL\Applicant2FieldDAL\Applicant2FieldRepository.cs" />
     <Compile Include="DAL\Applicant2FieldDAL\IApplicant2FieldDataService.cs" />
     <Compile Include="DAL\Applicant2FieldDAL\IApplicant2FieldRepository.cs" />
+    <Compile Include="DAL\AspNetUserDAL\AspNetUserDatabaseDataService.cs" />
     <Compile Include="DAL\BusinessDAL\BusinessDatabaseDataService.cs" />
     <Compile Include="DAL\BusinessDAL\BusinessRepository.cs" />
     <Compile Include="DAL\BusinessDAL\IBusinessDataService.cs" />

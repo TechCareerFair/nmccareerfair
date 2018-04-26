@@ -330,7 +330,7 @@ namespace TechCareerFair.Controllers
         {
             try
             {
-                if (Convert.ToBoolean(collection["removeImage"].Split(',')[0]))
+                if (collection["removeImage"] != null && Convert.ToBoolean(collection["removeImage"].Split(',')[0]))
                 {
                     _gallery.Directory = "";
                     if ((System.IO.File.Exists(Server.MapPath("~") + _gallery.Directory)))
@@ -820,27 +820,33 @@ namespace TechCareerFair.Controllers
             if (ModelState.IsValid)
             {
                 try
-                { 
-                TechCareerFair.DAL.FieldDAL.FieldRepository fr = new TechCareerFair.DAL.FieldDAL.FieldRepository();
+                {
+                    DAL.AspNetUserDAL.AspNetUserDatabaseDataService asp = new DAL.AspNetUserDAL.AspNetUserDatabaseDataService();
+                    if (applicant.OldEmail != applicant.Email && asp.CheckDuplicateEmail(applicant.Email, applicant.OldEmail))
+                    {
+                        throw new ArgumentException("Email must be unique for each account.");
+                    }
+
+                    TechCareerFair.DAL.FieldDAL.FieldRepository fr = new TechCareerFair.DAL.FieldDAL.FieldRepository();
                     IEnumerable<field> iFields = fr.SelectAll();
                     List<field> fields = iFields.ToList();
                     ViewBag.AllFields = iFields;
                     ViewBag.Fields = applicant.Fields;
                     foreach (field f in fields)
-                {
-                    bool isChecked = Convert.ToBoolean(collection[f.Name].Split(',')[0]);
-
-                    if (!applicant.Fields.Contains(f.Name) && isChecked)
                     {
-                        applicant.Fields.Add(f.Name);
-                    }
-                    else if (applicant.Fields.Contains(f.Name) && !isChecked)
-                    {
-                        applicant.Fields.Remove(f.Name);
-                    }
-                }
+                        bool isChecked = Convert.ToBoolean(collection[f.Name].Split(',')[0]);
 
-                if (Convert.ToBoolean(collection["removeResume"].Split(',')[0]))
+                        if (!applicant.Fields.Contains(f.Name) && isChecked)
+                        {
+                            applicant.Fields.Add(f.Name);
+                        }
+                        else if (applicant.Fields.Contains(f.Name) && !isChecked)
+                        {
+                            applicant.Fields.Remove(f.Name);
+                        }
+                    }
+
+                if (collection["removeResume"] != null && Convert.ToBoolean(collection["removeResume"].Split(',')[0]))
                 {
                     applicant.Resume = "";
                     if ((System.IO.File.Exists(Server.MapPath("~") + applicant.Resume)))
@@ -906,6 +912,12 @@ namespace TechCareerFair.Controllers
             {
                 try
                 {
+                    DAL.AspNetUserDAL.AspNetUserDatabaseDataService asp = new DAL.AspNetUserDAL.AspNetUserDatabaseDataService();
+                    if(business.Email != business.OldEmail && asp.CheckDuplicateEmail(business.Email, business.OldEmail))
+                    {
+                        throw new ArgumentException("Email must be unique for each account.");
+                    }
+
                     ViewBag.Positions = business.Positions;
                     ViewBag.Fields = business.Fields;
                     ViewBag.States = DataSettings.US_STATES;
@@ -928,7 +940,7 @@ namespace TechCareerFair.Controllers
                         }
                     }
 
-                    if (Convert.ToBoolean(collection["removeImage"].Split(',')[0]))
+                    if (collection["removeImage"] != null && Convert.ToBoolean(collection["removeImage"].Split(',')[0]))
                     {
                         business.Photo = "";
                         if ((System.IO.File.Exists(Server.MapPath("~") + business.Photo)))
