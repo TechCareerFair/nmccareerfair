@@ -9,189 +9,189 @@
 <p class="text-success">@ViewBag.StatusMessage</p>
 <div class="container">
     <div class="profile-wrapper">
-<div>
-    <h2 class="name">@Html.DisplayFor(model => model.BusinessName)</h2>
-    <dl class="business-photo-profile name">
-        <dd>
-            <img src="@Html.DisplayFor(model => model.Photo)" alt="Business Photo" height="150" width="200" />
-        </dd>
-    </dl>
-</div>
+        <div>
+            <h2 class="name">@Html.DisplayFor(model => model.BusinessName)</h2>
+            <dl class="business-photo-profile name">
+                <dd>
+                    <img src="@Html.DisplayFor(model => model.Photo)" height="150" width="200" />
+                </dd>
+            </dl>
+        </div>
 
 
-<div class="container">
-    @*general business profile info*@
-    <dl class="dl-horizontal col-md-12">
-        <dt>
-            @Html.DisplayNameFor(model => model.Street)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.Street)
-        </dd>
-        <dd>
-            @Html.DisplayFor(model => model.City) @Html.DisplayFor(model => model.State), @Html.DisplayFor(model => model.Zip)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.Phone)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.Phone)
-        </dd>
+        <div class="container">
+            @*general business profile info*@
+            <dl class="dl-horizontal col-md-12">
+                <dt>
+                    @Html.DisplayNameFor(model => model.Street)
+                </dt>
+                <dd>
+                    @Html.DisplayFor(model => model.Street)
+                </dd>
+                <dd>
+                    @Html.DisplayFor(model => model.City) @Html.DisplayFor(model => model.State), @Html.DisplayFor(model => model.Zip)
+                </dd>
+                <dt>
+                    @Html.DisplayNameFor(model => model.Phone)
+                </dt>
+                <dd>
+                    @Html.DisplayFor(model => model.Phone)
+                </dd>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.Email)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.Email)
-        </dd>
-        <dt>
-            <strong>Representative:</strong>
-        </dt>
+                <dt>
+                    @Html.DisplayNameFor(model => model.Email)
+                </dt>
+                <dd>
+                    @Html.DisplayFor(model => model.Email)
+                </dd>
+                <dt>
+                    <strong>Representative:</strong>
+                </dt>
 
-        <dd>
-            @Html.DisplayFor(model => model.FirstName) @Html.DisplayFor(model => model.LastName)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.Fields)
-        </dt>
-        <dd></dd>
-        @foreach (string field in ViewBag.Fields)
-        {
-            <dd>
-                @field
-            </dd>
-        }
-
-        <dt>
-            @Html.DisplayNameFor(model => model.Positions)
-        </dt>
-        <dd></dd>
-        @foreach (TechCareerFair.Models.position position in ViewBag.Positions)
-        {
-            string fullSite = position.Website;
-            <dd>
-                @if (!fullSite.IsEmpty() && !fullSite.Contains("http") && !fullSite.Contains("https"))
+                <dd>
+                    @Html.DisplayFor(model => model.FirstName) @Html.DisplayFor(model => model.LastName)
+                </dd>
+                <dt>
+                    @Html.DisplayNameFor(model => model.Fields)
+                </dt>
+                <dd></dd>
+                @foreach (string field in ViewBag.Fields)
                 {
-                    fullSite = "<a href='http://" + fullSite + "'>" + position.Name + "</a>";
-                }
-                else
-                {
-                    fullSite = position.Name;
+                    <dd>
+                        @field
+                    </dd>
                 }
 
-                <p>
-                    Name: @Html.Raw(fullSite) <br />
-                    Description: @position.Description <br />
-                    Is Internship: @position.IsInternship.ToString()
-                </p>
-            </dd>
-        }
-        
+                <dt>
+                    @Html.DisplayNameFor(model => model.Positions)
+                </dt>
+                <dd></dd>
+                @foreach (TechCareerFair.Models.position position in ViewBag.Positions)
+                {
+                    string fullSite = position.Website;
+                    <dd>
+                        @if (!fullSite.IsEmpty() && !fullSite.Contains("http") && !fullSite.Contains("https"))
+                        {
+                            fullSite = "<a href='http://" + fullSite + "'>" + position.Name + "</a>";
+                        }
+                        else
+                        {
+                            fullSite = position.Name;
+                        }
 
-    </dl>
+                        <p>
+                            Name: @Html.Raw(fullSite) <br />
+                            Description: @position.Description <br />
+                            Is Internship: @position.IsInternship.ToString()
+                        </p>
+                    </dd>
+                }
 
-    @*tech career fair related info*@
-    <dl class="dl-horizontal col-md-12">
-        <dt>
-            @Html.DisplayNameFor(model => model.BusinessDescription)
-        </dt>
 
-        <dd>
-            @Html.DisplayFor(model => model.BusinessDescription)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.Alumni)
-        </dt>
+            </dl>
 
-        <dd>
-            @Html.DisplayFor(model => model.Alumni)
-        </dd>
+            @*tech career fair related info*@
+            <dl class="dl-horizontal col-md-12">
+                <dt>
+                    @Html.DisplayNameFor(model => model.BusinessDescription)
+                </dt>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.NonProfit)
-        </dt>
+                <dd>
+                    @Html.DisplayFor(model => model.BusinessDescription)
+                </dd>
+                <dt>
+                    @Html.DisplayNameFor(model => model.Alumni)
+                </dt>
 
-        <dd>
-            @Html.DisplayFor(model => model.NonProfit)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.Website)
-        </dt>
+                <dd>
+                    @Html.DisplayFor(model => model.Alumni)
+                </dd>
 
-        <dd>
-            @if (!website.IsEmpty() && !website.Contains("http") && !website.Contains("https"))
-        {
-            website = "<a href='http://" + website + "'>" + website + "</a>";
-                @Html.Raw(website)
-        }
-        else
-        {
-            @Html.DisplayFor(model => model.Website)
-    }
-            
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.SocialMedia)
-        </dt>
-        <dd>
-            @if (!socialMedia.IsEmpty() && !socialMedia.Contains("http") && !socialMedia.Contains("https"))
-        {
-            socialMedia = "<a href='http://" + socialMedia + "'>" + socialMedia + "</a>";
-                @Html.Raw(socialMedia)
-        }
-        else
-        {
-            @Html.DisplayFor(model => model.SocialMedia)
-    }
-            
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.Outlet)
-        </dt>
+                <dt>
+                    @Html.DisplayNameFor(model => model.NonProfit)
+                </dt>
 
-        <dd>
-            @Html.DisplayFor(model => model.Outlet)
-        </dd>
+                <dd>
+                    @Html.DisplayFor(model => model.NonProfit)
+                </dd>
+                <dt>
+                    @Html.DisplayNameFor(model => model.Website)
+                </dt>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.Display)
-        </dt>
+                <dd>
+                    @if (!website.IsEmpty() && !website.Contains("http") && !website.Contains("https"))
+                    {
+                        website = "<a href='http://" + website + "'>" + website + "</a>";
+                        @Html.Raw(website)
+                    }
+                    else
+                    {
+                        @Html.DisplayFor(model => model.Website)
+                    }
 
-        <dd>
-            @Html.DisplayFor(model => model.Display)
-        </dd>
+                </dd>
+                <dt>
+                    @Html.DisplayNameFor(model => model.SocialMedia)
+                </dt>
+                <dd>
+                    @if (!socialMedia.IsEmpty() && !socialMedia.Contains("http") && !socialMedia.Contains("https"))
+                    {
+                        socialMedia = "<a href='http://" + socialMedia + "'>" + socialMedia + "</a>";
+                        @Html.Raw(socialMedia)
+                    }
+                    else
+                    {
+                        @Html.DisplayFor(model => model.SocialMedia)
+                    }
 
-        <dt>
-            @Html.DisplayNameFor(model => model.DisplayDescription)
-        </dt>
+                </dd>
+                <dt>
+                    @Html.DisplayNameFor(model => model.Outlet)
+                </dt>
 
-        <dd>
-            @Html.DisplayFor(model => model.DisplayDescription)
-        </dd>
+                <dd>
+                    @Html.DisplayFor(model => model.Outlet)
+                </dd>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.Attendees)
-        </dt>
+                <dt>
+                    @Html.DisplayNameFor(model => model.Display)
+                </dt>
 
-        <dd>
-            @Html.DisplayFor(model => model.Attendees)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.LocationPreference)
-        </dt>
+                <dd>
+                    @Html.DisplayFor(model => model.Display)
+                </dd>
 
-        <dd>
-            @Html.DisplayFor(model => model.LocationPreference)
-        </dd>
-    </dl>
-    @if (User.Identity.GetUserName() == Model.Email)
-    {
-        <div class="form-group col-md-2">
-            <input type="button" value="Change Password" onclick="location.href='@Url.Action("ChangePassword", "Manage")'" class="btn-theme" />
-            <input type="button" value="Edit Profile" onclick="location.href='@Url.Action("EditBusiness", new { id = Model.BusinessID })'" class="btn-theme" />
+                <dt>
+                    @Html.DisplayNameFor(model => model.DisplayDescription)
+                </dt>
+
+                <dd>
+                    @Html.DisplayFor(model => model.DisplayDescription)
+                </dd>
+
+                <dt>
+                    @Html.DisplayNameFor(model => model.Attendees)
+                </dt>
+
+                <dd>
+                    @Html.DisplayFor(model => model.Attendees)
+                </dd>
+                <dt>
+                    @Html.DisplayNameFor(model => model.LocationPreference)
+                </dt>
+
+                <dd>
+                    @Html.DisplayFor(model => model.LocationPreference)
+                </dd>
+            </dl>
+            @if (User.Identity.GetUserName() == Model.Email)
+            {
+                <div class="form-group col-md-2">
+                    <input type="button" value="Change Password" onclick="location.href='@Url.Action("ChangePassword", "Manage")'" class="btn-theme" />
+                    <input type="button" value="Edit Profile" onclick="location.href='@Url.Action("EditBusiness", new { id = Model.BusinessID })'" class="btn-theme" />
+                </div>
+            }
         </div>
-    }
-</div>
-        </div>
+    </div>
 </div>
 

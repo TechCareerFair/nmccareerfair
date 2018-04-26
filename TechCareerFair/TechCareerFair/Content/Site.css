@@ -308,6 +308,7 @@ form#logoutForm {
 
         .pitch-container p {
             margin-bottom: 20px;
+            min-height: 250px;
         }
 
         .pitch-container h3 {

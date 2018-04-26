@@ -6,9 +6,7 @@
     string socialMedia = ViewBag.SocialMedia;
 
 }
-
 <p class="text-success">@ViewBag.StatusMessage</p>
-
 <div class="container">
     <div class="profile-wrapper">
         <h2 class="name">@Html.DisplayFor(model => model.FirstName) @Html.DisplayFor(model => model.LastName)</h2>
@@ -26,14 +24,13 @@
                 </dt>
                 <dd>
                     @if (!socialMedia.IsEmpty() && !socialMedia.Contains("http") && !socialMedia.Contains("https"))
-                {
-                    socialMedia = "<a href='http://" + socialMedia + "'>" + socialMedia + "</a>";
-                }
-                else
-                {
-                    @Html.DisplayFor(model => model.SocialMedia)
-            }
-                    @Html.Raw(socialMedia)
+                    {
+                        socialMedia = "<a href='http://" + socialMedia + "'>" + socialMedia + "</a>";
+                    }
+                    else
+                    {
+                        @Html.DisplayFor(model => model.SocialMedia)
+                    }
                 </dd>
                 <dt>
                     @Html.DisplayNameFor(model => model.Profile)
@@ -45,11 +42,11 @@
                     @Html.DisplayNameFor(model => model.Fields)
                 </dt>
                 @foreach (string field in ViewBag.Fields)
-            {
-                <dd>
-                    @field
-                </dd>
-        }
+                {
+                    <dd>
+                        @field
+                    </dd>
+                }
             </dl>
             @*education / experience info*@
             <dl class="dl-horizontal col-md-12">
@@ -82,23 +79,23 @@
                 </dt>
                 <dd>
                     @if (Model.Resume != "")
-                {
-                    <a href="@resume" class="download-resume-btn">Download Resume</a>
-            }
-            else
-            {
-                <span>No resume is available for download.</span>
-        }
+                    {
+                        <a href="@resume" class="download-resume-btn">Download Resume</a>
+                    }
+                    else
+                    {
+                        <span>No resume is available for download.</span>
+                    }
                 </dd>
             </dl>
             @if (User.Identity.GetUserName() == Model.Email)
-        {
-            <div class="form-group">
-                <input type="button" value="Change Password" onclick="location.href='@Url.Action("ChangePassword", "Manage")'" class="btn-theme" />
-                <input type="button" value="Edit Profile" onclick="location.href='@Url.Action("EditApplicant", new { id = Model.ApplicantID })'" class="btn-theme" />
-            </div>
+            {
+                <div class="form-group">
+                    <input type="button" value="Change Password" onclick="location.href='@Url.Action("ChangePassword", "Manage")'" class="btn-theme" />
+                    <input type="button" value="Edit Profile" onclick="location.href='@Url.Action("EditApplicant", new { id = Model.ApplicantID })'" class="btn-theme" />
+                </div>
 
-    }
+            }
         </div>
     </div>
 </div>
