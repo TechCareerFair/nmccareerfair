@@ -593,6 +593,9 @@ div#FilterSearch {
         background: #fff;
         box-shadow: 0px 2px 6px #333;
     }
+    .website-bus-search {
+        display:none;
+    }
 }
 
 @media screen and (max-width:500px) {
