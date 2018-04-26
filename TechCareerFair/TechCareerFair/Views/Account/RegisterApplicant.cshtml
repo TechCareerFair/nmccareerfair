@@ -12,7 +12,7 @@
             @Html.AntiForgeryToken()
 
             <!--To Do: Create css class for grey box about this div-->
-            <div class="col-md-8 col-md-offset-2" style="background-color: lightgray; border-radius: 5px; padding: 15px;" onload="showHideInputForms('optionalInfo1', 'optionalInfo2')">
+            <div class="col-md-8 col-md-offset-2" style="background-color: #fff; padding: 15px; box-shadow:#333 0px 2px 6px; margin-bottom:60px;margin-top:60px;" onload="showHideInputForms('optionalInfo1', 'optionalInfo2')">
 
                 <h2>Applicant Sign Up</h2>
                 <h3>@ViewBag.Error</h3>
@@ -71,7 +71,7 @@
 
                     <div class="form-group col-sm-12">
                         <hr />
-                        <input type="button" class="col-sm-3 col-sm-offset-4 btn btn-default" value="Next " onclick="showHideInputForms('requiredInfo', 'optionalInfo1')" />
+                        <input type="button" class="col-sm-3 col-sm-offset-4 btn btn-theme" value="Next " onclick="showHideInputForms('requiredInfo', 'optionalInfo1')" />
                     </div>
                     <br />
                 </div>
@@ -113,8 +113,8 @@
 
                     <div class="form-group col-sm-12">
                         <hr />
-                        <input type="button" class="col-sm-3 btn btn-default" value="Back" onclick="showHideInputForms('requiredInfo', 'optionalInfo1')" />
-                        <input type="button" class="col-sm-3 col-sm-offset-1 btn btn-default" value="Next" onclick="showHideInputForms('optionalInfo1', 'optionalInfo2')" />
+                        <input type="button" class="col-sm-3 btn btn-theme" value="Back" onclick="showHideInputForms('requiredInfo', 'optionalInfo1')" />
+                        <input type="button" class="col-sm-3 col-sm-offset-1 btn btn-theme" value="Next" onclick="showHideInputForms('optionalInfo1', 'optionalInfo2')" />
                     </div>
                     <br />
                 </div>
@@ -172,7 +172,7 @@
                     <br />
                     <div class="form-group col-sm-12">
                         <hr />
-                        <input type="button" class="col-sm-3 btn btn-default" value="Back" onclick="showHideInputForms('optionalInfo1', 'optionalInfo2')" />
+                        <input type="button" class="col-sm-3 btn btn-theme" value="Back" onclick="showHideInputForms('optionalInfo1', 'optionalInfo2')" />
                     </div>
                     <br />
                 </div>
@@ -181,8 +181,8 @@
                     <label class="text-danger">@ViewBag.ErrCaptcha</label>
                     <div id="recaptcha" class="g-recaptcha" data-sitekey="6LcumlMUAAAAAKZBJOBbaqSr4gZecbfS5c6e_rsz"></div> <br />
 
-                    <input type="reset" class="col-sm-3 btn btn-default" value="Reset" />
-                    <input type="submit" class="col-sm-3 col-sm-offset-1 btn btn-default" value="Submit" />
+                    <input type="reset" class="col-sm-3 btn btn-theme" value="Reset" />
+                    <input type="submit" class="col-sm-3 col-sm-offset-1 btn btn-theme" value="Submit" />
                 </div>
             </div>
         }
