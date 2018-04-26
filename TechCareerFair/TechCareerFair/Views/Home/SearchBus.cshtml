@@ -18,33 +18,6 @@
 }
 
 <style>
-    .body-content {
-        background-color: #edf9ef;
-    }
-
-    .form-group.business-field label {
-        height: 150px;
-    }
-    .form-group.business-field label {
-        height: 180px;
-    }
-
-    .form-group.business-btn input {
-        background-color: #008265;
-        font-size: 20px;
-        color: #fff;
-        box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
-        transition: all 0.3s cubic-bezier(.25,.8,.25,1);
-    }
-
-        .form-group.business-btn input:hover {
-            box-shadow: 0 14px 28px rgba(0,0,0,0.25), 0 10px 10px rgba(0,0,0,0.22);
-        }
-
-
-    .table {
-        width: 100%;
-    }
 
     table, th, td {
         border: 1px solid black;
@@ -91,7 +64,7 @@ Page @(pagedList.PageCount < pagedList.PageNumber ? 0 : pagedList.PageNumber) of
     <div id="FilterSearch" class="form-horizontal">
 
         <div class="form-group">
-            @Html.Label("Search by Business Name", htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.Label("Search by Business Name", htmlAttributes: new { @class = "control-label col-md-2 no-padding max-width-200" })
             @Html.TextBox("searchCriteria", null, new { @class = "form-control" })
         </div>
         
@@ -100,7 +73,7 @@ Page @(pagedList.PageCount < pagedList.PageNumber ? 0 : pagedList.PageNumber) of
         </div>
 
         <div class="form-group business-field">
-            @Html.Label("Business Fields", htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.Label("Business Fields", htmlAttributes: new { @class = "control-label col-md-2 no-padding max-width-200" })
             <div class="col=md-10">
                 @if (ViewBag.AllFields != null)
                 {
@@ -118,8 +91,8 @@ Page @(pagedList.PageCount < pagedList.PageNumber ? 0 : pagedList.PageNumber) of
       
         
         <div class="form-group business-btn">
-            <input type="submit" value="Find Business" class="btn col-md-2 col-md-offset-2" />
-            <input type="button" value="Reset List" onclick="location.href='@Url.Action("SearchBus","Home")'" class="btn col-md-2 col-md-offset-2" />
+            <input type="submit" value="Find Business" class="btn-theme" />
+            <input type="button" value="Reset List" onclick="location.href='@Url.Action("SearchBus","Home")'" class="btn-theme" />
         
         </div>
         </div>
@@ -136,7 +109,7 @@ Page @(pagedList.PageCount < pagedList.PageNumber ? 0 : pagedList.PageNumber) of
         </th>
 
 
-        <th>
+        <th class="website-bus-search">
             @Html.DisplayNameFor(model => model.Website)
         </th>
 
@@ -155,17 +128,16 @@ Page @(pagedList.PageCount < pagedList.PageNumber ? 0 : pagedList.PageNumber) of
             <tr>
 
                 <td>
-                    @Html.DisplayFor(modelItem => item.BusinessName)
-
                     @if (item.Photo != null && item.Photo != "")
                     {
-                        <img src='@Html.DisplayFor(modelItem => item.Photo)' .ToHtmlString() width="45" height="45" style="margin-left:15px" />
+                        <img src='@Html.DisplayFor(modelItem => item.Photo)' .ToHtmlString() width="45" height="45" style="margin-right:15px" />
 
                     }
+                    @Html.DisplayFor(modelItem => item.BusinessName)
                 </td>
 
 
-                <td>
+                <td class="website-bus-search">
                     @Html.DisplayFor(modelItem => item.Website)
                 </td>
 
