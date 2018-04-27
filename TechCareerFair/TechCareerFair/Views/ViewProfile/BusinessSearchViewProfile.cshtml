@@ -9,7 +9,10 @@
                 <div class="col-md-12">
                     <h2>@Html.DisplayFor(model => model.BusinessName)</h2>
 
-                    <img src="@Html.DisplayFor(model => model.Photo)" height="150" width="200" />
+                    @if(Model != null && Model.Photo != "")
+                    {
+                        <img src="@Html.DisplayFor(model => model.Photo)" height="150" width="200" />
+                    }
                 </div>
                 @*general business profile info*@
                 <dl class="dl-horizontal col-md-12">

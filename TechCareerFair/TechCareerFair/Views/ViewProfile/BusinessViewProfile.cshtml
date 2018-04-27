@@ -13,7 +13,10 @@
             <h2 class="name">@Html.DisplayFor(model => model.BusinessName)</h2>
             <dl class="business-photo-profile name">
                 <dd>
-                    <img src="@Html.DisplayFor(model => model.Photo)" height="150" width="200" />
+                    @if(Model != null && Model.Photo != "")
+                    {
+                        <img src="@Html.DisplayFor(model => model.Photo)" height="150" width="200" />
+                    }
                 </dd>
             </dl>
         </div>
